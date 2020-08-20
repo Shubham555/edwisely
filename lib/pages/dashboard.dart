@@ -2,6 +2,7 @@ import 'package:edwisely/widgets/assessmentTile.dart';
 import 'package:edwisely/widgets/dateTile.dart';
 import 'package:edwisely/widgets/listItem.dart';
 import 'package:edwisely/widgets/redChip.dart';
+import 'package:edwisely/widgets/snippetTile.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -126,11 +127,19 @@ class Dashboard extends StatelessWidget {
                     //   month: 'July',
                     //   date: '24',
                     // ),
-                    AssessmentTile(
-                      questions: 12,
-                      subject: 'Subject',
+                    // AssessmentTile(
+                    //   questions: 12,
+                    //   subject: 'Subject',
+                    //   title: 'Title',
+                    //   units: [1, 2],
+                    // ),
+                    SnippetTile(
                       title: 'Title',
-                      units: [1, 2],
+                      level: 'Hard',
+                      readingTime: '15 m',
+                      report: null,
+                      source: 'Wikipedia',
+                      subject: 'Sub title',
                     ),
                   ],
                 ),
