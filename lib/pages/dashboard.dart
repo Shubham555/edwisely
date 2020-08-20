@@ -47,6 +47,71 @@ class Dashboard extends StatelessWidget {
                     ],
                   ),
                 ),
+                Container(
+                  width: 904,
+                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 32),
+                  padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(24),
+                    ),
+                    boxShadow: null,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Learning Outcomes',
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                      ListItem(
+                          label:
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
+                      ListItem(
+                          label:
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
+                      ListItem(
+                          label:
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
+                      ListItem(
+                          label:
+                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 904,
+                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 32),
+                  padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(24),
+                    ),
+                    boxShadow: null,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Pre - requisite knowledge',
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          RedChip(label: 'Knowledge'),
+                          RedChip(label: 'Knowledge'),
+                          RedChip(label: 'Knowledge'),
+                          RedChip(label: 'Knowledge'),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ],

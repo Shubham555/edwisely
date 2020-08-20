@@ -8,7 +8,7 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4.5),
+      margin: EdgeInsets.fromLTRB(82, 4.5, 0, 4.5),
       child: Row(
         children: [
           Container(
