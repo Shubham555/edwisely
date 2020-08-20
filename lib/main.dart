@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 void main() => runApp(Edwisely());
 
 class Edwisely extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
         fontFamily: 'Poppins',
+        primaryColor: Color.fromRGBO(0, 147, 105, 1),
+        accentColor: Color.fromRGBO(255, 106, 106, 1),
       ),
       home: Dashboard(),
     );

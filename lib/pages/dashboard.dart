@@ -1,3 +1,4 @@
+import 'package:edwisely/widgets/redchip.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -8,7 +9,12 @@ class Dashboard extends StatelessWidget {
           Container(
             height: double.infinity,
             width: 130,
-            color: Color.fromRGBO(0, 147, 105, 1),
+            color: Theme.of(context).primaryColor,
+          ),
+          Column(
+            children: [
+              RedChip(label: 'Knowledge'),
+            ],
           ),
         ],
       ),
