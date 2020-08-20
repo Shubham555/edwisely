@@ -5,6 +5,11 @@ void main() => runApp(Edwisely());
 
 class Edwisely extends StatelessWidget {
   Widget build(BuildContext context) {
-    return MaterialApp(home: Dashboard());
+    return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+      ),
+      home: Dashboard(),
+    );
   }
 }
