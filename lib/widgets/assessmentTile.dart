@@ -59,12 +59,22 @@ class AssessmentTile extends StatelessWidget {
                   color: Color.fromRGBO(116, 116, 116, 1),
                 ),
               ),
-              Text(
-                'No of questions: $questions',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color.fromRGBO(116, 116, 116, 1),
-                ),
+              Row(
+                children: [
+                  Text(
+                    'No of questions: ',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromRGBO(116, 116, 116, 1),
+                    ),
+                  ),
+                  Text(
+                    '$questions',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
