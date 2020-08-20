@@ -1,6 +1,7 @@
-import 'package:edwisely/widgets/datetile.dart';
-import 'package:edwisely/widgets/listitem.dart';
-import 'package:edwisely/widgets/redchip.dart';
+import 'package:edwisely/widgets/assessmentTile.dart';
+import 'package:edwisely/widgets/dateTile.dart';
+import 'package:edwisely/widgets/listItem.dart';
+import 'package:edwisely/widgets/redChip.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -52,43 +53,43 @@ class Dashboard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      width: 904,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 32),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(24),
-                        ),
-                        boxShadow: null,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Learning Outcomes',
-                            style: TextStyle(
-                              fontSize: 24,
-                            ),
-                          ),
-                          ListItem(
-                              label:
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
-                          ListItem(
-                              label:
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
-                          ListItem(
-                              label:
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
-                          ListItem(
-                              label:
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   width: 904,
+                    //   margin:
+                    //       EdgeInsets.symmetric(vertical: 20, horizontal: 32),
+                    //   padding:
+                    //       EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.all(
+                    //       Radius.circular(24),
+                    //     ),
+                    //     boxShadow: null,
+                    //   ),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text(
+                    //         'Learning Outcomes',
+                    //         style: TextStyle(
+                    //           fontSize: 24,
+                    //         ),
+                    //       ),
+                    //       ListItem(
+                    //           label:
+                    //               'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
+                    //       ListItem(
+                    //           label:
+                    //               'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
+                    //       ListItem(
+                    //           label:
+                    //               'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
+                    //       ListItem(
+                    //           label:
+                    //               'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod'),
+                    //     ],
+                    //   ),
+                    // ),
                     // Container(
                     //   width: 904,
                     //   margin:
@@ -121,9 +122,15 @@ class Dashboard extends StatelessWidget {
                     //     ],
                     //   ),
                     // ),
-                    DateTile(
-                      month: 'July',
-                      date: '24',
+                    // DateTile(
+                    //   month: 'July',
+                    //   date: '24',
+                    // ),
+                    AssessmentTile(
+                      questions: 12,
+                      subject: 'Subject',
+                      title: 'Title',
+                      units: [1, 2],
                     ),
                   ],
                 ),
