@@ -1,3 +1,4 @@
+import 'package:edwisely/pages/assessmentPage.dart';
 import 'package:edwisely/pages/dashboard.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class Edwisely extends StatelessWidget {
         accentColor: Color.fromRGBO(255, 106, 106, 1),
         backgroundColor: Color.fromRGBO(229, 229, 229, 1),
       ),
-      home: Dashboard(),
+      home: AssessmentPage(),
     );
   }
 }
