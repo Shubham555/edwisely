@@ -1,7 +1,7 @@
 import 'package:edwisely/widgets/assessmentTile.dart';
 import 'package:edwisely/widgets/dateTile.dart';
-import 'package:edwisely/widgets/listItem.dart';
-import 'package:edwisely/widgets/redChip.dart';
+import 'package:edwisely/widgets/elements/listItem.dart';
+import 'package:edwisely/widgets/elements/redChip.dart';
 import 'package:edwisely/widgets/snippetTile.dart';
 import 'package:flutter/material.dart';
 

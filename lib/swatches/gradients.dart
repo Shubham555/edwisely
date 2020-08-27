@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class Gradients {
   static final LinearGradient peacock = LinearGradient(colors: [
-    Colors.purple,
-    Colors.blue,
+    Color.fromRGBO(29, 43, 100, 1),
+    Color.fromRGBO(117, 29, 56, 1),
   ], begin: Alignment.topLeft, end: Alignment.bottomRight);
 
   static final LinearGradient kingfisher = LinearGradient(colors: [

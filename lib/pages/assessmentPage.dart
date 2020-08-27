@@ -1,136 +1,37 @@
+import 'package:edwisely/models/assessment.dart';
+import 'package:edwisely/models/question.dart';
 import 'package:edwisely/swatches/gradients.dart';
-import 'package:edwisely/widgets/assessmentPanel.dart';
+import 'package:edwisely/widgets/assessment/assessmentPanel.dart';
 import 'package:edwisely/widgets/borderButton.dart';
-import 'package:edwisely/widgets/previewTile.dart';
+import 'package:edwisely/widgets/assessment/previewTile.dart';
+import 'package:edwisely/widgets/gradientAppBar.dart';
 import 'package:flutter/material.dart';
 
 class AssessmentPage extends StatefulWidget {
+  Assessment assessment;
+  AssessmentPage({@required this.assessment});
   @override
   _AssessmentPageState createState() => _AssessmentPageState();
 }
 
 class _AssessmentPageState extends State<AssessmentPage> {
+  void remove(int index) {
+    setState(() {
+      widget.assessment.questions.remove(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Container(
-          padding: EdgeInsets.only(left: 60),
-          decoration: BoxDecoration(
-            gradient: Gradients.peacock,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Text(
-                      'Edwisely',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Text(
-                        'Assessment Title',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              FlatButton(
-                child: Text(
-                  'Preview',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: null,
-              ),
-              FlatButton(
-                child: Text(
-                  'Exit',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: null,
-              ),
-              BorderButton(
-                label: 'Done',
-                onPressed: null,
-                color: Colors.white,
-              )
-            ],
-          ),
+        flexibleSpace: GradientAppBar(
+          title: widget.assessment.title,
         ),
       ),
       drawer: Drawer(),
       body: Column(
         children: [
-          // Container(
-          //   padding: EdgeInsets.symmetric(horizontal: 10),
-          //   height: 50,
-          //   color: Theme.of(context).primaryColor,
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //         child: Row(
-          //           children: [
-          //             Text(
-          //               'Edwisely',
-          //               style: TextStyle(
-          //                 fontSize: 20,
-          //                 color: Colors.white,
-          //                 fontWeight: FontWeight.bold,
-          //               ),
-          //             ),
-          //             Padding(
-          //               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          //               child: Text(
-          //                 'Assessment Title',
-          //                 style: TextStyle(
-          //                   fontSize: 20,
-          //                   color: Colors.white,
-          //                 ),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //       FlatButton(
-          //         child: Text(
-          //           'Preview',
-          //           style: TextStyle(
-          //             color: Colors.white,
-          //           ),
-          //         ),
-          //         onPressed: null,
-          //       ),
-          //       FlatButton(
-          //         child: Text(
-          //           'Exit',
-          //           style: TextStyle(
-          //             color: Colors.white,
-          //           ),
-          //         ),
-          //         onPressed: null,
-          //       ),
-          //       BorderButton(
-          //         label: 'Done',
-          //         onPressed: null,
-          //         color: Colors.white,
-          //       )
-          //     ],
-          //   ),
-          // ),
           Expanded(
             child: Row(
               children: [
@@ -141,40 +42,45 @@ class _AssessmentPageState extends State<AssessmentPage> {
                     children: [
                       Expanded(
                         child: ListView(
-                          children: [
-                            PreviewTile(
-                              title: '1. Quiz',
-                              question:
-                                  'Who is the president of the United States?',
-                            ),
-                            PreviewTile(
-                              title: '2. True or False',
-                              question:
-                                  'Churchill was Queen Elizabeth\'s first Prime Minister',
-                            ),
-                            PreviewTile(
-                              title: '3. Quiz',
-                              question: 'Which is the largest freshwater lake?',
-                            ),
-                          ],
+                          children: widget.assessment.questions.map((q) {
+                            return PreviewTile(
+                              index: widget.assessment.questions.indexOf(q) +
+                                  1, //Displays the number of the question
+                              type: q.type,
+                              question: q.question,
+                              delete: remove,
+                            );
+                          }).toList(), //The map function maps the question to the Powerpoint style preview tiles on the left on the assessment page
                         ),
                       ),
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        padding: EdgeInsets.all(10),
-                        alignment: Alignment.center,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        child: Text(
-                          'Add Question',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                      GestureDetector(
+                        child: Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          padding: EdgeInsets.all(10),
+                          alignment: Alignment.center,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          child: Text(
+                            'Add Question',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
+                        onTap: () {
+                          setState(() {
+                            widget.assessment.questions.add(Question(
+                                answers: null,
+                                question: null,
+                                rightAnswer: null,
+                                type: null,
+                                points: null));
+                          });
+                        },
                       ),
                       Container(
                         margin:

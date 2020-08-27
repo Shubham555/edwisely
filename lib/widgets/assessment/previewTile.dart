@@ -1,13 +1,18 @@
+import 'package:edwisely/models/questionType.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class PreviewTile extends StatelessWidget {
-  final String title;
+  final int index;
   final String question;
+  final QuestionType type;
+  final Function delete;
 
   PreviewTile({
-    @required this.title,
+    @required this.index,
     @required this.question,
+    @required this.type,
+    @required this.delete,
   });
 
   @override
@@ -27,18 +32,26 @@ class PreviewTile extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+            child: Row(
+              children: [
+                Text(
+                  index.toString() +
+                      '.  ' +
+                      ((type == QuestionType.Objective)
+                          ? 'Objective'
+                          : 'Subjective'),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
-                question,
+                (question != null) ? question : 'Your Question',
                 style: TextStyle(),
                 textAlign: TextAlign.center,
               ),
@@ -56,6 +69,7 @@ class PreviewTile extends StatelessWidget {
                     ),
                   ),
                 ),
+                onTap: () => delete(index - 1),
               ),
               GestureDetector(
                 child: InkWell(
