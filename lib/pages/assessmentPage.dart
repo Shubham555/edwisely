@@ -17,8 +17,17 @@ class AssessmentPage extends StatefulWidget {
 class _AssessmentPageState extends State<AssessmentPage> {
   void remove(int index) {
     setState(() {
-      widget.assessment.questions.remove(index);
+      widget.assessment.questions.removeAt(index);
     });
+  }
+
+  void duplicate(int index) {
+    setState(() {
+      widget.assessment.questions
+          .insert(index, widget.assessment.questions[index]);
+      // widget.assessment.questions[index].index++;
+    });
+    print(widget.assessment.questions);
   }
 
   @override
@@ -42,15 +51,19 @@ class _AssessmentPageState extends State<AssessmentPage> {
                     children: [
                       Expanded(
                         child: ListView(
-                          children: widget.assessment.questions.map((q) {
+                          children: widget.assessment.questions
+                              .asMap()
+                              .entries
+                              .map((q) {
                             return PreviewTile(
-                              index: widget.assessment.questions.indexOf(q) +
-                                  1, //Displays the number of the question
-                              type: q.type,
-                              question: q.question,
+                              index: q
+                                  .key, //Displays the number of the question which is the key of the converted list
+                              type: q.value.type,
+                              question: q.value.question,
                               delete: remove,
+                              duplicate: duplicate,
                             );
-                          }).toList(), //The map function maps the question to the Powerpoint style preview tiles on the left on the assessment page
+                          }).toList(), //The map function maps the questions list to the Powerpoint style preview tiles on the left on the assessment page
                         ),
                       ),
                       GestureDetector(

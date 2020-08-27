@@ -7,12 +7,14 @@ class PreviewTile extends StatelessWidget {
   final String question;
   final QuestionType type;
   final Function delete;
+  final Function duplicate;
 
   PreviewTile({
     @required this.index,
     @required this.question,
     @required this.type,
     @required this.delete,
+    @required this.duplicate,
   });
 
   @override
@@ -35,7 +37,7 @@ class PreviewTile extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  index.toString() +
+                  (index + 1).toString() +
                       '.  ' +
                       ((type == QuestionType.Objective)
                           ? 'Objective'
@@ -69,23 +71,18 @@ class PreviewTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () => delete(index - 1),
+                onTap: () => delete(index),
               ),
               GestureDetector(
-                child: InkWell(
-                  child: Container(
-                    child: Text(
-                      'Duplicate',
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
+                child: Container(
+                  child: Text(
+                    'Duplicate',
+                    style: TextStyle(
+                      color: Colors.blue,
                     ),
                   ),
-                  hoverColor: Colors.grey,
-                  splashColor: Colors.grey,
-                  autofocus: true,
-                  mouseCursor: MouseCursor.defer,
                 ),
+                onTap: () => duplicate(index),
               ),
             ],
           ),
