@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class PreviewTile extends StatelessWidget {
   final String title;
@@ -25,7 +26,7 @@ class PreviewTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               title,
               style: TextStyle(
@@ -35,7 +36,7 @@ class PreviewTile extends StatelessWidget {
           ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 5),
+              padding: const EdgeInsets.all(10),
               child: Text(
                 question,
                 style: TextStyle(),
@@ -44,25 +45,33 @@ class PreviewTile extends StatelessWidget {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              FlatButton(
-                child: Text(
-                  'Delete',
-                  style: TextStyle(
-                    color: Colors.red,
+              GestureDetector(
+                child: Container(
+                  child: Text(
+                    'Delete',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
                   ),
                 ),
-                onPressed: () {},
               ),
-              FlatButton(
-                child: Text(
-                  'Duplicate',
-                  style: TextStyle(
-                    color: Colors.blue,
+              GestureDetector(
+                child: InkWell(
+                  child: Container(
+                    child: Text(
+                      'Duplicate',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
                   ),
+                  hoverColor: Colors.grey,
+                  splashColor: Colors.grey,
+                  autofocus: true,
+                  mouseCursor: MouseCursor.defer,
                 ),
-                onPressed: () {},
               ),
             ],
           ),

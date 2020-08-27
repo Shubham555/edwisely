@@ -10,7 +10,7 @@ class Edwisely extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         fontFamily: 'Poppins',
-        primaryColor: Color.fromRGBO(0, 147, 105, 1),
+        primaryColor: Color.fromRGBO(156, 39, 176, 1),
         accentColor: Color.fromRGBO(255, 106, 106, 1),
         backgroundColor: Color.fromRGBO(229, 229, 229, 1),
       ),

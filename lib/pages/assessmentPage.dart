@@ -1,3 +1,4 @@
+import 'package:edwisely/swatches/gradients.dart';
 import 'package:edwisely/widgets/assessmentPanel.dart';
 import 'package:edwisely/widgets/borderButton.dart';
 import 'package:edwisely/widgets/previewTile.dart';
@@ -13,10 +14,11 @@ class _AssessmentPageState extends State<AssessmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          height: 50,
-          color: Theme.of(context).primaryColor,
+        flexibleSpace: Container(
+          padding: EdgeInsets.only(left: 60),
+          decoration: BoxDecoration(
+            gradient: Gradients.peacock,
+          ),
           child: Row(
             children: [
               Expanded(

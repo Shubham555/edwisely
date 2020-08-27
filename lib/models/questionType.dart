@@ -1,4 +1,4 @@
 enum QuestionType {
-  Quiz,
-  TrueOrFalse,
+  Objective,
+  Subjective,
 }

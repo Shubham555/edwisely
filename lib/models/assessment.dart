@@ -1,5 +1,5 @@
 import 'package:edwisely/models/question.dart';
-import 'package:edwisely/models/student.dart';
+// import 'package:edwisely/models/student.dart';
 
 import 'package:flutter/foundation.dart'; //Import needed for the @required parameters
 
@@ -9,10 +9,10 @@ class Assessment {
   final DateTime deadline;
   final int duration; //Duration of the test In minutes
   final List<Question> questions;
-  final List<Student>
-      students; //List of all the students who will receive the test
-  List<Student> answered; //List of the students who have attempted the test
-  List<Student> pending; //List of the students yet to take the test
+  // final List<Student>
+  //     students; //List of all the students who will receive the test
+  // List<Student> answered; //List of the students who have attempted the test
+  // List<Student> pending; //List of the students yet to take the test
 
   Assessment({
     @required this.title,
@@ -20,6 +20,6 @@ class Assessment {
     @required this.deadline,
     @required this.duration,
     @required this.questions,
-    @required this.students,
+    // @required this.students,
   });
 }
