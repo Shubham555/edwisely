@@ -38,6 +38,7 @@ class ChoiceTile extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.check_box),
+            onPressed: null,
           )
         ],
       ),

@@ -8,6 +8,7 @@ class PreviewTile extends StatelessWidget {
   final QuestionType type;
   final Function delete;
   final Function duplicate;
+  final Function invoker;
 
   PreviewTile({
     @required this.index,
@@ -15,6 +16,7 @@ class PreviewTile extends StatelessWidget {
     @required this.type,
     @required this.delete,
     @required this.duplicate,
+    @required this.invoker,
   });
 
   @override
@@ -32,32 +34,41 @@ class PreviewTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Row(
-              children: [
-                Text(
-                  (index + 1).toString() +
-                      '.  ' +
-                      ((type == QuestionType.Objective)
-                          ? 'Objective'
-                          : 'Subjective'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+          GestureDetector(
+            child: Container(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          (index + 1).toString() +
+                              '.  ' +
+                              ((type == QuestionType.Objective)
+                                  ? 'Objective'
+                                  : 'Subjective'),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                (question != null) ? question : 'Your Question',
-                style: TextStyle(),
-                textAlign: TextAlign.center,
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        (question != null) ? question : 'Your Question',
+                        style: TextStyle(),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
+            onTap: () => invoker(index),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

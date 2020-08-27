@@ -1,7 +1,18 @@
+import 'package:edwisely/models/assessment.dart';
+import 'package:edwisely/models/question.dart';
 import 'package:edwisely/widgets/choiceTile.dart';
 import 'package:flutter/material.dart';
 
-class AssessmentPanel extends StatelessWidget {
+class AssessmentPanel extends StatefulWidget {
+  Assessment assessment;
+  int index;
+  AssessmentPanel({@required this.assessment, @required this.index});
+
+  @override
+  _AssessmentPanelState createState() => _AssessmentPanelState();
+}
+
+class _AssessmentPanelState extends State<AssessmentPanel> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,12 +40,13 @@ class AssessmentPanel extends StatelessWidget {
             padding: EdgeInsets.all(30),
             alignment: Alignment.center,
             width: double.infinity,
-            child: Text(
-              'Type your question here',
-              style: TextStyle(
-                fontSize: 40,
-                color: Colors.grey,
-              ),
+            child: TextField(
+              onChanged: (text) {
+                setState(() {
+                  widget.assessment.questions[widget.index].question = text;
+                  print(widget.assessment.questions[widget.index].question);
+                });
+              },
             ),
           ),
           Expanded(

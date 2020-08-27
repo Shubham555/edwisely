@@ -8,6 +8,7 @@ import 'package:edwisely/widgets/gradientAppBar.dart';
 import 'package:flutter/material.dart';
 
 class AssessmentPage extends StatefulWidget {
+  int indexer = 0;
   Assessment assessment;
   AssessmentPage({@required this.assessment});
   @override
@@ -18,16 +19,25 @@ class _AssessmentPageState extends State<AssessmentPage> {
   void remove(int index) {
     setState(() {
       widget.assessment.questions.removeAt(index);
+      widget.indexer--;
     });
+    print(widget.indexer);
   }
 
   void duplicate(int index) {
     setState(() {
       widget.assessment.questions
           .insert(index, widget.assessment.questions[index]);
-      // widget.assessment.questions[index].index++;
+      widget.indexer++;
     });
-    print(widget.assessment.questions);
+    print(widget.indexer);
+  }
+
+  void invoker(int index) {
+    setState(() {
+      widget.indexer = index;
+    });
+    print(widget.indexer);
   }
 
   @override
@@ -62,6 +72,7 @@ class _AssessmentPageState extends State<AssessmentPage> {
                               question: q.value.question,
                               delete: remove,
                               duplicate: duplicate,
+                              invoker: invoker,
                             );
                           }).toList(), //The map function maps the questions list to the Powerpoint style preview tiles on the left on the assessment page
                         ),
@@ -132,7 +143,10 @@ class _AssessmentPageState extends State<AssessmentPage> {
                     ],
                   ),
                 ),
-                AssessmentPanel(),
+                AssessmentPanel(
+                  assessment: widget.assessment,
+                  index: widget.indexer,
+                ),
               ],
             ),
           ),
