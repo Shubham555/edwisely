@@ -16,6 +16,8 @@ class AssessmentPage extends StatefulWidget {
 }
 
 class _AssessmentPageState extends State<AssessmentPage> {
+  //Delete, remove and duplicate functions on Preview Tile widget
+
   void remove(int index) {
     setState(() {
       widget.assessment.questions.removeAt(index);
@@ -31,6 +33,14 @@ class _AssessmentPageState extends State<AssessmentPage> {
       widget.indexer++;
     });
     print(widget.indexer);
+  }
+
+  //SetState functions of the Assessment Panel
+
+  void questionRefresher(String text) {
+    setState(() {
+      widget.assessment.questions[widget.indexer].question = text;
+    });
   }
 
   void invoker(int index) {
@@ -146,6 +156,7 @@ class _AssessmentPageState extends State<AssessmentPage> {
                 AssessmentPanel(
                   assessment: widget.assessment,
                   index: widget.indexer,
+                  questionRefresher: questionRefresher,
                 ),
               ],
             ),

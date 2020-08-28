@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 class AssessmentPanel extends StatefulWidget {
   Assessment assessment;
   int index;
-  AssessmentPanel({@required this.assessment, @required this.index});
+  Function questionRefresher;
+  AssessmentPanel({
+    @required this.assessment,
+    @required this.index,
+    @required this.questionRefresher,
+  });
 
   @override
   _AssessmentPanelState createState() => _AssessmentPanelState();
@@ -42,11 +47,19 @@ class _AssessmentPanelState extends State<AssessmentPanel> {
             width: double.infinity,
             child: TextField(
               onChanged: (text) {
-                setState(() {
-                  widget.assessment.questions[widget.index].question = text;
-                  print(widget.assessment.questions[widget.index].question);
-                });
+                widget.questionRefresher(text);
               },
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Your question here',
+                hintStyle: TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30,
+              ),
             ),
           ),
           Expanded(
