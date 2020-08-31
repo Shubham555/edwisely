@@ -14,22 +14,24 @@ class Edwisely extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: Themes.peacock,
-      home: AssessmentPage(
-        assessment: Assessment(
-          deadline: null,
-          description: 'Sample quiz',
-          duration: 200,
-          questions: [
-            Question(
-                answers: null,
-                question: 'Who is the president of the United States',
-                rightAnswer: null,
-                type: QuestionType.Objective,
-                points: null)
-          ],
-          title: 'Sample quiz',
-        ),
-      ),
+      home: Dashboard(),
+      // AssessmentPage(
+      //   assessment: Assessment(
+      //     deadline: null,
+      //     description: 'Sample quiz',
+      //     duration: 200,
+      //     questions: [
+      //       Question(
+      //           answers: null,
+      //           question: 'Who is the president of the United States',
+      //           rightAnswer: null,
+      //           type: QuestionType.Objective,
+      //           points: null)
+      //     ],
+      //     title: 'Sample quiz',
+      //     type: QuestionType.Objective,
+      //   ),
+      // ),
     );
   }
 }

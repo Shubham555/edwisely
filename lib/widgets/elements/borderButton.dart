@@ -17,7 +17,7 @@ class BorderButton extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       // padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
+        border: Border.all(color: color),
         borderRadius: BorderRadius.circular(8),
       ),
       child: FlatButton(

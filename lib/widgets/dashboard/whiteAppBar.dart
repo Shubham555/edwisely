@@ -1,20 +1,24 @@
 import 'package:edwisely/swatches/gradients.dart';
 import 'package:flutter/material.dart';
 
-import 'borderButton.dart';
+import 'package:edwisely/widgets/elements/borderButton.dart';
 
-class GradientAppBar extends StatelessWidget {
+class WhiteAppBar extends StatelessWidget {
   final String title;
+  final FlatButton flatbutton;
+  final BorderButton borderButton;
 
-  GradientAppBar({
+  WhiteAppBar({
     @required this.title,
+    @required this.borderButton,
+    @required this.flatbutton,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 60),
       decoration: BoxDecoration(
-        gradient: Gradients.peacock,
+        color: Colors.white,
       ),
       child: Row(
         children: [
@@ -25,7 +29,6 @@ class GradientAppBar extends StatelessWidget {
                   'Edwisely',
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -35,27 +38,14 @@ class GradientAppBar extends StatelessWidget {
                     title,
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          FlatButton(
-            child: Text(
-              'Exit',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            onPressed: null,
-          ),
-          BorderButton(
-            label: 'Done',
-            onPressed: null,
-            color: Colors.white,
-          )
+          flatbutton,
+          borderButton,
         ],
       ),
     );

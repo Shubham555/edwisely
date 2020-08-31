@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ChoiceTile extends StatelessWidget {
+  int index;
+  Function answerRefresher;
+  ChoiceTile({this.index, this.answerRefresher});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,18 +30,31 @@ class ChoiceTile extends StatelessWidget {
         children: [
           Expanded(
             child: Center(
-              child: Text(
-                'Your answer here',
+              child: TextField(
+                onChanged: (text) {
+                  // widget.questionRefresher(text);
+                },
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Your answer here',
+                  hintStyle: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.grey,
+                  fontSize: 18,
                 ),
               ),
             ),
           ),
           IconButton(
             icon: Icon(Icons.check_box),
-            onPressed: null,
+            onPressed: () {},
+            highlightColor: Theme.of(context).primaryColor,
+            focusColor: Theme.of(context).primaryColor,
+            // hoverColor: ,
+            color: Colors.grey,
           )
         ],
       ),

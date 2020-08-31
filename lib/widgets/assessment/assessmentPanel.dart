@@ -1,5 +1,6 @@
 import 'package:edwisely/models/assessment.dart';
 import 'package:edwisely/models/question.dart';
+import 'package:edwisely/models/questionType.dart';
 import 'package:edwisely/widgets/choiceTile.dart';
 import 'package:flutter/material.dart';
 
@@ -7,10 +8,14 @@ class AssessmentPanel extends StatefulWidget {
   Assessment assessment;
   int index;
   Function questionRefresher;
+  Function typeRefresher;
+  Function pointRefresher;
   AssessmentPanel({
     @required this.assessment,
     @required this.index,
     @required this.questionRefresher,
+    @required this.typeRefresher,
+    @required this.pointRefresher,
   });
 
   @override
@@ -108,11 +113,20 @@ class _AssessmentPanelState extends State<AssessmentPanel> {
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                             color: Colors.white,
                           ),
-                          child: Text(
-                            '60',
+                          child: TextField(
+                            onChanged: (text) {
+                              widget.pointRefresher(int.parse(text));
+                            },
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '10',
+                              hintStyle: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
                             ),
                           ),
                         ),
@@ -134,13 +148,29 @@ class _AssessmentPanelState extends State<AssessmentPanel> {
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                             color: Colors.white,
                           ),
-                          child: Text(
-                            'Single Select',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          child: DropdownButton(
+                              value: widget
+                                  .assessment.questions[widget.index].type,
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text(
+                                    'Objective',
+                                  ),
+                                  value: QuestionType.Objective,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text(
+                                    'Subjective',
+                                  ),
+                                  value: QuestionType.Subjective,
+                                ),
+                              ],
+                              onChanged: (value) {
+                                widget.typeRefresher(value);
+                                setState(() {
+                                  widget.typeRefresher(value);
+                                });
+                              }),
                         ),
                       ],
                     ),

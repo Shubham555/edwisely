@@ -1,10 +1,10 @@
 import 'package:edwisely/models/assessment.dart';
 import 'package:edwisely/models/question.dart';
-import 'package:edwisely/swatches/gradients.dart';
+import 'package:edwisely/models/questionType.dart';
 import 'package:edwisely/widgets/assessment/assessmentPanel.dart';
-import 'package:edwisely/widgets/borderButton.dart';
+import 'package:edwisely/widgets/assessment/gradientAppBar.dart';
 import 'package:edwisely/widgets/assessment/previewTile.dart';
-import 'package:edwisely/widgets/gradientAppBar.dart';
+import 'package:edwisely/widgets/elements/borderButton.dart';
 import 'package:flutter/material.dart';
 
 class AssessmentPage extends StatefulWidget {
@@ -35,6 +35,13 @@ class _AssessmentPageState extends State<AssessmentPage> {
     print(widget.indexer);
   }
 
+  void invoker(int index) {
+    setState(() {
+      widget.indexer = index;
+    });
+    print(widget.indexer);
+  }
+
   //SetState functions of the Assessment Panel
 
   void questionRefresher(String text) {
@@ -43,11 +50,16 @@ class _AssessmentPageState extends State<AssessmentPage> {
     });
   }
 
-  void invoker(int index) {
+  void pointRefresher(int points) {
     setState(() {
-      widget.indexer = index;
+      widget.assessment.questions[widget.indexer].points = points;
     });
-    print(widget.indexer);
+  }
+
+  void typeRefresher(QuestionType type) {
+    setState(() {
+      widget.assessment.questions[widget.indexer].type = type;
+    });
   }
 
   @override
@@ -56,6 +68,20 @@ class _AssessmentPageState extends State<AssessmentPage> {
       appBar: AppBar(
         flexibleSpace: GradientAppBar(
           title: widget.assessment.title,
+          flatbutton: FlatButton(
+            child: Text(
+              'Exit',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            onPressed: null,
+          ),
+          borderButton: BorderButton(
+            label: 'Done',
+            onPressed: null,
+            color: Colors.white,
+          ),
         ),
       ),
       drawer: Drawer(),
@@ -157,6 +183,8 @@ class _AssessmentPageState extends State<AssessmentPage> {
                   assessment: widget.assessment,
                   index: widget.indexer,
                   questionRefresher: questionRefresher,
+                  typeRefresher: typeRefresher,
+                  pointRefresher: pointRefresher,
                 ),
               ],
             ),

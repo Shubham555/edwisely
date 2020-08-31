@@ -1,26 +1,26 @@
+import 'package:edwisely/swatches/gradients.dart';
 import 'package:flutter/material.dart';
 
-class RedChip extends StatelessWidget {
+class GradientChip extends StatelessWidget {
   final String label;
 
-  RedChip({@required this.label});
+  GradientChip({@required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(68)),
-        color: Theme.of(context).accentColor,
+        gradient: Gradients.peacock,
       ),
       margin: EdgeInsets.all(9),
       padding: EdgeInsets.symmetric(
-        vertical: 8,
-        horizontal: 19,
+        vertical: 5,
+        horizontal: 15,
       ),
       child: Text(
         label,
         style: TextStyle(
-          fontSize: 18,
           color: Colors.white,
         ),
       ),
