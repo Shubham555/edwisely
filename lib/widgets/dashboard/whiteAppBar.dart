@@ -1,20 +1,19 @@
 // Appbar used on the Dashboard
 
-import 'package:edwisely/swatches/gradients.dart';
-import 'package:flutter/material.dart';
-
 import 'package:edwisely/widgets/elements/borderButton.dart';
+import 'package:flutter/material.dart';
 
 class WhiteAppBar extends StatelessWidget {
   final String title;
-  final FlatButton flatbutton;
+  final FlatButton flatButton;
   final BorderButton borderButton;
 
   WhiteAppBar({
     @required this.title,
     @required this.borderButton,
-    @required this.flatbutton,
+    @required this.flatButton,
   });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +45,7 @@ class WhiteAppBar extends StatelessWidget {
               ],
             ),
           ),
-          flatbutton,
+          flatButton,
           borderButton,
         ],
       ),

@@ -19,7 +19,7 @@ class Dashboard extends StatelessWidget {
         ),
         flexibleSpace: WhiteAppBar(
           title: 'Dashboard',
-          flatbutton: FlatButton(
+          flatButton: FlatButton(
             child: Text('Button'),
             onPressed: () {},
           ),

@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart'; //Import needed for the @required para
 class Question {
   String question;
   List<String> answers;
-  int rightAnswer; // Intger representing the index of the right answer
+  int rightAnswer; // Integer representing the index of the right answer
   int points;
   QuestionType type;
 

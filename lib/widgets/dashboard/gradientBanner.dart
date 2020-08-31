@@ -13,6 +13,7 @@ class GradientBanner extends StatelessWidget {
     @required this.subject,
     @required this.content,
   });
+
   @override
   Widget build(BuildContext context) {
     return Container(

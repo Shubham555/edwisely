@@ -74,7 +74,7 @@ class _AssessmentPageState extends State<AssessmentPage> {
       appBar: AppBar(
         flexibleSpace: GradientAppBar(
           title: widget.assessment.title,
-          flatbutton: FlatButton(
+          flatButton: FlatButton(
             child: Text(
               'Exit',
               style: TextStyle(

@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 
 class ChoiceTile extends StatelessWidget {
-  int index;
-  Function answerRefresher;
+  final int index;
+  final Function answerRefresher;
+
   ChoiceTile({this.index, this.answerRefresher});
+
   @override
   Widget build(BuildContext context) {
     return Container(
