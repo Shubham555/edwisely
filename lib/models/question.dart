@@ -1,3 +1,5 @@
+//Question data model class
+
 import 'package:edwisely/models/questionType.dart';
 import 'package:flutter/foundation.dart'; //Import needed for the @required parameters
 

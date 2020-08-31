@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//Some gradients to be used for various widgets across the app
+// The peacock gradient is the one currently used on all widgets
+
 class Gradients {
   static final LinearGradient peacock = LinearGradient(colors: [
     Color.fromRGBO(29, 43, 100, 1),

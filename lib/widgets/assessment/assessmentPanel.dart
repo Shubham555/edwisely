@@ -139,6 +139,9 @@ class _AssessmentPanelState extends State<AssessmentPanel> {
                             ),
                           ),
                         ),
+
+                        //QuestionType selector
+                        //TODO: Remove widget and move functionality to assessment level
                         Container(
                           margin: EdgeInsets.all(10),
                           height: 50,
@@ -179,6 +182,8 @@ class _AssessmentPanelState extends State<AssessmentPanel> {
               ),
             ),
           ),
+
+          //Contains the answer widgets
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Wrap(

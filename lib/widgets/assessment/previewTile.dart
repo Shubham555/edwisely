@@ -1,3 +1,5 @@
+//Widget that is used on Assessment Page on the sidebar to offer Powerpoint like previews of the Question
+
 import 'package:edwisely/models/questionType.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

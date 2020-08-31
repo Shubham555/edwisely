@@ -1,3 +1,5 @@
+// Assessment Data Model Class
+
 import 'package:edwisely/models/question.dart';
 import 'package:edwisely/models/questionType.dart';
 // import 'package:edwisely/models/student.dart';

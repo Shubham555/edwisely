@@ -1,3 +1,5 @@
+//Widget used in the Assessment Page and Assessment Panel to display Objective Answers
+
 import 'package:flutter/material.dart';
 
 class ChoiceTile extends StatelessWidget {

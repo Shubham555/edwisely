@@ -14,24 +14,26 @@ class Edwisely extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: Themes.peacock,
-      home: Dashboard(),
-      // AssessmentPage(
-      //   assessment: Assessment(
-      //     deadline: null,
-      //     description: 'Sample quiz',
-      //     duration: 200,
-      //     questions: [
-      //       Question(
-      //           answers: null,
-      //           question: 'Who is the president of the United States',
-      //           rightAnswer: null,
-      //           type: QuestionType.Objective,
-      //           points: null)
-      //     ],
-      //     title: 'Sample quiz',
-      //     type: QuestionType.Objective,
-      //   ),
-      // ),
+      // Assessment model containing dummy data
+      //Reset home page when the design is done
+      home: AssessmentPage(
+        assessment: Assessment(
+          deadline: null,
+          description: 'Sample quiz',
+          duration: 200,
+          questions: [
+            Question(
+                answers: null,
+                question: 'Who is the president of the United States',
+                rightAnswer: null,
+                type: QuestionType.Objective,
+                points: null)
+          ],
+          title: 'Sample quiz',
+          type: QuestionType
+              .Objective, //TODO: Make it so that user can select this at the beginning of assessment creation
+        ),
+      ),
     );
   }
 }

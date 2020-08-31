@@ -1,3 +1,5 @@
+//Student data model - To be added in the future. Work in progress
+
 import 'package:flutter/foundation.dart'; //Import needed for the @required parameters
 
 class Student {

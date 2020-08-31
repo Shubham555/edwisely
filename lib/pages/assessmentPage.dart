@@ -1,3 +1,8 @@
+// Assessments screen that displays options to create and edit questions
+
+// TODO: Change QuestionType enum from individual questions to the entire assessment level
+// TODO: Reduce the insert image size for questions
+
 import 'package:edwisely/models/assessment.dart';
 import 'package:edwisely/models/question.dart';
 import 'package:edwisely/models/questionType.dart';
@@ -16,7 +21,7 @@ class AssessmentPage extends StatefulWidget {
 }
 
 class _AssessmentPageState extends State<AssessmentPage> {
-  //Delete, remove and duplicate functions on Preview Tile widget
+  //Remove and duplicate functions on Preview Tile widget
 
   void remove(int index) {
     setState(() {
@@ -35,6 +40,7 @@ class _AssessmentPageState extends State<AssessmentPage> {
     print(widget.indexer);
   }
 
+  //Invoker refreshes the index when a previewTile is pressed so as to display the appropriate question on the Question Edit Panel on the right
   void invoker(int index) {
     setState(() {
       widget.indexer = index;
@@ -113,6 +119,8 @@ class _AssessmentPageState extends State<AssessmentPage> {
                           }).toList(), //The map function maps the questions list to the Powerpoint style preview tiles on the left on the assessment page
                         ),
                       ),
+
+                      //Buttons on the bottom of the sidepanel for Add question, question bank and import Spreadsheet:
                       GestureDetector(
                         child: Container(
                           margin:
@@ -179,6 +187,8 @@ class _AssessmentPageState extends State<AssessmentPage> {
                     ],
                   ),
                 ),
+
+                //The widget that takes care of the question editing features on the right side of the screen
                 AssessmentPanel(
                   assessment: widget.assessment,
                   index: widget.indexer,

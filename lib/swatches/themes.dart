@@ -1,3 +1,5 @@
+// Global style settings for the whole app
+
 import 'package:flutter/material.dart';
 
 class Themes {

@@ -1,3 +1,6 @@
+// Widget for a reading snippet
+// TODO: Modify to adhere to new design
+
 import 'package:flutter/material.dart';
 
 class SnippetTile extends StatelessWidget {

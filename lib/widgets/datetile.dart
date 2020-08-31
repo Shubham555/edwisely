@@ -1,3 +1,6 @@
+// Widget for a displaying date data
+// TODO: Modify to adhere to new design
+
 import 'package:flutter/material.dart';
 
 class DateTile extends StatelessWidget {

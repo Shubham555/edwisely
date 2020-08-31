@@ -1,3 +1,5 @@
+//Dashboard screen
+
 import 'package:edwisely/swatches/gradients.dart';
 import 'package:edwisely/widgets/dashboard/gradientBanner.dart';
 import 'package:edwisely/widgets/elements/borderButton.dart';
@@ -31,6 +33,7 @@ class Dashboard extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            // Gradient Banner is the header that contains the course details
             GradientBanner(
               title: 'Database Management Systems',
               subject: 'Computer Science and Engineering',

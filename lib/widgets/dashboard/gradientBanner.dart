@@ -1,3 +1,5 @@
+// Gradient Banner is the header that contains the course details on the Dashboard Screen
+
 import 'package:edwisely/swatches/gradients.dart';
 import 'package:flutter/material.dart';
 

@@ -1,3 +1,6 @@
+// Widget to display assessments on the My Assessments Page
+// TODO: Modify to adhere to new design
+
 import 'package:flutter/material.dart';
 
 class AssessmentTile extends StatelessWidget {
