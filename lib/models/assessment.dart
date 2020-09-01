@@ -13,7 +13,7 @@ class Assessment {
   final QuestionType type;
 
   // final List<Student>
-  //     students; //List of all the students who will receive the test
+  // students; //List of all the students who will receive the test
   // List<Student> answered; //List of the students who have attempted the test
   // List<Student> pending; //List of the students yet to take the test
 

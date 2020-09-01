@@ -4,11 +4,11 @@ import 'package:edwisely/widgets/choiceTile.dart';
 import 'package:flutter/material.dart';
 
 class AssessmentPanel extends StatefulWidget {
- final Assessment assessment;
- final int index;
- final Function questionRefresher;
- final Function typeRefresher;
- final Function pointRefresher;
+  final Assessment assessment;
+  final int index;
+  final Function questionRefresher;
+  final Function typeRefresher;
+  final Function pointRefresher;
 
   AssessmentPanel({
     @required this.assessment,

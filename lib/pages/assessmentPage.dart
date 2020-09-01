@@ -15,7 +15,9 @@ import 'package:flutter/material.dart';
 class AssessmentPage extends StatefulWidget {
   int indexer = 0;
   Assessment assessment;
+
   AssessmentPage({@required this.assessment});
+
   @override
   _AssessmentPageState createState() => _AssessmentPageState();
 }
@@ -108,8 +110,8 @@ class _AssessmentPageState extends State<AssessmentPage> {
                               .entries
                               .map((q) {
                             return PreviewTile(
-                              index: q
-                                  .key, //Displays the number of the question which is the key of the converted list
+                              index: q.key,
+                              //Displays the number of the question which is the key of the converted list
                               type: q.value.type,
                               question: q.value.question,
                               delete: remove,
