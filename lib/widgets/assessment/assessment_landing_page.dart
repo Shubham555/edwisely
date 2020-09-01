@@ -89,7 +89,7 @@ class _AssessmentLandingPageState extends State<AssessmentLandingPage>
                         'My Assessment',
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: MediaQuery.of(context).size.width / 20,
+                            fontSize: MediaQuery.of(context).size.width / 30,
                             fontWeight: FontWeight.bold),
                       ),
                     )

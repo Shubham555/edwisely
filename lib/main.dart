@@ -3,7 +3,7 @@
 // Signing off - Vis
 
 import 'package:edwisely/swatches/themes.dart';
-import 'package:edwisely/widgets/assessment/create_assessment_page.dart';
+import 'package:edwisely/widgets/assessment/assessment_landing_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(Edwisely());
@@ -15,7 +15,7 @@ class Edwisely extends StatelessWidget {
       theme: Themes.peacock,
       // Assessment model containing dummy data
       //Reset home page when the design is done
-      home: CreateAssessmentPage(),
+      home: AssessmentLandingPage(),
     );
   }
 }

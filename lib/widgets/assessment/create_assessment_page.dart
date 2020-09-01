@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:edwisely/swatches/gradients.dart';
 import 'package:flutter/material.dart';
 
 class CreateAssessmentPage extends StatelessWidget {
