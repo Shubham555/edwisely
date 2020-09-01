@@ -1,6 +1,9 @@
 import 'dart:developer';
 
 import 'package:edwisely/models/assessment.dart';
+import 'package:edwisely/models/question.dart';
+import 'package:edwisely/models/questionType.dart';
+import 'package:edwisely/pages/assessmentPage.dart';
 import 'package:edwisely/swatches/gradients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -146,7 +149,8 @@ class _AssessmentLandingPageState extends State<AssessmentLandingPage>
         ),
         //</editor-fold>
       ),
-      body: TabBarView(
+      body: //<editor-fold desc="To be implemented the views">
+          TabBarView(
         children: [
           Text('Objective Questions or i don\'t know'),
           Text('Subjective Questions or i don\'t know'),
@@ -154,6 +158,7 @@ class _AssessmentLandingPageState extends State<AssessmentLandingPage>
         ],
         controller: _assessmentPageTabController,
       ),
+      //</editor-fold>
     );
   }
 
@@ -176,8 +181,26 @@ class _AssessmentLandingPageState extends State<AssessmentLandingPage>
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              AssessmentLandingPage())),
+                        builder: (BuildContext context) => AssessmentPage(
+                          assessment: Assessment(
+                            deadline: null,
+                            description: 'Sample quiz',
+                            duration: 200,
+                            questions: [
+                              Question(
+                                  answers: null,
+                                  question:
+                                      'Who is the president of the United States',
+                                  rightAnswer: null,
+                                  type: QuestionType.Objective,
+                                  points: null)
+                            ],
+                            title: 'Sample quiz',
+                            type: QuestionType
+                                .Objective,
+                          ),
+                        ),
+                      )),
                 ),
               ),
               Padding(

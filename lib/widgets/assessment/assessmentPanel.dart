@@ -74,19 +74,6 @@ class _AssessmentPanelState extends State<AssessmentPanel> {
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Colors.grey.withOpacity(0.5),
-                      )),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add_a_photo),
-                          Text(
-                            'Add photo',
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                   Container(
@@ -95,6 +82,13 @@ class _AssessmentPanelState extends State<AssessmentPanel> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(Icons.add_a_photo),
+                        ),
+                        Text(
+                          'Add photo',
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
@@ -129,51 +123,6 @@ class _AssessmentPanelState extends State<AssessmentPanel> {
                               fontSize: 18,
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Text(
-                            'Answer Options',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-
-                        //QuestionType selector
-                        //TODO: Remove widget and move functionality to assessment level
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          height: 50,
-                          width: 150,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            color: Colors.white,
-                          ),
-                          child: DropdownButton(
-                              value: widget
-                                  .assessment.questions[widget.index].type,
-                              items: [
-                                DropdownMenuItem(
-                                  child: Text(
-                                    'Objective',
-                                  ),
-                                  value: QuestionType.Objective,
-                                ),
-                                DropdownMenuItem(
-                                  child: Text(
-                                    'Subjective',
-                                  ),
-                                  value: QuestionType.Subjective,
-                                ),
-                              ],
-                              onChanged: (value) {
-                                widget.typeRefresher(value);
-                                setState(() {
-                                  widget.typeRefresher(value);
-                                });
-                              }),
                         ),
                       ],
                     ),

@@ -1,7 +1,6 @@
 // Assessments screen that displays options to create and edit questions
 
 // TODO: Change QuestionType enum from individual questions to the entire assessment level
-// TODO: Reduce the insert image size for questions
 
 import 'package:edwisely/models/assessment.dart';
 import 'package:edwisely/models/question.dart';

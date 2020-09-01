@@ -13,6 +13,7 @@ class ChoiceTile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
+        borderRadius: BorderRadius.circular(6),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.4),
