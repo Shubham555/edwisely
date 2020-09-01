@@ -1,7 +1,5 @@
 // Assessments screen that displays options to create and edit questions
 
-// TODO: Change QuestionType enum from individual questions to the entire assessment level
-
 import 'package:edwisely/models/assessment.dart';
 import 'package:edwisely/models/question.dart';
 import 'package:edwisely/models/questionType.dart';
@@ -82,7 +80,7 @@ class _AssessmentPageState extends State<AssessmentPage> {
                 color: Colors.white,
               ),
             ),
-            onPressed: null,
+            onPressed: () => Navigator.pop(context),
           ),
           borderButton: BorderButton(
             label: 'Done',
@@ -91,7 +89,9 @@ class _AssessmentPageState extends State<AssessmentPage> {
           ),
         ),
       ),
-      drawer: Drawer(),
+      drawer: Drawer(
+        child: Text('to  be implemented'),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -141,14 +141,16 @@ class _AssessmentPageState extends State<AssessmentPage> {
                           ),
                         ),
                         onTap: () {
-                          setState(() {
-                            widget.assessment.questions.add(Question(
-                                answers: null,
-                                question: null,
-                                rightAnswer: null,
-                                type: null,
-                                points: null));
-                          });
+                          setState(
+                            () {
+                              widget.assessment.questions.add(Question(
+                                  answers: null,
+                                  question: null,
+                                  rightAnswer: null,
+                                  type: null,
+                                  points: null));
+                            },
+                          );
                         },
                       ),
                       Container(

@@ -5,6 +5,10 @@ import 'package:edwisely/models/question.dart';
 import 'package:edwisely/models/questionType.dart';
 import 'package:edwisely/pages/assessmentPage.dart';
 import 'package:edwisely/swatches/gradients.dart';
+import 'package:edwisely/widgets/assessmentTile.dart';
+import 'package:edwisely/widgets/datetile.dart';
+import 'package:edwisely/widgets/snippetTile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -152,9 +156,21 @@ class _AssessmentLandingPageState extends State<AssessmentLandingPage>
       body: //<editor-fold desc="To be implemented the views">
           TabBarView(
         children: [
-          Text('Objective Questions or i don\'t know'),
-          Text('Subjective Questions or i don\'t know'),
-          Text('Conducted Questions or i don\'t know'),
+          AssessmentTile(
+            title: 'fevs',
+            subject: 'weverwvrev',
+            questions: 0,
+            units: [1, 1],
+          ),
+          DateTile(month: 'January', date: 'wefwe'),
+          SnippetTile(
+            title: 'null',
+            subject: 'null',
+            level: 'null',
+            readingTime: 'null',
+            source: 'null',
+            report: () => print(''),
+          )
         ],
         controller: _assessmentPageTabController,
       ),
@@ -165,53 +181,91 @@ class _AssessmentLandingPageState extends State<AssessmentLandingPage>
 //<editor-fold desc="Bottom Sheet for Selecting Objective or Subjective">
   _showObjectiveSubjectiveSelectionModalBottomSheet(BuildContext context) =>
       showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        useRootNavigator: false,
         context: context,
         builder: (context) => Container(
           padding: EdgeInsets.all(20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              Text(
+                'Create a new Assessment',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width / 50,
+                    fontWeight: FontWeight.bold),
+              ),
+              Divider(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
+                  trailing: Icon(Icons.keyboard_arrow_right),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   hoverColor: Colors.red.shade200,
                   title: Text('Objective'),
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => AssessmentPage(
-                          assessment: Assessment(
-                            deadline: null,
-                            description: 'Sample quiz',
-                            duration: 200,
-                            questions: [
-                              Question(
-                                  answers: null,
-                                  question:
-                                      'Who is the president of the United States',
-                                  rightAnswer: null,
-                                  type: QuestionType.Objective,
-                                  points: null)
-                            ],
-                            title: 'Sample quiz',
-                            type: QuestionType
-                                .Objective,
-                          ),
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => AssessmentPage(
+                        assessment: Assessment(
+                          deadline: null,
+                          description: 'Sample quiz',
+                          duration: 200,
+                          questions: [
+                            Question(
+                                answers: null,
+                                question:
+                                    'Who is the president of the United States',
+                                rightAnswer: null,
+                                type: QuestionType.Objective,
+                                points: null)
+                          ],
+                          title: 'Sample quiz',
+                          type: QuestionType.Objective,
                         ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
+                  trailing: Icon(Icons.keyboard_arrow_right),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   hoverColor: Colors.blue.shade200,
                   title: Text('Subjective'),
-                  onTap: () =>
-                      log('Assessment Page Bottom Sheet Subjective Clicked '),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => AssessmentPage(
+                        assessment: Assessment(
+                          deadline: null,
+                          description: 'Sample quiz',
+                          duration: 200,
+                          questions: [
+                            Question(
+                                answers: null,
+                                question:
+                                    'Who is the president of the United States',
+                                rightAnswer: null,
+                                type: QuestionType.Subjective,
+                                points: null)
+                          ],
+                          title: 'Sample quiz',
+                          type: QuestionType.Subjective,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               )
             ],
