@@ -156,21 +156,394 @@ class _AssessmentLandingPageState extends State<AssessmentLandingPage>
       body: //<editor-fold desc="To be implemented the views">
           TabBarView(
         children: [
-          AssessmentTile(
-            title: 'fevs',
-            subject: 'weverwvrev',
-            questions: 0,
-            units: [1, 1],
+          ListView(
+            children: [
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Objective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+            ],
           ),
-          DateTile(month: 'January', date: 'wefwe'),
-          SnippetTile(
-            title: 'null',
-            subject: 'null',
-            level: 'null',
-            readingTime: 'null',
-            source: 'null',
-            report: () => print(''),
-          )
+          Column(
+            children: [
+              ListTile(
+                title: Text('Subjective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Subjective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Subjective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Subjective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Subjective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Subjective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Subjective Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              ListTile(
+                title: Text('Conducted Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Conducted Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Conducted Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Conducted Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Conducted Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Conducted Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+              ListTile(
+                title: Text('Conducted Questions'),
+                leading: Icon(Icons.question_answer),
+              ),
+            ],
+          ),
         ],
         controller: _assessmentPageTabController,
       ),
