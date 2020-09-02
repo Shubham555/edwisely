@@ -1,21 +1,18 @@
-// Feel free to reach out to me anytime for doubts :)
-// Been an awesome experience working on this project
-// Signing off - Vis
-
-import 'package:edwisely/swatches/themes.dart';
-import 'package:edwisely/widgets/assessment/assessment_landing_page.dart';
+import 'package:edwisely/ui/screens/assessment_landing_screen.dart';
+import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(Edwisely());
+void main() {
+  runApp(EdWisely());
+}
 
-class Edwisely extends StatelessWidget {
+class EdWisely extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: Themes.peacock,
-      // Assessment model containing dummy data
-      //Reset home page when the design is done
-      home: AssessmentLandingPage(),
+      title: 'Edwisely',
+      theme: EdwiselyTheme.themeDataEdwisely,
+      home: AssessmentLandingScreen(),
     );
   }
 }
