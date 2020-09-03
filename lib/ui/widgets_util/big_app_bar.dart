@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 class BigAppBar extends StatelessWidget {
   final List<Widget> actions;
   final String titleText;
-  final Row bottomRow;
+  final TabBar bottomTab;
   final double appBarSize;
   final Text appBarTitle;
 
   BigAppBar(
       {@required this.actions,
       @required this.titleText,
-      @required this.bottomRow,
+      @required this.bottomTab,
       @required this.appBarSize,
       @required this.appBarTitle});
 
@@ -52,7 +52,10 @@ class BigAppBar extends StatelessWidget {
                 ],
               ),
             ),
-            bottomRow
+            Align(
+              alignment: Alignment.centerLeft,
+              child: bottomTab,
+            )
           ],
         ),
       ),
