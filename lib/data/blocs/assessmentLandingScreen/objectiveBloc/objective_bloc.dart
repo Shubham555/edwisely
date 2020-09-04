@@ -19,6 +19,8 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
   Stream<ObjectiveState> mapEventToState(
     ObjectiveEvent event,
   ) async* {
+    var currentState = state;
+
     if (event is GetObjectiveTests) {
       final assessmentResponse =
           await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests');
@@ -38,7 +40,7 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
         );
         yield ObjectiveSuccess(
           AssessmentsEntity.fromJsonMap(assessmentResponse.data),
-          subjects: subjects,
+          subjects,
         );
       } else {
         yield ObjectiveFailed();
@@ -53,7 +55,9 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
           yield ObjectiveEmpty();
         } else {
           yield ObjectiveSuccess(
-              AssessmentsEntity.fromJsonMap(assessmentResponse.data));
+            AssessmentsEntity.fromJsonMap(assessmentResponse.data),
+            currentState is ObjectiveSuccess ? currentState.subjects : null,
+          );
         }
       } else {
         yield ObjectiveFailed();

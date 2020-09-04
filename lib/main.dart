@@ -1,4 +1,4 @@
-import 'package:edwisely/ui/screens/assessmentLandingScreen/assessment_landing_screen.dart';
+import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

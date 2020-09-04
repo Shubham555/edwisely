@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/conductdBloc/conducted_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/objectiveBloc/objective_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/subjectiveBloc/subjective_bloc.dart';
-import 'package:edwisely/ui/screens/assessmentLandingScreen/conducted_tab.dart';
-import 'package:edwisely/ui/screens/assessmentLandingScreen/objective_tab.dart';
-import 'package:edwisely/ui/screens/assessmentLandingScreen/subjective_tab.dart';
+import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conducted_tab.dart';
+import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/objective_tab.dart';
+import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/subjective_tab.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/create_assessment_screen.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,7 +68,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
               color: Color(0xFF1D2B64),
             ),
           ),
-          onPressed: () => log(''),
+          onPressed: () => _showAlertDialog(context),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -110,4 +111,49 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
       ),
     );
   }
+
+  _showAlertDialog(BuildContext context) => showDialog(
+        context: context,
+        builder: (BuildContext context) => Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Create a New Assignment',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.width / 110),
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+                ListTile(
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  title: Text('Objective'),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          CreateAssessmentScreen(),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  title: Text('Subjective'),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          CreateAssessmentScreen(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 }
