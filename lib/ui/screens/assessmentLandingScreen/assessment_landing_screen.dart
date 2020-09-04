@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:edwisely/data/blocs/assessmentLandingScreen/conductdBloc/conducted_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/objectiveBloc/objective_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/subjectiveBloc/subjective_bloc.dart';
@@ -56,6 +58,31 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
         appBarTitle: Text(
           'Edwisely',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        flatButton: FlatButton(
+          hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+            side: BorderSide(
+              color: Color(0xFF1D2B64),
+            ),
+          ),
+          onPressed: () => log(''),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Create Assessment',
+                style: TextStyle(
+                  color: Color(0xFF1D2B64),
+                ),
+              ),
+              Icon(
+                Icons.keyboard_arrow_right,
+                color: Color(0xFF1D2B64),
+              )
+            ],
+          ),
         ),
       ).build(context),
       body: TabBarView(

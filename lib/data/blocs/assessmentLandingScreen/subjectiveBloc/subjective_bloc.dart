@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/questions/assessmentsEntity.dart';
+import 'package:edwisely/data/model/assessment/assessmentEntity/AssessmentsEntity.dart';
 import 'package:meta/meta.dart';
 
 part 'subjective_event.dart';

@@ -10,13 +10,15 @@ class BigAppBar extends StatelessWidget {
   final TabBar bottomTab;
   final double appBarSize;
   final Text appBarTitle;
+  final FlatButton flatButton;
 
   BigAppBar(
       {@required this.actions,
       @required this.titleText,
       @required this.bottomTab,
       @required this.appBarSize,
-      @required this.appBarTitle});
+      @required this.appBarTitle,
+      @required this.flatButton});
 
   @override
   PreferredSizeWidget build(BuildContext context) {
@@ -31,27 +33,32 @@ class BigAppBar extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 3.5,
-              decoration:
-                  BoxDecoration(gradient: EdwiselyGradients.appBarGradient),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 100),
-                    child: Text(
-                      titleText,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width / 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 3.5,
+                decoration:
+                    BoxDecoration(gradient: EdwiselyGradients.appBarGradient),
+                child: Padding(
+                  padding: const EdgeInsets.all(40),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Align(
+                        child: Text(
+                          titleText,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: MediaQuery.of(context).size.width / 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        alignment: Alignment.centerLeft,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: flatButton,
+                      )
+                    ],
+                  ),
+                )),
             Align(
               alignment: Alignment.centerLeft,
               child: bottomTab,
