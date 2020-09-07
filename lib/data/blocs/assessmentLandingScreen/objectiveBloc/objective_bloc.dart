@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
+import 'dart:html';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/model/assessment/assessmentEntity/AssessmentsEntity.dart';
 import 'package:edwisely/data/model/assessment/coursesEntity/CoursesEntity.dart';
@@ -28,6 +29,12 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
       if (assessmentResponse.statusCode == 200 &&
           subjectResponse.statusCode == 200) {
         List<DropdownMenuItem> subjects = [];
+        subjects.add(
+          DropdownMenuItem(
+            child: Text('All'),
+            value: 1234567890,
+          ),
+        );
         CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
           (element) {
             subjects.add(
@@ -59,6 +66,24 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
             currentState is ObjectiveSuccess ? currentState.subjects : null,
           );
         }
+      } else {
+        yield ObjectiveFailed();
+      }
+    }
+    if (event is CreateObjectiveQuestionnaire) {
+      yield ObjectiveInitial();
+      final response = await EdwiselyApi.dio.post(
+        'questionnaireWeb/createObjectiveTest',
+        data: FormData.fromMap(
+          {
+            'name': event._title,
+            'description': event._description,
+            // 'subject_id': event._subjectId,
+          },
+        ),
+      );
+      if (response.data.toString().contains('Successfully created the test')) {
+        yield ObjectiveAssessmentCreated();
       } else {
         yield ObjectiveFailed();
       }

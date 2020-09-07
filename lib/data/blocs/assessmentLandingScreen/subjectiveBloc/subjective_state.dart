@@ -7,8 +7,13 @@ class SubjectiveInitial extends SubjectiveState {}
 
 class SubjectiveSuccess extends SubjectiveState {
   final AssessmentsEntity questionsEntity;
+  final List<DropdownMenuItem> subjects;
 
-  SubjectiveSuccess(this.questionsEntity);
+  SubjectiveSuccess(this.questionsEntity, this.subjects);
 }
 
-class ObjectiveFailed extends SubjectiveState {}
+class SubjectiveFailed extends SubjectiveState {}
+
+class SubjectiveEmpty extends SubjectiveState {}
+
+class SubjectiveAssessmentCreated extends SubjectiveState {}

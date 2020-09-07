@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:edwisely/data/blocs/assessmentLandingScreen/conductdBloc/conducted_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/objectiveBloc/objective_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/subjectiveBloc/subjective_bloc.dart';
@@ -8,6 +6,7 @@ import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/objective
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/subjective_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/create_assessment_screen.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -124,7 +123,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                   'Create a New Assignment',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: MediaQuery.of(context).size.width / 110),
+                      fontSize: MediaQuery.of(context).size.height / 40),
                 ),
                 Divider(
                   thickness: 2,
@@ -135,8 +134,17 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          CreateAssessmentScreen(),
+                      builder: (BuildContext context) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (BuildContext context) => ObjectiveBloc(),
+                          ),
+                          BlocProvider(
+                            create: (BuildContext context) => SubjectiveBloc(),
+                          ),
+                        ],
+                        child: CreateAssessmentScreen(QuestionType.Objective),
+                      ),
                     ),
                   ),
                 ),
@@ -147,7 +155,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          CreateAssessmentScreen(),
+                          CreateAssessmentScreen(QuestionType.Subjective),
                     ),
                   ),
                 ),

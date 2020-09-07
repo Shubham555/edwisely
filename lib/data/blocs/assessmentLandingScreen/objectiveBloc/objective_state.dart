@@ -15,3 +15,5 @@ class ObjectiveSuccess extends ObjectiveState {
 }
 
 class ObjectiveFailed extends ObjectiveState {}
+
+class ObjectiveAssessmentCreated extends ObjectiveState {}

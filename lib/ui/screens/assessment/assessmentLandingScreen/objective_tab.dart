@@ -88,9 +88,13 @@ class ObjectiveTab extends StatelessWidget {
                       child: DropdownButton(
                         hint: Text('Filter by Subjects'),
                         items: state.subjects,
-                        onChanged: (value) => context.bloc<ObjectiveBloc>().add(
-                              GetObjectiveTestsBYSubjectId(value),
-                            ),
+                        onChanged: (value) => value == 1234567890
+                            ? context.bloc<ObjectiveBloc>().add(
+                                  GetObjectiveTests(),
+                                )
+                            : context.bloc<ObjectiveBloc>().add(
+                                  GetObjectiveTestsBYSubjectId(value),
+                                ),
                       ),
                     ),
                   )
