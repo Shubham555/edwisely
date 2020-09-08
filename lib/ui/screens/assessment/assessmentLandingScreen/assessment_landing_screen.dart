@@ -154,8 +154,17 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          CreateAssessmentScreen(QuestionType.Subjective),
+                      builder: (BuildContext context) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (BuildContext context) => ObjectiveBloc(),
+                          ),
+                          BlocProvider(
+                            create: (BuildContext context) => SubjectiveBloc(),
+                          ),
+                        ],
+                        child: CreateAssessmentScreen(QuestionType.Subjective),
+                      ),
                     ),
                   ),
                 ),

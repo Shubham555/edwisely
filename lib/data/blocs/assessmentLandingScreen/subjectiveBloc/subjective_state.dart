@@ -16,4 +16,8 @@ class SubjectiveFailed extends SubjectiveState {}
 
 class SubjectiveEmpty extends SubjectiveState {}
 
-class SubjectiveAssessmentCreated extends SubjectiveState {}
+class SubjectiveAssessmentCreated extends SubjectiveState {
+  final int assessmentId;
+
+  SubjectiveAssessmentCreated(this.assessmentId);
+}

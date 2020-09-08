@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -78,12 +77,13 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
           {
             'name': event._title,
             'description': event._description,
-            // 'subject_id': event._subjectId,
+            'subject_id': event._subjectId,
           },
         ),
       );
+      print(response.data);
       if (response.data.toString().contains('Successfully created the test')) {
-        yield ObjectiveAssessmentCreated();
+        yield ObjectiveAssessmentCreated(response.data['test_id']);
       } else {
         yield ObjectiveFailed();
       }

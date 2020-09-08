@@ -82,7 +82,7 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
         ),
       );
       if (response.data.toString().contains('Successfully created the test')) {
-        yield SubjectiveAssessmentCreated();
+        yield SubjectiveAssessmentCreated(response.data['test_id']);
       } else {
         yield SubjectiveFailed();
       }

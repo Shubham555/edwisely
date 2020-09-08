@@ -16,4 +16,8 @@ class ObjectiveSuccess extends ObjectiveState {
 
 class ObjectiveFailed extends ObjectiveState {}
 
-class ObjectiveAssessmentCreated extends ObjectiveState {}
+class ObjectiveAssessmentCreated extends ObjectiveState {
+  final int assessmentId;
+
+  ObjectiveAssessmentCreated(this.assessmentId);
+}

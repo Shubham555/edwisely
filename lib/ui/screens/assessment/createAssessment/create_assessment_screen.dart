@@ -33,138 +33,142 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
         ),
       ),
       //</editor-fold>
-      body: MultiBlocListener(
-        listeners: [
-          BlocListener(
-            cubit: context.bloc<ObjectiveBloc>(),
-            listener: (BuildContext context, state) {
-              if (state is ObjectiveAssessmentCreated) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => AddQuestionsScreen(
-                      _titleController.text,
-                      _descriptionController.text,
-                      10,
-                      widget._questionType,
+      body: Builder(
+        builder: (BuildContext context) => MultiBlocListener(
+          listeners: [
+            BlocListener(
+              cubit: context.bloc<ObjectiveBloc>(),
+              listener: (BuildContext context, state) {
+                if (state is ObjectiveAssessmentCreated) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => AddQuestionsScreen(
+                        _titleController.text,
+                        _descriptionController.text,
+                        10,
+                        widget._questionType,
+                        state.assessmentId,
+                      ),
                     ),
+                  );
+                }
+                if (state is ObjectiveFailed) {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Creation of Assessment Failed. PLease try again'),
+                    ),
+                  );
+                }
+              },
+            ),
+            BlocListener(
+              cubit: context.bloc<SubjectiveBloc>(),
+              listener: (BuildContext context, state) {
+                if (state is SubjectiveAssessmentCreated) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => AddQuestionsScreen(
+                        _titleController.text,
+                        _descriptionController.text,
+                        10,
+                        widget._questionType,
+                          state.assessmentId,
+                      ),
+                    ),
+                  );
+                }
+                if (state is SubjectiveFailed) {
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Creation of Assessment Failed. Please try again'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+          child: Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width / 1.5,
+              height: MediaQuery.of(context).size.height / 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.width / 50),
                   ),
-                );
-              }
-              if (state is ObjectiveFailed) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content:
-                        Text('Creation of Assessment Failed. PLease try again'),
+                  _buildTextFieldWidget('Add Title', 80, _titleController),
+                  _buildTextFieldWidget(
+                      'Description', 200, _descriptionController),
+                  Text(
+                    'Choose Subject',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.width / 50),
                   ),
-                );
-              }
-            },
-          ),
-          BlocListener(
-            cubit: context.bloc<SubjectiveBloc>(),
-            listener: (BuildContext context, state) {
-              if (state is SubjectiveAssessmentCreated) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => AddQuestionsScreen(
-                      _titleController.text,
-                      _descriptionController.text,
-                      10,
-                      widget._questionType,
-                    ),
-                  ),
-                );
-              }
-              if (state is SubjectiveFailed) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content:
-                        Text('Creation of Assessment Failed. PLease try again'),
-                  ),
-                );
-              }
-            },
-          ),
-        ],
-        child: Center(
-          child: Container(
-            width: MediaQuery.of(context).size.width / 1.5,
-            height: MediaQuery.of(context).size.height / 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: MediaQuery.of(context).size.width / 50),
-                ),
-                _buildTextFieldWidget('Add Title', 80, _titleController),
-                _buildTextFieldWidget(
-                    'Description', 200, _descriptionController),
-                Text(
-                  'Choose Subject',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: MediaQuery.of(context).size.width / 50),
-                ),
-                Row(
-                  children: [
-                    _createCourseCard(
-                      'Existing Courses',
-                      () {
-                        setState(
-                          () {
-                            _isExistingCoursesElected =
-                                !_isExistingCoursesElected;
-                          },
-                        );
-                      },
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    _createCourseCard(
-                      'Other Subjects',
-                      () => null,
-                    ),
-                  ],
-                ),
-                Visibility(
-                  visible: _isExistingCoursesElected,
-                  child: Row(
+                  Row(
                     children: [
                       _createCourseCard(
-                        'Custom Create subject',
-                        () => null,
+                        'Existing Courses',
+                        () {
+                          setState(
+                            () {
+                              _isExistingCoursesElected =
+                                  !_isExistingCoursesElected;
+                            },
+                          );
+                        },
                       ),
                       SizedBox(
                         width: 20,
                       ),
                       _createCourseCard(
-                        'Choose from Edwisely Subjects',
+                        'Other Subjects',
                         () => null,
                       ),
                     ],
                   ),
-                ),
-                RaisedButton(
-                  disabledColor: Colors.grey,
-                  disabledElevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                  Visibility(
+                    visible: _isExistingCoursesElected,
+                    child: Row(
+                      children: [
+                        _createCourseCard(
+                          'Custom Create subject',
+                          () => null,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        _createCourseCard(
+                          'Choose from Edwisely Subjects',
+                          () => null,
+                        ),
+                      ],
+                    ),
                   ),
-                  color: Color(0xFF1D2B64),
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(color: Colors.white),
+                  RaisedButton(
+                    disabledColor: Colors.grey,
+                    disabledElevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    color: Color(0xFF1D2B64),
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () => _continueButtonOnPressed(context),
                   ),
-                  onPressed: _continueButtonOnPressed,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -214,9 +218,14 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
         ),
       );
 
-  void _continueButtonOnPressed() {
+  void _continueButtonOnPressed(BuildContext context) {
     //todo add subject check
     if (_titleController.text.isEmpty || _descriptionController.text.isEmpty) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please double check the entries !'),
+        ),
+      );
       return null;
     } else if (widget._questionType == QuestionType.Objective) {
       BlocProvider.of<ObjectiveBloc>(context).add(
