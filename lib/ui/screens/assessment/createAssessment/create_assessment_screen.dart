@@ -1,3 +1,5 @@
+import 'package:edwisely/data/blocs/assessmentLandingScreen/addQuestionScreen/add_question_bloc.dart';
+import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/objectiveBloc/objective_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/subjectiveBloc/subjective_bloc.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
@@ -5,19 +7,13 @@ import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CreateAssessmentScreen extends StatefulWidget {
+class CreateAssessmentScreen extends StatelessWidget {
   final QuestionType _questionType;
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  int _selectedCourseId;
 
   CreateAssessmentScreen(this._questionType);
-
-  @override
-  _CreateAssessmentScreenState createState() => _CreateAssessmentScreenState();
-}
-
-class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
-  bool _isExistingCoursesElected = false;
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +39,15 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => AddQuestionsScreen(
-                        _titleController.text,
-                        _descriptionController.text,
-                        10,
-                        widget._questionType,
-                        state.assessmentId,
+                      builder: (BuildContext context) => BlocProvider(
+                        create: (BuildContext context) => AddQuestionBloc(),
+                        child: AddQuestionsScreen(
+                          _titleController.text,
+                          _descriptionController.text,
+                          10,
+                          _questionType,
+                          state.assessmentId,
+                        ),
                       ),
                     ),
                   );
@@ -70,12 +69,15 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => AddQuestionsScreen(
-                        _titleController.text,
-                        _descriptionController.text,
-                        10,
-                        widget._questionType,
+                      builder: (BuildContext context) => BlocProvider(
+                        create: (BuildContext context) => AddQuestionBloc(),
+                        child: AddQuestionsScreen(
+                          _titleController.text,
+                          _descriptionController.text,
+                          10,
+                          _questionType,
                           state.assessmentId,
+                        ),
                       ),
                     ),
                   );
@@ -100,7 +102,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
+                    'Create new ${_questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: MediaQuery.of(context).size.width / 50),
@@ -114,45 +116,60 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                         fontWeight: FontWeight.bold,
                         fontSize: MediaQuery.of(context).size.width / 50),
                   ),
-                  Row(
-                    children: [
-                      _createCourseCard(
-                        'Existing Courses',
-                        () {
-                          setState(
-                            () {
-                              _isExistingCoursesElected =
-                                  !_isExistingCoursesElected;
+                  BlocBuilder(
+                    cubit: context.bloc<CoursesBloc>()
+                      ..add(
+                        GetCoursesByFaculty(),
+                      ),
+                    // ignore: missing_return
+                    builder: (BuildContext context, state) {
+                      if (state is CoursesInitial) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (state is CoursesFetchFailed) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('There is some server error please retry'),
+                            RaisedButton(
+                              color: Color(0xFF1D2B64).withOpacity(.3),
+                              onPressed: () => context.bloc<CoursesBloc>().add(
+                                    GetCoursesByFaculty(),
+                                  ),
+                              child: Text('Retry'),
+                            )
+                          ],
+                        );
+                      }
+                      if (state is CoursesFetched) {
+                        return Wrap(
+                          spacing: 20,
+                          children: List.generate(
+                            state.coursesEntity.data.length + 1,
+                            (index) {
+                              if (index < state.coursesEntity.data.length) {
+                                return _createCourseCard(
+                                    state.coursesEntity.data[index].name, () {
+                                  _selectedCourseId =
+                                      state.coursesEntity.data[index].id;
+                                  Scaffold.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Selected ${state.coursesEntity.data[index].name}'),
+                                    ),
+                                  );
+                                });
+                              } else {
+                                return _createCourseCard('Add Subject', null);
+                              }
                             },
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      _createCourseCard(
-                        'Other Subjects',
-                        () => null,
-                      ),
-                    ],
-                  ),
-                  Visibility(
-                    visible: _isExistingCoursesElected,
-                    child: Row(
-                      children: [
-                        _createCourseCard(
-                          'Custom Create subject',
-                          () => null,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        _createCourseCard(
-                          'Choose from Edwisely Subjects',
-                          () => null,
-                        ),
-                      ],
-                    ),
+                          ),
+                        );
+                      }
+                    },
                   ),
                   RaisedButton(
                     disabledColor: Colors.grey,
@@ -219,20 +236,21 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
       );
 
   void _continueButtonOnPressed(BuildContext context) {
-    //todo add subject check
-    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty) {
+    if (_titleController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        _selectedCourseId == null) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Please double check the entries !'),
         ),
       );
       return null;
-    } else if (widget._questionType == QuestionType.Objective) {
+    } else if (_questionType == QuestionType.Objective) {
       BlocProvider.of<ObjectiveBloc>(context).add(
         CreateObjectiveQuestionnaire(
           _titleController.text,
           _descriptionController.text,
-          10,
+          _selectedCourseId,
         ),
       );
     } else {
@@ -240,7 +258,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
         CreateSubjectiveQuestionnaire(
           _titleController.text,
           _descriptionController.text,
-          10,
+          _selectedCourseId,
         ),
       );
     }

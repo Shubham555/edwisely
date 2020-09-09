@@ -9,9 +9,8 @@ class ObjectiveEmpty extends ObjectiveState {}
 
 class ObjectiveSuccess extends ObjectiveState {
   final AssessmentsEntity questionsEntity;
-  final List<DropdownMenuItem> subjects;
 
-  ObjectiveSuccess(this.questionsEntity, this.subjects);
+  ObjectiveSuccess(this.questionsEntity);
 }
 
 class ObjectiveFailed extends ObjectiveState {}

@@ -1,7 +1,8 @@
 import 'package:edwisely/data/blocs/assessmentLandingScreen/conductdBloc/conducted_bloc.dart';
+import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/objectiveBloc/objective_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/subjectiveBloc/subjective_bloc.dart';
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conducted_tab.dart';
+import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/conducted_tab.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/objective_tab.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/subjective_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/create_assessment_screen.dart';
@@ -86,24 +87,58 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
         ),
       ).build(context),
       body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _assessmentLandingScreenTabController,
         children: [
-          BlocProvider(
-            create: (BuildContext context) => ObjectiveBloc()
-              ..add(
-                GetObjectiveTests(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (BuildContext context) => ObjectiveBloc()
+                  ..add(
+                    GetObjectiveTests(),
+                  ),
               ),
+              BlocProvider(
+                create: (BuildContext context) => CoursesBloc()
+                  ..add(
+                    GetCoursesList(),
+                  ),
+              ),
+            ],
             child: ObjectiveTab(),
           ),
-          BlocProvider(
-            create: (BuildContext context) => SubjectiveBloc()
-              ..add(
-                GetSubjectiveTests(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (BuildContext context) => SubjectiveBloc()
+                  ..add(
+                    GetSubjectiveTests(),
+                  ),
               ),
+              BlocProvider(
+                create: (BuildContext context) => CoursesBloc()
+                  ..add(
+                    GetCoursesList(),
+                  ),
+              ),
+            ],
             child: SubjectiveTab(),
           ),
-          BlocProvider(
-            create: (BuildContext context) => ConductedBloc(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (BuildContext context) => ConductedBloc()
+                  ..add(
+                    GetObjectiveQuestions(),
+                  ),
+              ),
+              BlocProvider(
+                create: (BuildContext context) => CoursesBloc()
+                  ..add(
+                    GetSectionsAndGetCoursesList(71),
+                  ),
+              ),
+            ],
             child: ConductedTab(),
           ),
         ],
@@ -142,6 +177,9 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                           BlocProvider(
                             create: (BuildContext context) => SubjectiveBloc(),
                           ),
+                          BlocProvider(
+                            create: (BuildContext context) => CoursesBloc(),
+                          ),
                         ],
                         child: CreateAssessmentScreen(QuestionType.Objective),
                       ),
@@ -161,6 +199,9 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                           ),
                           BlocProvider(
                             create: (BuildContext context) => SubjectiveBloc(),
+                          ),
+                          BlocProvider(
+                            create: (BuildContext context) => CoursesBloc(),
                           ),
                         ],
                         child: CreateAssessmentScreen(QuestionType.Subjective),

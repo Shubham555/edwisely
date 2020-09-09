@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/model/assessment/assessmentEntity/AssessmentsEntity.dart';
-import 'package:edwisely/data/model/assessment/coursesEntity/CoursesEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -17,36 +16,15 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
 
   @override
   Stream<SubjectiveState> mapEventToState(
-    SubjectiveEvent event,
-  ) async* {
-    var currentState = state;
-
+      SubjectiveEvent event,
+      ) async* {
     if (event is GetSubjectiveTests) {
       final assessmentResponse =
-          await EdwiselyApi.dio.get('questionnaireWeb/getSubjectiveTests');
-      final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses');
-      if (assessmentResponse.statusCode == 200 &&
-          subjectResponse.statusCode == 200) {
-        List<DropdownMenuItem> subjects = [];
-        subjects.add(
-          DropdownMenuItem(
-            child: Text('All'),
-            value: 1234567890,
-          ),
-        );
-        CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
-          (element) {
-            subjects.add(
-              DropdownMenuItem(
-                child: Text(element.name),
-                value: element.id,
-              ),
-            );
-          },
-        );
+      await EdwiselyApi.dio.get('questionnaireWeb/getSubjectiveTests');
+
+      if (assessmentResponse.statusCode == 200) {
         yield SubjectiveSuccess(
           AssessmentsEntity.fromJsonMap(assessmentResponse.data),
-          subjects,
         );
       } else {
         yield SubjectiveFailed();
@@ -62,7 +40,6 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
         } else {
           yield SubjectiveSuccess(
             AssessmentsEntity.fromJsonMap(assessmentResponse.data),
-            currentState is SubjectiveSuccess ? currentState.subjects : null,
           );
         }
       } else {
@@ -81,6 +58,7 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
           },
         ),
       );
+      print(response.data);
       if (response.data.toString().contains('Successfully created the test')) {
         yield SubjectiveAssessmentCreated(response.data['test_id']);
       } else {

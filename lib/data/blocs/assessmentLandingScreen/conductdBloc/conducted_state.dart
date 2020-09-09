@@ -5,6 +5,8 @@ abstract class ConductedState {}
 
 class ConductedInitial extends ConductedState {}
 
+class ConductedEmpty extends ConductedState {}
+
 class ConductedSuccess extends ConductedState {
   final AssessmentsEntity questionsEntity;
 

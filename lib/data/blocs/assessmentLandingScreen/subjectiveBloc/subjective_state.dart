@@ -5,16 +5,15 @@ abstract class SubjectiveState {}
 
 class SubjectiveInitial extends SubjectiveState {}
 
+class SubjectiveEmpty extends SubjectiveState {}
+
 class SubjectiveSuccess extends SubjectiveState {
   final AssessmentsEntity questionsEntity;
-  final List<DropdownMenuItem> subjects;
 
-  SubjectiveSuccess(this.questionsEntity, this.subjects);
+  SubjectiveSuccess(this.questionsEntity);
 }
 
 class SubjectiveFailed extends SubjectiveState {}
-
-class SubjectiveEmpty extends SubjectiveState {}
 
 class SubjectiveAssessmentCreated extends SubjectiveState {
   final int assessmentId;
