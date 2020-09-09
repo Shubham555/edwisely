@@ -62,7 +62,7 @@ class _ConductedTabState extends State<ConductedTab>
                       ),
                   ),
                 ],
-                child: ObjectiveTab(),
+                child: ConductedTabObjectiveTab(),
               ),
               MultiBlocProvider(
                 providers: [
@@ -79,7 +79,7 @@ class _ConductedTabState extends State<ConductedTab>
                       ),
                   ),
                 ],
-                child: SubjectiveTab(),
+                child: ConductedTabSubjectiveTab(),
               ),
             ],
           ),

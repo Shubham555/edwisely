@@ -39,20 +39,6 @@ class ObjectiveTab extends StatelessWidget {
                     return Center(
                       child: Text('No Assessments found'),
                     );
-                    //   Column(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     Text(
-                    //         'There were no assessments related to that subject'),
-                    //     RaisedButton(
-                    //       color: Color(0xFF1D2B64).withOpacity(.3),
-                    //       onPressed: () => context.bloc<ObjectiveBloc>().add(
-                    //             GetObjectiveTests(),
-                    //           ),
-                    //       child: Text('Return Home'),
-                    //     )
-                    //   ],
-                    // );
                   }
                   if (state is ObjectiveFailed) {
                     return Column(
@@ -110,13 +96,7 @@ class ObjectiveTab extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return Row(
-                    children: [
-                      CircularProgressIndicator(),
-                      SizedBox(width: 20),
-                      Text('Getting Subjects'),
-                    ],
-                  );
+                  return Container();
                 }
               },
             )

@@ -3,11 +3,13 @@ import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_
 import 'package:edwisely/ui/widgets_util/assessment_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
-class ObjectiveTab extends StatelessWidget {
+class ConductedTabObjectiveTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: BlocBuilder(
@@ -62,6 +64,7 @@ class ObjectiveTab extends StatelessWidget {
                         await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
+                          //todo change for production date
                           firstDate: DateTime.now().subtract(
                             Duration(days: 100),
                           ),
@@ -69,7 +72,21 @@ class ObjectiveTab extends StatelessWidget {
                             Duration(days: 100),
                           ),
                         ).then(
-                          (value) => value.toString(),
+                          (value) {
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Fetching Assessments after ${value == null ? 'Yesterday' : DateFormat('EEE d MMM yyyy').format(value)}'),
+                              ),
+                            );
+                            return value == null
+                                ? DateTime.now()
+                                    .subtract(
+                                      Duration(days: 1),
+                                    )
+                                    .toString()
+                                : value.toString();
+                          },
                         ),
                       ),
                     ),
@@ -90,7 +107,7 @@ class ObjectiveTab extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: DropdownButton(
                             underline: Container(),
-                            hint: Text('Filter by Sections'),
+                            hint: Text('Filter Assessments by Sections'),
                             items: [
                                   DropdownMenuItem(
                                     child: Text('All'),
@@ -121,7 +138,7 @@ class ObjectiveTab extends StatelessWidget {
                           child: DropdownButton(
                             isDense: true,
                             underline: Container(),
-                            hint: Text('Filter by Subjects'),
+                            hint: Text('Filter Assessments by Subjects'),
                             items: state.subjects,
                             onChanged: (value) => value == 1234567890
                                 ? context.bloc<ConductedBloc>().add(

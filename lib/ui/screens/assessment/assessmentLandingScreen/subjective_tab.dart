@@ -81,6 +81,7 @@ class SubjectiveTab extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.all(10),
                     child: DropdownButton(
+                      underline: Container(),
                       hint: Text('Filter by Subjects'),
                       items: state.subjects,
                       onChanged: (value) => value == 1234567890

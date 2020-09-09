@@ -68,7 +68,10 @@ class AssessmentTile extends StatelessWidget {
               ),
             ),
           ),
-          if (startTime.isNotEmpty && doe.isNotEmpty)
+          if (startTime != null &&
+              doe != null &&
+              startTime.isNotEmpty &&
+              doe.isNotEmpty)
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(10),
