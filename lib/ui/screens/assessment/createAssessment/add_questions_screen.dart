@@ -1,6 +1,7 @@
 import 'package:edwisely/data/blocs/assessmentLandingScreen/addQuestionScreen/add_question_bloc.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_from_selected_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/upload_excel_tab.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
@@ -95,21 +96,9 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                         create: (BuildContext context) => AddQuestionBloc(),
                         child: TypeQuestionTab(),
                       ),
-                      Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            FlatButton(
-                              onPressed: null,
-                              child: Text('Excel Template Download'),
-                            ),
-                            FlatButton(
-                              onPressed: null,
-                              child: Text('Upload Template'),
-                            ),
-                          ],
-                        ),
+                      BlocProvider(
+                        create: (BuildContext context) => AddQuestionBloc(),
+                        child: UploadExcelTab(),
                       ),
                       BlocProvider(
                         create: (BuildContext context) => AddQuestionBloc(),

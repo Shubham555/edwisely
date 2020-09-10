@@ -21,7 +21,6 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     if (event is GetObjectiveTests) {
       final assessmentResponse =
           await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests');
-
       if (assessmentResponse.statusCode == 200) {
         yield ObjectiveSuccess(
           AssessmentsEntity.fromJsonMap(assessmentResponse.data),

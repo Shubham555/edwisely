@@ -8,3 +8,9 @@ class AddQuestion extends AddQuestionEvent {
 
   AddQuestion(this.questionType);
 }
+
+class UploadExcel extends AddQuestionEvent {
+  final File file;
+
+  UploadExcel(this.file);
+}
