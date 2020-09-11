@@ -114,7 +114,7 @@ class CourseDetailAboutTab extends StatelessWidget {
                           Text(
                             'Mode of Instruction',
                             style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontSize: MediaQuery.of(context).size.height / 50,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -122,7 +122,7 @@ class CourseDetailAboutTab extends StatelessWidget {
                           Text(
                             'Your Classes',
                             style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontSize: MediaQuery.of(context).size.height / 60,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

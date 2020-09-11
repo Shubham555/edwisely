@@ -47,73 +47,77 @@ class CoursesLandingScreen extends StatelessWidget {
                   SizedBox(
                     height: 30,
                   ),
-                  Wrap(
-                    runSpacing: 30,
-                    spacing: 30,
-                    children: List.generate(
-                      state.coursesEntity.data.length,
-                      (index) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) => BlocProvider(
-                                  create: (BuildContext context) =>
-                                      CoursesBloc(),
-                                  child: CourseDetailScreen(
-                                    state.coursesEntity.data[index].name,
-                                    state.coursesEntity.data[index]
-                                        .subject_semester_id,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        runSpacing: 30,
+                        spacing: 30,
+                        children: List.generate(
+                          state.coursesEntity.data.length,
+                          (index) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) => BlocProvider(
+                                      create: (BuildContext context) =>
+                                          CoursesBloc(),
+                                      child: CourseDetailScreen(
+                                        state.coursesEntity.data[index].name,
+                                        state.coursesEntity.data[index]
+                                            .subject_semester_id,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                child: Container(
+                                  width: 150,
+                                  height: 150,
+                                  child: Card(
+                                    child: state.coursesEntity.data[index]
+                                                .course_image ==
+                                            ''
+                                        ? Icon(
+                                            Icons.book,
+                                            size: 50,
+                                          )
+                                        : Image.network(state.coursesEntity
+                                            .data[index].course_image),
                                   ),
                                 ),
                               ),
-                            ),
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              child: Card(
-                                child: state.coursesEntity.data[index]
-                                            .course_image ==
-                                        ''
-                                    ? Icon(
-                                        Icons.book,
-                                        size: 50,
-                                      )
-                                    : Image.network(state.coursesEntity
-                                        .data[index].course_image),
+                              Container(
+                                width: 150,
+                                child: Text(
+                                  state.coursesEntity.data[index].name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Container(
-                            width: 150,
-                            child: Text(
-                              state.coursesEntity.data[index].name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
+                              Text(
+                                'Classes you teach',
+                                style: TextStyle(
+                                  color: Color(0xFF787878),
+                                ),
                               ),
-                            ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List.generate(
+                                  state.coursesEntity.data[index].sections.length,
+                                  (index) => Text(
+                                    state.coursesEntity.data[index].sections[index]
+                                        .name,
+                                    style: TextStyle(),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          Text(
-                            'Classes you teach',
-                            style: TextStyle(
-                              color: Color(0xFF787878),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(
-                              state.coursesEntity.data[index].sections.length,
-                              (index) => Text(
-                                state.coursesEntity.data[index].sections[index]
-                                    .name,
-                                style: TextStyle(),
-                              ),
-                            ),
-                          )
-                        ],
+                        ),
                       ),
                     ),
                   ),

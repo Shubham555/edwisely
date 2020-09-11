@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:edwisely/data/api/api.dart';
+import 'package:edwisely/data/model/course/courseDeckEntity/CourseDeckEntity.dart';
 import 'package:edwisely/data/model/course/courseEntity/CourseEntity.dart';
 import 'package:edwisely/data/model/course/coursesEntity/CoursesEntity.dart';
+import 'package:edwisely/data/model/course/getAllCourses/GetAllCoursesEntity.dart';
 import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';
+import 'package:edwisely/data/model/course/syllabusEntity/SyllabusEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -101,6 +104,41 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       if (response.statusCode == 200) {
         yield CourseAboutDetailsFetched(
           CourseEntity.fromJsonMap(response.data),
+        );
+      } else {
+        yield CoursesFetchFailed();
+      }
+    }
+    if (event is GetCourseSyllabus) {
+      final response = await EdwiselyApi.dio.get(
+          'getCourseSyllabus?subject_semester_id=${event.subjectSemesterId}');
+      if (response.statusCode == 200) {
+        yield CourseSyllabusFetched(
+          SyllabusEntity.fromJsonMap(response.data),
+        );
+      } else {
+        yield CoursesFetchFailed();
+      }
+    }
+    if (event is GetCourseContentData) {
+      final response = await EdwiselyApi.dio.get('getCourseDecks?unit_id=593');
+      if (response.statusCode == 200) {
+        if (response.data['message'] != 'No data to fetch') {
+          yield CourseContentDataFetched(
+            CourseDeckEntity.fromJsonMap(response.data),
+          );
+        } else {
+          yield CoursesEmpty();
+        }
+      } else {
+        yield CoursesFetchFailed();
+      }
+    }
+    if (event is GetAllCourses) {
+      final response = await EdwiselyApi.dio.get('getCourses');
+      if (response.statusCode == 200) {
+        yield AllCoursesFetched(
+          GetAllCoursesEntity.fromJsonMap(response.data),
         );
       } else {
         yield CoursesFetchFailed();

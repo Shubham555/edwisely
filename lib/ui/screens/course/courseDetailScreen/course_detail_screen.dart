@@ -78,11 +78,21 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
             child: CourseDetailAboutTab(),
           ),
           BlocProvider(
-            create: (BuildContext context) => CoursesBloc(),
+            create: (BuildContext context) => CoursesBloc()
+              ..add(
+                GetCourseSyllabus(
+                  widget.semesterSubjectId,
+                ),
+              ),
             child: CourseDetailSyllabusTab(),
           ),
           BlocProvider(
-            create: (BuildContext context) => CoursesBloc(),
+            create: (BuildContext context) => CoursesBloc()
+              ..add(
+                GetCourseContentData(
+                  widget.semesterSubjectId,
+                ),
+              ),
             child: CourseDetailCourseContentTab(),
           ),
           BlocProvider(

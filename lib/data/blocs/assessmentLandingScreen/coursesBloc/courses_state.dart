@@ -5,6 +5,8 @@ abstract class CoursesState {}
 
 class CoursesInitial extends CoursesState {}
 
+class CoursesEmpty extends CoursesState {}
+
 class CoursesFetched extends CoursesState {
   final CoursesEntity coursesEntity;
 
@@ -36,4 +38,26 @@ class CourseAboutDetailsFetched extends CoursesState {
   final CourseEntity courseEntity;
 
   CourseAboutDetailsFetched(this.courseEntity);
+}
+
+class CourseSyllabusFetched extends CoursesState {
+  final SyllabusEntity syllabusEntity;
+
+  CourseSyllabusFetched(this.syllabusEntity);
+}
+
+class CourseContentDataFetched extends CoursesState {
+  final CourseDeckEntity courseDeckEntity;
+
+  // final SyllabusEntity syllabusEntity;
+
+  CourseContentDataFetched(
+    this.courseDeckEntity,
+  );
+}
+
+class AllCoursesFetched extends CoursesState {
+  final GetAllCoursesEntity getAllCoursesEntity;
+
+  AllCoursesFetched(this.getAllCoursesEntity);
 }

@@ -24,3 +24,17 @@ class GetCourse extends CoursesEvent {
 
   GetCourse(this.subjectSemesterId);
 }
+
+class GetCourseSyllabus extends CoursesEvent {
+  final int subjectSemesterId;
+
+  GetCourseSyllabus(this.subjectSemesterId);
+}
+
+class GetCourseContentData extends CoursesEvent {
+  final int unitId;
+
+  GetCourseContentData(this.unitId);
+}
+
+class GetAllCourses extends CoursesEvent {}
