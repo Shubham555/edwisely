@@ -1,8 +1,7 @@
 import 'dart:developer';
-import 'dart:html';
 
 import 'package:edwisely/data/blocs/assessmentLandingScreen/addQuestionScreen/add_question_bloc.dart';
-import 'package:file_picker_web/file_picker_web.dart';
+import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 
 class UploadExcelTab extends StatefulWidget {
@@ -11,7 +10,8 @@ class UploadExcelTab extends StatefulWidget {
 }
 
 class _UploadExcelTabState extends State<UploadExcelTab> {
-  File _excelFile;
+  FilePickerCross _excelFile;
+  final _bloc = AddQuestionBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,9 @@ class _UploadExcelTabState extends State<UploadExcelTab> {
                 child: Padding(
                   padding: const EdgeInsets.all(50),
                   child: FloatingActionButton.extended(
-                    onPressed: () => context.bloc<AddQuestionBloc>(),
+                    onPressed: () => _bloc.add(
+                      UploadExcel(_excelFile),
+                    ),
                     icon: Icon(Icons.upload_file),
                     label: Text('Upload'),
                   ),
@@ -53,13 +55,14 @@ class _UploadExcelTabState extends State<UploadExcelTab> {
 
   _selectFile(BuildContext context) async {
     //todo get excel files extensions
-    _excelFile = await FilePicker.getFile(
-      allowedExtensions: ['xlsx', 'xls'],
-    );
-    if (_excelFile.name.contains('xlsx') || _excelFile.name.contains('xls')) {
+   _excelFile =  await FilePickerCross.importFromStorage(
+       type: FileTypeCross.any,
+       fileExtension: '.xlsx, .xls'
+   );
+    if (_excelFile.fileName.contains('xlsx') || _excelFile.fileName.contains('xls')) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
-          content: Text('Selected ${_excelFile.name}'),
+          content: Text('Selected ${_excelFile.fileName}'),
         ),
       );
     } else {

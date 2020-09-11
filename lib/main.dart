@@ -12,10 +12,10 @@ class EdWisely extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Edwisely',
-      theme: EdwiselyTheme.themeDataEdwisely,
-      debugShowCheckedModeBanner: false,
-      home: AddQuestionsScreen(
+        title: 'Edwisely',
+        theme: EdwiselyTheme.themeDataEdwisely,
+        debugShowCheckedModeBanner: false,
+        home: AddQuestionsScreen(
         'T',
         'dfvdf',
         10,

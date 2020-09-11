@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
+import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:meta/meta.dart';
 
 part 'add_question_event.dart';
@@ -22,7 +22,14 @@ class AddQuestionBloc extends Bloc<AddQuestionEvent, AddQuestionState> {
       final response = await EdwiselyApi.dio.post(
         'questionnaireWeb/uploadObjectiveQuestions',
         data: FormData.fromMap(
-          {'files': event.file, 'topics': ''},
+          {
+            'files': MultipartFile.fromBytes(event.file.toUint8List(),
+                filename: event.file.fileName),
+            'topics': [
+              {'id': 13779, 'type': 'sdvsd'},
+              {'id': 13780, 'type': 'sdvsd'},
+            ]
+          },
         ),
       );
       print(response.data);

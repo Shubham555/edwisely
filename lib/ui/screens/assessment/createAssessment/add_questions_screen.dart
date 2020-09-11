@@ -39,79 +39,110 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BigAppBar(
-        actions: [],
-        bottomTab: null,
-        appBarSize: MediaQuery.of(context).size.height / 3.5,
-        appBarTitle: Text(
-          'Edwisely',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+        appBar: BigAppBar(
+          actions: [],
+          bottomTab: null,
+          appBarSize: MediaQuery.of(context).size.height / 3.5,
+          appBarTitle: Text(
+            'Edwisely',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        flatButton: FlatButton(
-          onPressed: () => null,
-          child: Text('Save'),
-        ),
-        titleText: 'Add Questions to ${widget._title} Assessment',
-      ).build(context),
-      body: Row(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 5,
-            color: Colors.grey.withOpacity(.5),
+          flatButton: FlatButton(
+            onPressed: () => null,
+            child: Text('Save'),
           ),
-          Expanded(
-            child: Column(
-              children: [
-                TabBar(
-                  labelPadding: EdgeInsets.symmetric(horizontal: 30),
-                  indicatorColor: Colors.white,
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.grey,
-                  unselectedLabelStyle:
-                      TextStyle(fontWeight: FontWeight.normal),
-                  labelStyle:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  controller: _questionController,
-                  tabs: [
-                    Tab(
-                      text: 'Type Question',
+          titleText: 'Add Questions to ${widget._title} Assessment',
+        ).build(context),
+        body: Row(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width / 5,
+              color: Colors.grey.withOpacity(.5),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                children: [
+                  Text(
+                    'Create Questions',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: MediaQuery.of(context).size.height / 40,
                     ),
-                    Tab(
-                      text: 'Upload Question',
-                    ),
-                    Tab(
-                      text: 'Choose from Existing',
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _questionController,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
                     children: [
-                      BlocProvider(
-                        create: (BuildContext context) => AddQuestionBloc(),
-                        child: TypeQuestionTab(),
+                      GestureDetector(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.add_circle_outline,
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text('Add Questions')
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                      BlocProvider(
-                        create: (BuildContext context) => AddQuestionBloc(),
-                        child: UploadExcelTab(),
+                      GestureDetector(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.upload_file,
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text('Upload Questions')
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                      BlocProvider(
-                        create: (BuildContext context) => AddQuestionBloc(),
-                        child: ChooseFromSelectedTab(),
+                      GestureDetector(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.handyman,
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Wrap(children: [Text('Choose From Question Bank')])
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ],
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          )
-        ],
-      ),
-    );
+          ],
+        )
+
+        );
   }
 }

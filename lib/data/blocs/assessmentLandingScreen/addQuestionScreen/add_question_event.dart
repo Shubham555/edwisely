@@ -10,7 +10,7 @@ class AddQuestion extends AddQuestionEvent {
 }
 
 class UploadExcel extends AddQuestionEvent {
-  final File file;
+  final FilePickerCross file;
 
   UploadExcel(this.file);
 }

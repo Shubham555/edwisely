@@ -12,7 +12,8 @@ dependencies:
   flutter_bloc: ^6.0.5
   dio: ^3.0.10
   intl: ^0.16.1
-  file_picker_web: ^1.0.2+1
+  file_picker_cross: ^4.2.1
+  flutter_duration_picker: ^1.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
