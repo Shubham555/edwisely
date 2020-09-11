@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/coursesEntity/CoursesEntity.dart';
-import 'package:edwisely/data/model/assessment/sectionEntity/SectionEntity.dart';
+import 'package:edwisely/data/model/course/courseEntity/CourseEntity.dart';
+import 'package:edwisely/data/model/course/coursesEntity/CoursesEntity.dart';
+import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -86,7 +87,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       final response = await EdwiselyApi.dio.get(
           //todo change to event
           'getCourseDepartmentSections?university_degree_department_id=71');
-      print(response.data);
       if (response.statusCode == 200) {
         yield SectionsFetched(
           SectionEntity.fromJsonMap(response.data),
@@ -95,5 +95,22 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         yield CoursesFetchFailed();
       }
     }
+    if (event is GetCourse) {
+      final response = await EdwiselyApi.dio.get(
+          'getCourseDetails?subject_semester_id=${event.subjectSemesterId}');
+      if (response.statusCode == 200) {
+        yield CourseAboutDetailsFetched(
+          CourseEntity.fromJsonMap(response.data),
+        );
+      } else {
+        yield CoursesFetchFailed();
+      }
+    }
+  }
+
+  @override
+  void onTransition(Transition<CoursesEvent, CoursesState> transition) {
+    print(transition);
+    super.onTransition(transition);
   }
 }

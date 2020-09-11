@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/assessment/coursesEntity/sections.dart';
+import 'package:edwisely/data/model/course/coursesEntity/sections.dart';
 
 class Data {
 

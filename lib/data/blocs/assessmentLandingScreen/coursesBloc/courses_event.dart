@@ -12,9 +12,15 @@ class GetSections extends CoursesEvent {
 
   GetSections(this.universityDegreeDepartmentId);
 }
+
 class GetSectionsAndGetCoursesList extends CoursesEvent {
   final int universityDegreeDepartmentId;
 
   GetSectionsAndGetCoursesList(this.universityDegreeDepartmentId);
 }
 
+class GetCourse extends CoursesEvent {
+  final int subjectSemesterId;
+
+  GetCourse(this.subjectSemesterId);
+}

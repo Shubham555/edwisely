@@ -31,3 +31,9 @@ class SectionsAndGetCoursesListFetched extends CoursesState {
 
   SectionsAndGetCoursesListFetched(this.subjects, this.sections);
 }
+
+class CourseAboutDetailsFetched extends CoursesState {
+  final CourseEntity courseEntity;
+
+  CourseAboutDetailsFetched(this.courseEntity);
+}

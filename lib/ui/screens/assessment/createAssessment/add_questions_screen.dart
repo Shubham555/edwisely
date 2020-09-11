@@ -77,60 +77,107 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                     height: 20,
                   ),
                   Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      GestureDetector(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.add_circle_outline,
-                                  size: 40,
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Text('Add Questions')
-                              ],
+                      Container(
+                        width: 150,
+                        height: 150,
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => BlocProvider(
+                                create: (BuildContext context) =>
+                                    AddQuestionBloc(),
+                                child: TypeQuestionTab(),
+                              ),
+                            ),
+                          ),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add_circle_outline,
+                                    size: 45,
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text('Add Questions')
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.upload_file,
-                                  size: 40,
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Text('Upload Questions')
-                              ],
+                      Container(
+                        width: 150,
+                        height: 150,
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => BlocProvider(
+                                create: (BuildContext context) =>
+                                    AddQuestionBloc(),
+                                child: UploadExcelTab(),
+                              ),
+                            ),
+                          ),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.upload_file,
+                                    size: 45,
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text('Upload Questions')
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.handyman,
-                                  size: 40,
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Wrap(children: [Text('Choose From Question Bank')])
-                              ],
+                      Container(
+                        width: 150,
+                        height: 150,
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => BlocProvider(
+                                create: (BuildContext context) =>
+                                    AddQuestionBloc(),
+                                child: ChooseFromSelectedTab(),
+                              ),
+                            ),
+                          ),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.handyman,
+                                    size: 45,
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text('Choose from Question Bank')
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -141,8 +188,6 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
               ),
             ),
           ],
-        )
-
-        );
+        ));
   }
 }

@@ -1,12 +1,13 @@
-import 'package:edwisely/data/model/assessment/coursesEntity/data.dart';
 
-class CoursesEntity {
+import 'data.dart';
+
+class SectionEntity {
 
   int status;
   String message;
   List<Data> data;
 
-	CoursesEntity.fromJsonMap(Map<String, dynamic> map): 
+	SectionEntity.fromJsonMap(Map<String, dynamic> map): 
 		status = map["status"],
 		message = map["message"],
 		data = List<Data>.from(map["data"].map((it) => Data.fromJsonMap(it)));
