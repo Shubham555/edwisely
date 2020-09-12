@@ -38,3 +38,11 @@ class GetCourseContentData extends CoursesEvent {
 }
 
 class GetAllCourses extends CoursesEvent {}
+
+class AddCourseToFaculty extends CoursesEvent {
+  final int subjectId;
+  final int subjectSemesterId;
+  final List<int> sections;
+
+  AddCourseToFaculty(this.subjectId, this.subjectSemesterId, this.sections);
+}

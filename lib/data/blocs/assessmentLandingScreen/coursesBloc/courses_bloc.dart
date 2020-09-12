@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/model/course/courseDeckEntity/CourseDeckEntity.dart';
 import 'package:edwisely/data/model/course/courseEntity/CourseEntity.dart';
@@ -135,11 +136,37 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetAllCourses) {
-      final response = await EdwiselyApi.dio.get('getCourses');
-      if (response.statusCode == 200) {
+      final response = await Future.wait([
+        EdwiselyApi.dio.get('getCourses'),
+        EdwiselyApi.dio.get(
+            'getCourseDepartmentSections?university_degree_department_id=71'),
+      ]);
+      if (response[0].statusCode == 200 && response[1].statusCode == 200) {
         yield AllCoursesFetched(
-          GetAllCoursesEntity.fromJsonMap(response.data),
-        );
+            GetAllCoursesEntity.fromJsonMap(response[0].data),
+            SectionEntity.fromJsonMap(response[1].data));
+      } else {
+        yield CoursesFetchFailed();
+      }
+    }
+    if (event is AddCourseToFaculty) {
+      print(event.sections);
+      final response = await EdwiselyApi.dio.post(
+        'addFacultyCourseSections',
+        data: FormData.fromMap(
+          {
+            'subject_id': event.subjectId,
+            'subject_semester_id': event.subjectSemesterId,
+            'sections': event.sections[0]
+          },
+        ),
+      );
+      print(response.data);
+      if (response.statusCode == 200) {
+        if (response.data['message'] ==
+            'Successfully updated the course details') {
+          yield CourseAdded();
+        }
       } else {
         yield CoursesFetchFailed();
       }

@@ -1,19 +1,29 @@
+import 'package:chips_choice/chips_choice.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/addQuestionScreen/add_question_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/objectiveBloc/objective_bloc.dart';
 import 'package:edwisely/data/blocs/assessmentLandingScreen/subjectiveBloc/subjective_bloc.dart';
+import 'package:edwisely/data/model/course/coursesEntity/data.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CreateAssessmentScreen extends StatelessWidget {
+class CreateAssessmentScreen extends StatefulWidget {
   final QuestionType _questionType;
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  int _selectedCourseId;
 
   CreateAssessmentScreen(this._questionType);
+
+  @override
+  _CreateAssessmentScreenState createState() => _CreateAssessmentScreenState();
+}
+
+class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
+  final TextEditingController _titleController = TextEditingController();
+
+  final TextEditingController _descriptionController = TextEditingController();
+
+  int _selectedCourseId;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +55,7 @@ class CreateAssessmentScreen extends StatelessWidget {
                           _titleController.text,
                           _descriptionController.text,
                           10,
-                          _questionType,
+                          widget._questionType,
                           state.assessmentId,
                         ),
                       ),
@@ -75,7 +85,7 @@ class CreateAssessmentScreen extends StatelessWidget {
                           _titleController.text,
                           _descriptionController.text,
                           10,
-                          _questionType,
+                          widget._questionType,
                           state.assessmentId,
                         ),
                       ),
@@ -102,7 +112,7 @@ class CreateAssessmentScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    'Create new ${_questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
+                    'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: MediaQuery.of(context).size.width / 50),
@@ -145,28 +155,18 @@ class CreateAssessmentScreen extends StatelessWidget {
                         );
                       }
                       if (state is CoursesFetched) {
-                        return Wrap(
-                          spacing: 20,
-                          children: List.generate(
-                            state.coursesEntity.data.length + 1,
-                            (index) {
-                              if (index < state.coursesEntity.data.length) {
-                                return _createCourseCard(
-                                    state.coursesEntity.data[index].name, () {
-                                  _selectedCourseId =
-                                      state.coursesEntity.data[index].id;
-                                  Scaffold.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          'Selected ${state.coursesEntity.data[index].name}'),
-                                    ),
-                                  );
-                                });
-                              } else {
-                                return _createCourseCard('Add Subject', null);
-                              }
-                            },
+                        return ChipsChoice<int>.single(
+                          isWrapped: true,
+                          value: _selectedCourseId,
+                          options: ChipsChoiceOption.listFrom(
+                            source: state.coursesEntity.data,
+                            value: (id, Data data) => data.id,
+                            label: (id, Data data) => data.name,
                           ),
+                          onChanged: (val) {
+                            setState(() => _selectedCourseId = val);
+                            print(_selectedCourseId);
+                          },
                         );
                       }
                     },
@@ -245,7 +245,7 @@ class CreateAssessmentScreen extends StatelessWidget {
         ),
       );
       return null;
-    } else if (_questionType == QuestionType.Objective) {
+    } else if (widget._questionType == QuestionType.Objective) {
       BlocProvider.of<ObjectiveBloc>(context).add(
         CreateObjectiveQuestionnaire(
           _titleController.text,

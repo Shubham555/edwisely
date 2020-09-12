@@ -61,7 +61,8 @@ class CoursesLandingScreen extends StatelessWidget {
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (BuildContext context) => BlocProvider(
+                                    builder: (BuildContext context) =>
+                                        BlocProvider(
                                       create: (BuildContext context) =>
                                           CoursesBloc(),
                                       child: CourseDetailScreen(
@@ -107,10 +108,11 @@ class CoursesLandingScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: List.generate(
-                                  state.coursesEntity.data[index].sections.length,
-                                  (index) => Text(
-                                    state.coursesEntity.data[index].sections[index]
-                                        .name,
+                                  state.coursesEntity.data[index].sections
+                                      .length,
+                                  (index1) => Text(
+                                    state.coursesEntity.data[index]
+                                        .sections[index1].name,
                                     style: TextStyle(),
                                   ),
                                 ),

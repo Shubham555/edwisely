@@ -58,6 +58,9 @@ class CourseContentDataFetched extends CoursesState {
 
 class AllCoursesFetched extends CoursesState {
   final GetAllCoursesEntity getAllCoursesEntity;
+  final SectionEntity sectionEntity;
 
-  AllCoursesFetched(this.getAllCoursesEntity);
+  AllCoursesFetched(this.getAllCoursesEntity, this.sectionEntity);
 }
+
+class CourseAdded extends CoursesState {}
