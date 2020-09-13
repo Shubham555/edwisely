@@ -1,5 +1,5 @@
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_bloc.dart';
+import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/model/course/getAllCourses/data.dart';
 import 'package:edwisely/data/model/course/getAllCourses/departments.dart';
 import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';

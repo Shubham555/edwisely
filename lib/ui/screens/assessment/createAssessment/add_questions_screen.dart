@@ -1,4 +1,4 @@
-import 'package:edwisely/data/blocs/assessmentLandingScreen/addQuestionScreen/add_question_bloc.dart';
+import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_from_selected_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/upload_excel_tab.dart';

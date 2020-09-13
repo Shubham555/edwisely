@@ -1,4 +1,4 @@
-import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_bloc.dart';
+import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/ui/screens/course/add_course_screen.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';

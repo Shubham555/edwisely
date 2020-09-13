@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:edwisely/data/blocs/assessmentLandingScreen/addQuestionScreen/add_question_bloc.dart';
+import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 

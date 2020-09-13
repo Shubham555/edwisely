@@ -1,7 +1,7 @@
-import 'package:edwisely/data/blocs/assessmentLandingScreen/conductdBloc/conducted_bloc.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/objectiveBloc/objective_bloc.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/subjectiveBloc/subjective_bloc.dart';
+import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
+import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
+import 'package:edwisely/data/blocs/objectiveBloc/objective_bloc.dart';
+import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/conducted_tab.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/objective_tab.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/subjective_tab.dart';

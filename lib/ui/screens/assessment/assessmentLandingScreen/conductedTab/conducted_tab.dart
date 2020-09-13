@@ -1,5 +1,5 @@
-import 'package:edwisely/data/blocs/assessmentLandingScreen/conductdBloc/conducted_bloc.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_bloc.dart';
+import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
+import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/objective_tab.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/subjective_tab.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:edwisely/data/blocs/assessmentLandingScreen/addQuestionScreen/add_question_bloc.dart';
+import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
 import 'package:edwisely/util/date_utild.dart';
 import 'package:flutter/material.dart';

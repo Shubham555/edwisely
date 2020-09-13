@@ -17,13 +17,13 @@ class EdWisely extends StatelessWidget {
         theme: EdwiselyTheme.themeDataEdwisely,
         debugShowCheckedModeBanner: false,
         home: CoursesLandingScreen()
-      //   AddQuestionsScreen(
-      //   'T',
-      //   'dfdf',
-      //   10,
-      //   QuestionType.Objective,
-      //   2052,
-      // ),
-    );
+        //   AddQuestionsScreen(
+        //   'T',
+        //   'dfdf',
+        //   10,
+        //   QuestionType.Objective,
+        //   2052,
+        // ),
+        );
   }
 }

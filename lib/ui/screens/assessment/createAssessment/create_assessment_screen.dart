@@ -1,8 +1,8 @@
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/addQuestionScreen/add_question_bloc.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/objectiveBloc/objective_bloc.dart';
-import 'package:edwisely/data/blocs/assessmentLandingScreen/subjectiveBloc/subjective_bloc.dart';
+import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
+import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
+import 'package:edwisely/data/blocs/objectiveBloc/objective_bloc.dart';
+import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
 import 'package:edwisely/data/model/course/coursesEntity/data.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';

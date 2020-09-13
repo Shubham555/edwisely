@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -157,7 +158,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
           {
             'subject_id': event.subjectId,
             'subject_semester_id': event.subjectSemesterId,
-            'sections': event.sections[0]
+            //todo consider other developers
+            'sections': event.sections
           },
         ),
       );
