@@ -192,9 +192,9 @@ class AddCourseScreen extends StatelessWidget {
                       children: [
                         RaisedButton.icon(
                           onPressed: () {
-                            print('dep : $branch');
-                            print('sec : $sections');
-                            print('subjec : ${data.id}');
+                            print('department : $branch');
+                            print('sections : $sections');
+                            print('subject : ${data.id}');
                             if (branch == null || sections.isEmpty) {
                               Toast.show(
                                   'Please select atleast one section and one department',
