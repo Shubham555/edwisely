@@ -21,9 +21,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesBloc() : super(CoursesInitial());
 
   @override
-  Stream<CoursesState> mapEventToState(
-    CoursesEvent event,
-  ) async* {
+  Stream<CoursesState> mapEventToState(CoursesEvent event,) async* {
     if (event is GetCoursesByFaculty) {
       final response = await EdwiselyApi.dio.get('getFacultyCourses');
       if (response.statusCode == 200) {
@@ -42,8 +40,11 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             value: 1234567890,
           ),
         );
-        CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
-          (element) {
+        CoursesEntity
+            .fromJsonMap(subjectResponse.data)
+            .data
+            .forEach(
+              (element) {
             subjects.add(
               DropdownMenuItem(
                 child: Text(element.name),
@@ -59,7 +60,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     }
     if (event is GetSectionsAndGetCoursesList) {
       final response = await EdwiselyApi.dio.get(
-          //todo change to event
+        //todo change to event
           'getCourseDepartmentSections?university_degree_department_id=71');
       final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses');
       if (response.statusCode == 200 && subjectResponse.statusCode == 200) {
@@ -70,8 +71,11 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             value: 1234567890,
           ),
         );
-        CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
-          (element) {
+        CoursesEntity
+            .fromJsonMap(subjectResponse.data)
+            .data
+            .forEach(
+              (element) {
             subjects.add(
               DropdownMenuItem(
                 child: Text(element.name),
@@ -90,7 +94,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     }
     if (event is GetSections) {
       final response = await EdwiselyApi.dio.get(
-          //todo change to event
+        //todo change to event
           'getCourseDepartmentSections?university_degree_department_id=71');
       if (response.statusCode == 200) {
         yield SectionsFetched(
@@ -159,7 +163,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             'subject_id': event.subjectId,
             'subject_semester_id': event.subjectSemesterId,
             //todo consider other developers
-            'sections': event.sections
+            'sections': '[684, 685]'
           },
         ),
       );
@@ -175,9 +179,4 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     }
   }
 
-  @override
-  void onTransition(Transition<CoursesEvent, CoursesState> transition) {
-    print(transition);
-    super.onTransition(transition);
-  }
 }
