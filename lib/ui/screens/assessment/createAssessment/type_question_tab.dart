@@ -237,13 +237,16 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                   height: height * 0.02,
                 ),
                 RaisedButton(
-                  color: Colors.amber,
+                  color: Color(0xFF1D2B64),
                   onPressed: () {
                     setState(() {
                       widget.quesCounter += 1;
                     });
                   },
-                  child: Text("Save"),
+                  child: Text(
+                    "Save",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 )
               ],
             ),

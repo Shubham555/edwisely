@@ -17,14 +17,16 @@ dependencies:
   dropdown_search: ^0.4.4
   chips_choice: ^1.2.0
   toast: ^0.1.5
+  provider: ^4.3.2+2
 dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter:
   uses-material-design: true
   fonts:
-  - family: Poppins
-    fonts:
-    - asset: fonts/Poppins/Poppins-Regular.ttf
-    - asset: fonts/Poppins/Poppins-Italic.ttf
-      style: italic
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins/Poppins-Regular.ttf
+        - asset: fonts/Poppins/Poppins-Italic.ttf
+          style: italic
+
