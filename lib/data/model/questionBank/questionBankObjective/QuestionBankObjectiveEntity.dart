@@ -2,8 +2,8 @@ import 'package:edwisely/data/model/questionBank/questionBankObjective/data.dart
 
 class QuestionBankObjectiveEntity {
 
-  int status;
-  String message;
+  var status;
+  var message;
   List<Data> data;
 
 	QuestionBankObjectiveEntity.fromJsonMap(Map<String, dynamic> map): 

@@ -67,7 +67,6 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
             QuestionBankAllEntity.fromJsonMap(
           response.data,
         );
-        print(response.data);
         List<DropdownMenuItem> dropDownMenuItem = [
               DropdownMenuItem(
                 child: Text('All'),

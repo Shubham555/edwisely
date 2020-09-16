@@ -159,8 +159,8 @@ class QuestionBankObjectiveBloc
     // }
     if (event is GetYourObjectiveQuestions) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio
-          .get('questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi.dio.get(
+          'questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}');
       if (response.statusCode == 200) {
         QuestionBankObjectiveEntity questionEntity =
             QuestionBankObjectiveEntity.fromJsonMap(
@@ -192,5 +192,10 @@ class QuestionBankObjectiveBloc
         yield QuestionBankObjectiveFetchFailed();
       }
     }
+  }
+  @override
+  void onTransition(Transition<QuestionBankObjectiveEvent, QuestionBankObjectiveState> transition) {
+    print(transition);
+    super.onTransition(transition);
   }
 }

@@ -2,20 +2,20 @@
 class Data {
 
   int id;
-  int blooms_level;
-  int marks;
-  String outcome;
-  int bookmarked;
-  String college_account_id;
-  String question_type;
+  var blooms_level;
+  var marks;
+  var outcome;
+  var bookmarked;
+  var college_account_id;
+  var question_type;
   List<String> evaluation_schema_url;
   List<String> question_img;
-  String type;
-  int type_id;
-  String type_name;
-  String type_code;
+  var type;
+  var type_id;
+  var type_name;
+  var type_code;
 
-	Data.fromJsonMap(Map<String, dynamic> map): 
+	Data.fromJsonMap(Map<String, dynamic> map):
 		id = map["id"],
 		blooms_level = map["blooms_level"],
 		marks = map["marks"],

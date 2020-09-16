@@ -193,4 +193,12 @@ class QuestionBankSubjectiveBloc
       }
     }
   }
+
+  @override
+  void onTransition(
+      Transition<QuestionBankSubjectiveEvent, QuestionBankSubjectiveState>
+          transition) {
+    print(transition);
+    super.onTransition(transition);
+  }
 }

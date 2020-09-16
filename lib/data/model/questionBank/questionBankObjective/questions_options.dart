@@ -1,14 +1,14 @@
 
 class Questions_options {
 
-  int id;
-  String name;
-  int is_answer;
-  int media;
-  String option_img;
-  int question_id;
+  var id;
+  var name;
+  var is_answer;
+  var media;
+  var option_img;
+  var question_id;
 
-	Questions_options.fromJsonMap(Map<String, dynamic> map): 
+	Questions_options.fromJsonMap(Map<String, dynamic> map):
 		id = map["id"],
 		name = map["name"],
 		is_answer = map["is_answer"],

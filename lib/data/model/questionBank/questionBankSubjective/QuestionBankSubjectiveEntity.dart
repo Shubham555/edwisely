@@ -2,7 +2,7 @@ import 'package:edwisely/data/model/questionBank/questionBankSubjective/data.dar
 
 class QuestionBankSubjectiveEntity {
 
-  int status;
+  var status;
   String message;
   List<Data> data;
 
