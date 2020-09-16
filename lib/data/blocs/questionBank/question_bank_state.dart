@@ -9,6 +9,8 @@ class QuestionBankFetchFailed extends QuestionBankState {}
 
 class UnitQuestionsFetched extends QuestionBankState {
   final QuestionBankAllEntity questionBankAllEntity;
+  final int unitId;
+  final List<DropdownMenuItem> dropDownList;
 
-  UnitQuestionsFetched(this.questionBankAllEntity);
+  UnitQuestionsFetched(this.questionBankAllEntity, this.unitId, this.dropDownList);
 }

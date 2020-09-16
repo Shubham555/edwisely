@@ -1,25 +1,25 @@
-import 'package:edwisely/data/model/questionBank/questionBankAll/questions_options.dart';
+import 'package:edwisely/data/model/questionBank/questionBankObjective/questions_options.dart';
 
-class Objective_questions {
+class Data {
 
   int id;
-  var name;
-  var media;
-  var bookmarked;
-  var college_account_id;
-  var question_type;
-  var question_img;
-  var math_type;
-  var blooms_level;
-  var solution;
-  var solution_image;
-  var type;
-  var type_id;
-  var type_name;
-  var type_code;
+  String name;
+  int media;
+  int bookmarked;
+  int college_account_id;
+  String question_type;
+  String question_img;
+  int math_type;
+  int blooms_level;
+  String solution;
+  String solution_image;
+  String type;
+  int type_id;
+  String type_name;
+  String type_code;
   List<Questions_options> questions_options;
 
-	Objective_questions.fromJsonMap(Map<String, dynamic> map): 
+	Data.fromJsonMap(Map<String, dynamic> map):
 		id = map["id"],
 		name = map["name"],
 		media = map["media"],
