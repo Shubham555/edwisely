@@ -90,7 +90,12 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                               builder: (BuildContext context) => BlocProvider(
                                 create: (BuildContext context) =>
                                     AddQuestionBloc(),
-                                child: TypeQuestionTab(),
+                                child: TypeQuestionTab(
+                                    widget._title,
+                                    widget._description,
+                                    widget._subjectId,
+                                    widget._questionType,
+                                    widget._assessmentId),
                               ),
                             ),
                           ),
@@ -158,7 +163,12 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                               builder: (BuildContext context) => BlocProvider(
                                 create: (BuildContext context) =>
                                     AddQuestionBloc(),
-                                child: ChooseFromSelectedTab(),
+                                child: ChooseFromSelectedTab(
+                                    widget._title,
+                                    widget._description,
+                                    widget._subjectId,
+                                    widget._questionType,
+                                    widget._assessmentId),
                               ),
                             ),
                           ),
