@@ -3,6 +3,7 @@ import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar_add_questions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+import 'package:edwisely/data/model/add_question/typed_objective_questions.dart';
 
 class TypeQuestionTab extends StatefulWidget {
   final String _title;
@@ -10,6 +11,7 @@ class TypeQuestionTab extends StatefulWidget {
   final int _subjectId;
   final QuestionType _questionType;
   final int _assessmentId;
+  TypedObjectiveQuestionProvider newQues;
   final List<DropdownMenuItem> bloomList = [
     DropdownMenuItem(
       child: Text("Level 1"),
