@@ -1,4 +1,5 @@
 import 'package:chips_choice/chips_choice.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/model/course/getAllCourses/data.dart';
 import 'package:edwisely/data/model/course/getAllCourses/departments.dart';
@@ -45,8 +46,38 @@ class AddCourseScreen extends StatelessWidget {
                         fontSize: MediaQuery.of(context).size.height / 50,
                       ),
                     ),
-                    //todo add search implementation
-
+                    SizedBox(
+                      height: 20,
+                    ),
+                    DropdownSearch(
+                      showClearButton: true,
+                      label: 'Search Courses',
+                      showSearchBox: true,
+                      mode: Mode.MENU,
+                      items: state.getAllCoursesEntity.data,
+                      onChanged: (Data data) => _showDialog(
+                        context,
+                        data,
+                        data.departments,
+                        state.sectionEntity,
+                      ),
+                      showSelectedItem: false,
+                      dropdownBuilder: (context, Data data, String sd) =>
+                          data != null ? Text(data.name) : Text(''),
+                      filterFn: (Data data, String string) =>
+                          data.name.toLowerCase().contains(
+                                string,
+                              ),
+                      popupItemBuilder: (context, Data data, bool) => Container(
+                        padding: EdgeInsets.all(
+                          10,
+                        ),
+                        child: Text(
+                          data.name,
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                        ),
+                      ),
+                    ),
                     Expanded(
                       child: SingleChildScrollView(
                         child: Padding(
