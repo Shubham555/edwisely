@@ -81,42 +81,69 @@ class _CourseDetailQuestionBankTabState
                       }
                     },
                   );
+                  int enabledUnitId = state.units.data[0].id;
 
-                  return ListView.builder(
-                    itemCount: state.units.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text(
-                          state.units.data[index].name,
+                  return StatefulBuilder(
+                    builder: (BuildContext context,
+                        void Function(void Function()) setState) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.units.data.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            ListTile(
+                          hoverColor: Colors.white,
+                          selected: enabledUnitId == state.units.data[index].id,
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                state.units.data[index].name,
+                                style: TextStyle(
+                                    color: enabledUnitId ==
+                                            state.units.data[index].id
+                                        ? Colors.black
+                                        : Colors.grey.shade600,
+                                    fontSize: enabledUnitId ==
+                                            state.units.data[index].id
+                                        ? 25
+                                        : null),
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            enabledUnitId = state.units.data[index].id;
+
+                            setState(
+                              () {},
+                            );
+                            switch (_tabController.index) {
+                              case 0:
+                                context.bloc<QuestionBankBloc>().add(
+                                      GetUnitQuestions(
+                                        widget.subjectId,
+                                        state.units.data[0].id,
+                                      ),
+                                    );
+                                break;
+                              case 1:
+                                context.bloc<QuestionBankObjectiveBloc>().add(
+                                      GetUnitObjectiveQuestions(
+                                        widget.subjectId,
+                                        state.units.data[0].id,
+                                      ),
+                                    );
+                                break;
+                              case 2:
+                                context.bloc<QuestionBankSubjectiveBloc>().add(
+                                      GetUnitSubjectiveQuestions(
+                                        widget.subjectId,
+                                        state.units.data[0].id,
+                                      ),
+                                    );
+                                break;
+                            }
+                          },
                         ),
-                        onTap: () {
-                          switch (_tabController.index) {
-                            case 0:
-                              context.bloc<QuestionBankBloc>().add(
-                                    GetUnitQuestions(
-                                      widget.subjectId,
-                                      state.units.data[0].id,
-                                    ),
-                                  );
-                              break;
-                            case 1:
-                              context.bloc<QuestionBankObjectiveBloc>().add(
-                                    GetUnitObjectiveQuestions(
-                                      widget.subjectId,
-                                      state.units.data[0].id,
-                                    ),
-                                  );
-                              break;
-                            case 2:
-                              context.bloc<QuestionBankSubjectiveBloc>().add(
-                                    GetUnitSubjectiveQuestions(
-                                      widget.subjectId,
-                                      state.units.data[0].id,
-                                    ),
-                                  );
-                              break;
-                          }
-                        },
                       );
                     },
                   );

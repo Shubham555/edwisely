@@ -38,28 +38,24 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                 DropdownButton(
                                     items: [
                                       DropdownMenuItem(
-                                        child: Text('No Level'),
+                                        child: Text('All'),
                                         value: -1,
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('Level 1'),
+                                        child: Text('Remember'),
                                         value: 1,
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('Level 2'),
+                                        child: Text('Understand'),
                                         value: 2,
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('Level 3'),
+                                        child: Text('Apply'),
                                         value: 3,
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('Level 4'),
+                                        child: Text('Analyze'),
                                         value: 4,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text('Level 5'),
-                                        value: 5,
                                       ),
                                     ],
                                     value: levelDropDownValue,

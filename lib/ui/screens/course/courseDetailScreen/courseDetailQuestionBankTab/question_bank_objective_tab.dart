@@ -2,8 +2,6 @@ import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'course_details_objective_part.dart';
-
 class QuestionBankObjectiveTab extends StatefulWidget {
   final int subjectId;
 
@@ -41,28 +39,24 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                 DropdownButton(
                                     items: [
                                       DropdownMenuItem(
-                                        child: Text('No Level'),
+                                        child: Text('All'),
                                         value: -1,
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('Level 1'),
+                                        child: Text('Remember'),
                                         value: 1,
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('Level 2'),
+                                        child: Text('Understand'),
                                         value: 2,
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('Level 3'),
+                                        child: Text('Apply'),
                                         value: 3,
                                       ),
                                       DropdownMenuItem(
-                                        child: Text('Level 4'),
+                                        child: Text('Analyze'),
                                         value: 4,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text('Level 5'),
-                                        value: 5,
                                       ),
                                     ],
                                     value: levelDropDownValue,
@@ -243,28 +237,32 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                 if (state is UnitObjectiveQuestionsFetched) {
                                   return ListView.separated(
                                     shrinkWrap: true,
-                                    itemCount:
-                                    state.questionBankObjectiveEntity.data.length,
-                                    itemBuilder: (BuildContext context, int index) => ListTile(
+                                    itemCount: state.questionBankObjectiveEntity
+                                        .data.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            ListTile(
                                       title: Row(
                                         children: [
                                           Text('Q. ${index + 1}  '),
                                           Expanded(
                                             child: Text(
-                                              state.questionBankObjectiveEntity.data[index].name,
+                                              state.questionBankObjectiveEntity
+                                                  .data[index].name,
                                             ),
                                           ),
                                         ],
                                       ),
                                       subtitle: Text(
-                                        'Level ${ state.questionBankObjectiveEntity.data[index].blooms_level}',
+                                        'Level ${state.questionBankObjectiveEntity.data[index].blooms_level}',
                                       ),
                                       trailing: IconButton(
                                         icon: Icon(Icons.bookmark),
                                         onPressed: null,
                                       ),
                                     ),
-                                    separatorBuilder: (BuildContext context, int index) {
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
                                       return Divider(
                                         thickness: 2,
                                         color: Colors.grey,

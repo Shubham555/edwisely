@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/model/questionBank/questionBankAll/QuestionBankAllEntity.dart';
+import 'package:edwisely/data/model/questionBank/topicEntity/TopicEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -20,40 +21,31 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     if (event is GetUnitQuestions) {
       final response = await EdwiselyApi.dio.get(
           'questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
-      if (response.statusCode == 200) {
-
-        QuestionBankAllEntity questionEntity =
-            QuestionBankAllEntity.fromJsonMap(
-          response.data,
-        );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
-              ),
-            ] +
-            questionEntity.data.subjective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList() +
-            questionEntity.data.objective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
+      //todo fix university_degree_department
+      print(event.subjectId);
+      final topicsResponse = await EdwiselyApi.dio.get(
+          'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71');
+      if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
+        TopicEntity topicEntity = TopicEntity.fromJsonMap(topicsResponse.data);
         yield UnitQuestionsFetched(
           QuestionBankAllEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          [
+                DropdownMenuItem(
+                  child: Text('All'),
+                  value: 1234567890,
+                ),
+              ] +
+              topicEntity.data
+                  ?.map(
+                    (e) => DropdownMenuItem(
+                      child: Text(e.name),
+                      value: e.id,
+                    ),
+                  )
+                  ?.toList(),
         );
       } else {
         yield QuestionBankFetchFailed();

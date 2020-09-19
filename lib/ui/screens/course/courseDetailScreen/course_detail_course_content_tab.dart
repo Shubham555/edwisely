@@ -14,19 +14,51 @@ class CourseDetailCourseContentTab extends StatelessWidget {
           cubit: context.bloc<UnitCubit>(),
           builder: (BuildContext context, state) {
             if (state is CourseUnitFetched) {
+              int enabledUnitId = state.units.data[0].id;
               return Container(
                 width: MediaQuery.of(context).size.width / 5,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.units.data.length,
-                  itemBuilder: (BuildContext context, int index) => ListTile(
-                    title: Text(state.units.data[index].name),
-                    onTap: () => context.bloc<CoursesBloc>().add(
-                          GetCourseContentData(
-                            state.units.data[index].id,
-                          ),
+                child: StatefulBuilder(
+                  builder: (BuildContext context,
+                      void Function(void Function()) setState) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.units.data.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          ListTile(
+                            hoverColor: Colors.white,
+                        selected: enabledUnitId == state.units.data[index].id,
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              state.units.data[index].name,
+                              style: TextStyle(
+                                  color: enabledUnitId ==
+                                          state.units.data[index].id
+                                      ? Colors.black
+                                      : Colors.grey.shade600,
+                                  fontSize: enabledUnitId ==
+                                          state.units.data[index].id
+                                      ? 25
+                                      : null),
+                            ),
+                          ],
                         ),
-                  ),
+                        onTap: () {
+                          enabledUnitId = state.units.data[index].id;
+
+                          setState(
+                            () {},
+                          );
+                          context.bloc<CoursesBloc>().add(
+                                GetCourseContentData(
+                                  state.units.data[index].id,
+                                ),
+                              );
+                        },
+                      ),
+                    );
+                  },
                 ),
               );
             } else {
