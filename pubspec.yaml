@@ -18,6 +18,8 @@ dependencies:
   chips_choice: ^1.2.0
   toast: ^0.1.5
   provider: ^4.3.2+2
+  image_picker: ^0.6.7+8
+  image_picker_for_web: ^0.1.0+2
 dev_dependencies:
   flutter_test:
     sdk: flutter
