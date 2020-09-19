@@ -6,6 +6,7 @@ abstract class QuestionBankObjectiveState {}
 class QuestionBankObjectiveInitial extends QuestionBankObjectiveState {}
 
 class QuestionBankObjectiveFetchFailed extends QuestionBankObjectiveState {}
+class QuestionBankObjectiveEmpty extends QuestionBankObjectiveState {}
 
 class UnitObjectiveQuestionsFetched extends QuestionBankObjectiveState {
   final QuestionBankObjectiveEntity questionBankObjectiveEntity;

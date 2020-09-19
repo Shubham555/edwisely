@@ -21,6 +21,7 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
       final response = await EdwiselyApi.dio.get(
           'questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
       if (response.statusCode == 200) {
+
         QuestionBankAllEntity questionEntity =
             QuestionBankAllEntity.fromJsonMap(
           response.data,

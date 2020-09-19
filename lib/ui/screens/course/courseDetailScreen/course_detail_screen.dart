@@ -28,7 +28,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
   @override
   void initState() {
     _tabController = TabController(length: 4, vsync: this);
-    _tabController.index = 3;
     super.initState();
   }
 

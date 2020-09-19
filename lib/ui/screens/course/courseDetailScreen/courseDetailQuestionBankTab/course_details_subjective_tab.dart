@@ -2,8 +2,6 @@ import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'course_details_subjective_part.dart';
-
 class QuestionBankSubjectiveTab extends StatefulWidget {
   final int subjectId;
 
@@ -239,9 +237,52 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                 ],
                               ),
                             ),
-                            BlocProvider.value(
-                              value: context.bloc<QuestionBankSubjectiveBloc>(),
-                              child: CourseDetailsSubjectivePart(),
+                            BlocBuilder(
+                              cubit: context.bloc<QuestionBankSubjectiveBloc>(),
+                              builder: (BuildContext context, state) {
+                                if (state is UnitSubjectiveQuestionsFetched) {
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: state
+                                        .questionBankSubjectiveEntity
+                                        .data
+                                        .length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            ListTile(
+                                      title: Row(
+                                        children: [
+                                          Text('Q. ${index + 1}'),
+                                          Image.network(
+                                            state.questionBankSubjectiveEntity
+                                                .data[index].question_img[0],
+                                            width: 250,
+                                            height: 250,
+                                          ),
+                                        ],
+                                      ),
+                                      subtitle: Text(
+                                        'Level ${state.questionBankSubjectiveEntity.data[index].blooms_level}',
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.bookmark),
+                                        onPressed: null,
+                                      ),
+                                    ),
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return Divider(
+                                        thickness: 2,
+                                        color: Colors.grey,
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
                             ),
                             FlatButton(
                               hoverColor: Color(0xFF1D2B64).withOpacity(.2),

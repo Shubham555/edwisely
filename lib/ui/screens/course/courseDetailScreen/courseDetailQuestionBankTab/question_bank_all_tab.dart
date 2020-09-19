@@ -2,9 +2,6 @@ import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'course_details_objective_part.dart';
-import 'course_details_subjective_part.dart';
-
 class QuestionBankAllTab extends StatefulWidget {
   final int subjectId;
 
@@ -227,9 +224,53 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                 ],
                               ),
                             ),
-                            BlocProvider.value(
-                              value: context.bloc<QuestionBankBloc>(),
-                              child: CourseDetailsSubjectivePart(),
+                            BlocBuilder(
+                              cubit: context.bloc<QuestionBankBloc>(),
+                              builder: (BuildContext context, state) {
+                                if (state is UnitQuestionsFetched) {
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: state.questionBankAllEntity.data
+                                        .subjective_questions.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            ListTile(
+                                      title: Row(
+                                        children: [
+                                          Text('Q. ${index + 1}'),
+                                          Image.network(
+                                            state
+                                                .questionBankAllEntity
+                                                .data
+                                                .subjective_questions[index]
+                                                .question_img[0],
+                                            width: 250,
+                                            height: 250,
+                                          ),
+                                        ],
+                                      ),
+                                      subtitle: Text(
+                                        'Level ${state.questionBankAllEntity.data.subjective_questions[index].blooms_level}',
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.bookmark),
+                                        onPressed: null,
+                                      ),
+                                    ),
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return Divider(
+                                        thickness: 2,
+                                        color: Colors.grey,
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
                             ),
                             FlatButton(
                               hoverColor: Color(0xFF1D2B64).withOpacity(.2),
@@ -311,9 +352,53 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                 ],
                               ),
                             ),
-                            BlocProvider.value(
-                              value: context.bloc<QuestionBankBloc>(),
-                              child: CourseDetailsObjectivePart(),
+                            BlocBuilder(
+                              cubit: context.bloc<QuestionBankBloc>(),
+                              builder: (BuildContext context, state) {
+                                if (state is UnitQuestionsFetched) {
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: state.questionBankAllEntity.data
+                                        .objective_questions.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            ListTile(
+                                      title: Row(
+                                        children: [
+                                          Text('Q. ${index + 1}  '),
+                                          Expanded(
+                                            child: Text(
+                                              state
+                                                  .questionBankAllEntity
+                                                  .data
+                                                  .objective_questions[index]
+                                                  .name,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      subtitle: Text(
+                                        'Level ${state.questionBankAllEntity.data.objective_questions[index].blooms_level}',
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.bookmark),
+                                        onPressed: null,
+                                      ),
+                                    ),
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return Divider(
+                                        thickness: 2,
+                                        color: Colors.grey,
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
                             ),
                             FlatButton(
                               hoverColor: Color(0xFF1D2B64).withOpacity(.2),

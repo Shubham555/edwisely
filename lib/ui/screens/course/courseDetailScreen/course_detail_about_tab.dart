@@ -18,11 +18,14 @@ class CourseDetailAboutTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Course Description',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
-                            fontWeight: FontWeight.bold,
+                        Visibility(
+                          visible: state.courseEntity.data.description == '',
+                          child: Text(
+                            'Course Description',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         Text(state.courseEntity.data.description),

@@ -237,9 +237,46 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                 ],
                               ),
                             ),
-                            BlocProvider.value(
-                              value: context.bloc<QuestionBankObjectiveBloc>(),
-                              child: CourseDetailsObjectivePart(),
+                            BlocBuilder(
+                              cubit: context.bloc<QuestionBankObjectiveBloc>(),
+                              builder: (BuildContext context, state) {
+                                if (state is UnitObjectiveQuestionsFetched) {
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                    state.questionBankObjectiveEntity.data.length,
+                                    itemBuilder: (BuildContext context, int index) => ListTile(
+                                      title: Row(
+                                        children: [
+                                          Text('Q. ${index + 1}  '),
+                                          Expanded(
+                                            child: Text(
+                                              state.questionBankObjectiveEntity.data[index].name,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      subtitle: Text(
+                                        'Level ${ state.questionBankObjectiveEntity.data[index].blooms_level}',
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.bookmark),
+                                        onPressed: null,
+                                      ),
+                                    ),
+                                    separatorBuilder: (BuildContext context, int index) {
+                                      return Divider(
+                                        thickness: 2,
+                                        color: Colors.grey,
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
                             ),
                             FlatButton(
                               hoverColor: Color(0xFF1D2B64).withOpacity(.2),
