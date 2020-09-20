@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/model/questionBank/questionBankObjective/QuestionBankObjectiveEntity.dart';
+import 'package:edwisely/data/model/questionBank/topicEntity/TopicEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -18,35 +19,39 @@ class QuestionBankObjectiveBloc
   Stream<QuestionBankObjectiveState> mapEventToState(
     QuestionBankObjectiveEvent event,
   ) async* {
+    var currentState = state;
+
     if (event is GetUnitObjectiveQuestions) {
       final response = await EdwiselyApi.dio.get(
           'questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
-      if (response.statusCode == 200) {
-        QuestionBankObjectiveEntity questionEntity =
-            QuestionBankObjectiveEntity.fromJsonMap(
-          response.data,
+      final topicsResponse = await EdwiselyApi.dio.get(
+          'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71');
+      if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
+        List<DropdownMenuItem> dropDownItems = [];
+        dropDownItems.add(
+          DropdownMenuItem(
+            child: Text('All'),
+            value: 1234567890,
+          ),
         );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
+        if (topicsResponse.data['message'] != 'No topics to fetch') {
+          TopicEntity topicEntity =
+              TopicEntity.fromJsonMap(topicsResponse.data);
+          dropDownItems.addAll(
+            topicEntity.data.map(
+              (e) => DropdownMenuItem(
+                child: Text(e.name),
+                value: e.id,
               ),
-            ] +
-            questionEntity.data
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
-        print(questionEntity.data.length);
+            ),
+          );
+        }
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          dropDownItems,
         );
       } else {
         yield QuestionBankObjectiveFetchFailed();
@@ -57,31 +62,14 @@ class QuestionBankObjectiveBloc
       final response = await EdwiselyApi.dio.get(
           'questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}');
       if (response.statusCode == 200) {
-        QuestionBankObjectiveEntity questionEntity =
-            QuestionBankObjectiveEntity.fromJsonMap(
-          response.data,
-        );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
-              ),
-            ] +
-            questionEntity.data
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
-
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          currentState is UnitObjectiveQuestionsFetched
+              ? currentState.dropDownList
+              : null,
         );
       } else {
         yield QuestionBankObjectiveFetchFailed();
@@ -92,110 +80,61 @@ class QuestionBankObjectiveBloc
       final response = await EdwiselyApi.dio.get(
           'questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}');
       if (response.statusCode == 200) {
-        QuestionBankObjectiveEntity questionEntity =
-            QuestionBankObjectiveEntity.fromJsonMap(
-          response.data,
-        );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
-              ),
-            ] +
-            questionEntity.data
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
-
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          currentState is UnitObjectiveQuestionsFetched
+              ? currentState.dropDownList
+              : null,
         );
       } else {
         yield QuestionBankObjectiveFetchFailed();
       }
     }
-    //todo api not avialable
-    // if (event is GetObjectiveQuestionsByBookmark) {
-    //   yield QuestionBankObjectiveInitial();
-    //   final response = await EdwiselyApi.dio
-    //       .get('getBookmarkedQuestions?unit_id=${event.unitId}');
-    //   if (response.statusCode == 200) {
-    //     QuestionBankObjectiveEntity questionEntity =
-    //         QuestionBankObjectiveEntity.fromJsonMap(
-    //       response.data,
-    //     );
-    //     List<DropdownMenuItem> dropDownMenuItem = [
-    //           DropdownMenuItem(
-    //             child: Text('All'),
-    //             value: 1234567890,
-    //           ),
-    //         ] +
-    //         questionEntity.data
-    //             .map(
-    //               (e) => DropdownMenuItem(
-    //                 child: Text(e.type),
-    //                 value: e.id,
-    //               ),
-    //             )
-    //             .toList();
-    //
-    //     yield UnitObjectiveQuestionsFetched(
-    //       QuestionBankObjectiveEntity.fromJsonMap(
-    //         response.data,
-    //       ),
-    //       event.unitId,
-    //       dropDownMenuItem.toSet().toList(),
-    //     );
-    //   } else {
-    //     yield QuestionBankObjectiveFetchFailed();
-    //   }
-    // }
-    if (event is GetYourObjectiveQuestions) {
+    if (event is GetObjectiveQuestionsByBookmark) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi.dio
+          .get('getBookmarkedQuestions?unit_id=${event.unitId}');
       if (response.statusCode == 200) {
-        QuestionBankObjectiveEntity questionEntity =
-            QuestionBankObjectiveEntity.fromJsonMap(
-          response.data,
-        );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
-              ),
-            ] +
-            questionEntity.data
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
-
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          currentState is UnitObjectiveQuestionsFetched
+              ? currentState.dropDownList
+              : null,
+        );
+      } else {
+        yield QuestionBankObjectiveFetchFailed();
+      }
+    }
+    if (event is GetYourObjectiveQuestions) {
+      yield QuestionBankObjectiveInitial();
+      final response = await EdwiselyApi.dio.get(
+          'questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}');
+      if (response.statusCode == 200) {
+        yield UnitObjectiveQuestionsFetched(
+          QuestionBankObjectiveEntity.fromJsonMap(
+            response.data,
+          ),
+          event.unitId,
+          currentState is UnitObjectiveQuestionsFetched
+              ? currentState.dropDownList
+              : null,
         );
       } else {
         yield QuestionBankObjectiveFetchFailed();
       }
     }
   }
+
   @override
-  void onTransition(Transition<QuestionBankObjectiveEvent, QuestionBankObjectiveState> transition) {
+  void onTransition(
+      Transition<QuestionBankObjectiveEvent, QuestionBankObjectiveState>
+          transition) {
     print(transition);
     super.onTransition(transition);
   }

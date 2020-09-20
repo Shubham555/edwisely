@@ -14,7 +14,7 @@ class QuestionBankAllTab extends StatefulWidget {
 class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
   int levelDropDownValue = -1;
   int topicsDropDown = 1234567890;
-  int bookmarkRadio = 0;
+  int isSelected = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -107,69 +107,79 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                             );
                                   },
                                 ),
-                                Container(
-                                  child: RadioListTile(
-                                    title: Text('All Questions'),
-                                    value: 0,
-                                    groupValue: bookmarkRadio,
-                                    onChanged: (value) {
-                                      setState(
-                                        () {
-                                          bookmarkRadio = value;
+                                Row(
+                                  children: [
+                                    Container(
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isSelected = 0;
+                                          });
+                                          context.bloc<QuestionBankBloc>().add(
+                                                GetUnitQuestions(
+                                                  widget.subjectId,
+                                                  state.unitId,
+                                                ),
+                                              );
                                         },
-                                      );
-                                      context.bloc<QuestionBankBloc>().add(
-                                            GetUnitQuestions(
-                                              widget.subjectId,
-                                              state.unitId,
-                                            ),
-                                          );
-                                    },
-                                  ),
-                                  width: 170,
-                                  height: 50,
-                                ),
-                                Container(
-                                  child: RadioListTile(
-                                    title: Text('Bookmarked'),
-                                    value: 1,
-                                    groupValue: bookmarkRadio,
-                                    onChanged: (value) {
-                                      setState(
-                                        () {
-                                          bookmarkRadio = value;
+                                        child: Text(
+                                          'All Questions',
+                                          style: TextStyle(
+                                              fontWeight: isSelected == 0
+                                                  ? FontWeight.bold
+                                                  : null),
+                                        ),
+                                      ),
+                                      width: 170,
+                                      height: 50,
+                                    ),
+                                    Container(
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isSelected = 1;
+                                          });
+                                          context.bloc<QuestionBankBloc>().add(
+                                                GetQuestionsByBookmark(
+                                                  state.unitId,
+                                                ),
+                                              );
                                         },
-                                      );
-                                      context.bloc<QuestionBankBloc>().add(
-                                            GetQuestionsByBookmark(
-                                              state.unitId,
-                                            ),
-                                          );
-                                    },
-                                  ),
-                                  width: 200,
-                                  height: 50,
-                                ),
-                                Container(
-                                  child: RadioListTile(
-                                    title: Text('Your Questions'),
-                                    value: 2,
-                                    groupValue: bookmarkRadio,
-                                    onChanged: (value) {
-                                      setState(
-                                        () {
-                                          bookmarkRadio = value;
+                                        child: Text(
+                                          'Bookmarked',
+                                          style: TextStyle(
+                                              fontWeight: isSelected == 1
+                                                  ? FontWeight.bold
+                                                  : null),
+                                        ),
+                                      ),
+                                      width: 200,
+                                      height: 50,
+                                    ),
+                                    Container(
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isSelected = 2;
+                                          });
+                                          context.bloc<QuestionBankBloc>().add(
+                                                GetYourQuestions(
+                                                  state.unitId,
+                                                ),
+                                              );
                                         },
-                                      );
-                                      context.bloc<QuestionBankBloc>().add(
-                                            GetYourQuestions(
-                                              state.unitId,
-                                            ),
-                                          );
-                                    },
-                                  ),
-                                  width: 200,
-                                  height: 50,
+                                        child: Text(
+                                          'Your Questions',
+                                          style: TextStyle(
+                                              fontWeight: isSelected == 2
+                                                  ? FontWeight.bold
+                                                  : null),
+                                        ),
+                                      ),
+                                      width: 200,
+                                      height: 50,
+                                    ),
+                                  ],
                                 ),
                               ],
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

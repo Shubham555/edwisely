@@ -18,34 +18,40 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
   Stream<QuestionBankState> mapEventToState(
     QuestionBankEvent event,
   ) async* {
+    var currentState = state;
     if (event is GetUnitQuestions) {
       final response = await EdwiselyApi.dio.get(
           'questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
       //todo fix university_degree_department
-      print(event.subjectId);
+
       final topicsResponse = await EdwiselyApi.dio.get(
           'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71');
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
-        TopicEntity topicEntity = TopicEntity.fromJsonMap(topicsResponse.data);
+        List<DropdownMenuItem> dropDownItems = [];
+        dropDownItems.add(
+          DropdownMenuItem(
+            child: Text('All'),
+            value: 1234567890,
+          ),
+        );
+        if (topicsResponse.data['message'] != 'No topics to fetch') {
+          TopicEntity topicEntity =
+              TopicEntity.fromJsonMap(topicsResponse.data);
+          dropDownItems.addAll(
+            topicEntity.data.map(
+              (e) => DropdownMenuItem(
+                child: Text(e.name),
+                value: e.id,
+              ),
+            ),
+          );
+        }
         yield UnitQuestionsFetched(
           QuestionBankAllEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          [
-                DropdownMenuItem(
-                  child: Text('All'),
-                  value: 1234567890,
-                ),
-              ] +
-              topicEntity.data
-                  ?.map(
-                    (e) => DropdownMenuItem(
-                      child: Text(e.name),
-                      value: e.id,
-                    ),
-                  )
-                  ?.toList(),
+          dropDownItems,
         );
       } else {
         yield QuestionBankFetchFailed();
@@ -56,38 +62,14 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
       final response = await EdwiselyApi.dio.get(
           'questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}');
       if (response.statusCode == 200) {
-        QuestionBankAllEntity questionEntity =
-            QuestionBankAllEntity.fromJsonMap(
-          response.data,
-        );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
-              ),
-            ] +
-            questionEntity.data.subjective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList() +
-            questionEntity.data.objective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
         yield UnitQuestionsFetched(
           QuestionBankAllEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          currentState is UnitQuestionsFetched
+              ? currentState.dropDownList
+              : null,
         );
       } else {
         yield QuestionBankFetchFailed();
@@ -98,39 +80,14 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
       final response = await EdwiselyApi.dio.get(
           'questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}');
       if (response.statusCode == 200) {
-        QuestionBankAllEntity questionEntity =
-            QuestionBankAllEntity.fromJsonMap(
-          response.data,
-        );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
-              ),
-            ] +
-            questionEntity.data.subjective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList() +
-            questionEntity.data.objective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
-
         yield UnitQuestionsFetched(
           QuestionBankAllEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          currentState is UnitQuestionsFetched
+              ? currentState.dropDownList
+              : null,
         );
       } else {
         yield QuestionBankFetchFailed();
@@ -141,39 +98,14 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
       final response = await EdwiselyApi.dio
           .get('getBookmarkedQuestions?unit_id=${event.unitId}');
       if (response.statusCode == 200) {
-        QuestionBankAllEntity questionEntity =
-            QuestionBankAllEntity.fromJsonMap(
-          response.data,
-        );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
-              ),
-            ] +
-            questionEntity.data.subjective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList() +
-            questionEntity.data.objective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
-
         yield UnitQuestionsFetched(
           QuestionBankAllEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          currentState is UnitQuestionsFetched
+              ? currentState.dropDownList
+              : null,
         );
       } else {
         yield QuestionBankFetchFailed();
@@ -184,39 +116,14 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
       final response = await EdwiselyApi.dio
           .get('questions/getFacultyAddedQuestions?unit_id=${event.unitId}');
       if (response.statusCode == 200) {
-        QuestionBankAllEntity questionEntity =
-            QuestionBankAllEntity.fromJsonMap(
-          response.data,
-        );
-        List<DropdownMenuItem> dropDownMenuItem = [
-              DropdownMenuItem(
-                child: Text('All'),
-                value: 1234567890,
-              ),
-            ] +
-            questionEntity.data.subjective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList() +
-            questionEntity.data.objective_questions
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.type),
-                    value: e.id,
-                  ),
-                )
-                .toList();
-
         yield UnitQuestionsFetched(
           QuestionBankAllEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          dropDownMenuItem.toSet().toList(),
+          currentState is UnitQuestionsFetched
+              ? currentState.dropDownList
+              : null,
         );
       } else {
         yield QuestionBankFetchFailed();
