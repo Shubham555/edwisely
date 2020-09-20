@@ -8,7 +8,10 @@ import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+
+import '../../../widgets_util/side_drawer_item.dart';
 
 class AddQuestionsScreen extends StatefulWidget {
   final String _title;
@@ -33,6 +36,11 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
     with SingleTickerProviderStateMixin {
   TabController _questionController;
 
+  Size screenSize;
+  TextTheme textTheme;
+
+  bool _isSideDrawerCollapsed = true;
+
   @override
   void initState() {
     _questionController = TabController(length: 3, vsync: this);
@@ -41,6 +49,9 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
 
   @override
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size;
+    textTheme = Theme.of(context).textTheme;
+
     return MultiProvider(
       providers: [
         Provider(create: (context) => TypedObjectiveQuestionProvider()),
@@ -66,6 +77,84 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
           ).build(context),
           body: Row(
             children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOutBack,
+                width: _isSideDrawerCollapsed
+                    ? screenSize.width * 0.05
+                    : screenSize.width * 0.15,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12.0,
+                  horizontal: 16.0,
+                ),
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'Send Notification',
+                      icon: Icons.notifications_active,
+                    ),
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'Get Feedback',
+                      icon: Icons.feedback,
+                    ),
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'Conduct Live Class',
+                      icon: Icons.live_tv,
+                    ),
+                    SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'Conduct Live Assesment',
+                        icon: Icons.assessment),
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'Send Assignment',
+                      icon: Icons.assignment,
+                    ),
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'Schedule Event',
+                      icon: Icons.calendar_today,
+                    ),
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'My Assesment',
+                      icon: Icons.assignment_ind,
+                    ),
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'Add Course Material',
+                      icon: Icons.add,
+                    ),
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'Upcoming Events',
+                      icon: Icons.event,
+                    ),
+                    SideDrawerItem(
+                      isCollapsed: _isSideDrawerCollapsed,
+                      title: 'Recently Viewed',
+                      icon: Icons.schedule,
+                    ),
+                    //collapse controller
+                    IconButton(
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
+                      icon: Icon(
+                        _isSideDrawerCollapsed
+                            ? Icons.arrow_forward_ios
+                            : Icons.arrow_back_ios,
+                        color: Colors.black,
+                      ),
+                      onPressed: () => setState(() =>
+                          _isSideDrawerCollapsed = !_isSideDrawerCollapsed),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 width: MediaQuery.of(context).size.width / 5,
                 color: Colors.grey.withOpacity(.5),

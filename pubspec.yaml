@@ -20,11 +20,17 @@ dependencies:
   provider: ^4.3.2+2
   image_picker: ^0.6.7+8
   image_picker_for_web: ^0.1.0+2
+  flutter_svg: ^0.18.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/icons/
+
   fonts:
     - family: Poppins
       fonts:
