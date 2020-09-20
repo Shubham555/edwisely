@@ -1,5 +1,5 @@
 
-class Subjective_questions {
+class Data {
 
   int id;
   var blooms_level;
@@ -8,14 +8,14 @@ class Subjective_questions {
   var bookmarked;
   var college_account_id;
   var question_type;
-  List<dynamic> evaluation_schema_url;
-  List<dynamic> question_img;
+  List<String> evaluation_schema_url;
+  List<String> question_img;
   var type;
   var type_id;
   var type_name;
   var type_code;
 
-	Subjective_questions.fromJsonMap(Map<dynamic, dynamic> map):
+	Data.fromJsonMap(Map<String, dynamic> map):
 		id = map["id"],
 		blooms_level = map["blooms_level"],
 		marks = map["marks"],
@@ -23,15 +23,15 @@ class Subjective_questions {
 		bookmarked = map["bookmarked"],
 		college_account_id = map["college_account_id"],
 		question_type = map["question_type"],
-		evaluation_schema_url = List<dynamic>.from(map["evaluation_schema_url"]),
-		question_img = List<dynamic>.from(map["question_img"]),
+		evaluation_schema_url = List<String>.from(map["evaluation_schema_url"]),
+		question_img = List<String>.from(map["question_img"]),
 		type = map["type"],
 		type_id = map["type_id"],
 		type_name = map["type_name"],
 		type_code = map["type_code"];
 
-	Map<dynamic, dynamic> toJson() {
-		final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
+	Map<String, dynamic> toJson() {
+		final Map<String, dynamic> data = new Map<String, dynamic>();
 		data['id'] = id;
 		data['blooms_level'] = blooms_level;
 		data['marks'] = marks;

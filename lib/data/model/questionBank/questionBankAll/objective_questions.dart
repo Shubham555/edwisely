@@ -2,7 +2,7 @@ import 'package:edwisely/data/model/questionBank/questionBankAll/questions_optio
 
 class Objective_questions {
 
-  var id;
+  int id;
   var name;
   var media;
   var bookmarked;
