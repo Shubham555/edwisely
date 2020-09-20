@@ -1,12 +1,17 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
-import 'package:edwisely/ui/widgets_util/big_app_bar_add_questions.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
+import 'package:chips_choice/chips_choice.dart';
+import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/model/add_question/typed_objective_questions.dart';
+import 'package:edwisely/ui/widgets_util/big_app_bar_add_questions.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../../data/model/questionBank/topicEntity/data.dart';
 
 class TypeQuestionTab extends StatefulWidget {
   final String _title;
@@ -17,29 +22,6 @@ class TypeQuestionTab extends StatefulWidget {
 
   TypedObjectiveQuestionProvider newQues;
 
-  final List<DropdownMenuItem> bloomList = [
-    DropdownMenuItem(
-      child: Text("Level 1"),
-      value: 1,
-    ),
-    DropdownMenuItem(
-      child: Text("Level 2"),
-      value: 2,
-    ),
-    DropdownMenuItem(
-      child: Text("Level 3"),
-      value: 3,
-    ),
-    DropdownMenuItem(
-      child: Text("Level 4"),
-      value: 4,
-    ),
-    DropdownMenuItem(
-      child: Text("Level 5"),
-      value: 5,
-    ),
-  ];
-
   int _bloomValue = 1;
   int quesCounter = 0;
   bool option1Selected = false;
@@ -47,6 +29,7 @@ class TypeQuestionTab extends StatefulWidget {
   bool option3Selected = false;
   bool option4Selected = false;
   bool option5Selected = false;
+
   TypeQuestionTab(
     this._title,
     this._description,
@@ -148,6 +131,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
     _option4Node.dispose();
     _option5Node.dispose();
   }
+
+  List<Map> topics = [];
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +262,28 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                           ),
                           DropdownButton(
                               value: widget._bloomValue,
-                              items: widget.bloomList,
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text('All'),
+                                  value: -1,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Remember'),
+                                  value: 1,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Understand'),
+                                  value: 2,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Apply'),
+                                  value: 3,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Analyze'),
+                                  value: 4,
+                                ),
+                              ],
                               onChanged: (value) {
                                 setState(() {
                                   widget._bloomValue = value;
@@ -486,13 +492,34 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
               child: Column(
                 children: [
                   Text("Tag Topics"),
-                  Container(
-                    height: height * 0.15,
-                    width: width * 0.17,
-                    margin: EdgeInsets.symmetric(vertical: 20),
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(border: Border.all()),
-                  ),
+                  //todo change
+                  BlocBuilder(
+                    cubit: context.bloc<TopicCubit>()
+                      ..getTopics(widget._subjectId, 71),
+                    builder: (BuildContext context, state) {
+                      if (state is TopicFetched) {
+                        return ChipsChoice<Map>.multiple(
+                          value: topics,
+                          isWrapped: true,
+                          options: ChipsChoiceOption.listFrom(
+                            source: state.topicEntity.data,
+                            value: (i, Data v) => {'id': v.id, 'type': v.type},
+                            label: (i, Data v) => v.name,
+                          ),
+                          onChanged: (val) => setState(
+                            () => topics = val,
+                          ),
+                        );
+                      }
+                      if (state is TopicEmpty) {
+                        return Text('No topcis to Tag');
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  )
                 ],
               ),
             )
@@ -590,6 +617,7 @@ class LeftPane extends StatelessWidget {
 
   final double width;
   final int quesCount;
+
   @override
   Widget build(BuildContext context) {
     return Container(
