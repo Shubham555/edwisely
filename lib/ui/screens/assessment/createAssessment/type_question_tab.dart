@@ -286,7 +286,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                             children: [
                               widget.option1Selected
                                   ? OptionField(
-                                      myValue: 0,
+                                      myValue: 1,
                                       groupValue: _correctAnswer,
                                       myFocusNode: _option1Node,
                                       onChanged: (int value) => setState(
@@ -302,9 +302,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       onPressed: () {
                                         setState(() {
                                           widget.option1Selected = true;
-                                          FocusScope.of(context)
-                                              .requestFocus(_option1Node);
                                         });
+                                        _option1Node.requestFocus();
                                       },
                                       child: Text(
                                         "+",
@@ -315,7 +314,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                               ),
                               widget.option2Selected
                                   ? OptionField(
-                                      myValue: 1,
+                                      myValue: 2,
                                       groupValue: _correctAnswer,
                                       myFocusNode: _option2Node,
                                       onChanged: (int value) => setState(
@@ -331,8 +330,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       onPressed: () {
                                         setState(() {
                                           widget.option2Selected = true;
-                                          FocusScope.of(context)
-                                              .requestFocus(_option2Node);
+                                          _option2Node.requestFocus();
                                         });
                                       },
                                       child: Text(
@@ -341,7 +339,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       )),
                               widget.option3Selected
                                   ? OptionField(
-                                      myValue: 2,
+                                      myValue: 3,
                                       groupValue: _correctAnswer,
                                       myFocusNode: _option3Node,
                                       onChanged: (int value) => setState(
@@ -357,8 +355,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       onPressed: () {
                                         setState(() {
                                           widget.option3Selected = true;
-                                          FocusScope.of(context)
-                                              .requestFocus(_option3Node);
+                                          _option3Node.requestFocus();
                                         });
                                       },
                                       child: Text(
@@ -386,8 +383,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       onPressed: () {
                                         setState(() {
                                           widget.option4Selected = true;
-                                          FocusScope.of(context)
-                                              .requestFocus(_option4Node);
+                                          _option4Node.requestFocus();
                                         });
                                       },
                                       child: Text(
@@ -416,8 +412,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                         FocusScope.of(context).unfocus();
                                         setState(() {
                                           widget.option5Selected = true;
-                                          FocusScope.of(context)
-                                              .requestFocus(_option5Node);
+                                          _option5Node.requestFocus();
                                         });
                                       },
                                       child: Text(
@@ -458,7 +453,9 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                           print(
                               'Options : [${_option1Controller.text}, ${_option2Controller.text}, ${_option3Controller.text}, ${_option4Controller.text}]');
                           print('Source : faculty');
+                          print('Type : Public');
                           print('Answer : $_correctAnswer');
+                          //images are stored in files _option1Image,_option2Image.... and _questionImage
                           //field type is question type 1 : MCQ 2: FIB
                           //2 options are mandatory and 5 is maximum
                           //indexing starts from 1
