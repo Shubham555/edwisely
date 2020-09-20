@@ -19,7 +19,7 @@ class SideDrawerItem extends StatelessWidget {
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOutBack,
-      width: isCollapsed ? screenSize.width * 0.03 : screenSize.width * 0.15,
+      width: isCollapsed ? screenSize.width * 0.1 : screenSize.width * 0.3,
       padding: const EdgeInsets.symmetric(
         vertical: 12.0,
         horizontal: 8.0,
@@ -30,6 +30,7 @@ class SideDrawerItem extends StatelessWidget {
           //icon
           Icon(
             icon,
+            size: screenSize.width * 0.02,
             color: Colors.black,
           ),
           //spacing
@@ -38,9 +39,9 @@ class SideDrawerItem extends StatelessWidget {
           isCollapsed
               ? SizedBox.shrink()
               : Text(
-                  title,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                title,
+                overflow: TextOverflow.ellipsis,
+              ),
         ],
       ),
     );

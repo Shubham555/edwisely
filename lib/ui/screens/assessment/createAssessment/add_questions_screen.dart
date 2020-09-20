@@ -81,84 +81,88 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                 duration: Duration(milliseconds: 500),
                 curve: Curves.easeInOutBack,
                 width: _isSideDrawerCollapsed
-                    ? screenSize.width * 0.05
-                    : screenSize.width * 0.15,
+                    ? screenSize.width * 0.1
+                    : screenSize.width * 0.3,
                 padding: const EdgeInsets.symmetric(
                   vertical: 12.0,
                   horizontal: 16.0,
                 ),
                 color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'Send Notification',
-                      icon: Icons.notifications_active,
-                    ),
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'Get Feedback',
-                      icon: Icons.feedback,
-                    ),
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'Conduct Live Class',
-                      icon: Icons.live_tv,
-                    ),
-                    SideDrawerItem(
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SideDrawerItem(
                         isCollapsed: _isSideDrawerCollapsed,
-                        title: 'Conduct Live Assesment',
-                        icon: Icons.assessment),
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'Send Assignment',
-                      icon: Icons.assignment,
-                    ),
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'Schedule Event',
-                      icon: Icons.calendar_today,
-                    ),
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'My Assesment',
-                      icon: Icons.assignment_ind,
-                    ),
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'Add Course Material',
-                      icon: Icons.add,
-                    ),
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'Upcoming Events',
-                      icon: Icons.event,
-                    ),
-                    SideDrawerItem(
-                      isCollapsed: _isSideDrawerCollapsed,
-                      title: 'Recently Viewed',
-                      icon: Icons.schedule,
-                    ),
-                    //collapse controller
-                    IconButton(
-                      padding: const EdgeInsets.symmetric(horizontal: 0),
-                      icon: Icon(
-                        _isSideDrawerCollapsed
-                            ? Icons.arrow_forward_ios
-                            : Icons.arrow_back_ios,
-                        color: Colors.black,
+                        title: 'Send Notification',
+                        icon: Icons.notifications_active,
                       ),
-                      onPressed: () => setState(() =>
-                          _isSideDrawerCollapsed = !_isSideDrawerCollapsed),
-                    ),
-                  ],
+                      SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'Get Feedback',
+                        icon: Icons.feedback,
+                      ),
+                      SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'Live Class',
+                        icon: Icons.live_tv,
+                      ),
+                      SideDrawerItem(
+                          isCollapsed: _isSideDrawerCollapsed,
+                          title: 'Live Assesment',
+                          icon: Icons.assessment),
+                      SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'Send Assignment',
+                        icon: Icons.assignment,
+                      ),
+                      SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'Schedule Event',
+                        icon: Icons.calendar_today,
+                      ),
+                      SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'My Assesment',
+                        icon: Icons.assignment_ind,
+                      ),
+                      SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'Add Course Material',
+                        icon: Icons.add,
+                      ),
+                      SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'Upcoming Events',
+                        icon: Icons.event,
+                      ),
+                      SideDrawerItem(
+                        isCollapsed: _isSideDrawerCollapsed,
+                        title: 'Recently Viewed',
+                        icon: Icons.schedule,
+                      ),
+                      //collapse controller
+                      IconButton(
+                        padding: const EdgeInsets.all(0),
+                        icon: Icon(
+                          _isSideDrawerCollapsed
+                              ? Icons.arrow_forward_ios
+                              : Icons.arrow_back_ios,
+                          size: screenSize.width * 0.02,
+                          color: Colors.black,
+                        ),
+                        onPressed: () => setState(() =>
+                            _isSideDrawerCollapsed = !_isSideDrawerCollapsed),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width / 5,
-                color: Colors.grey.withOpacity(.5),
-              ),
+              // Container(
+              //   width: MediaQuery.of(context).size.width / 5,
+              //   color: Colors.grey.withOpacity(.5),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Column(
