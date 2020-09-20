@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'ui/screens/assessment/createAssessment/add_questions_screen.dart';
+import 'util/enums/question_type_enum.dart';
 
 void main() {
   runApp(EdWisely());
