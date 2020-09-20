@@ -129,7 +129,7 @@ class CourseDetailSyllabusTab extends StatelessWidget {
                                               ),
                                               label: Text(
                                                 state.syllabusEntity.data[index]
-                                                    .topics[indddd].type,
+                                                    .topics[indddd].topic_name,
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                 ),
