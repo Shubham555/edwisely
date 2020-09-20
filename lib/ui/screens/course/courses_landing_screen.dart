@@ -93,6 +93,7 @@ class CoursesLandingScreen extends StatelessWidget {
                             child: Container(
                               width: MediaQuery.of(context).size.width / 5,
                               child: DropdownSearch(
+                                autoFocusSearchBox: true,
                                 showClearButton: true,
                                 label: 'Search Courses',
                                 showSearchBox: true,

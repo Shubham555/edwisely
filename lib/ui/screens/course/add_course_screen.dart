@@ -47,46 +47,51 @@ class AddCourseScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Align(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width / 5,
-                                padding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width / 100,
-                                ),
-                                child: DropdownSearch(
-                                  showClearButton: true,
-                                  label: 'Search Courses',
-                                  showSearchBox: true,
-                                  mode: Mode.MENU,
-                                  items: state.getAllCoursesEntity.data,
-                                  onChanged: (Data data) => _showDialog(
-                                    context,
-                                    data,
-                                    data.departments,
-                                    state.sectionEntity,
+                            Row(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 5,
+                                  padding: EdgeInsets.only(
+                                    left:
+                                        MediaQuery.of(context).size.width / 100,
                                   ),
-                                  showSelectedItem: false,
-                                  dropdownBuilder: (context, Data data,
-                                          String sd) =>
-                                      data != null ? Text(data.name) : Text(''),
-                                  filterFn: (Data data, String string) =>
-                                      data.name.toLowerCase().contains(
-                                            string,
-                                          ),
-                                  popupItemBuilder:
-                                      (context, Data data, bool) => Container(
-                                    padding: EdgeInsets.all(
-                                      10,
+                                  child: DropdownSearch(
+                                    autoFocusSearchBox: true,
+                                    showClearButton: true,
+                                    label: 'Search Courses',
+                                    showSearchBox: true,
+                                    mode: Mode.MENU,
+                                    items: state.getAllCoursesEntity.data,
+                                    onChanged: (Data data) => _showDialog(
+                                      context,
+                                      data,
+                                      data.departments,
+                                      state.sectionEntity,
                                     ),
-                                    child: Text(
-                                      data.name,
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black),
+                                    showSelectedItem: false,
+                                    dropdownBuilder:
+                                        (context, Data data, String sd) =>
+                                            data != null
+                                                ? Text(data.name)
+                                                : Text(''),
+                                    filterFn: (Data data, String string) =>
+                                        data.name.toLowerCase().contains(
+                                              string,
+                                            ),
+                                    popupItemBuilder:
+                                        (context, Data data, bool) => Container(
+                                      padding: EdgeInsets.all(
+                                        10,
+                                      ),
+                                      child: Text(
+                                        data.name,
+                                        style: TextStyle(
+                                            fontSize: 20, color: Colors.black),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              alignment: Alignment.centerLeft,
+                              ],
                             ),
                             Expanded(
                               child: Padding(
@@ -112,9 +117,7 @@ class AddCourseScreen extends StatelessWidget {
                                       ),
                                       elevation: 6,
                                       child: GridTile(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        child: ListView(
                                           children: [
                                             Align(
                                               alignment: Alignment.center,
@@ -186,7 +189,8 @@ class AddCourseScreen extends StatelessWidget {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 15),
+                                              padding: const EdgeInsets.only(
+                                                  left: 15),
                                               child: Wrap(
                                                 children: List.generate(
                                                   state
@@ -202,9 +206,12 @@ class AddCourseScreen extends StatelessWidget {
                                                           .departments[index]
                                                           .name,
                                                     ),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(5)
-                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
                                                   ),
                                                 ),
                                                 runSpacing: 10,
@@ -353,7 +360,7 @@ class AddCourseScreen extends StatelessWidget {
                             print('subject : ${data.id}');
                             if (branch == null || sections.isEmpty) {
                               Toast.show(
-                                  'Please select atleast one section and one department',
+                                  'Please select at least one section and one department',
                                   context,
                                   duration: 4);
                             }
