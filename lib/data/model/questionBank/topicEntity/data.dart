@@ -1,19 +1,22 @@
 
-class Topics {
+class Data {
 
+  int id;
+  String name;
   String code;
-  String topic_name;
   String type;
 
-	Topics.fromJsonMap(Map<String, dynamic> map): 
+	Data.fromJsonMap(Map<String, dynamic> map): 
+		id = map["id"],
+		name = map["name"],
 		code = map["code"],
-		topic_name = map["topic_name"],
 		type = map["type"];
 
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
+		data['id'] = id;
+		data['name'] = name;
 		data['code'] = code;
-		data['topic_name'] = topic_name;
 		data['type'] = type;
 		return data;
 	}

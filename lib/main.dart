@@ -1,7 +1,4 @@
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -29,3 +26,8 @@ class EdWisely extends StatelessWidget {
     );
   }
 }
+//todo question bank empty check
+//todo syllabus under details has now topic names
+//todo add latex rendering in question bank and all where question is written or viewed
+//todo add filter by departments in add courses
+//todo change drop_downSearch

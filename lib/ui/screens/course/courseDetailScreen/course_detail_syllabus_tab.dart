@@ -24,126 +24,130 @@ class CourseDetailSyllabusTab extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    state.syllabusEntity.data[index].name,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              50,
+                              Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      state.syllabusEntity.data[index].name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height /
+                                                50,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Text(
-                                    'Objective',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              60,
-                                      decoration: TextDecoration.underline,
+                                    SizedBox(
+                                      height: 20,
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 30),
-                                    child: Column(
+                                    Text(
+                                      'Objectives',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              80,
+                                          color: Colors.grey.shade600),
+                                    ),
+                                    Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: List.generate(
                                         state.syllabusEntity.data[index]
                                             .objectives.length,
                                         (indd) => Text(
-                                          '● ${state.syllabusEntity.data[index].objectives[indd]}',
+                                          state.syllabusEntity.data[index]
+                                              .objectives[indd],
                                           style: TextStyle(
                                             color: Colors.black,
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    'Outcome',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              50,
-                                      decoration: TextDecoration.underline,
+                                    SizedBox(
+                                      height: 20,
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 30),
-                                    child: Column(
+                                    Text(
+                                      'Outcome',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              80,
+                                          color: Colors.grey.shade600),
+                                    ),
+                                    Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: List.generate(
                                         state.syllabusEntity.data[index]
                                             .outcomes.length,
                                         (inddd) => Text(
-                                          '● ${state.syllabusEntity.data[index].outcomes[inddd]}',
+                                          state.syllabusEntity.data[index]
+                                              .outcomes[inddd],
                                           style: TextStyle(
                                             color: Colors.black,
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                                width: MediaQuery.of(context).size.width / 1.5,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Topics Covered',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
+                              Visibility(
+                                visible: state.syllabusEntity.data[index].topics
+                                    .isNotEmpty,
+                                child: Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Topics Covered',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
                                               50,
-                                    ),
-                                  ),
-                                  Card(
-                                    child: Wrap(
-                                      spacing: 10,
-                                      runSpacing: 10,
-                                      children: List.generate(
-                                        state.syllabusEntity.data[index].topics
-                                            .length,
-                                        (indddd) => Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Chip(
-                                            label: Text(
-                                              state.syllabusEntity.data[index]
-                                                  .topics[indddd].type,
+                                        ),
+                                      ),
+                                      Wrap(
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: List.generate(
+                                          state.syllabusEntity.data[index]
+                                              .topics.length,
+                                          (indddd) => Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Chip(
+                                              backgroundColor: Color(
+                                                0xFF1F2C65,
+                                              ),
+                                              label: Text(
+                                                state.syllabusEntity.data[index]
+                                                    .topics[indddd].topic_name,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 40,
                         ),
-                        Divider(
-                          thickness: 1,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        )
                       ],
                     ),
                   ),
