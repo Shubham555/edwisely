@@ -31,6 +31,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/placeholder_image.jpg
 
   fonts:
   - family: Poppins
@@ -38,5 +39,3 @@ flutter:
     - asset: fonts/Poppins/Poppins-Regular.ttf
     - asset: fonts/Poppins/Poppins-Italic.ttf
       style: italic
-  assets:
-  - assets/placeholder_image.jpg
