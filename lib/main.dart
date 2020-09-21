@@ -1,10 +1,12 @@
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'data/cubits/send_assessment_cubit.dart';
 
+import 'ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'ui/screens/authorization/login_screen.dart';
 
 void main() {
@@ -20,21 +22,21 @@ class EdWisely extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home:
           // CoursesLandingScreen()
-          MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (BuildContext context) => SendAssessmentCubit(),
-          )
-        ],
-        child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-      ),
-      // AddQuestionsScreen(
-      //   'T',
-      //   'dfdf',
-      //   10,
-      //   QuestionType.Objective,
-      //   2052,
+      //     MultiBlocProvider(
+      //   providers: [
+      //     BlocProvider(
+      //       create: (BuildContext context) => SendAssessmentCubit(),
+      //     )
+      //   ],
+      //   child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
       // ),
+      AddQuestionsScreen(
+        'T',
+        'dfdf',
+        10,
+        QuestionType.Objective,
+        2052,
+      ),
     );
   }
 }
