@@ -1,4 +1,5 @@
-import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
+import 'package:edwisely/data/cubits/select_students_cubit.dart';
+import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
 import 'package:edwisely/util/date_utild.dart';
 import 'package:flutter/material.dart';
@@ -111,8 +112,17 @@ class AssessmentTile extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => BlocProvider(
-                          create: (BuildContext context) => AddQuestionBloc(),
+                        builder: (BuildContext context) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (BuildContext context) =>
+                                  SendAssessmentCubit(),
+                            ),
+                            BlocProvider(
+                              create: (BuildContext context) =>
+                                  SelectStudentsCubit(),
+                            ),
+                          ],
                           child: SendAssessmentScreen(
                               assessmentId, title, noOfQuestions),
                         ),

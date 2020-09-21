@@ -1,11 +1,13 @@
+import 'package:catex/catex.dart';
 import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QuestionBankAllTab extends StatefulWidget {
   final int subjectId;
+  final TabController _tabController;
 
-  QuestionBankAllTab(this.subjectId);
+  QuestionBankAllTab(this.subjectId, this._tabController);
 
   @override
   _QuestionBankAllTabState createState() => _QuestionBankAllTabState();
@@ -182,94 +184,85 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                   ],
                                 ),
                               ],
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             ),
-                            Container(
-                              width:
-                                  MediaQuery.of(context).size.width * (3.5 / 5),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Subjective Questions',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              50,
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Subjective Questions',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 50,
+                                  ),
+                                ),
+                                FlatButton(
+                                  hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    side: BorderSide(
+                                      color: Color(0xFF1D2B64),
                                     ),
                                   ),
-                                  FlatButton(
-                                    hoverColor:
-                                        Color(0xFF1D2B64).withOpacity(.2),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6),
-                                      side: BorderSide(
+                                  onPressed: () => null,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.add,
                                         color: Color(0xFF1D2B64),
                                       ),
-                                    ),
-                                    onPressed: () => null,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.add,
+                                      Text(
+                                        'Add Your Questions',
+                                        style: TextStyle(
                                           color: Color(0xFF1D2B64),
                                         ),
-                                        Text(
-                                          'Add Your Questions',
-                                          style: TextStyle(
-                                            color: Color(0xFF1D2B64),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             BlocBuilder(
                               cubit: context.bloc<QuestionBankBloc>(),
                               builder: (BuildContext context, state) {
                                 if (state is UnitQuestionsFetched) {
-                                  return ListView.separated(
+                                  return ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.questionBankAllEntity.data
                                         .subjective_questions.length,
                                     itemBuilder:
                                         (BuildContext context, int index) =>
-                                            ListTile(
-                                      title: Row(
-                                        children: [
-                                          Text('Q. ${index + 1}'),
-                                          Image.network(
-                                            state
-                                                .questionBankAllEntity
-                                                .data
-                                                .subjective_questions[index]
-                                                .question_img[0],
-                                            width: 250,
-                                            height: 250,
-                                          ),
-                                        ],
+                                            Card(
+                                      margin: EdgeInsets.all(
+                                        10,
                                       ),
-                                      subtitle: Text(
-                                        'Level ${state.questionBankAllEntity.data.subjective_questions[index].blooms_level}',
-                                      ),
-                                      trailing: IconButton(
-                                        icon: Icon(Icons.bookmark),
-                                        onPressed: null,
+                                      child: ListTile(
+                                        title: Row(
+                                          children: [
+                                            Text('Q. ${index + 1}'),
+                                            Image.network(
+                                              state
+                                                  .questionBankAllEntity
+                                                  .data
+                                                  .subjective_questions[index]
+                                                  .question_img[0],
+                                              width: 250,
+                                              height: 250,
+                                            ),
+                                          ],
+                                        ),
+                                        subtitle: Text(
+                                          'Level ${state.questionBankAllEntity.data.subjective_questions[index].blooms_level}',
+                                        ),
+                                        trailing: IconButton(
+                                          icon: Icon(Icons.bookmark),
+                                          onPressed: null,
+                                        ),
                                       ),
                                     ),
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return Divider(
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      );
-                                    },
                                   );
                                 } else {
                                   return Center(
@@ -286,7 +279,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                   color: Color(0xFF1D2B64),
                                 ),
                               ),
-                              onPressed: () => null,
+                              onPressed: () => widget._tabController.index = 2,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -312,92 +305,80 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Container(
-                              width:
-                                  MediaQuery.of(context).size.width * (3.5 / 5),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Objective Questions',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              50,
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Objective Questions',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 50,
+                                  ),
+                                ),
+                                FlatButton(
+                                  hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    side: BorderSide(
+                                      color: Color(0xFF1D2B64),
                                     ),
                                   ),
-                                  FlatButton(
-                                    hoverColor:
-                                        Color(0xFF1D2B64).withOpacity(.2),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6),
-                                      side: BorderSide(
+                                  onPressed: () => null,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.add,
                                         color: Color(0xFF1D2B64),
                                       ),
-                                    ),
-                                    onPressed: () => null,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.add,
+                                      Text(
+                                        'Add Your Questions',
+                                        style: TextStyle(
                                           color: Color(0xFF1D2B64),
                                         ),
-                                        Text(
-                                          'Add Your Questions',
-                                          style: TextStyle(
-                                            color: Color(0xFF1D2B64),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             BlocBuilder(
                               cubit: context.bloc<QuestionBankBloc>(),
                               builder: (BuildContext context, state) {
                                 if (state is UnitQuestionsFetched) {
-                                  return ListView.separated(
+                                  return ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.questionBankAllEntity.data
                                         .objective_questions.length,
                                     itemBuilder:
                                         (BuildContext context, int index) =>
-                                            ListTile(
-                                      title: Row(
-                                        children: [
-                                          Text('Q. ${index + 1}  '),
-                                          Expanded(
-                                            child: Text(
+                                            Card(
+                                      margin: EdgeInsets.all(10),
+                                      child: ListTile(
+                                        title: Row(
+                                          children: [
+                                            Text('Q. ${index + 1}  '),
+                                            Expanded(
+                                                child: CaTeX(
                                               state
                                                   .questionBankAllEntity
                                                   .data
                                                   .objective_questions[index]
                                                   .name,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      subtitle: Text(
-                                        'Level ${state.questionBankAllEntity.data.objective_questions[index].blooms_level}',
-                                      ),
-                                      trailing: IconButton(
-                                        icon: Icon(Icons.bookmark),
-                                        onPressed: null,
+                                            )),
+                                          ],
+                                        ),
+                                        subtitle: Text(
+                                          'Level ${state.questionBankAllEntity.data.objective_questions[index].blooms_level}',
+                                        ),
+                                        trailing: IconButton(
+                                          icon: Icon(Icons.bookmark),
+                                          onPressed: null,
+                                        ),
                                       ),
                                     ),
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return Divider(
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      );
-                                    },
                                   );
                                 } else {
                                   return Center(
@@ -414,7 +395,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                   color: Color(0xFF1D2B64),
                                 ),
                               ),
-                              onPressed: () => null,
+                              onPressed: () => widget._tabController.index = 1,
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [

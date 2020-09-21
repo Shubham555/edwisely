@@ -198,59 +198,52 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                   ],
                                 ),
                               ],
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             ),
-                            Container(
-                              width:
-                                  MediaQuery.of(context).size.width * (3.5 / 5),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Subjective Questions',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              50,
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Subjective Questions',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 50,
+                                  ),
+                                ),
+                                FlatButton(
+                                  hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                    side: BorderSide(
+                                      color: Color(0xFF1D2B64),
                                     ),
                                   ),
-                                  FlatButton(
-                                    hoverColor:
-                                        Color(0xFF1D2B64).withOpacity(.2),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6),
-                                      side: BorderSide(
+                                  onPressed: () => null,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.add,
                                         color: Color(0xFF1D2B64),
                                       ),
-                                    ),
-                                    onPressed: () => null,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.add,
+                                      Text(
+                                        'Add Your Questions',
+                                        style: TextStyle(
                                           color: Color(0xFF1D2B64),
                                         ),
-                                        Text(
-                                          'Add Your Questions',
-                                          style: TextStyle(
-                                            color: Color(0xFF1D2B64),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             BlocBuilder(
                               cubit: context.bloc<QuestionBankSubjectiveBloc>(),
                               builder: (BuildContext context, state) {
                                 if (state is UnitSubjectiveQuestionsFetched) {
-                                  return ListView.separated(
+                                  return ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state
                                         .questionBankSubjectiveEntity
@@ -258,33 +251,31 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                         .length,
                                     itemBuilder:
                                         (BuildContext context, int index) =>
-                                            ListTile(
-                                      title: Row(
-                                        children: [
-                                          Text('Q. ${index + 1}'),
-                                          Image.network(
-                                            state.questionBankSubjectiveEntity
-                                                .data[index].question_img[0],
-                                            width: 250,
-                                            height: 250,
-                                          ),
-                                        ],
+                                            Card(
+                                      margin: EdgeInsets.all(
+                                        10,
                                       ),
-                                      subtitle: Text(
-                                        'Level ${state.questionBankSubjectiveEntity.data[index].blooms_level}',
-                                      ),
-                                      trailing: IconButton(
-                                        icon: Icon(Icons.bookmark),
-                                        onPressed: null,
+                                      child: ListTile(
+                                        title: Row(
+                                          children: [
+                                            Text('Q. ${index + 1}'),
+                                            Image.network(
+                                              state.questionBankSubjectiveEntity
+                                                  .data[index].question_img[0],
+                                              width: 250,
+                                              height: 250,
+                                            ),
+                                          ],
+                                        ),
+                                        subtitle: Text(
+                                          'Level ${state.questionBankSubjectiveEntity.data[index].blooms_level}',
+                                        ),
+                                        trailing: IconButton(
+                                          icon: Icon(Icons.bookmark),
+                                          onPressed: null,
+                                        ),
                                       ),
                                     ),
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return Divider(
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      );
-                                    },
                                   );
                                 } else {
                                   return Center(
@@ -293,36 +284,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                 }
                               },
                             ),
-                            FlatButton(
-                              hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                side: BorderSide(
-                                  color: Color(0xFF1D2B64),
-                                ),
-                              ),
-                              onPressed: () => null,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: Color(0xFF1D2B64),
-                                  ),
-                                  Text(
-                                    'View More',
-                                    style: TextStyle(
-                                      color: Color(0xFF1D2B64),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
                           ],
-                        ),
-                        Divider(
-                          thickness: 3,
-                          color: Colors.grey,
                         ),
                       ],
                     ),
