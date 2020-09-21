@@ -14,76 +14,121 @@ class CourseDetailAboutTab extends StatelessWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Course Description',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
-                            fontWeight: FontWeight.bold,
+                        Visibility(
+                          visible: state.courseEntity.data.description != '',
+                          child: Text(
+                            'Course Description',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        Text(state.courseEntity.data.description),
+                        Text(
+                          state.courseEntity.data.description,
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
-                        Text(
-                          'Learning Objectives',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
-                            fontWeight: FontWeight.bold,
+                        Visibility(
+                          visible:
+                              state.courseEntity.data.objectives.isNotEmpty,
+                          child: Text(
+                            'Learning Objectives',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(
-                              state.courseEntity.data.objectives.length,
-                              (index) => Text(
-                                '● ${state.courseEntity.data.objectives[index]}',
-                                style: TextStyle(
-                                  color: Colors.black,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(
+                            state.courseEntity.data.objectives.length,
+                            (index) => Row(
+                              children: [
+                                Container(
+                                  width: 7,
+                                  height: 7,
+                                  decoration: BoxDecoration(
+                                    color: Color(
+                                      0xFF1F2C65,
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                      60,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  state.courseEntity.data.objectives[index],
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                         SizedBox(
                           height: 20,
                         ),
-                        Text(
-                          'Learning Outcomes',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(
-                              state.courseEntity.data.outcomes.length,
-                              (index) => Text(
-                                '● ${state.courseEntity.data.outcomes[index]}',
-                              ),
+                        Visibility(
+                          visible: state.courseEntity.data.outcomes.isNotEmpty,
+                          child: Text(
+                            'Learning Outcomes',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
-                        Text(
-                          'Pre-requisite Knowledge Required',
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 40,
-                            fontWeight: FontWeight.bold,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(
+                            state.courseEntity.data.outcomes.length,
+                            (index) => Row(
+                              children: [
+                                Container(
+                                  width: 7,
+                                  height: 7,
+                                  decoration: BoxDecoration(
+                                    color: Color(
+                                      0xFF1F2C65,
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                      60,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  state.courseEntity.data.outcomes[index],
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        //todo not provided in api
                       ],
                     ),
                   ),
@@ -108,40 +153,43 @@ class CourseDetailAboutTab extends StatelessWidget {
                                 ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Mode of Instruction',
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height / 50,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          //todo not given ion api
-                          Text(
-                            'Your Classes',
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.height / 60,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 30),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List.generate(
-                                state.courseEntity.data.sections.length,
-                                (index) => Text(
-                                  '● ${state.courseEntity.data.sections[index].name}',
-                                  style: TextStyle(
-                                    color: Colors.black,
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Your Classes',
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 80,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey.shade600),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List.generate(
+                                  state.courseEntity.data.sections.length,
+                                  (index) => Text(
+                                    state
+                                        .courseEntity.data.sections[index].name,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       )
                     ],
                   ),

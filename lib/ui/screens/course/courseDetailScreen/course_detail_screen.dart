@@ -1,4 +1,6 @@
 import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
+import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
+import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
 import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_about_tab.dart';
@@ -126,6 +128,12 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
               ),
               BlocProvider(
                 create: (BuildContext context) => QuestionBankBloc(),
+              ),
+              BlocProvider(
+                create: (BuildContext context) => QuestionBankObjectiveBloc(),
+              ),
+              BlocProvider(
+                create: (BuildContext context) => QuestionBankSubjectiveBloc(),
               ),
             ],
             child: CourseDetailQuestionBankTab(
