@@ -3,7 +3,6 @@ import 'package:edwisely/data/model/add_question/typed_objective_questions.dart'
 import 'package:edwisely/data/model/add_question/typed_subjective_questions.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_from_selected_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/upload_excel_tab.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
@@ -172,6 +171,142 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                           ),
                         ),
                         Container(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(children: [
+              Text(
+                'Create Questions',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: MediaQuery.of(context).size.height / 40,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    width: 150,
+                    height: 150,
+                    child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create: (BuildContext context) =>
+                                    AddQuestionBloc(),
+                              ),
+                              BlocProvider(
+                                create: (BuildContext context) => TopicCubit(),
+                              ),
+                            ],
+                            child: TypeQuestionTab(
+                                widget._title,
+                                widget._description,
+                                widget._subjectId,
+                                widget._questionType,
+                                widget._assessmentId),
+                          ),
+                        ),
+                      ),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_circle_outline,
+                                size: 45,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text('Add Questions')
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 150,
+                        height: 150,
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => BlocProvider(
+                                create: (BuildContext context) =>
+                                    AddQuestionBloc(),
+                                child: TypeQuestionTab(
+                                    widget._title,
+                                    widget._description,
+                                    widget._subjectId,
+                                    widget._questionType,
+                                    widget._assessmentId),
+                              ),
+                            ),
+                          ),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add_circle_outline,
+                                    size: 45,
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text('Add Questions')
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        height: 150,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.upload_file,
+                                  size: 45,
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text('Upload Questions')
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 150,
+                        height: 150,
+                        child: Container(
                           width: 150,
                           height: 150,
                           child: GestureDetector(
@@ -210,13 +345,15 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                             ),
                           ),
                         ),
-                      ],
-                    )
-                  ],
-                ),
+                      )
+                    ],
+                  ),
+                ],
               ),
-            ],
-          )),
+            ]),
+          )
+        ],
+      ),
     );
   }
 }

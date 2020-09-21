@@ -51,7 +51,6 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
           actions: null,
           titleText: 'Send Assessment',
           bottomTab: null,
-          appBarSize: MediaQuery.of(context).size.height / 3.5,
           appBarTitle: Text(
             'Edwisely',
             style: TextStyle(color: Colors.black),
@@ -70,6 +69,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
             icon: Icon(Icons.send),
             label: Text('Send Assessment'),
           ),
+          appBarSize: MediaQuery.of(context).size.height / 3,
         ).build(context),
         body: Padding(
           padding: const EdgeInsets.all(
@@ -185,11 +185,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
 
                           return ListView(
                             children: [
-                              FlatButton(
-                                onPressed: () => efv.getStudentsInASection(
-                                  state.sectionEntity.data[index].id,
-                                  1,
-                                ),
+                              Center(
                                 child: Text(
                                   state.sectionEntity.data[index].name,
                                 ),
