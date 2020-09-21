@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'data/cubits/send_assessment_cubit.dart';
 
+import 'ui/screens/authorization/login_screen.dart';
+
 void main() {
   runApp(EdWisely());
 }

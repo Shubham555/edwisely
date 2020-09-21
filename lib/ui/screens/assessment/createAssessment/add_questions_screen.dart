@@ -44,7 +44,6 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
     textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       appBar: BigAppBar(
         actions: [],
@@ -245,38 +244,83 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                         ),
                       ),
                     ),
-                    Container(
-                      width: 150,
-                      height: 150,
-                      child: GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => BlocProvider(
-                              create: (BuildContext context) =>
-                                  AddQuestionBloc(),
-                              child: UploadExcelTab(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 150,
+                          child: GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => BlocProvider(
+                                  create: (BuildContext context) =>
+                                      AddQuestionBloc(),
+                                  child: TypeQuestionTab(
+                                      widget._title,
+                                      widget._description,
+                                      widget._subjectId,
+                                      widget._questionType,
+                                      widget._assessmentId),
+                                ),
+                              ),
+                            ),
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add_circle_outline,
+                                      size: 45,
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text('Add Questions')
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.upload_file,
-                                  size: 45,
+                        Container(
+                          width: 150,
+                          height: 150,
+                          child: GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => BlocProvider(
+                                  create: (BuildContext context) =>
+                                      AddQuestionBloc(),
+                                  child: UploadExcelTab(),
                                 ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Text('Upload Questions')
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.upload_file,
+                                      size: 45,
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text('Upload Questions')
+                                  ],
+                                ),
+                              ),
                       ),
                     ),
                     Container(
@@ -298,33 +342,52 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                             ),
                           ),
                         ),
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.handyman,
-                                  size: 45,
+                        Container(
+                          width: 150,
+                          height: 150,
+                          child: GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => BlocProvider(
+                                  create: (BuildContext context) =>
+                                      AddQuestionBloc(),
+                                  child: ChooseFromSelectedTab(
+                                      widget._title,
+                                      widget._description,
+                                      widget._subjectId,
+                                      widget._questionType,
+                                      widget._assessmentId),
                                 ),
-                                SizedBox(
-                                  height: 15,
+                              ),
+                            ),
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.handyman,
+                                      size: 45,
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text('Choose from Question Bank')
+                                  ],
                                 ),
-                                Text('Choose from Question Bank')
-                              ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
