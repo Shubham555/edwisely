@@ -4,8 +4,6 @@ import 'package:meta/meta.dart';
 import '../api/api.dart';
 import '../model/questionBank/topicEntity/TopicEntity.dart';
 
-part 'topic_state.dart';
-
 class TopicCubit extends Cubit<TopicState> {
   TopicCubit() : super(TopicInitial());
 
@@ -13,9 +11,8 @@ class TopicCubit extends Cubit<TopicState> {
     final response = await EdwiselyApi.dio.get(
       'questionnaireWeb/getSubjectTopics?subject_id=$subjectId&university_degree_department_id=$universityDepartmentId',
     );
-    print(response.data['message']);
     if (response.statusCode == 200) {
-      if (response.data['message'] != '') {
+      if (response.data['message'] != 'No topics to fetch') {
         emit(
           TopicFetched(
             TopicEntity.fromJsonMap(
@@ -35,3 +32,18 @@ class TopicCubit extends Cubit<TopicState> {
     }
   }
 }
+
+@immutable
+abstract class TopicState {}
+
+class TopicInitial extends TopicState {}
+
+class TopicFetched extends TopicState {
+  final TopicEntity topicEntity;
+
+  TopicFetched(this.topicEntity);
+}
+
+class TopicFailed extends TopicState {}
+
+class TopicEmpty extends TopicState {}

@@ -4,13 +4,11 @@ import 'package:edwisely/data/model/course/coursesEntity/data.dart';
 import 'package:edwisely/ui/screens/course/add_course_screen.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CoursesLandingScreen extends StatelessWidget {
   final _courseBloc = CoursesBloc();
-  final SearchBarController<Data> _searchBarController = SearchBarController();
 
   @override
   Widget build(BuildContext context) {

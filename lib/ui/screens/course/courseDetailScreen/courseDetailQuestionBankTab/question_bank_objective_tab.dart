@@ -1,3 +1,4 @@
+import 'package:catex/catex.dart';
 import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -243,8 +244,12 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                     itemCount: state.questionBankObjectiveEntity
                                         .data.length,
                                     itemBuilder:
-                                        (BuildContext context, int index) =>
-                                            Card(
+                                        (BuildContext context, int index) {
+                                          print(state
+                                              .questionBankObjectiveEntity
+                                              .data[0]
+                                              .name);
+                                      return Card(
                                       margin: EdgeInsets.all(
                                         10,
                                       ),
@@ -253,7 +258,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           children: [
                                             Text('Q. ${index + 1}  '),
                                             Expanded(
-                                              child: Text(
+                                              child: CaTeX(
                                                 state
                                                     .questionBankObjectiveEntity
                                                     .data[index]
@@ -270,7 +275,8 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           onPressed: null,
                                         ),
                                       ),
-                                    ),
+                                    );
+                                        },
                                   );
                                 } else {
                                   return Center(

@@ -1,3 +1,4 @@
+import 'package:catex/catex.dart';
 import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -360,14 +361,13 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                           children: [
                                             Text('Q. ${index + 1}  '),
                                             Expanded(
-                                              child: Text(
-                                                state
-                                                    .questionBankAllEntity
-                                                    .data
-                                                    .objective_questions[index]
-                                                    .name,
-                                              ),
-                                            ),
+                                                child: CaTeX(
+                                              state
+                                                  .questionBankAllEntity
+                                                  .data
+                                                  .objective_questions[index]
+                                                  .name,
+                                            )),
                                           ],
                                         ),
                                         subtitle: Text(
