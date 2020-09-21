@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'ui/screens/assessment/createAssessment/add_questions_screen.dart';
 
+import 'ui/screens/authorization/login_screen.dart';
+
 void main() {
   runApp(EdWisely());
 }
@@ -19,13 +21,14 @@ class EdWisely extends StatelessWidget {
       title: 'Edwisely',
       theme: EdwiselyTheme.themeDataEdwisely,
       debugShowCheckedModeBanner: false,
-      home: AddQuestionsScreen(
-        'T',
-        'dfdf',
-        10,
-        QuestionType.Objective,
-        2052,
-      ),
+      home: LoginScreen(),
+      // AddQuestionsScreen(
+      //   'T',
+      //   'dfdf',
+      //   10,
+      //   QuestionType.Objective,
+      //   2052,
+      // ),
     );
   }
 }
