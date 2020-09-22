@@ -33,6 +33,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    print('semseter subjectid for fm2 ${widget.semesterSubjectId}');
     return Scaffold(
       appBar: BigAppBar(
               actions: null,

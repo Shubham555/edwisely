@@ -36,10 +36,7 @@ class CoursesLandingScreen extends StatelessWidget {
           onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => BlocProvider(
-                create: (BuildContext context) => CoursesBloc(),
-                child: AddCourseScreen(),
-              ),
+              builder: (BuildContext context) => AddCourseScreen(),
             ),
           ),
           child: Row(
@@ -97,13 +94,9 @@ class CoursesLandingScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        BlocProvider(
-                                      create: (BuildContext context) =>
-                                          CoursesBloc(),
-                                      child: CourseDetailScreen(
-                                        data.name,
-                                        data.subject_semester_id,
-                                      ),
+                                        CourseDetailScreen(
+                                      data.name,
+                                      data.subject_semester_id,
                                     ),
                                   ),
                                 ),
@@ -155,15 +148,10 @@ class CoursesLandingScreen extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            BlocProvider(
-                                          create: (BuildContext context) =>
-                                              CoursesBloc(),
-                                          child: CourseDetailScreen(
-                                            state
-                                                .coursesEntity.data[index].name,
-                                            state.coursesEntity.data[index]
-                                                .subject_semester_id,
-                                          ),
+                                            CourseDetailScreen(
+                                          state.coursesEntity.data[index].name,
+                                          state.coursesEntity.data[index]
+                                              .subject_semester_id,
                                         ),
                                       ),
                                     ),

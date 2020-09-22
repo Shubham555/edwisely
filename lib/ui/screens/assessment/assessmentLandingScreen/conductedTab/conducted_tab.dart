@@ -1,9 +1,6 @@
-import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/objective_tab.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/subjective_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConductedTab extends StatefulWidget {
   @override
@@ -47,40 +44,8 @@ class _ConductedTabState extends State<ConductedTab>
           child: TabBarView(
             controller: _objectiveOrSubjectiveTabController,
             children: [
-              MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (BuildContext context) => ConductedBloc()
-                      ..add(
-                        GetObjectiveQuestions(),
-                      ),
-                  ),
-                  BlocProvider(
-                    create: (BuildContext context) => CoursesBloc()
-                      ..add(
-                        GetSectionsAndGetCoursesList(71),
-                      ),
-                  ),
-                ],
-                child: ConductedTabObjectiveTab(),
-              ),
-              MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (BuildContext context) => ConductedBloc()
-                      ..add(
-                        GetObjectiveQuestions(),
-                      ),
-                  ),
-                  BlocProvider(
-                    create: (BuildContext context) => CoursesBloc()
-                      ..add(
-                        GetSectionsAndGetCoursesList(71),
-                      ),
-                  ),
-                ],
-                child: ConductedTabSubjectiveTab(),
-              ),
+              ConductedTabObjectiveTab(),
+              ConductedTabSubjectiveTab(),
             ],
           ),
         )

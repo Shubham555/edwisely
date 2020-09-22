@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController(
-    initialPage: 1,
+    initialPage: 0,
   );
 
   int _selectedPage = 0;
@@ -43,17 +43,17 @@ class _HomeScreenState extends State<HomeScreen> {
           //side bar
           NavigationDrawer(
             isCollapsed: false,
+            pageController: _pageController,
           ),
           //rest of the screen
-          Center(
-            child: Expanded(
-              child: PageView(
-                controller: _pageController,
-                scrollDirection: Axis.vertical,
-                children: _screens,
-                onPageChanged: (int value) =>
-                    setState(() => _selectedPage = value),
-              ),
+          Expanded(
+            child: PageView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _pageController,
+              scrollDirection: Axis.vertical,
+              children: _screens,
+              onPageChanged: (int value) =>
+                  setState(() => _selectedPage = value),
             ),
           ),
         ],

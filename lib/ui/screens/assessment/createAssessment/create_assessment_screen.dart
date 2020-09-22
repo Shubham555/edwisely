@@ -9,6 +9,7 @@ import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//todo chips chjoice fix
 class CreateAssessmentScreen extends StatefulWidget {
   final QuestionType _questionType;
 
@@ -46,18 +47,16 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
               cubit: context.bloc<ObjectiveBloc>(),
               listener: (BuildContext context, state) {
                 if (state is ObjectiveAssessmentCreated) {
+                  print(state.assessmentId);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => BlocProvider(
-                        create: (BuildContext context) => AddQuestionBloc(),
-                        child: AddQuestionsScreen(
-                          _titleController.text,
-                          _descriptionController.text,
-                          10,
-                          widget._questionType,
-                          state.assessmentId,
-                        ),
+                      builder: (BuildContext context) => AddQuestionsScreen(
+                        _titleController.text,
+                        _descriptionController.text,
+                        352,
+                        widget._questionType,
+                        state.assessmentId,
                       ),
                     ),
                   );
@@ -79,16 +78,15 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => BlocProvider(
-                        create: (BuildContext context) => AddQuestionBloc(),
-                        child: AddQuestionsScreen(
+                      builder: (BuildContext context) =>
+                          AddQuestionsScreen(
                           _titleController.text,
                           _descriptionController.text,
-                          10,
+                          352,
                           widget._questionType,
                           state.assessmentId,
                         ),
-                      ),
+
                     ),
                   );
                 }

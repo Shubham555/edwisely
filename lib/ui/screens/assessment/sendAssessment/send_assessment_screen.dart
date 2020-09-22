@@ -22,8 +22,10 @@ class SendAssessmentScreen extends StatefulWidget {
 class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
   List<int> students = [];
   DateTime _testStart;
+  TimeOfDay _testStartTime;
 
   DateTime _testExpiry;
+  TimeOfDay _testExpiryTime;
 
   Duration _testDuration;
 
@@ -88,15 +90,20 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                         icon: Icon(Icons.calendar_today),
                         onPressed: () async {
                           _testStart = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now().subtract(
-                              Duration(days: 100),
-                            ),
-                            lastDate: DateTime.now().add(
-                              Duration(days: 100),
-                            ),
-                          );
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now().subtract(
+                                Duration(days: 100),
+                              ),
+                              lastDate: DateTime.now().add(
+                                Duration(days: 100),
+                              )).whenComplete(() async {
+                            _testStartTime = await showTimePicker(
+                                context: context, initialTime: TimeOfDay.now());
+                          }).catchError(() {
+                            _testStart = null;
+                            _testStartTime = null;
+                          });
                           setState(() {});
                         },
                       ),
@@ -104,7 +111,15 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                         _testStart == null
                             ? ''
                             : DateFormat('EEE d MMM yyyy').format(_testStart),
-                      )
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        _testStartTime == null
+                            ? ''
+                            : _testStartTime.format(context).toString(),
+                      ),
                     ],
                   );
                 },
@@ -119,15 +134,20 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                         icon: Icon(Icons.calendar_today),
                         onPressed: () async {
                           _testExpiry = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now().subtract(
-                              Duration(days: 100),
-                            ),
-                            lastDate: DateTime.now().add(
-                              Duration(days: 100),
-                            ),
-                          );
+                              context: context,
+                              initialDate: _testStart,
+                              firstDate: DateTime.now().subtract(
+                                Duration(days: 100),
+                              ),
+                              lastDate: DateTime.now().add(
+                                Duration(days: 100),
+                              )).whenComplete(() async {
+                            _testExpiryTime = await showTimePicker(
+                                context: context, initialTime: _testStartTime);
+                          }).catchError(() {
+                            _testExpiry = null;
+                            _testExpiryTime = null;
+                          });
                           setState(() {});
                         },
                       ),
@@ -135,7 +155,15 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                         _testExpiry == null
                             ? ''
                             : DateFormat('EEE d MMM yyyy').format(_testExpiry),
-                      )
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        _testExpiryTime == null
+                            ? ''
+                            : _testExpiryTime.format(context).toString(),
+                      ),
                     ],
                   );
                 },

@@ -62,6 +62,7 @@ class QuestionBankObjectiveBloc
       final response = await EdwiselyApi.dio.get(
           'questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}');
       if (response.statusCode == 200) {
+        print(response.data);
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,

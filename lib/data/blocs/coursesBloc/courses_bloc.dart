@@ -124,6 +124,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     if (event is GetCourseContentData) {
       final response = await EdwiselyApi.dio.get('getCourseDecks?unit_id=593');
       if (response.statusCode == 200) {
+        print('course decks ${response.data}');
         if (response.data['message'] != 'No data to fetch') {
           yield CourseContentDataFetched(
             CourseDeckEntity.fromJsonMap(response.data),

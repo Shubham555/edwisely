@@ -1,23 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import './side_drawer_item.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final isCollapsed;
+  final PageController pageController;
 
-  NavigationDrawer({this.isCollapsed = true});
+  NavigationDrawer({this.isCollapsed = true, this.pageController});
 
   @override
-  _NavigationDrawerState createState() => _NavigationDrawerState();
+  _NavigationDrawerState createState() =>
+      _NavigationDrawerState(pageController);
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
   bool _isNavigationDrawerCollapsed = false;
-
+  PageController pageController;
   double _sidebarWidth;
 
   Size screenSize;
   TextTheme textTheme;
+
+  _NavigationDrawerState(this.pageController);
 
   @override
   void initState() {
@@ -70,19 +75,24 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           //list of options
           SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'All Courses',
-            icon: Icons.import_contacts,
-          ),
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'All Courses',
+              icon: Icons.import_contacts,
+              function: () => pageController.animateToPage(0,
+                  duration: Duration(milliseconds: 250), curve: Curves.ease)),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Add Course',
             icon: Icons.book,
+            function: () => pageController.animateToPage(1,
+                duration: Duration(milliseconds: 250), curve: Curves.ease),
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Assesments',
             icon: Icons.assessment,
+            function: () => pageController.animateToPage(2,
+                duration: Duration(milliseconds: 250), curve: Curves.ease),
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
@@ -93,6 +103,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Send Assignment',
             icon: Icons.assignment,
+            function: () => pageController.animateToPage(2,
+                duration: Duration(milliseconds: 250), curve: Curves.ease),
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
@@ -103,6 +115,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'My Assesment',
             icon: Icons.assignment_ind,
+            function: () => pageController.animateToPage(2,
+                duration: Duration(milliseconds: 250), curve: Curves.ease),
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,

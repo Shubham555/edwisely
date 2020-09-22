@@ -137,7 +137,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
     _option5Node.dispose();
   }
 
-  List<Map> topics = [];
+  List<Map<String, dynamic>> topics = [];
   final _questionFetchCubit = QuestionsCubit();
   List<int> questions = [];
 
@@ -561,6 +561,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                       RaisedButton(
                         color: Color(0xFF1D2B64),
                         onPressed: () {
+                          print(_option1Image.path);
                           print(_questionController.text);
                           if (widget._questionType == QuestionType.Objective) {
                             AddQuestionCubit().addQuestion(
@@ -628,19 +629,26 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                   //todo change
                   BlocBuilder(
                     cubit: context.bloc<TopicCubit>()
-                      ..getTopics(widget._subjectId, 71),
+                      //todo fix
+                      ..getTopics(45, 71),
                     builder: (BuildContext context, state) {
                       if (state is TopicFetched) {
-                        return ChipsChoice<Map>.multiple(
-                          value: topics,
-                          isWrapped: true,
-                          options: ChipsChoiceOption.listFrom(
-                            source: state.topicEntity.data,
-                            value: (i, Data v) => {'id': v.id, 'type': v.type},
-                            label: (i, Data v) => v.name,
-                          ),
-                          onChanged: (val) => setState(
-                            () => topics = val,
+                        return Container(
+                          width: 200,
+                          child: ChipsChoice<Map<String, dynamic>>.multiple(
+                            value: topics,
+                            isWrapped: true,
+                            options: ChipsChoiceOption.listFrom(
+                              source: state.topicEntity.data,
+                              value: (i, Data v) =>
+                                  {'id': v.id, 'type': v.type},
+                              label: (i, Data v) => v.name,
+                            ),
+                            onChanged: (val) {
+                              setState(
+                                () => topics = val,
+                              );
+                            },
                           ),
                         );
                       }

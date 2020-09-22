@@ -1,7 +1,5 @@
 import 'package:catex/catex.dart';
-import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
-import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_objective_from_selected_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_subjective_from_selected_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
@@ -9,8 +7,6 @@ import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../data/blocs/addQuestionScreen/add_question_bloc.dart';
 
 class AddQuestionsScreen extends StatefulWidget {
   final String _title;
@@ -123,24 +119,12 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  MultiBlocProvider(
-                                providers: [
-                                  BlocProvider(
-                                    create: (BuildContext context) =>
-                                        AddQuestionBloc(),
-                                  ),
-                                  BlocProvider(
-                                    create: (BuildContext context) =>
-                                        TopicCubit(),
-                                  ),
-                                ],
-                                child: TypeQuestionTab(
-                                    widget._title,
-                                    widget._description,
-                                    widget._subjectId,
-                                    widget._questionType,
-                                    widget._assessmentId),
-                              ),
+                                  TypeQuestionTab(
+                                      widget._title,
+                                      widget._description,
+                                      widget._subjectId,
+                                      widget._questionType,
+                                      widget._assessmentId),
                             ),
                           ),
                           child: Card(
@@ -201,16 +185,13 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (BuildContext context) => BlocProvider(
-                                  create: (BuildContext context) =>
-                                      AddQuestionBloc(),
-                                  child: ChooseObjectiveFromSelectedTab(
-                                      widget._title,
-                                      widget._description,
-                                      widget._subjectId,
-                                      widget._questionType,
-                                      widget._assessmentId),
-                                ),
+                                builder: (BuildContext context) =>
+                                    ChooseObjectiveFromSelectedTab(
+                                        widget._title,
+                                        widget._description,
+                                        widget._subjectId,
+                                        widget._questionType,
+                                        widget._assessmentId),
                               ),
                             ),
                             child: Card(
@@ -247,16 +228,13 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (BuildContext context) => BlocProvider(
-                                  create: (BuildContext context) =>
-                                      AddQuestionBloc(),
-                                  child: ChooseSubjectiveFromSelectedTab(
-                                    widget._title,
-                                    widget._description,
-                                    widget._subjectId,
-                                    widget._questionType,
-                                    widget._assessmentId,
-                                  ),
+                                builder: (BuildContext context) =>
+                                    ChooseSubjectiveFromSelectedTab(
+                                  widget._title,
+                                  widget._description,
+                                  widget._subjectId,
+                                  widget._questionType,
+                                  widget._assessmentId,
                                 ),
                               ),
                             ),
