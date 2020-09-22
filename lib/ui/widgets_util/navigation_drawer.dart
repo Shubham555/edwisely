@@ -4,8 +4,14 @@ import './side_drawer_item.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final isCollapsed;
+  final selectedIndex;
+  final Function onPageChanged;
 
-  NavigationDrawer({this.isCollapsed = true});
+  NavigationDrawer({
+    this.isCollapsed = true,
+    this.selectedIndex,
+    @required this.onPageChanged,
+  });
 
   @override
   _NavigationDrawerState createState() => _NavigationDrawerState();
@@ -33,7 +39,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
     if (screenSize.width < 1000) {
       _sidebarWidth = _isNavigationDrawerCollapsed
-          ? screenSize.width * 0.08
+          ? screenSize.width * 0.1
           : screenSize.width * 0.28;
     } else {
       _sidebarWidth = _isNavigationDrawerCollapsed
@@ -69,56 +75,85 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             child: Divider(),
           ),
           //list of options
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'All Courses',
-            icon: Icons.import_contacts,
+          InkWell(
+            onTap: () => widget.onPageChanged(0),
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'All Courses',
+              icon: Icons.import_contacts,
+              myIndex: 0,
+              currentIndex: widget.selectedIndex,
+            ),
           ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Add Course',
-            icon: Icons.book,
+          InkWell(
+            onTap: () => widget.onPageChanged(1),
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'Add Course',
+              icon: Icons.book,
+              myIndex: 1,
+              currentIndex: widget.selectedIndex,
+            ),
           ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Assesments',
-            icon: Icons.assessment,
+          InkWell(
+            onTap: () => widget.onPageChanged(2),
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'Assesments',
+              icon: Icons.assessment,
+              myIndex: 2,
+              currentIndex: widget.selectedIndex,
+            ),
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Live Class',
             icon: Icons.live_tv,
+            myIndex: 3,
+            currentIndex: widget.selectedIndex,
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Send Assignment',
             icon: Icons.assignment,
+            myIndex: 4,
+            currentIndex: widget.selectedIndex,
           ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Schedule Event',
-            icon: Icons.calendar_today,
-          ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'My Assesment',
-            icon: Icons.assignment_ind,
-          ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Upcoming Events',
-            icon: Icons.event,
-          ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Get Feedback',
-            icon: Icons.feedback,
-          ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Recently Viewed',
-            icon: Icons.schedule,
-          ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'Schedule Event',
+          //   icon: Icons.calendar_today,
+          //   myIndex: 5,
+          //   currentIndex: widget.selectedIndex,
+          // ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'My Assesment',
+          //   icon: Icons.assignment_ind,
+          //   myIndex: 6,
+          //   currentIndex: widget.selectedIndex,
+          // ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'Upcoming Events',
+          //   icon: Icons.event,
+          //   myIndex: 7,
+          //   currentIndex: widget.selectedIndex,
+          // ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'Get Feedback',
+          //   icon: Icons.feedback,
+          //   myIndex: 8,
+          //   currentIndex: widget.selectedIndex,
+          // ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'Recently Viewed',
+          //   icon: Icons.schedule,
+          //   myIndex: 9,
+          //   currentIndex: widget.selectedIndex,
+          // ),
           Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),

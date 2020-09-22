@@ -26,12 +26,21 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _screens = [
     CoursesLandingScreen(),
     // CourseDetailScreen(_courseName, semesterSubjectId),
+    // CoursesLandingScreen(),
     AddCourseScreen(),
     AssessmentLandingScreen(),
     // CreateAssessmentScreen(_questionType)
     // AddQuestionsScreen(_title, _description, _subjectId, _questionType, _assessmentId)
     // SendAssessmentScreen(assessmentId, title, noOfQuestions)
   ];
+
+  void onPageChanged(int value) => setState(() => _selectedPage = value);
+
+  void changePage(int value) => _pageController.animateToPage(
+        value,
+        duration: Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +53,18 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //side bar
-          NavigationDrawer(isCollapsed: false, ),
+          NavigationDrawer(
+            isCollapsed: false,
+            selectedIndex: _selectedPage,
+            onPageChanged: changePage,
+          ),
           //rest of the screen
           Expanded(
             child: PageView(
               controller: _pageController,
               scrollDirection: Axis.vertical,
               children: _screens,
-              onPageChanged: (int value) =>
-                  setState(() => _selectedPage = value),
+              onPageChanged: onPageChanged,
             ),
           ),
         ],
