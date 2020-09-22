@@ -1,11 +1,23 @@
+import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
+import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
+import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
+import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
+import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
+import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
+import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
+import 'package:edwisely/data/cubits/add_question_cubit.dart';
+import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
+import 'package:edwisely/data/cubits/select_students_cubit.dart';
+import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
+import 'package:edwisely/data/cubits/topic_cubit.dart';
+import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
+import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'ui/screens/home_screen.dart';
+import 'data/blocs/objectiveBloc/objective_bloc.dart';
 
 void main() {
   runApp(EdWisely());
@@ -14,21 +26,56 @@ void main() {
 class EdWisely extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Edwisely',
-      theme: EdwiselyTheme.themeDataEdwisely,
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
-      //   MultiBlocProvider(
-      // providers: [
-      //   BlocProvider(
-      //     create: (BuildContext context) => SendAssessmentCubit(),
-      //   )
-      // ],
-      // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-      // ),
-      // AddQuestionsScreen(
-      // home: AssessmentLandingScreen()
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (BuildContext context) => AddQuestionBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => ConductedBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => CoursesBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => ObjectiveBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => QuestionBankObjectiveBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => QuestionBankSubjectiveBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => QuestionBankBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => SubjectiveBloc(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => AddQuestionCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => QuestionsCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => SelectStudentsCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => SendAssessmentCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => TopicCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => UnitCubit(),
+        ),
+      ],
+      child: MaterialApp(
+          title: 'Edwisely',
+          theme: EdwiselyTheme.themeDataEdwisely,
+          debugShowCheckedModeBanner: false,
+          home: HomeScreen()
           //   MultiBlocProvider(
           // providers: [
           //   BlocProvider(
@@ -37,13 +84,14 @@ class EdWisely extends StatelessWidget {
           // ],
           // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
           // ),
-      //     AddQuestionsScreen(
-      //   'T',
-      //   'dfdf',
-      //   10,
-      //   QuestionType.Objective,
-      //   2052,
-      // ),
+          //     AddQuestionsScreen(
+          //   'T',
+          //   'dfdf',
+          //   10,
+          //   QuestionType.Objective,
+          //   2052,
+          // ),
+          ),
     );
   }
 }
@@ -59,6 +107,6 @@ class EdWisely extends StatelessWidget {
 //todo add courses fix //
 //todo add dropdown for difficulty level in type ques //
 
-
 //api todo
 //todo add quetion to assessment units context
+//units passed empty

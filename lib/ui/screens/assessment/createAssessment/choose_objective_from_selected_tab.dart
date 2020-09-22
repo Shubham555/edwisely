@@ -91,6 +91,7 @@ class ChooseObjectiveFromSelectedTab extends StatelessWidget {
                     child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         RaisedButton(
                             child: Text('Remember'),
