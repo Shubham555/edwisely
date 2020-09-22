@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController(
-    initialPage: 1,
+    initialPage: 0,
   );
 
   int _selectedPage = 0;
@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: PageView(
               controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: _screens,
               onPageChanged: onPageChanged,

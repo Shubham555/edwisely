@@ -39,6 +39,8 @@ flutter:
   - assets/icons/send_notification.svg
   - assets/images/login_screen.png
   - assets/placeholder_image.jpg
+  - assets/logo/
+  
   fonts:
   - family: Poppins
     fonts:
