@@ -21,23 +21,24 @@ dependencies:
   image_picker_for_web: ^0.1.0+2
   flutter_svg: ^0.19.0
   catex: ^0.0.1+6
+  auto_size_text: ^2.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter:
   uses-material-design: true
   assets:
-    - assets/icons/add_course_material.svg
-    - assets/icons/conduct_live_assesment.svg
-    - assets/icons/conduct_live_class.svg
-    - assets/icons/get_feedback.svg
-    - assets/icons/my_assesment.svg
-    - assets/icons/recently_viewed.svg
-    - assets/icons/schedule_event.svg
-    - assets/icons/send_assignment.svg
-    - assets/icons/send_notification.svg
-    - assets/images/login_screen.png
-    - assets/placeholder_image.jpg
+  - assets/icons/add_course_material.svg
+  - assets/icons/conduct_live_assesment.svg
+  - assets/icons/conduct_live_class.svg
+  - assets/icons/get_feedback.svg
+  - assets/icons/my_assesment.svg
+  - assets/icons/recently_viewed.svg
+  - assets/icons/schedule_event.svg
+  - assets/icons/send_assignment.svg
+  - assets/icons/send_notification.svg
+  - assets/images/login_screen.png
+  - assets/placeholder_image.jpg
   fonts:
   - family: Poppins
     fonts:

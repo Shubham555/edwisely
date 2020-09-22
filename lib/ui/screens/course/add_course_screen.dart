@@ -24,121 +24,110 @@ class AddCourseScreen extends StatelessWidget {
               appBarTitle: Text('Edwisely'),
               flatButton: null)
           .build(context),
-      body: Row(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 5,
-            color: Colors.grey,
-          ),
-          Expanded(
-            child: Center(
-              child: BlocListener(
-                cubit: context.bloc<CoursesBloc>(),
-                listener: (BuildContext context, state) {
-                  if (state is CourseAdded) {
-                    Navigator.pop(context);
-                  }
-                },
-                child: BlocBuilder(
-                  cubit: context.bloc<CoursesBloc>()..add(GetAllCourses()),
-                  builder: (BuildContext context, state) {
-                    if (state is AllCoursesFetched) {
-                      return Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+      body: Expanded(
+        child: Center(
+          child: BlocListener(
+            cubit: context.bloc<CoursesBloc>(),
+            listener: (BuildContext context, state) {
+              if (state is CourseAdded) {
+                Navigator.pop(context);
+              }
+            },
+            child: BlocBuilder(
+              cubit: context.bloc<CoursesBloc>()..add(GetAllCourses()),
+              builder: (BuildContext context, state) {
+                if (state is AllCoursesFetched) {
+                  return Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 5,
-                                  padding: EdgeInsets.only(
-                                    left:
-                                        MediaQuery.of(context).size.width / 100,
-                                  ),
-                                  child: DropdownSearch(
-                                    autoFocusSearchBox: true,
-                                    showClearButton: true,
-                                    label: 'Search Courses',
-                                    showSearchBox: true,
-                                    mode: Mode.MENU,
-                                    items: state.getAllCoursesEntity.data,
-                                    onChanged: (Data data) => _showDialog(
-                                      context,
-                                      data,
-                                      data.departments,
-                                      state.sectionEntity,
-                                    ),
-                                    showSelectedItem: false,
-                                    dropdownBuilder:
-                                        (context, Data data, String sd) =>
-                                            data != null
-                                                ? Text(data.name)
-                                                : Text(''),
-                                    filterFn: (Data data, String string) =>
-                                        data.name.toLowerCase().contains(
-                                              string,
-                                            ),
-                                    popupItemBuilder:
-                                        (context, Data data, bool) => Container(
-                                      padding: EdgeInsets.all(
-                                        10,
-                                      ),
-                                      child: Text(
-                                        data.name,
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 5,
+                              padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width / 100,
+                              ),
+                              child: DropdownSearch(
+                                autoFocusSearchBox: true,
+                                showClearButton: true,
+                                label: 'Search Courses',
+                                showSearchBox: true,
+                                mode: Mode.MENU,
+                                items: state.getAllCoursesEntity.data,
+                                onChanged: (Data data) => _showDialog(
+                                  context,
+                                  data,
+                                  data.departments,
+                                  state.sectionEntity,
                                 ),
-                                DropdownButton(items: null, onChanged: null)
-                              ],
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: GridView(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisSpacing: 35,
-                                    crossAxisSpacing: 35,
-                                    crossAxisCount: 3,
-                                    childAspectRatio:
-                                        MediaQuery.of(context).size.width /
-                                            MediaQuery.of(context).size.height /
-                                            1.9,
-                                  ),
-                                  children: List.generate(
-                                    state.getAllCoursesEntity.data.length,
-                                    (upperIndex) => Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          6,
+                                showSelectedItem: false,
+                                dropdownBuilder: (context, Data data,
+                                        String sd) =>
+                                    data != null ? Text(data.name) : Text(''),
+                                filterFn: (Data data, String string) =>
+                                    data.name.toLowerCase().contains(
+                                          string,
                                         ),
-                                      ),
-                                      elevation: 6,
-                                      child: _buildCourseTile(
-                                          upperIndex, context, state),
-                                    ),
+                                popupItemBuilder: (context, Data data, bool) =>
+                                    Container(
+                                  padding: EdgeInsets.all(
+                                    10,
+                                  ),
+                                  child: Text(
+                                    data.name,
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.black),
                                   ),
                                 ),
                               ),
                             ),
+                            DropdownButton(items: null, onChanged: null)
                           ],
                         ),
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-              ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: GridView(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                mainAxisSpacing: 35,
+                                crossAxisSpacing: 35,
+                                crossAxisCount: 3,
+                                childAspectRatio:
+                                    MediaQuery.of(context).size.width /
+                                        MediaQuery.of(context).size.height /
+                                        1.9,
+                              ),
+                              children: List.generate(
+                                state.getAllCoursesEntity.data.length,
+                                (upperIndex) => Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      6,
+                                    ),
+                                  ),
+                                  elevation: 6,
+                                  child: _buildCourseTile(
+                                      upperIndex, context, state),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
           ),
-        ],
+        ),
       ),
     );
   }

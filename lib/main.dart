@@ -12,6 +12,7 @@ import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
 import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
+import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,7 +75,7 @@ class EdWisely extends StatelessWidget {
           title: 'Edwisely',
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,
-          home: AssessmentLandingScreen()
+          home: HomeScreen()
           //   MultiBlocProvider(
           // providers: [
           //   BlocProvider(
