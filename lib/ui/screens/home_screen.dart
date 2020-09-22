@@ -4,8 +4,6 @@ import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets_util/navigation_drawer.dart';
-import 'package:provider/provider.dart';
-import '../../data/provider/selected_page.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _screens = [
     CoursesLandingScreen(),
     // CourseDetailScreen(_courseName, semesterSubjectId),
+    // CoursesLandingScreen(),
     AddCourseScreen(),
     AssessmentLandingScreen(),
     // CreateAssessmentScreen(_questionType)
@@ -44,8 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
     textTheme = Theme.of(context).textTheme;
-    _selectedPage = context.watch<SelectedPageProvider>().selectedPage;
-    print(_selectedPage);
+
     return Scaffold(
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
           //side bar
           NavigationDrawer(
             isCollapsed: false,
+            selectedIndex: _selectedPage,
+            onPageChanged: changePage,
           ),
           //rest of the screen
           Expanded(
