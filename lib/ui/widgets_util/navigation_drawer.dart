@@ -1,20 +1,17 @@
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
-import 'package:edwisely/ui/screens/course/add_course_screen.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../data/provider/selected_page.dart';
 
 import './side_drawer_item.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final isCollapsed;
+  final selectedIndex;
+  final Function onPageChanged;
 
   NavigationDrawer({
     this.isCollapsed = true,
-    Key key,
-  }) : super(key: key);
+    this.selectedIndex,
+    @required this.onPageChanged,
+  });
 
   @override
   _NavigationDrawerState createState() => _NavigationDrawerState();
@@ -22,7 +19,7 @@ class NavigationDrawer extends StatefulWidget {
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
   bool _isNavigationDrawerCollapsed = false;
-  int _selectedPage = 0;
+
   double _sidebarWidth;
 
   Size screenSize;
@@ -39,8 +36,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
     textTheme = Theme.of(context).textTheme;
-    _selectedPage = Provider.of<SelectedPageProvider>(context).selectedPage;
-    // _selectedPage = context.watch<SelectedPageProvider>().selectedPage;
 
     if (screenSize.width < 1000) {
       _sidebarWidth = _isNavigationDrawerCollapsed
@@ -81,52 +76,33 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           //list of options
           InkWell(
-            onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(0);
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => CoursesLandingScreen()),
-              );
-            },
+            onTap: () => widget.onPageChanged(0),
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
               title: 'All Courses',
               icon: Icons.import_contacts,
               myIndex: 0,
-              currentIndex: _selectedPage,
+              currentIndex: widget.selectedIndex,
             ),
           ),
           InkWell(
-            onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(1);
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => AddCourseScreen()),
-              );
-            },
+            onTap: () => widget.onPageChanged(1),
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
               title: 'Add Course',
               icon: Icons.book,
               myIndex: 1,
-              currentIndex: _selectedPage,
+              currentIndex: widget.selectedIndex,
             ),
           ),
           InkWell(
-            onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(2);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => AssessmentLandingScreen()),
-              );
-            },
+            onTap: () => widget.onPageChanged(2),
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
               title: 'Assesments',
               icon: Icons.assessment,
               myIndex: 2,
-              currentIndex: _selectedPage,
+              currentIndex: widget.selectedIndex,
             ),
           ),
           SideDrawerItem(
@@ -134,14 +110,14 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             title: 'Live Class',
             icon: Icons.live_tv,
             myIndex: 3,
-            currentIndex: _selectedPage,
+            currentIndex: widget.selectedIndex,
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Send Assignment',
             icon: Icons.assignment,
             myIndex: 4,
-            currentIndex: _selectedPage,
+            currentIndex: widget.selectedIndex,
           ),
           // SideDrawerItem(
           //   isCollapsed: _isNavigationDrawerCollapsed,
