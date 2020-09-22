@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:catex/catex.dart';
 import 'package:chips_choice/chips_choice.dart';
+import 'package:dio/dio.dart';
+import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
 import 'package:edwisely/data/cubits/topic_cubit.dart';
@@ -302,8 +306,28 @@ class _ChooseObjectiveFromSelectedTabState
                         },
                       ),
                       RaisedButton.icon(
-                        onPressed: () =>
-                            questions.isEmpty ? null : print(questions),
+                        onPressed: () async => questions.isEmpty
+                            ? null
+                            : await EdwiselyApi.dio
+                                .post(
+                                'questionnaireWeb/editObjectiveTestQuestions',
+                                data: FormData.fromMap(
+                                  {
+                                    'test_id': widget._assessmentId,
+                                    'questions': jsonEncode(questions),
+                                    'units': jsonEncode([])
+                                  },
+                                ),
+                              )
+                                .then((value) {
+                                context
+                                    .bloc<QuestionsCubit>()
+                                    .getQuestionsToAnAssessment(
+                                      widget._assessmentId,
+                                    );
+
+                                Navigator.pop(context);
+                              }),
                         icon: Icon(Icons.add),
                         label: Text('Add'),
                       )

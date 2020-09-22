@@ -90,6 +90,7 @@ class AddQuestionCubit extends Cubit<AddQuestionState> {
           {
             'test_id': assessmentId,
             'questions': jsonEncode(questions),
+            'units' : jsonEncode([])
           },
         ),
       );

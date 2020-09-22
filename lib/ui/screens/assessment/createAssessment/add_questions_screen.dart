@@ -1,4 +1,3 @@
-import 'package:catex/catex.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_objective_from_selected_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_subjective_from_selected_tab.dart';
@@ -29,7 +28,6 @@ class AddQuestionsScreen extends StatefulWidget {
 
 class _AddQuestionsScreenState extends State<AddQuestionsScreen>
     with SingleTickerProviderStateMixin {
-  final _questionFetchCubit = QuestionsCubit();
   Size screenSize;
   TextTheme textTheme;
 
@@ -65,7 +63,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
             height: MediaQuery.of(context).size.height,
             color: Colors.grey.shade500,
             child: BlocBuilder(
-              cubit: _questionFetchCubit
+              cubit: context.bloc<QuestionsCubit>()
                 ..getQuestionsToAnAssessment(
                   widget._assessmentId,
                 ),
@@ -73,9 +71,14 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                 if (state is QuestionsToAnAssessmentFetched) {
                   return ListView.builder(
                     itemCount: state.assessmentQuestionsEntity.data.length,
-                    itemBuilder: (BuildContext context, int index) => ListTile(
-                      title: CaTeX(
-                        state.assessmentQuestionsEntity.data[index].name,
+                    itemBuilder: (BuildContext context, int index) => Card(
+                      child: Column(
+                        children: [
+                          Text(
+                            'Q ${index + 1} ${state.assessmentQuestionsEntity.data[index].name}',
+                          ),
+
+                        ],
                       ),
                     ),
                   );
@@ -193,7 +196,11 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                         widget._questionType,
                                         widget._assessmentId),
                               ),
-                            ),
+                            ).whenComplete(() => context
+                                .bloc<QuestionsCubit>()
+                                .getQuestionsToAnAssessment(
+                                  widget._assessmentId,
+                                )),
                             child: Card(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),

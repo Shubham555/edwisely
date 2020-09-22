@@ -27,6 +27,8 @@ class LoginScreen extends StatelessWidget {
     TextTheme textTheme,
     BuildContext context,
   ) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return Container(
       width: screenSize.width * 0.4,
       height: screenSize.height,
@@ -62,6 +64,7 @@ class LoginScreen extends StatelessWidget {
             label: 'Email',
             hint: 'Enter your username',
             inputType: TextInputType.emailAddress,
+            controller: emailController,
           ),
           //spacing
           SizedBox(
@@ -76,19 +79,20 @@ class LoginScreen extends StatelessWidget {
               Icons.remove_red_eye,
               color: Colors.black,
             ),
+            controller: passwordController,
           ),
           //forget password
-          Align(
-            alignment: Alignment.centerRight,
-            child: FlatButton(
-              onPressed: () {},
-              child: Text(
-                'Forgot Password ?',
-                style: textTheme.button
-                    .copyWith(color: Theme.of(context).primaryColor),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.centerRight,
+          //   child: FlatButton(
+          //     onPressed: () {},
+          //     child: Text(
+          //       'Forgot Password ?',
+          //       style: textTheme.button
+          //           .copyWith(color: Theme.of(context).primaryColor),
+          //     ),
+          //   ),
+          // ),
           //divider
           Padding(
             padding: const EdgeInsets.all(22.0),
@@ -116,34 +120,6 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
           //spacing
-          Spacer(),
-          //create account link
-          Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: () {
-                  //navigating to signup screen
-                  // Navigator.of(context).pushNamed(Routes.SIGNUP_SCREEN);
-                },
-                child: Text.rich(
-                  TextSpan(
-                    text: 'Don\'t Have An Account ? ',
-                    style: textTheme.button,
-                    children: [
-                      TextSpan(
-                          text: 'Create',
-                          style: textTheme.headline6.copyWith(
-                            color: Theme.of(context).primaryColor,
-                          )),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

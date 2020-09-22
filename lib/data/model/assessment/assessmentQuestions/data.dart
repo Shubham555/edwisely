@@ -2,19 +2,19 @@ import 'package:edwisely/data/model/assessment/assessmentQuestions/questions_opt
 
 class Data {
 
-  int id;
+  var id;
   String name;
-  int media;
-  int bookmarked;
-  int college_account_id;
+  var media;
+  var bookmarked;
+  var college_account_id;
   String question_type;
   String question_img;
-  int math_type;
-  int blooms_level;
+  var math_type;
+  var blooms_level;
   String solution;
   String solution_image;
   String type;
-  int type_id;
+  var type_id;
   String type_name;
   String type_code;
   List<Questions_options> questions_options;
