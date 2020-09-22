@@ -91,7 +91,7 @@ class AddCourseScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                DropdownButton(items: null , onChanged: null)
+                                DropdownButton(items: null, onChanged: null)
                               ],
                             ),
                             Expanded(

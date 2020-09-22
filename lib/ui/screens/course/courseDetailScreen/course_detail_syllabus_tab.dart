@@ -116,8 +116,8 @@ class CourseDetailSyllabusTab extends StatelessWidget {
                                         ),
                                       ),
                                       Wrap(
-                                        spacing: 10,
-                                        runSpacing: 10,
+                                        spacing: 5,
+                                        runSpacing: 5,
                                         children: List.generate(
                                           state.syllabusEntity.data[index]
                                               .topics.length,

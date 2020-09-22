@@ -48,29 +48,30 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
       },
       child: Scaffold(
         appBar: BigAppBar(
-          actions: null,
-          titleText: 'Send Assessment',
-          bottomTab: null,
-          appBarTitle: Text(
-            'Edwisely',
-            style: TextStyle(color: Colors.black),
-          ),
-          flatButton: FlatButton.icon(
-            onPressed: () => context.bloc<SendAssessmentCubit>().sendAssessment(
-                  widget.title,
-                  'description',
-                  _testExpiry.toString(),
-                  [21, 22, 23, 24, 25],
-                  _testDuration.toString(),
-                  students,
-                  widget.assessmentId,
-                  _testStart.toString(),
+                actions: null,
+                titleText: 'Send Assessment',
+                bottomTab: null,
+                appBarTitle: Text(
+                  'Edwisely',
+                  style: TextStyle(color: Colors.black),
                 ),
-            icon: Icon(Icons.send),
-            label: Text('Send Assessment'),
-          ),
-          appBarSize: MediaQuery.of(context).size.height / 3,
-        ).build(context),
+                flatButton: FlatButton.icon(
+                  onPressed: () =>
+                      context.bloc<SendAssessmentCubit>().sendAssessment(
+                            widget.title,
+                            'description',
+                            _testExpiry.toString(),
+                            [21, 22, 23, 24, 25],
+                            _testDuration.toString(),
+                            students,
+                            widget.assessmentId,
+                            _testStart.toString(),
+                          ),
+                  icon: Icon(Icons.send),
+                  label: Text('Send Assessment'),
+                ),
+                appBarSize: MediaQuery.of(context).size.height / 3.5)
+            .build(context),
         body: Padding(
           padding: const EdgeInsets.all(
             20,
@@ -173,6 +174,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                       child: GridView.builder(
                         itemCount: state.sectionEntity.data.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisSpacing: 15,
+                            crossAxisSpacing: 15,
                             crossAxisCount: 1),
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -188,7 +191,11 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                               Center(
                                 child: Text(
                                   state.sectionEntity.data[index].name,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
+                              ),
+                              SizedBox(
+                                height: 20,
                               ),
                               BlocBuilder(
                                 cubit: efv,

@@ -1,15 +1,16 @@
-import 'dart:io';
-
+import 'package:catex/catex.dart';
 import 'package:chips_choice/chips_choice.dart';
+import 'package:edwisely/data/cubits/add_question_cubit.dart';
+import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
 import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/model/add_question/typed_objective_questions.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar_add_questions.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
+import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../../data/model/questionBank/topicEntity/data.dart';
 
@@ -50,6 +51,10 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   TextEditingController _option3Controller = TextEditingController();
   TextEditingController _option4Controller = TextEditingController();
   TextEditingController _option5Controller = TextEditingController();
+  TextEditingController _hintController = TextEditingController();
+  TextEditingController _solutionController = TextEditingController();
+  TextEditingController _sourceController = TextEditingController();
+  bool isPublic = true;
 
   int _correctAnswer = 1;
 
@@ -60,43 +65,44 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   FocusNode _option4Node;
   FocusNode _option5Node;
 
-  final picker = ImagePicker();
-  File _questionImage;
-  File _option1Image;
-  File _option2Image;
-  File _option3Image;
-  File _option4Image;
-  File _option5Image;
+  FilePickerCross _questionImage;
+  FilePickerCross _option1Image;
+  FilePickerCross _option2Image;
+  FilePickerCross _option3Image;
+  FilePickerCross _option4Image;
+  FilePickerCross _option5Image;
 
   Future getImage() async {
     print('Picking Image');
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile =
+        await FilePickerCross.importFromStorage(type: FileTypeCross.any);
 
     setState(() {
-      _questionImage = File(pickedFile.path);
+      _questionImage = pickedFile;
     });
   }
 
   Future getOptionImage(int opt) async {
     print('Picking Image');
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile =
+        await FilePickerCross.importFromStorage(type: FileTypeCross.any);
 
     setState(() {
       switch (opt) {
         case 1:
-          _option1Image = File(pickedFile.path);
+          _option1Image = pickedFile;
           break;
         case 2:
-          _option2Image = File(pickedFile.path);
+          _option2Image = pickedFile;
           break;
         case 3:
-          _option3Image = File(pickedFile.path);
+          _option3Image = pickedFile;
           break;
         case 4:
-          _option4Image = File(pickedFile.path);
+          _option4Image = pickedFile;
           break;
         case 5:
-          _option5Image = File(pickedFile.path);
+          _option5Image = pickedFile;
           break;
       }
     });
@@ -105,7 +111,6 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   @override
   void initState() {
     super.initState();
-
     _option1Node = FocusNode();
     _option2Node = FocusNode();
     _option3Node = FocusNode();
@@ -133,6 +138,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   }
 
   List<Map> topics = [];
+  final _questionFetchCubit = QuestionsCubit();
+  List<int> questions = [];
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +168,45 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
         ).build(context),
         body: Row(
           children: [
-            LeftPane(
-              width: width,
-              quesCount: widget.quesCounter,
+            Container(
+              width: MediaQuery.of(context).size.width / 6,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.grey.shade500,
+              child: BlocBuilder(
+                cubit: _questionFetchCubit
+                  ..getQuestionsToAnAssessment(
+                    widget._assessmentId,
+                  ),
+                builder: (BuildContext context, state) {
+                  if (state is QuestionsToAnAssessmentFetched) {
+                    state.assessmentQuestionsEntity.data.forEach(
+                      (element) {
+                        questions.add(
+                          element.id,
+                        );
+                      },
+                    );
+                    return ListView.builder(
+                      itemCount: state.assessmentQuestionsEntity.data.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          ListTile(
+                        title: CaTeX(
+                          state.assessmentQuestionsEntity.data[index].name,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is QuestionsToAnAssessmentEmpty) {
+                    return Center(
+                      child: Text('Add Questions to this Assessment'),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -297,7 +340,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                               children: [
                                 widget.option1Selected
                                     ? OptionField(
-                                        myValue: 1,
+                                        myValue: 0,
                                         groupValue: _correctAnswer,
                                         myFocusNode: _option1Node,
                                         onChanged: (int value) => setState(
@@ -325,7 +368,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                 ),
                                 widget.option2Selected
                                     ? OptionField(
-                                        myValue: 2,
+                                        myValue: 1,
                                         groupValue: _correctAnswer,
                                         myFocusNode: _option2Node,
                                         onChanged: (int value) => setState(
@@ -350,7 +393,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                         )),
                                 widget.option3Selected
                                     ? OptionField(
-                                        myValue: 3,
+                                        myValue: 2,
                                         groupValue: _correctAnswer,
                                         myFocusNode: _option3Node,
                                         onChanged: (int value) => setState(
@@ -378,13 +421,13 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                 ),
                                 widget.option4Selected
                                     ? OptionField(
-                                        myValue: 4,
+                                        myValue: 3,
                                         groupValue: _correctAnswer,
                                         myFocusNode: _option4Node,
                                         onChanged: (int value) => setState(
                                             () => _correctAnswer = value),
                                         onTap: (String value) => setState(() =>
-                                            _option3Controller.text = value),
+                                            _option4Controller.text = value),
                                         optionImagePicker: () =>
                                             getOptionImage(4),
                                         image: _option4Image,
@@ -406,13 +449,13 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                 ),
                                 widget.option5Selected
                                     ? OptionField(
-                                        myValue: 5,
+                                        myValue: 4,
                                         groupValue: _correctAnswer,
                                         myFocusNode: _option5Node,
                                         onChanged: (int value) => setState(
                                             () => _correctAnswer = value),
                                         onTap: (String value) => setState(() =>
-                                            _option4Controller.text = value),
+                                            _option5Controller.text = value),
                                         optionImagePicker: () =>
                                             getOptionImage(5),
                                         image: _option5Image,
@@ -451,6 +494,68 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                               ),
                             ),
                       SizedBox(
+                        height: 30,
+                      ),
+                      TextField(
+                        maxLines: 4,
+                        controller: _hintController,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "Hint",
+                          border: InputBorder.none,
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      TextField(
+                        maxLines: 4,
+                        controller: _solutionController,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "Solution",
+                          border: InputBorder.none,
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      TextField(
+                        maxLines: 4,
+                        controller: _sourceController,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "Source(if any)",
+                          border: InputBorder.none,
+                          fillColor: Colors.grey[200],
+                          filled: true,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        children: [
+                          Text('Public'),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Switch(
+                              value: isPublic,
+                              onChanged: (flag) {
+                                setState(
+                                  () {
+                                    isPublic = flag;
+                                  },
+                                );
+                              }),
+                        ],
+                      ),
+                      SizedBox(
                         height: height * 0.02,
                       ),
                       RaisedButton(
@@ -458,6 +563,34 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                         onPressed: () {
                           print(_questionController.text);
                           if (widget._questionType == QuestionType.Objective) {
+                            AddQuestionCubit().addQuestion(
+                              _questionController.text,
+                              topics,
+                              [
+                                _option1Controller.text,
+                                _option2Controller.text,
+                                _option3Controller.text,
+                                _option4Controller.text,
+                                _option5Controller.text,
+                              ],
+                              widget._bloomValue,
+                              widget._bloomValue,
+                              _sourceController.text,
+                              isPublic ? 'public' : 'private',
+                              1,
+                              _correctAnswer,
+                              _option1Image,
+                              _option2Image,
+                              _option3Image,
+                              _option4Image,
+                              _option5Image,
+                              _questionImage,
+                              widget._assessmentId,
+                              questions,
+                              _hintController.text,
+                              _solutionController.text,
+                            );
+
                             print('Objective');
                             // print('Topics : ${widge}');
                             print('Difficulty Level : ${widget._bloomValue}');
@@ -533,7 +666,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
 class OptionField extends StatelessWidget {
   final int myValue;
   final int groupValue;
-  final File image;
+  final FilePickerCross image;
   final FocusNode myFocusNode;
   final Function onTap;
   final Function onChanged;
