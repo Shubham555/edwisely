@@ -1,4 +1,6 @@
+import 'package:edwisely/data/cubits/login_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets_util/text_input.dart';
 
@@ -27,6 +29,8 @@ class LoginScreen extends StatelessWidget {
     TextTheme textTheme,
     BuildContext context,
   ) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return Container(
       width: screenSize.width * 0.4,
       height: screenSize.height,
@@ -62,6 +66,7 @@ class LoginScreen extends StatelessWidget {
             label: 'Email',
             hint: 'Enter your username',
             inputType: TextInputType.emailAddress,
+            controller: emailController,
           ),
           //spacing
           SizedBox(
@@ -76,6 +81,7 @@ class LoginScreen extends StatelessWidget {
               Icons.remove_red_eye,
               color: Colors.black,
             ),
+            controller: passwordController,
           ),
           //forget password
           Align(
@@ -101,7 +107,12 @@ class LoginScreen extends StatelessWidget {
           SizedBox(
             width: screenSize.width * 0.4,
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.bloc<LoginCubit>().signIn(
+                      emailController.text,
+                      passwordController.text,
+                    );
+              },
               color: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
@@ -116,34 +127,6 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
           //spacing
-          Spacer(),
-          //create account link
-          Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: () {
-                  //navigating to signup screen
-                  // Navigator.of(context).pushNamed(Routes.SIGNUP_SCREEN);
-                },
-                child: Text.rich(
-                  TextSpan(
-                    text: 'Don\'t Have An Account ? ',
-                    style: textTheme.button,
-                    children: [
-                      TextSpan(
-                          text: 'Create',
-                          style: textTheme.headline6.copyWith(
-                            color: Theme.of(context).primaryColor,
-                          )),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question
 import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
 import 'package:edwisely/data/cubits/add_question_cubit.dart';
+import 'package:edwisely/data/cubits/login_cubit.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
 import 'package:edwisely/data/cubits/select_students_cubit.dart';
 import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
@@ -13,6 +14,8 @@ import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:edwisely/ui/screens/home_screen.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,6 +82,7 @@ class EdWisely extends StatelessWidget {
             theme: EdwiselyTheme.themeDataEdwisely,
             debugShowCheckedModeBanner: false,
             home: CoursesLandingScreen(),
+
             //   MultiBlocProvider(
             // providers: [
             //   BlocProvider(
@@ -95,6 +99,7 @@ class EdWisely extends StatelessWidget {
             //   2052,
             // ),
             ),
+        
       ),
     );
   }

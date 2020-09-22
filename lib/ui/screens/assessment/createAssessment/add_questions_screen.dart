@@ -1,4 +1,3 @@
-import 'package:catex/catex.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_objective_from_selected_tab.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/choose_subjective_from_selected_tab.dart';
@@ -33,7 +32,6 @@ class AddQuestionsScreen extends StatefulWidget {
 
 class _AddQuestionsScreenState extends State<AddQuestionsScreen>
     with SingleTickerProviderStateMixin {
-  final _questionFetchCubit = QuestionsCubit();
   Size screenSize;
   TextTheme textTheme;
 
@@ -190,6 +188,20 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                         ),
                                         Text('Upload Questions')
                                       ],
+                            ).whenComplete(() => context
+                                .bloc<QuestionsCubit>()
+                                .getQuestionsToAnAssessment(
+                                  widget._assessmentId,
+                                )),
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.handyman,
+                                      size: 45,
                                     ),
                                   ),
                                 ),

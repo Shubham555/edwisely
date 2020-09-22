@@ -16,6 +16,7 @@ class TextInput extends StatelessWidget {
   final bool enabled;
   final Widget suffix;
 
+
   TextInput({
     @required this.label,
     @required this.hint,
