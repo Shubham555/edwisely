@@ -1,28 +1,29 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import './side_drawer_item.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final isCollapsed;
-  final PageController pageController;
+  final selectedIndex;
+  final Function onPageChanged;
 
-  NavigationDrawer({this.isCollapsed = true, this.pageController});
+  NavigationDrawer({
+    this.isCollapsed = true,
+    this.selectedIndex,
+    @required this.onPageChanged,
+  });
 
   @override
-  _NavigationDrawerState createState() =>
-      _NavigationDrawerState(pageController);
+  _NavigationDrawerState createState() => _NavigationDrawerState();
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
   bool _isNavigationDrawerCollapsed = false;
-  PageController pageController;
+
   double _sidebarWidth;
 
   Size screenSize;
   TextTheme textTheme;
-
-  _NavigationDrawerState(this.pageController);
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
     if (screenSize.width < 1000) {
       _sidebarWidth = _isNavigationDrawerCollapsed
-          ? screenSize.width * 0.08
+          ? screenSize.width * 0.1
           : screenSize.width * 0.28;
     } else {
       _sidebarWidth = _isNavigationDrawerCollapsed
@@ -74,65 +75,85 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             child: Divider(),
           ),
           //list of options
-          SideDrawerItem(
+          InkWell(
+            onTap: () => widget.onPageChanged(0),
+            child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
               title: 'All Courses',
               icon: Icons.import_contacts,
-              function: () => pageController.animateToPage(0,
-                  duration: Duration(milliseconds: 250), curve: Curves.ease)),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Add Course',
-            icon: Icons.book,
-            function: () => pageController.animateToPage(1,
-                duration: Duration(milliseconds: 250), curve: Curves.ease),
+              myIndex: 0,
+              currentIndex: widget.selectedIndex,
+            ),
           ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Assesments',
-            icon: Icons.assessment,
-            function: () => pageController.animateToPage(2,
-                duration: Duration(milliseconds: 250), curve: Curves.ease),
+          InkWell(
+            onTap: () => widget.onPageChanged(1),
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'Add Course',
+              icon: Icons.book,
+              myIndex: 1,
+              currentIndex: widget.selectedIndex,
+            ),
+          ),
+          InkWell(
+            onTap: () => widget.onPageChanged(2),
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'Assesments',
+              icon: Icons.assessment,
+              myIndex: 2,
+              currentIndex: widget.selectedIndex,
+            ),
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Live Class',
             icon: Icons.live_tv,
+            myIndex: 3,
+            currentIndex: widget.selectedIndex,
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Send Assignment',
             icon: Icons.assignment,
-            function: () => pageController.animateToPage(2,
-                duration: Duration(milliseconds: 250), curve: Curves.ease),
+            myIndex: 4,
+            currentIndex: widget.selectedIndex,
           ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Schedule Event',
-            icon: Icons.calendar_today,
-          ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'My Assesment',
-            icon: Icons.assignment_ind,
-            function: () => pageController.animateToPage(2,
-                duration: Duration(milliseconds: 250), curve: Curves.ease),
-          ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Upcoming Events',
-            icon: Icons.event,
-          ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Get Feedback',
-            icon: Icons.feedback,
-          ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Recently Viewed',
-            icon: Icons.schedule,
-          ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'Schedule Event',
+          //   icon: Icons.calendar_today,
+          //   myIndex: 5,
+          //   currentIndex: widget.selectedIndex,
+          // ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'My Assesment',
+          //   icon: Icons.assignment_ind,
+          //   myIndex: 6,
+          //   currentIndex: widget.selectedIndex,
+          // ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'Upcoming Events',
+          //   icon: Icons.event,
+          //   myIndex: 7,
+          //   currentIndex: widget.selectedIndex,
+          // ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'Get Feedback',
+          //   icon: Icons.feedback,
+          //   myIndex: 8,
+          //   currentIndex: widget.selectedIndex,
+          // ),
+          // SideDrawerItem(
+          //   isCollapsed: _isNavigationDrawerCollapsed,
+          //   title: 'Recently Viewed',
+          //   icon: Icons.schedule,
+          //   myIndex: 9,
+          //   currentIndex: widget.selectedIndex,
+          // ),
           Spacer(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),

@@ -1,7 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/model/course/coursesEntity/data.dart';
-import 'package:edwisely/ui/screens/course/add_course_screen.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -22,42 +21,46 @@ class CoursesLandingScreen extends StatelessWidget {
           'Edwisely',
           style: TextStyle(color: Colors.black),
         ),
-        flatButton: FlatButton(
-          padding: EdgeInsets.all(
-            10,
-          ),
-          hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
-            side: BorderSide(
-              color: Color(0xFF1D2B64),
-            ),
-          ),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => AddCourseScreen(),
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Add your Courses',
-                style: TextStyle(
-                  color: Color(0xFF1D2B64),
-                  fontWeight: FontWeight.bold,
-                  fontSize: MediaQuery.of(context).size.height / 30,
-                ),
-              ),
-              Icon(
-                Icons.keyboard_arrow_right,
-                color: Color(0xFF1D2B64),
-                size: MediaQuery.of(context).size.height / 25,
-              )
-            ],
-          ),
-        ),
+        flatButton: null,
+        // FlatButton(
+        //   padding: EdgeInsets.all(
+        //     10,
+        //   ),
+        //   hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(6),
+        //     side: BorderSide(
+        //       color: Color(0xFF1D2B64),
+        //     ),
+        //   ),
+        //   onPressed: () => Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (BuildContext context) => BlocProvider(
+        //         create: (BuildContext context) => CoursesBloc(),
+        //         child: AddCourseScreen(),
+        //       ),
+        //     ),
+        //   ),
+        //   child: Row(
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       Text(
+        //         'Add your Courses',
+        //         style: TextStyle(
+        //           color: Color(0xFF1D2B64),
+        //           fontWeight: FontWeight.bold,
+        //           fontSize: MediaQuery.of(context).size.height / 30,
+        //         ),
+        //       ),
+        //       Icon(
+        //         Icons.keyboard_arrow_right,
+        //         color: Color(0xFF1D2B64),
+        //         size: MediaQuery.of(context).size.height / 25,
+        //       )
+        //     ],
+        //   ),
+        // ),
       ).build(context),
       body: Row(
         children: [
@@ -94,9 +97,13 @@ class CoursesLandingScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        CourseDetailScreen(
-                                      data.name,
-                                      data.subject_semester_id,
+                                        BlocProvider(
+                                      create: (BuildContext context) =>
+                                          CoursesBloc(),
+                                      child: CourseDetailScreen(
+                                        data.name,
+                                        data.subject_semester_id,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -148,10 +155,15 @@ class CoursesLandingScreen extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            CourseDetailScreen(
-                                          state.coursesEntity.data[index].name,
-                                          state.coursesEntity.data[index]
-                                              .subject_semester_id,
+                                            BlocProvider(
+                                          create: (BuildContext context) =>
+                                              CoursesBloc(),
+                                          child: CourseDetailScreen(
+                                            state
+                                                .coursesEntity.data[index].name,
+                                            state.coursesEntity.data[index]
+                                                .subject_semester_id,
+                                          ),
                                         ),
                                       ),
                                     ),

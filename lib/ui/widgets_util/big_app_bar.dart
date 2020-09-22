@@ -22,50 +22,88 @@ class BigAppBar extends StatelessWidget {
 
   @override
   PreferredSizeWidget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Colors.black),
-      title: appBarTitle,
-      elevation: 3,
-      actions: actions,
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(appBarSize),
-        child: Column(
-          children: [
-            Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 3.5,
-                decoration:
-                    BoxDecoration(gradient: EdwiselyGradients.appBarGradient),
-                child: Padding(
-                  padding: const EdgeInsets.all(40),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Align(
-                        child: Text(
-                          titleText,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width / 30,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        alignment: Alignment.centerLeft,
+    return PreferredSize(
+      preferredSize: Size.fromHeight(appBarSize),
+      child: Column(
+        children: [
+          Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 3.6,
+              decoration:
+                  BoxDecoration(gradient: EdwiselyGradients.appBarGradient),
+              child: Padding(
+                padding: const EdgeInsets.all(40),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Align(
+                      child: Text(
+                        titleText,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: MediaQuery.of(context).size.width / 30,
+                            fontWeight: FontWeight.bold),
                       ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: flatButton,
-                      )
-                    ],
-                  ),
-                )),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: bottomTab,
-            )
-          ],
-        ),
+                      alignment: Alignment.centerLeft,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: flatButton,
+                    )
+                  ],
+                ),
+              )),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: bottomTab,
+          )
+        ],
       ),
     );
+    // return AppBar(
+    //   backgroundColor: Colors.white,
+    //   iconTheme: IconThemeData(color: Colors.black),
+    //   // title: appBarTitle,
+    //   elevation: 3,
+    //   actions: actions,
+    //   bottom: PreferredSize(
+    //     preferredSize: Size.fromHeight(appBarSize),
+    //     child: Column(
+    //       children: [
+    //         Container(
+    //             width: MediaQuery.of(context).size.width,
+    //             height: MediaQuery.of(context).size.height / 3.5,
+    //             decoration:
+    //                 BoxDecoration(gradient: EdwiselyGradients.appBarGradient),
+    //             child: Padding(
+    //               padding: const EdgeInsets.all(40),
+    //               child: Stack(
+    //                 fit: StackFit.expand,
+    //                 children: [
+    //                   Align(
+    //                     child: Text(
+    //                       titleText,
+    //                       style: TextStyle(
+    //                           color: Colors.white,
+    //                           fontSize: MediaQuery.of(context).size.width / 30,
+    //                           fontWeight: FontWeight.bold),
+    //                     ),
+    //                     alignment: Alignment.centerLeft,
+    //                   ),
+    //                   Align(
+    //                     alignment: Alignment.bottomRight,
+    //                     child: flatButton,
+    //                   )
+    //                 ],
+    //               ),
+    //             )),
+    //         Align(
+    //           alignment: Alignment.centerLeft,
+    //           child: bottomTab,
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
