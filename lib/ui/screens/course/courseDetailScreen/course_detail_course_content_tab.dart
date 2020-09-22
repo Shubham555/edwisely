@@ -5,13 +5,18 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CourseDetailCourseContentTab extends StatelessWidget {
+  final int semesterId;
+
+  CourseDetailCourseContentTab(this.semesterId);
+
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BlocBuilder(
-          cubit: context.bloc<UnitCubit>(),
+          cubit: context.bloc<UnitCubit>()..getUnitsOfACourse(
+semesterId          ),
           builder: (BuildContext context, state) {
             if (state is CourseUnitFetched) {
               int enabledUnitId = state.units.data[0].id;
@@ -25,7 +30,7 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                       itemCount: state.units.data.length,
                       itemBuilder: (BuildContext context, int index) =>
                           ListTile(
-                            hoverColor: Colors.white,
+                        hoverColor: Colors.white,
                         selected: enabledUnitId == state.units.data[index].id,
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CourseDetailAboutTab extends StatelessWidget {
+  final int semesterId;
+
+  CourseDetailAboutTab(this.semesterId);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-      cubit: context.bloc<CoursesBloc>(),
+      cubit: context.bloc<CoursesBloc>()
+        ..add(
+          GetCourse(semesterId),
+        ),
       builder: (BuildContext context, state) {
         if (state is CourseAboutDetailsFetched) {
           return SingleChildScrollView(
