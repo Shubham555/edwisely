@@ -11,11 +11,13 @@ import 'package:edwisely/data/cubits/select_students_cubit.dart';
 import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
 import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
+import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:provider/provider.dart';
+import './data/provider/selected_page.dart';
 import 'data/blocs/objectiveBloc/objective_bloc.dart';
 
 void main() {
@@ -25,72 +27,75 @@ void main() {
 class EdWisely extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (BuildContext context) => AddQuestionBloc(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => ConductedBloc(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => CoursesBloc(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => ObjectiveBloc(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => QuestionBankObjectiveBloc(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => QuestionBankSubjectiveBloc(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => QuestionBankBloc(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => SubjectiveBloc(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => AddQuestionCubit(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => QuestionsCubit(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => SelectStudentsCubit(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => SendAssessmentCubit(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => TopicCubit(),
-        ),
-        BlocProvider(
-          create: (BuildContext context) => UnitCubit(),
-        ),
-      ],
-      child: MaterialApp(
-          title: 'Edwisely',
-          theme: EdwiselyTheme.themeDataEdwisely,
-          debugShowCheckedModeBanner: false,
-          home: HomeScreen()
-          //   MultiBlocProvider(
-          // providers: [
-          //   BlocProvider(
-          //     create: (BuildContext context) => SendAssessmentCubit(),
-          //   )
-          // ],
-          // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-          // ),
-          //     AddQuestionsScreen(
-          //   'T',
-          //   'dfdf',
-          //   10,
-          //   QuestionType.Objective,
-          //   2052,
-          // ),
+    return ChangeNotifierProvider(
+      create: (context) => SelectedPageProvider(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (BuildContext context) => AddQuestionBloc(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => ConductedBloc(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => CoursesBloc(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => ObjectiveBloc(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => QuestionBankObjectiveBloc(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => QuestionBankSubjectiveBloc(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => QuestionBankBloc(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => SubjectiveBloc(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => AddQuestionCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => QuestionsCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => SelectStudentsCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => SendAssessmentCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => TopicCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => UnitCubit(),
+          ),
+        ],
+        child: MaterialApp(
+            title: 'Edwisely',
+            theme: EdwiselyTheme.themeDataEdwisely,
+            debugShowCheckedModeBanner: false,
+            home: CoursesLandingScreen(),
+            //   MultiBlocProvider(
+            // providers: [
+            //   BlocProvider(
+            //     create: (BuildContext context) => SendAssessmentCubit(),
+            //   )
+            // ],
+            // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
+            // ),
+            //     AddQuestionsScreen(
+            //   'T',
+            //   'dfdf',
+            //   10,
+            //   QuestionType.Objective,
+            //   2052,
+            // ),
+            ),
+      ),
     );
   }
 }
