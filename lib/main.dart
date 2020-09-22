@@ -1,7 +1,7 @@
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
+
+import 'ui/screens/home_screen.dart';
 
 void main() {
   runApp(EdWisely());
@@ -11,26 +11,26 @@ class EdWisely extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Edwisely',
-        theme: EdwiselyTheme.themeDataEdwisely,
-        debugShowCheckedModeBanner: false,
-        home: AssessmentLandingScreen()
-        //   MultiBlocProvider(
-        // providers: [
-        //   BlocProvider(
-        //     create: (BuildContext context) => SendAssessmentCubit(),
-        //   )
-        // ],
-        // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-        // ),
-        // AddQuestionsScreen(
-        //   'T',
-        //   'dfdf',
-        //   10,
-        //   QuestionType.Objective,
-        //   2052,
-        // ),
-        );
+      title: 'Edwisely',
+      theme: EdwiselyTheme.themeDataEdwisely,
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+      //   MultiBlocProvider(
+      // providers: [
+      //   BlocProvider(
+      //     create: (BuildContext context) => SendAssessmentCubit(),
+      //   )
+      // ],
+      // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
+      // ),
+      // AddQuestionsScreen(
+      //   'T',
+      //   'dfdf',
+      //   10,
+      //   QuestionType.Objective,
+      //   2052,
+      // ),
+    );
   }
 }
 //todo question bank empty check

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SideDrawerItem extends StatelessWidget {
   final bool isCollapsed;
@@ -14,34 +13,33 @@ class SideDrawerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOutBack,
-      width: isCollapsed ? screenSize.width * 0.05 : screenSize.width * 0.1,
-      padding: const EdgeInsets.symmetric(
-        vertical: 12.0,
-        horizontal: 8.0,
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          //icon
           Icon(
             icon,
-            size: screenSize.width * 0.01,
             color: Colors.black,
           ),
-          //spacing
-          SizedBox(width: 12.0),
-          //title
           isCollapsed
               ? SizedBox.shrink()
-              : Text(
-                title,
-                overflow: TextOverflow.ellipsis,
-              ),
+              : SizedBox(
+                  width: 22.0,
+                ),
+          AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+            width: isCollapsed ? 0 : null,
+            child: isCollapsed
+                ? SizedBox.shrink()
+                : Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+          ),
         ],
       ),
     );
