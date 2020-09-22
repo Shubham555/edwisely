@@ -41,7 +41,8 @@ class _CourseDetailQuestionBankTabState
         Container(
             width: MediaQuery.of(context).size.width / 6,
             child: BlocBuilder(
-              cubit: context.bloc<UnitCubit>(),
+              cubit: context.bloc<UnitCubit>()..getUnitsOfACourse(
+widget.subjectId              ),
               builder: (BuildContext context, state) {
                 if (state is CourseUnitFetched) {
                   _tabController.index == 0

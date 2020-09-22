@@ -1,15 +1,9 @@
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
-import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
-import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
-import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_about_tab.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_course_content_tab.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_question_bank_tab.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_syllabus_tab.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   final String _courseName;
@@ -74,72 +68,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
         physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: [
-          BlocProvider(
-            create: (BuildContext context) => CoursesBloc()
-              ..add(
-                GetCourse(
-                  widget.semesterSubjectId,
-                ),
-              ),
-            child: CourseDetailAboutTab(),
+          CourseDetailAboutTab(
+            widget.semesterSubjectId,
           ),
-          BlocProvider(
-            create: (BuildContext context) => CoursesBloc()
-              ..add(
-                GetCourseSyllabus(
-                  widget.semesterSubjectId,
-                ),
-              ),
-            child: CourseDetailSyllabusTab(),
+          CourseDetailSyllabusTab(
+            widget.semesterSubjectId,
           ),
-          MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (BuildContext context) => CoursesBloc()
-                  ..add(
-                    GetCourseContentData(
-                      widget.semesterSubjectId,
-                    ),
-                  ),
-              ),
-              BlocProvider(
-                create: (BuildContext context) => UnitCubit()
-                  ..getUnitsOfACourse(
-                    widget.semesterSubjectId,
-                  ),
-              ),
-            ],
-            child: CourseDetailCourseContentTab(),
+          CourseDetailCourseContentTab(
+            widget.semesterSubjectId,
           ),
-          MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (BuildContext context) => CoursesBloc()
-                  ..add(
-                    GetCourseContentData(
-                      widget.semesterSubjectId,
-                    ),
-                  ),
-              ),
-              BlocProvider(
-                create: (BuildContext context) => UnitCubit()
-                  ..getUnitsOfACourse(
-                    widget.semesterSubjectId,
-                  ),
-              ),
-              BlocProvider(
-                create: (BuildContext context) => QuestionBankBloc(),
-              ),
-              BlocProvider(
-                create: (BuildContext context) => QuestionBankObjectiveBloc(),
-              ),
-              BlocProvider(
-                create: (BuildContext context) => QuestionBankSubjectiveBloc(),
-              ),
-            ],
-            child: CourseDetailQuestionBankTab(
-              widget.semesterSubjectId,
-            ),
+          CourseDetailQuestionBankTab(
+            widget.semesterSubjectId,
           ),
         ],
       ),

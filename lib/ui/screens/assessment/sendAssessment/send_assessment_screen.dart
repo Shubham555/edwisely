@@ -136,9 +136,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                           _testExpiry = await showDatePicker(
                               context: context,
                               initialDate: _testStart,
-                              firstDate: DateTime.now().subtract(
-                                Duration(days: 100),
-                              ),
+                              firstDate: _testStart,
                               lastDate: DateTime.now().add(
                                 Duration(days: 100),
                               )).whenComplete(() async {
