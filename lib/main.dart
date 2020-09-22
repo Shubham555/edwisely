@@ -1,3 +1,7 @@
+import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
+import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +28,16 @@ class EdWisely extends StatelessWidget {
       // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
       // ),
       // AddQuestionsScreen(
+      // home: AssessmentLandingScreen()
+          //   MultiBlocProvider(
+          // providers: [
+          //   BlocProvider(
+          //     create: (BuildContext context) => SendAssessmentCubit(),
+          //   )
+          // ],
+          // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
+          // ),
+      //     AddQuestionsScreen(
       //   'T',
       //   'dfdf',
       //   10,
@@ -37,10 +51,14 @@ class EdWisely extends StatelessWidget {
 //todo add latex rendering in question bank and all where question is written or viewed
 //todo add filter by departments in add courses
 
-// nerw todo
-//todo add dept in  detail about
-//todo reduce run and spacing in details syllabus
-//todo make unit sup in question bank
-//todo add time asloin the send asssessment
-//todo add courses fix
-//todo add dropdown for difficulty level in type ques
+// new todo
+//todo add dept in detail about //
+//todo reduce run and spacing in details syllabus //
+//todo make unit up in question bank //
+//todo add time also in the send assessment
+//todo add courses fix //
+//todo add dropdown for difficulty level in type ques //
+
+
+//api todo
+//todo add quetion to assessment units context

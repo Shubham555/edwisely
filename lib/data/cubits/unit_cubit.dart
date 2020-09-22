@@ -10,12 +10,19 @@ class UnitCubit extends Cubit<UnitState> {
   getUnitsOfACourse(int subjectSemesterId) async {
     final response = await EdwiselyApi.dio
         .get('getCourseSyllabus?subject_semester_id=$subjectSemesterId');
+    print(response.data);
     if (response.statusCode == 200) {
-      emit(
-        CourseUnitFetched(
-          SyllabusEntity.fromJsonMap(response.data),
-        ),
-      );
+      if (response.data['message'] != 'No data to fetch') {
+        emit(
+          CourseUnitFetched(
+            SyllabusEntity.fromJsonMap(response.data),
+          ),
+        );
+      } else {
+        emit(
+          CourseUnitEmpty(),
+        );
+      }
     } else {
       emit(
         CourseUnitFetchFailed(),
@@ -36,3 +43,5 @@ class CourseUnitFetched extends UnitState {
 }
 
 class CourseUnitFetchFailed extends UnitState {}
+
+class CourseUnitEmpty extends UnitState {}

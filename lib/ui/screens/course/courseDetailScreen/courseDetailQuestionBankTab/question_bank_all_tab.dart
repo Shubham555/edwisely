@@ -26,6 +26,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
         builder: (BuildContext context, state) {
           if (state is UnitQuestionsFetched) {
             return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Padding(
@@ -37,77 +38,96 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                           children: [
                             Row(
                               children: [
-                                DropdownButton(
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text('All'),
-                                        value: -1,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text('Remember'),
-                                        value: 1,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text('Understand'),
-                                        value: 2,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text('Apply'),
-                                        value: 3,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text('Analyze'),
-                                        value: 4,
-                                      ),
-                                    ],
-                                    value: levelDropDownValue,
-                                    onChanged: (value) {
-                                      setState(
-                                        () {
-                                          levelDropDownValue = value;
-                                        },
-                                      );
-                                      value == -1
-                                          ? context
-                                              .bloc<QuestionBankBloc>()
-                                              .add(
-                                                GetUnitQuestions(
-                                                  widget.subjectId,
-                                                  state.unitId,
-                                                ),
-                                              )
-                                          : context
-                                              .bloc<QuestionBankBloc>()
-                                              .add(
-                                                GetUnitQuestionsByLevel(
-                                                  value,
-                                                  state.unitId,
-                                                ),
-                                              );
-                                    }),
-                                DropdownButton(
-                                  items: state.dropDownList,
-                                  value: topicsDropDown,
-                                  onChanged: (value) {
-                                    setState(
-                                      () {
-                                        topicsDropDown = value;
+                                Row(
+                                  children: [
+                                    DropdownButton(
+                                        items: [
+                                          DropdownMenuItem(
+                                            child: Text('All'),
+                                            value: -1,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Remember'),
+                                            value: 1,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Understand'),
+                                            value: 2,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Apply'),
+                                            value: 3,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Analyze'),
+                                          ),
+                                        ],
+                                        value: levelDropDownValue,
+                                        onChanged: (value) {
+                                          setState(
+                                            () {
+                                              levelDropDownValue = value;
+                                            },
+                                          );
+                                          value == -1
+                                              ? context
+                                                  .bloc<QuestionBankBloc>()
+                                                  .add(
+                                                    GetUnitQuestions(
+                                                      widget.subjectId,
+                                                      state.unitId,
+                                                    ),
+                                                  )
+                                              : context
+                                                  .bloc<QuestionBankBloc>()
+                                                  .add(
+                                                    GetUnitQuestionsByLevel(
+                                                      value,
+                                                      state.unitId,
+                                                    ),
+                                                  );
+                                        }),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text('Level'),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    DropdownButton(
+                                      items: state.dropDownList,
+                                      value: topicsDropDown,
+                                      onChanged: (value) {
+                                        setState(
+                                          () {
+                                            topicsDropDown = value;
+                                          },
+                                        );
+                                        value == 1234567890
+                                            ? context
+                                                .bloc<QuestionBankBloc>()
+                                                .add(
+                                                  GetUnitQuestions(
+                                                    widget.subjectId,
+                                                    state.unitId,
+                                                  ),
+                                                )
+                                            : context
+                                                .bloc<QuestionBankBloc>()
+                                                .add(
+                                                  GetUnitQuestionsByTopic(
+                                                    value,
+                                                    state.unitId,
+                                                  ),
+                                                );
                                       },
-                                    );
-                                    value == 1234567890
-                                        ? context.bloc<QuestionBankBloc>().add(
-                                              GetUnitQuestions(
-                                                widget.subjectId,
-                                                state.unitId,
-                                              ),
-                                            )
-                                        : context.bloc<QuestionBankBloc>().add(
-                                              GetUnitQuestionsByTopic(
-                                                value,
-                                                state.unitId,
-                                              ),
-                                            );
-                                  },
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text('Topic'),
+                                  ],
                                 ),
                                 Row(
                                   children: [
@@ -127,6 +147,9 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                         child: Text(
                                           'All Questions',
                                           style: TextStyle(
+                                              color: isSelected == 0
+                                                  ? null
+                                                  : Colors.grey.shade500,
                                               fontWeight: isSelected == 0
                                                   ? FontWeight.bold
                                                   : null),
@@ -150,6 +173,9 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                         child: Text(
                                           'Bookmarked',
                                           style: TextStyle(
+                                              color: isSelected == 1
+                                                  ? null
+                                                  : Colors.grey.shade500,
                                               fontWeight: isSelected == 1
                                                   ? FontWeight.bold
                                                   : null),
@@ -173,6 +199,9 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                         child: Text(
                                           'Your Questions',
                                           style: TextStyle(
+                                              color: isSelected == 2
+                                                  ? null
+                                                  : Colors.grey.shade500,
                                               fontWeight: isSelected == 2
                                                   ? FontWeight.bold
                                                   : null),
@@ -186,17 +215,96 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                               ],
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            Column(
                               children: [
-                                Text(
-                                  'Subjective Questions',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        MediaQuery.of(context).size.height / 50,
-                                  ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Subjective Questions',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height /
+                                                50,
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      hoverColor:
+                                          Color(0xFF1D2B64).withOpacity(.2),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6),
+                                        side: BorderSide(
+                                          color: Color(0xFF1D2B64),
+                                        ),
+                                      ),
+                                      onPressed: () => null,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.add,
+                                            color: Color(0xFF1D2B64),
+                                          ),
+                                          Text(
+                                            'Add Your Questions',
+                                            style: TextStyle(
+                                              color: Color(0xFF1D2B64),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                BlocBuilder(
+                                  cubit: context.bloc<QuestionBankBloc>(),
+                                  builder: (BuildContext context, state) {
+                                    if (state is UnitQuestionsFetched) {
+                                      return ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: state.questionBankAllEntity
+                                            .data.subjective_questions.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) =>
+                                                Card(
+                                          margin: EdgeInsets.all(
+                                            10,
+                                          ),
+                                          child: ListTile(
+                                            title: Row(
+                                              children: [
+                                                Text('Q. ${index + 1}'),
+                                                Image.network(
+                                                  state
+                                                      .questionBankAllEntity
+                                                      .data
+                                                      .subjective_questions[
+                                                          index]
+                                                      .question_img[0],
+                                                  width: 250,
+                                                  height: 250,
+                                                ),
+                                              ],
+                                            ),
+                                            subtitle: Text(
+                                              'Level ${state.questionBankAllEntity.data.subjective_questions[index].blooms_level}',
+                                            ),
+                                            trailing: IconButton(
+                                              icon: Icon(Icons.bookmark),
+                                              onPressed: null,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  },
                                 ),
                                 FlatButton(
                                   hoverColor: Color(0xFF1D2B64).withOpacity(.2),
@@ -206,7 +314,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                       color: Color(0xFF1D2B64),
                                     ),
                                   ),
-                                  onPressed: () => null,
+                                  onPressed: () =>
+                                      widget._tabController.index = 2,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -215,7 +324,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                         color: Color(0xFF1D2B64),
                                       ),
                                       Text(
-                                        'Add Your Questions',
+                                        'View More',
                                         style: TextStyle(
                                           color: Color(0xFF1D2B64),
                                         ),
@@ -224,77 +333,6 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                   ),
                                 ),
                               ],
-                            ),
-                            BlocBuilder(
-                              cubit: context.bloc<QuestionBankBloc>(),
-                              builder: (BuildContext context, state) {
-                                if (state is UnitQuestionsFetched) {
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: state.questionBankAllEntity.data
-                                        .subjective_questions.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) =>
-                                            Card(
-                                      margin: EdgeInsets.all(
-                                        10,
-                                      ),
-                                      child: ListTile(
-                                        title: Row(
-                                          children: [
-                                            Text('Q. ${index + 1}'),
-                                            Image.network(
-                                              state
-                                                  .questionBankAllEntity
-                                                  .data
-                                                  .subjective_questions[index]
-                                                  .question_img[0],
-                                              width: 250,
-                                              height: 250,
-                                            ),
-                                          ],
-                                        ),
-                                        subtitle: Text(
-                                          'Level ${state.questionBankAllEntity.data.subjective_questions[index].blooms_level}',
-                                        ),
-                                        trailing: IconButton(
-                                          icon: Icon(Icons.bookmark),
-                                          onPressed: null,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                              },
-                            ),
-                            FlatButton(
-                              hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                side: BorderSide(
-                                  color: Color(0xFF1D2B64),
-                                ),
-                              ),
-                              onPressed: () => widget._tabController.index = 2,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: Color(0xFF1D2B64),
-                                  ),
-                                  Text(
-                                    'View More',
-                                    style: TextStyle(
-                                      color: Color(0xFF1D2B64),
-                                    ),
-                                  )
-                                ],
-                              ),
                             ),
                           ],
                         ),

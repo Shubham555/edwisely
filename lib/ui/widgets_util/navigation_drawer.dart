@@ -71,23 +71,24 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           //list of options
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Send Notification',
-            icon: Icons.notifications_active,
+            title: 'All Courses',
+            icon: Icons.import_contacts,
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Get Feedback',
-            icon: Icons.feedback,
+            title: 'Add Course',
+            icon: Icons.book,
+          ),
+          SideDrawerItem(
+            isCollapsed: _isNavigationDrawerCollapsed,
+            title: 'Assesments',
+            icon: Icons.assessment,
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Live Class',
             icon: Icons.live_tv,
           ),
-          SideDrawerItem(
-              isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Live Assesment',
-              icon: Icons.assessment),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
             title: 'Send Assignment',
@@ -105,13 +106,13 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Add Course Material',
-            icon: Icons.add,
+            title: 'Upcoming Events',
+            icon: Icons.event,
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Upcoming Events',
-            icon: Icons.event,
+            title: 'Get Feedback',
+            icon: Icons.feedback,
           ),
           SideDrawerItem(
             isCollapsed: _isNavigationDrawerCollapsed,

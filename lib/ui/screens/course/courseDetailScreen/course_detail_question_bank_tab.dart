@@ -36,6 +36,7 @@ class _CourseDetailQuestionBankTabState
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
             width: MediaQuery.of(context).size.width / 6,
@@ -188,7 +189,7 @@ class _CourseDetailQuestionBankTabState
                     ),
                   ],
                 ),
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.topLeft,
               ),
               Expanded(
                 child: TabBarView(
