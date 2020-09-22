@@ -1,4 +1,6 @@
+import 'package:edwisely/data/cubits/login_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets_util/text_input.dart';
 
@@ -82,17 +84,17 @@ class LoginScreen extends StatelessWidget {
             controller: passwordController,
           ),
           //forget password
-          // Align(
-          //   alignment: Alignment.centerRight,
-          //   child: FlatButton(
-          //     onPressed: () {},
-          //     child: Text(
-          //       'Forgot Password ?',
-          //       style: textTheme.button
-          //           .copyWith(color: Theme.of(context).primaryColor),
-          //     ),
-          //   ),
-          // ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: FlatButton(
+              onPressed: () {},
+              child: Text(
+                'Forgot Password ?',
+                style: textTheme.button
+                    .copyWith(color: Theme.of(context).primaryColor),
+              ),
+            ),
+          ),
           //divider
           Padding(
             padding: const EdgeInsets.all(22.0),
@@ -105,7 +107,12 @@ class LoginScreen extends StatelessWidget {
           SizedBox(
             width: screenSize.width * 0.4,
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.bloc<LoginCubit>().signIn(
+                      emailController.text,
+                      passwordController.text,
+                    );
+              },
               color: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),

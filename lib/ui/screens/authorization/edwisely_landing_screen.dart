@@ -1,6 +1,7 @@
 import 'package:edwisely/data/cubits/login_cubit.dart';
 import 'package:edwisely/ui/screens/authorization/login_screen.dart';
 import 'package:edwisely/ui/screens/home_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,12 +31,19 @@ class EdwiselyLandingScreen extends StatelessWidget {
       child: Scaffold(
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularProgressIndicator(),
               SizedBox(
                 height: 20,
               ),
-              Text('Loading...'),
+              Text(
+                'Loading Edwisely...',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
         ),

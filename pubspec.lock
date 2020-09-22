@@ -225,7 +225,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.7+9"
+    version: "0.6.7+10"
   image_picker_for_web:
     dependency: "direct main"
     description:
@@ -316,7 +316,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.16"
+    version: "1.6.17"
   path_provider_linux:
     dependency: transitive
     description:
@@ -344,7 +344,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.3"
+    version: "0.0.4+1"
   pedantic:
     dependency: transitive
     description:
@@ -423,7 +423,7 @@ packages:
     source: hosted
     version: "1.0.4"
   shared_preferences_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences_web
       url: "https://pub.dartlang.org"
