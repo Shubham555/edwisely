@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
@@ -117,149 +118,8 @@ class AddCourseScreen extends StatelessWidget {
                                         ),
                                       ),
                                       elevation: 6,
-                                      child: GridTile(
-                                        child: ListView(
-                                          children: [
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    5,
-                                                child: state
-                                                            .getAllCoursesEntity
-                                                            .data[upperIndex]
-                                                            .course_image ==
-                                                        ''
-                                                    ? Image.asset(
-                                                        'placeholder_image.jpg',
-                                                        fit: BoxFit.cover,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height /
-                                                            4,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            4,
-                                                      )
-                                                    : Image.network(
-                                                        state
-                                                            .getAllCoursesEntity
-                                                            .data[upperIndex]
-                                                            .course_image,
-                                                      ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 15,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(
-                                                15,
-                                              ),
-                                              child: Text(
-                                                state.getAllCoursesEntity
-                                                    .data[upperIndex].name,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height /
-                                                          50,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(
-                                                15,
-                                              ),
-                                              child: Text(
-                                                'Departments',
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height /
-                                                          70,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 15),
-                                              child: Wrap(
-                                                children: List.generate(
-                                                  state
-                                                      .getAllCoursesEntity
-                                                      .data[upperIndex]
-                                                      .departments
-                                                      .length,
-                                                  (index) => Chip(
-                                                    label: Text(
-                                                      state
-                                                          .getAllCoursesEntity
-                                                          .data[upperIndex]
-                                                          .departments[index]
-                                                          .name,
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5)),
-                                                  ),
-                                                ),
-                                                runSpacing: 10,
-                                                spacing: 10,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        footer: Row(
-                                          children: [
-                                            Container(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(
-                                                  15,
-                                                ),
-                                                child: FlatButton.icon(
-                                                  hoverColor: Color(0xFF1D2B64)
-                                                      .withOpacity(.2),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6),
-                                                    side: BorderSide(
-                                                      color: Color(0xFF1D2B64),
-                                                    ),
-                                                  ),
-                                                  onPressed: () => _showDialog(
-                                                    context,
-                                                    state.getAllCoursesEntity
-                                                        .data[upperIndex],
-                                                    state
-                                                        .getAllCoursesEntity
-                                                        .data[upperIndex]
-                                                        .departments,
-                                                    state.sectionEntity,
-                                                  ),
-                                                  icon: Icon(Icons.add),
-                                                  label: Text('Add'),
-                                                ),
-                                              ),
-                                              width: 150,
-                                            ),
-                                          ],
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                        ),
-                                      ),
+                                      child: _buildCourseTile(
+                                          upperIndex, context, state),
                                     ),
                                   ),
                                 ),
@@ -274,6 +134,110 @@ class AddCourseScreen extends StatelessWidget {
                       );
                     }
                   },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCourseTile(int upperIndex, BuildContext context, state) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              height: MediaQuery.of(context).size.height / 5,
+              child: state.getAllCoursesEntity.data[upperIndex].course_image ==
+                      ''
+                  ? Image.asset(
+                      'placeholder_image.jpg',
+                      fit: BoxFit.cover,
+                      height: MediaQuery.of(context).size.height / 4,
+                      width: MediaQuery.of(context).size.width / 4,
+                    )
+                  : Image.network(
+                      state.getAllCoursesEntity.data[upperIndex].course_image,
+                    ),
+            ),
+          ),
+          SizedBox(height: 12.0),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: MediaQuery.of(context).size.height * 0.0001),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.07,
+              width: double.infinity,
+              child: AutoSizeText(
+                state.getAllCoursesEntity.data[upperIndex].name,
+                maxLines: 3,
+                maxFontSize: 32.0,
+                minFontSize: 18.0,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4.0,
+              horizontal: 12.0,
+            ),
+            child: Text(
+              'Departments',
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height / 70,
+              ),
+            ),
+          ),
+          Row(
+            children: List.generate(
+              state.getAllCoursesEntity.data[upperIndex].departments.length,
+              (index) => Container(
+                height: MediaQuery.of(context).size.height * 0.03,
+                margin: const EdgeInsets.symmetric(horizontal: 6.0),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4.0,
+                  horizontal: 12.0,
+                ),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Color(0xfff7f1e3),
+                ),
+                child: Text(
+                  state.getAllCoursesEntity.data[upperIndex].departments[index]
+                      .name,
+                ),
+              ),
+            ),
+          ),
+          Spacer(),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: SizedBox(
+                width: 48.0,
+                child: RaisedButton(
+                  onPressed: () => _showDialog(
+                    context,
+                    state.getAllCoursesEntity.data[upperIndex],
+                    state.getAllCoursesEntity.data[upperIndex].departments,
+                    state.sectionEntity,
+                  ),
+                  padding: const EdgeInsets.all(0),
+                  color: Color(0xFF1D2B64),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

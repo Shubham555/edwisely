@@ -64,10 +64,6 @@ class CoursesLandingScreen extends StatelessWidget {
       ).build(context),
       body: Row(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width / 5,
-            color: Colors.grey,
-          ),
           Expanded(
             child: Center(
               child: BlocBuilder(
