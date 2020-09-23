@@ -8,8 +8,7 @@ class UnitCubit extends Cubit<UnitState> {
   UnitCubit() : super(UnitInitial());
 
   getUnitsOfACourse(int subjectSemesterId) async {
-    final response = await EdwiselyApi.dio
-        .get('getCourseSyllabus?subject_semester_id=$subjectSemesterId');
+    final response = await EdwiselyApi().dio().then((value) => value.get('getCourseSyllabus?subject_semester_id=$subjectSemesterId'));
     print(response.data);
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No data to fetch') {

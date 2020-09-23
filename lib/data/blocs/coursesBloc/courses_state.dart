@@ -14,6 +14,7 @@ class CoursesFetched extends CoursesState {
 }
 
 class CoursesFetchFailed extends CoursesState {}
+class LoginFailed extends CoursesState {}
 
 class SectionsFetched extends CoursesState {
   final SectionEntity sections;

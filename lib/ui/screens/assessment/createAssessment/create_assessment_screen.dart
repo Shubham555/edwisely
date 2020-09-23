@@ -1,5 +1,4 @@
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/blocs/objectiveBloc/objective_bloc.dart';
 import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
@@ -9,8 +8,8 @@ import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:provider/provider.dart';
+
 import '../../../../data/provider/selected_page.dart';
 
 //todo chips chjoice fix
@@ -28,7 +27,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
 
   final TextEditingController _descriptionController = TextEditingController();
 
-  int _selectedCourseId;
+  Map<int, int> selectedCouerse;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +57,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                       builder: (BuildContext context) => AddQuestionsScreen(
                         _titleController.text,
                         _descriptionController.text,
-                        352,
+                        selectedCouerse.values.first,
                         widget._questionType,
                         state.assessmentId,
                       ),
@@ -68,8 +67,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is ObjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                          'Creation of Assessment Failed. PLease try again'),
+                      content: Text('Creation of Assessment Failed. PLease try again'),
                     ),
                   );
                 }
@@ -85,7 +83,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                       builder: (BuildContext context) => AddQuestionsScreen(
                         _titleController.text,
                         _descriptionController.text,
-                        352,
+                        selectedCouerse.values.first,
                         widget._questionType,
                         state.assessmentId,
                       ),
@@ -95,8 +93,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is SubjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                          'Creation of Assessment Failed. Please try again'),
+                      content: Text('Creation of Assessment Failed. Please try again'),
                     ),
                   );
                 }
@@ -119,18 +116,13 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                   children: [
                     Text(
                       'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: MediaQuery.of(context).size.width / 50),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 50),
                     ),
                     _buildTextFieldWidget('Add Title', 80, _titleController),
-                    _buildTextFieldWidget(
-                        'Description', 200, _descriptionController),
+                    _buildTextFieldWidget('Description', 200, _descriptionController),
                     Text(
                       'Choose Subject',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: MediaQuery.of(context).size.width / 50),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 50),
                     ),
                     BlocBuilder(
                       cubit: context.bloc<CoursesBloc>()
@@ -152,27 +144,25 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                               Text('There is some server error please retry'),
                               RaisedButton(
                                 color: Color(0xFF1D2B64).withOpacity(.3),
-                                onPressed: () =>
-                                    context.bloc<CoursesBloc>().add(
-                                          GetCoursesByFaculty(),
-                                        ),
+                                onPressed: () => context.bloc<CoursesBloc>().add(
+                                      GetCoursesByFaculty(),
+                                    ),
                                 child: Text('Retry'),
                               )
                             ],
                           );
                         }
                         if (state is CoursesFetched) {
-                          return ChipsChoice<int>.single(
+                          return ChipsChoice<Map<int, int>>.single(
                             isWrapped: true,
-                            value: _selectedCourseId,
+                            value: selectedCouerse,
                             options: ChipsChoiceOption.listFrom(
                               source: state.coursesEntity.data,
-                              value: (id, Data data) => data.id,
+                              value: (id, Data data) => {data.id: data.subject_semester_id},
                               label: (id, Data data) => data.name,
                             ),
                             onChanged: (val) {
-                              setState(() => _selectedCourseId = val);
-                              print(_selectedCourseId);
+                              setState(() => selectedCouerse = val);
                             },
                           );
                         }
@@ -202,9 +192,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
     );
   }
 
-  _buildTextFieldWidget(
-          String title, int maxLength, TextEditingController controller) =>
-      Column(
+  _buildTextFieldWidget(String title, int maxLength, TextEditingController controller) => Column(
         children: [
           TextField(
             controller: controller,
@@ -245,9 +233,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
       );
 
   void _continueButtonOnPressed(BuildContext context) {
-    if (_titleController.text.isEmpty ||
-        _descriptionController.text.isEmpty ||
-        _selectedCourseId == null) {
+    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty || selectedCouerse == null) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Please double check the entries !'),
@@ -259,7 +245,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
         CreateObjectiveQuestionnaire(
           _titleController.text,
           _descriptionController.text,
-          _selectedCourseId,
+          selectedCouerse.keys.first,
         ),
       );
     } else {
@@ -267,7 +253,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
         CreateSubjectiveQuestionnaire(
           _titleController.text,
           _descriptionController.text,
-          _selectedCourseId,
+          selectedCouerse.keys.first,
         ),
       );
     }

@@ -11,8 +11,7 @@ part 'question_bank_objective_event.dart';
 
 part 'question_bank_objective_state.dart';
 
-class QuestionBankObjectiveBloc
-    extends Bloc<QuestionBankObjectiveEvent, QuestionBankObjectiveState> {
+class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, QuestionBankObjectiveState> {
   QuestionBankObjectiveBloc() : super(QuestionBankObjectiveInitial());
 
   @override
@@ -22,10 +21,12 @@ class QuestionBankObjectiveBloc
     var currentState = state;
 
     if (event is GetUnitObjectiveQuestions) {
-      final response = await EdwiselyApi.dio.get(
-          'questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
-      final topicsResponse = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71');
+      final response = await EdwiselyApi()
+          .dio()
+          .then((value) => value.get('questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}'));
+      final topicsResponse = await EdwiselyApi()
+          .dio()
+          .then((value) => value.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71'));
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
         List<DropdownMenuItem> dropDownItems = [];
         dropDownItems.add(
@@ -35,8 +36,7 @@ class QuestionBankObjectiveBloc
           ),
         );
         if (topicsResponse.data['message'] != 'No topics to fetch') {
-          TopicEntity topicEntity =
-              TopicEntity.fromJsonMap(topicsResponse.data);
+          TopicEntity topicEntity = TopicEntity.fromJsonMap(topicsResponse.data);
           dropDownItems.addAll(
             topicEntity.data.map(
               (e) => DropdownMenuItem(
@@ -59,18 +59,22 @@ class QuestionBankObjectiveBloc
     }
     if (event is GetUnitObjectiveQuestionsByLevel) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}');
+      final response = await EdwiselyApi()
+          .dio()
+          .then((value) => value.get('questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}'));
       if (response.statusCode == 200) {
-        print(response.data);
+        QuestionBankObjectiveEntity questionBankObjectiveEntity = QuestionBankObjectiveEntity.fromJsonMap(
+          response.data,
+        );
+        if (questionBankObjectiveEntity == null) {
+          yield QuestionBankObjectiveEmpty();
+        }
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          currentState is UnitObjectiveQuestionsFetched
-              ? currentState.dropDownList
-              : null,
+          currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
         );
       } else {
         yield QuestionBankObjectiveFetchFailed();
@@ -78,17 +82,16 @@ class QuestionBankObjectiveBloc
     }
     if (event is GetUnitObjectiveQuestionsByTopic) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}');
+      final response = await EdwiselyApi()
+          .dio()
+          .then((value) => value.get('questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}'));
       if (response.statusCode == 200) {
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          currentState is UnitObjectiveQuestionsFetched
-              ? currentState.dropDownList
-              : null,
+          currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
         );
       } else {
         yield QuestionBankObjectiveFetchFailed();
@@ -96,17 +99,14 @@ class QuestionBankObjectiveBloc
     }
     if (event is GetObjectiveQuestionsByBookmark) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio
-          .get('getBookmarkedQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi().dio().then((value) => value.get('getBookmarkedQuestions?unit_id=${event.unitId}'));
       if (response.statusCode == 200) {
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          currentState is UnitObjectiveQuestionsFetched
-              ? currentState.dropDownList
-              : null,
+          currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
         );
       } else {
         yield QuestionBankObjectiveFetchFailed();
@@ -114,17 +114,14 @@ class QuestionBankObjectiveBloc
     }
     if (event is GetYourObjectiveQuestions) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi().dio().then((value) => value.get('questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}'));
       if (response.statusCode == 200) {
         yield UnitObjectiveQuestionsFetched(
           QuestionBankObjectiveEntity.fromJsonMap(
             response.data,
           ),
           event.unitId,
-          currentState is UnitObjectiveQuestionsFetched
-              ? currentState.dropDownList
-              : null,
+          currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
         );
       } else {
         yield QuestionBankObjectiveFetchFailed();
@@ -133,9 +130,7 @@ class QuestionBankObjectiveBloc
   }
 
   @override
-  void onTransition(
-      Transition<QuestionBankObjectiveEvent, QuestionBankObjectiveState>
-          transition) {
+  void onTransition(Transition<QuestionBankObjectiveEvent, QuestionBankObjectiveState> transition) {
     print(transition);
     super.onTransition(transition);
   }

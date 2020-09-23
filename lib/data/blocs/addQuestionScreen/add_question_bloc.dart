@@ -19,19 +19,19 @@ class AddQuestionBloc extends Bloc<AddQuestionEvent, AddQuestionState> {
     AddQuestionEvent event,
   ) async* {
     if (event is UploadExcel) {
-      final response = await EdwiselyApi.dio.post(
-        'questionnaireWeb/uploadObjectiveQuestions',
-        data: FormData.fromMap(
-          {
-            'files': MultipartFile.fromBytes(event.file.toUint8List(),
-                filename: event.file.fileName),
-            'topics': [
-              {'id': 13779, 'type': 'sdvsd'},
-              {'id': 13780, 'type': 'sdvsd'},
-            ]
-          },
-        ),
-      );
+      final response = await EdwiselyApi().dio().then((value) => value.post(
+            'questionnaireWeb/uploadObjectiveQuestions',
+            data: FormData.fromMap(
+              {
+                'files': MultipartFile.fromBytes(event.file.toUint8List(),
+                    filename: event.file.fileName),
+                'topics': [
+                  {'id': 13779, 'type': 'sdvsd'},
+                  {'id': 13780, 'type': 'sdvsd'},
+                ]
+              },
+            ),
+          ));
       print(response.data);
     }
   }

@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
-import 'package:provider/provider.dart';
 import '../../../../data/provider/selected_page.dart';
 
 class SendAssessmentScreen extends StatefulWidget {
   final int assessmentId;
   final String title;
-  final String noOfQuestions;
+  final List<int> questions;
 
-  SendAssessmentScreen(this.assessmentId, this.title, this.noOfQuestions);
+  SendAssessmentScreen(this.assessmentId, this.title, this.questions);
 
   @override
   _SendAssessmentScreenState createState() => _SendAssessmentScreenState();
@@ -75,17 +75,18 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                       style: TextStyle(color: Colors.black),
                     ),
                     flatButton: FlatButton.icon(
-                      onPressed: () =>
-                          context.bloc<SendAssessmentCubit>().sendAssessment(
-                                widget.title,
-                                'description',
-                                _testExpiry.toString(),
-                                [21, 22, 23, 24, 25],
-                                _testDuration.toString(),
-                                students,
-                                widget.assessmentId,
-                                _testStart.toString(),
-                              ),
+                      onPressed: () {
+                        return context.bloc<SendAssessmentCubit>().sendAssessment(
+                              widget.title,
+                              'description',
+                              _testExpiry.toString(),
+                              widget.questions,
+                              _testDuration.toString(),
+                              students,
+                              widget.assessmentId,
+                              _testStart.toString(),
+                            );
+                      },
                       icon: Icon(Icons.send),
                       label: Text('Send Assessment'),
                     ),
@@ -96,8 +97,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       StatefulBuilder(
-                        builder: (BuildContext context,
-                            void Function(void Function()) setState) {
+                        builder: (BuildContext context, void Function(void Function()) setState) {
                           return Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
@@ -115,9 +115,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                         lastDate: DateTime.now().add(
                                           Duration(days: 100),
                                         )).whenComplete(() async {
-                                      _testStartTime = await showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now());
+                                      _testStartTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
                                     }).catchError(() {
                                       _testStart = null;
                                       _testStartTime = null;
@@ -126,20 +124,13 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                   },
                                 ),
                                 Text(
-                                  _testStart == null
-                                      ? ''
-                                      : DateFormat('EEE d MMM yyyy')
-                                          .format(_testStart),
+                                  _testStart == null ? '' : DateFormat('EEE d MMM yyyy').format(_testStart),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  _testStartTime == null
-                                      ? ''
-                                      : _testStartTime
-                                          .format(context)
-                                          .toString(),
+                                  _testStartTime == null ? '' : _testStartTime.format(context).toString(),
                                 ),
                               ],
                             ),
@@ -147,8 +138,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                         },
                       ),
                       StatefulBuilder(
-                        builder: (BuildContext context,
-                            void Function(void Function()) setState) {
+                        builder: (BuildContext context, void Function(void Function()) setState) {
                           return Row(
                             children: [
                               Text('Test Expiry Date : '),
@@ -162,9 +152,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                       lastDate: DateTime.now().add(
                                         Duration(days: 100),
                                       )).whenComplete(() async {
-                                    _testExpiryTime = await showTimePicker(
-                                        context: context,
-                                        initialTime: _testStartTime);
+                                    _testExpiryTime = await showTimePicker(context: context, initialTime: _testStartTime);
                                   }).catchError(() {
                                     _testExpiry = null;
                                     _testExpiryTime = null;
@@ -173,28 +161,20 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                 },
                               ),
                               Text(
-                                _testExpiry == null
-                                    ? ''
-                                    : DateFormat('EEE d MMM yyyy')
-                                        .format(_testExpiry),
+                                _testExpiry == null ? '' : DateFormat('EEE d MMM yyyy').format(_testExpiry),
                               ),
                               SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                _testExpiryTime == null
-                                    ? ''
-                                    : _testExpiryTime
-                                        .format(context)
-                                        .toString(),
+                                _testExpiryTime == null ? '' : _testExpiryTime.format(context).toString(),
                               ),
                             ],
                           );
                         },
                       ),
                       StatefulBuilder(
-                        builder: (BuildContext context,
-                            void Function(void Function()) setState) {
+                        builder: (BuildContext context, void Function(void Function()) setState) {
                           return Row(
                             children: [
                               Text('Test Duration Time :   '),
@@ -209,9 +189,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                 },
                               ),
                               Text(
-                                _testDuration == null
-                                    ? ''
-                                    : '${_testDuration.inMinutes.toString()} Minutes',
+                                _testDuration == null ? '' : '${_testDuration.inMinutes.toString()} Minutes',
                               )
                             ],
                           );
@@ -248,8 +226,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     Center(
                                       child: Text(
                                         state.sectionEntity.data[index].name,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        style: TextStyle(fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     SizedBox(
@@ -258,58 +235,36 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     BlocBuilder(
                                       cubit: efv,
                                       builder: (BuildContext context, state) {
-                                        if (state
-                                            is SelectStudentsStudentsFetched) {
+                                        if (state is SelectStudentsStudentsFetched) {
                                           return StatefulBuilder(
-                                            builder: (BuildContext context,
-                                                void Function(void Function())
-                                                    setState) {
+                                            builder: (BuildContext context, void Function(void Function()) setState) {
                                               return Card(
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
+                                                  padding: const EdgeInsets.symmetric(
                                                     vertical: 8.0,
                                                     horizontal: 12.0,
                                                   ),
                                                   child: ListView.builder(
-                                                    scrollDirection:
-                                                        Axis.vertical,
+                                                    scrollDirection: Axis.vertical,
                                                     shrinkWrap: true,
-                                                    itemCount: state
-                                                        .studentsEntity
-                                                        .data
-                                                        .length,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                                int index) =>
-                                                            CheckboxListTile(
+                                                    itemCount: state.studentsEntity.data.length,
+                                                    itemBuilder: (BuildContext context, int index) => CheckboxListTile(
                                                       title: Text(
-                                                        state.studentsEntity
-                                                            .data[index].name,
+                                                        state.studentsEntity.data[index].name,
                                                       ),
                                                       subtitle: Text(
-                                                        state
-                                                            .studentsEntity
-                                                            .data[index]
-                                                            .roll_number,
+                                                        state.studentsEntity.data[index].roll_number,
                                                       ),
                                                       value: students.contains(
-                                                        state.studentsEntity
-                                                            .data[index].id,
+                                                        state.studentsEntity.data[index].id,
                                                       ),
                                                       onChanged: (flag) {
                                                         flag
                                                             ? students.add(
-                                                                state
-                                                                    .studentsEntity
-                                                                    .data[index]
-                                                                    .id,
+                                                                state.studentsEntity.data[index].id,
                                                               )
                                                             : students.remove(
-                                                                state
-                                                                    .studentsEntity
-                                                                    .data[index]
-                                                                    .id,
+                                                                state.studentsEntity.data[index].id,
                                                               );
                                                         setState(() {});
                                                       },

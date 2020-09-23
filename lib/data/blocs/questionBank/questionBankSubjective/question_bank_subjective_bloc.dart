@@ -21,10 +21,10 @@ class QuestionBankSubjectiveBloc
   ) async* {
     var currentState = state;
     if (event is GetUnitSubjectiveQuestions) {
-      final response = await EdwiselyApi.dio.get(
-          'questions/getUnitSubjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
-      final topicsResponse = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questions/getUnitSubjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}'));
+      final topicsResponse = await EdwiselyApi().dio().then((value) => value.get(
+          'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71'));
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
         List<DropdownMenuItem> dropDownItems = [];
         dropDownItems.add(
@@ -58,8 +58,8 @@ class QuestionBankSubjectiveBloc
     }
     if (event is GetUnitSubjectiveQuestionsByLevel) {
       yield QuestionBankSubjectiveInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questions/getLevelWiseSubjectiveQuestions?unit_id=${event.unitId}&level=${event.level}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questions/getLevelWiseSubjectiveQuestions?unit_id=${event.unitId}&level=${event.level}'));
       if (response.statusCode == 200) {
         yield UnitSubjectiveQuestionsFetched(
           QuestionBankSubjectiveEntity.fromJsonMap(
@@ -76,8 +76,8 @@ class QuestionBankSubjectiveBloc
     }
     if (event is GetUnitSubjectiveQuestionsByTopic) {
       yield QuestionBankSubjectiveInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questions/getTopicWiseSubjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questions/getTopicWiseSubjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}'));
       if (response.statusCode == 200) {
         yield UnitSubjectiveQuestionsFetched(
           QuestionBankSubjectiveEntity.fromJsonMap(
@@ -94,8 +94,8 @@ class QuestionBankSubjectiveBloc
     }
     if (event is GetSubjectiveQuestionsByBookmark) {
       yield QuestionBankSubjectiveInitial();
-      final response = await EdwiselyApi.dio
-          .get('getBookmarkedQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi().dio().then((value) => value
+          .get('getBookmarkedQuestions?unit_id=${event.unitId}'));
       if (response.statusCode == 200) {
         yield UnitSubjectiveQuestionsFetched(
           QuestionBankSubjectiveEntity.fromJsonMap(
@@ -112,8 +112,8 @@ class QuestionBankSubjectiveBloc
     }
     if (event is GetYourSubjectiveQuestions) {
       yield QuestionBankSubjectiveInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questions/getFacultyAddedSubjectiveQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questions/getFacultyAddedSubjectiveQuestions?unit_id=${event.unitId}'));
       if (response.statusCode == 200) {
         yield UnitSubjectiveQuestionsFetched(
           QuestionBankSubjectiveEntity.fromJsonMap(

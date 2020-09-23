@@ -1,4 +1,6 @@
 import 'package:edwisely/data/cubits/login_cubit.dart';
+import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
+import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,13 +14,87 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Row(
-          children: [
-            //left part
-            _buildLeftPart(screenSize, textTheme, context),
-            _buildRightPart(screenSize, textTheme, context),
-          ],
+      body: BlocListener(
+        cubit: context.bloc<LoginCubit>(),
+        listener: (BuildContext context, state) {
+          if (state is LoginError) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error),
+              ),
+            );
+          }
+          if (state is ForcePasswordChange) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  TextEditingController newPasswordController =
+                      TextEditingController();
+                  return Card(
+                    margin: EdgeInsets.all(250),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Hello ${state.name} before continuing lets set a Password',
+                            style: TextStyle(fontSize: 28),
+                          ),
+                          TextInput(
+                            label: 'Password',
+                            hint: 'Enter new password',
+                            inputType: TextInputType.visiblePassword,
+                            suffix: Icon(
+                              Icons.remove_red_eye,
+                              color: Colors.black,
+                            ),
+                            controller: newPasswordController,
+                          ),
+                          SizedBox(
+                            width: screenSize.width * 0.4,
+                            child: RaisedButton(
+                              onPressed: () {
+                                context.bloc<LoginCubit>().changePassword(
+                                    state.email, newPasswordController.text);
+                              },
+                              color: Theme.of(context).primaryColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0)),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 12.0),
+                              child: Text(
+                                'Set Password',
+                                style: textTheme.headline6.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          }
+          if (state is LoginSuccess) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => CoursesLandingScreen(),
+              ),
+            );
+          }
+        },
+        child: SafeArea(
+          child: Row(
+            children: [
+              //left part
+              _buildLeftPart(screenSize, textTheme, context),
+              _buildRightPart(screenSize, textTheme, context),
+            ],
+          ),
         ),
       ),
     );

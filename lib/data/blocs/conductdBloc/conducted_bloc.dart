@@ -18,8 +18,8 @@ class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {
   ) async* {
     if (event is GetObjectiveQuestions) {
       yield ConductedInitial();
-      final response = await EdwiselyApi.dio
-          .get('questionnaireWeb/getConductedObjectiveTests');
+      final response = await EdwiselyApi().dio().then(
+          (value) => value.get('questionnaireWeb/getConductedObjectiveTests'));
       if (response.statusCode == 200) {
         yield ConductedSuccess(
           AssessmentsEntity.fromJsonMap(response.data),
@@ -30,8 +30,8 @@ class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {
     }
     if (event is GetSubjectiveQuestions) {
       yield ConductedInitial();
-      final response = await EdwiselyApi.dio
-          .get('questionnaireWeb/getConductedSubjectiveTests');
+      final response = await EdwiselyApi().dio().then(
+          (value) => value.get('questionnaireWeb/getConductedSubjectiveTests'));
       if (response.statusCode == 200) {
         yield ConductedSuccess(
           AssessmentsEntity.fromJsonMap(response.data),
@@ -42,8 +42,8 @@ class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {
     }
     if (event is GetObjectiveQuestionsByDate) {
       yield ConductedInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getConductedObjectiveTests?from_date=${event.fromDate}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questionnaireWeb/getConductedObjectiveTests?from_date=${event.fromDate}'));
       if (response.statusCode == 200) {
         if (response.data['message'] == 'No tests to fetch') {
           yield ConductedEmpty();
@@ -57,8 +57,8 @@ class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {
     }
     if (event is GetSubjectiveQuestionsByDate) {
       yield ConductedInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getConductedSubjectiveTests?from_date=${event.fromDate}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questionnaireWeb/getConductedSubjectiveTests?from_date=${event.fromDate}'));
       if (response.statusCode == 200) {
         if (response.data['message'] == 'No tests to fetch') {
           yield ConductedEmpty();
@@ -72,8 +72,8 @@ class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {
     }
     if (event is GetObjectiveQuestionsBySection) {
       yield ConductedInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getSectionWiseConductedObjectiveTests?section_id=${event.sectionId}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questionnaireWeb/getSectionWiseConductedObjectiveTests?section_id=${event.sectionId}'));
       if (response.statusCode == 200) {
         if (response.data['message'] == 'No tests to fetch') {
           yield ConductedEmpty();
@@ -87,8 +87,8 @@ class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {
     }
     if (event is GetSubjectiveQuestionsBySection) {
       yield ConductedInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getSectionWiseConductedSubjectiveTests?section_id=${event.sectionId}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questionnaireWeb/getSectionWiseConductedSubjectiveTests?section_id=${event.sectionId}'));
       if (response.statusCode == 200) {
         if (response.data['message'] == 'No tests to fetch') {
           yield ConductedEmpty();
@@ -102,8 +102,8 @@ class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {
     }
     if (event is GetObjectiveQuestionsBySubject) {
       yield ConductedInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getSubjectWiseConductedObjectiveTests?subject_id=${event.subjectId}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questionnaireWeb/getSubjectWiseConductedObjectiveTests?subject_id=${event.subjectId}'));
       if (response.statusCode == 200) {
         if (response.data['message'] == 'No tests to fetch') {
           yield ConductedEmpty();
@@ -117,8 +117,8 @@ class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {
     }
     if (event is GetSubjectiveQuestionsBySubject) {
       yield ConductedInitial();
-      final response = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getSubjectWiseConductedSubjectiveTests?subject_id=${event.subjectId}');
+      final response = await EdwiselyApi().dio().then((value) => value.get(
+          'questionnaireWeb/getSubjectWiseConductedSubjectiveTests?subject_id=${event.subjectId}'));
       if (response.statusCode == 200) {
         if (response.data['message'] == 'No tests to fetch') {
           yield ConductedEmpty();

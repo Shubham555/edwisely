@@ -124,7 +124,7 @@ class AssessmentTile extends StatelessWidget {
                             ),
                           ],
                           child: SendAssessmentScreen(
-                              assessmentId, title, noOfQuestions),
+                              assessmentId, title, []),
                         ),
                       ),
                     );

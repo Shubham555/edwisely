@@ -8,7 +8,7 @@ class SelectStudentsCubit extends Cubit<SelectStudentsState> {
   SelectStudentsCubit() : super(SelectStudentsInitial());
 
   getStudentsInASection(int sectionId, int year) async {
-    final response = await EdwiselyApi.dio.post(
+    final response = await EdwiselyApi().dio().then((value) => value.post(
       'common/getCollegeDepartmentSectionStudents',
       data: FormData.fromMap(
         {
@@ -16,7 +16,7 @@ class SelectStudentsCubit extends Cubit<SelectStudentsState> {
           'year': year,
         },
       ),
-    );
+    ));
     if (response.statusCode == 200) {
       emit(
         SelectStudentsStudentsFetched(

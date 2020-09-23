@@ -6,15 +6,20 @@ import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question
 import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
 import 'package:edwisely/data/cubits/add_question_cubit.dart';
+import 'package:edwisely/data/cubits/login_cubit.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
+import 'package:edwisely/data/cubits/question_add_cubit.dart';
 import 'package:edwisely/data/cubits/select_students_cubit.dart';
 import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
 import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
-import 'package:edwisely/ui/screens/home_screen.dart';
+import 'package:edwisely/data/provider/selected_page.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import 'data/blocs/objectiveBloc/objective_bloc.dart';
 
@@ -71,28 +76,34 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => UnitCubit(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => LoginCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => QuestionAddCubit(),
+          ),
         ],
         child: MaterialApp(
-            title: 'Edwisely',
-            theme: EdwiselyTheme.themeDataEdwisely,
-            debugShowCheckedModeBanner: false,
-            home: CoursesLandingScreen(),
-            //   MultiBlocProvider(
-            // providers: [
-            //   BlocProvider(
-            //     create: (BuildContext context) => SendAssessmentCubit(),
-            //   )
-            // ],
-            // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-            // ),
-            //     AddQuestionsScreen(
-            //   'T',
-            //   'dfdf',
-            //   10,
-            //   QuestionType.Objective,
-            //   2052,
-            // ),
-            ),
+          title: 'Edwisely',
+          theme: EdwiselyTheme.themeDataEdwisely,
+          debugShowCheckedModeBanner: false,
+          home:
+              //   MultiBlocProvider(
+              // providers: [
+              //   BlocProvider(
+              //     create: (BuildContext context) => SendAssessmentCubit(),
+              //   )
+              // ],
+              // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
+              // ),
+              AddQuestionsScreen(
+            'T',
+            'dfdf',
+            352,
+            QuestionType.Objective,
+            2154,
+          ),
+        ),
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';
 import 'package:edwisely/data/model/course/syllabusEntity/SyllabusEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'courses_event.dart';
 
@@ -20,19 +21,26 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   CoursesBloc() : super(CoursesInitial());
 
   @override
-  Stream<CoursesState> mapEventToState(
-    CoursesEvent event,
-  ) async* {
+  Stream<CoursesState> mapEventToState(CoursesEvent event,) async* {
     if (event is GetCoursesByFaculty) {
-      final response = await EdwiselyApi.dio.get('getFacultyCourses');
+      final response = await EdwiselyApi().dio().then((value) =>
+          value.get('getFacultyCourses'));
+      print(response.data);
       if (response.statusCode == 200) {
-        yield CoursesFetched(CoursesEntity.fromJsonMap(response.data));
+        if (response.data['message'] == 'Invalid token. Please log in again.') {
+          SharedPreferences.getInstance()
+              .then((value) => value.setString('login_key', null));
+          yield LoginFailed();
+        } else {
+          yield CoursesFetched(CoursesEntity.fromJsonMap(response.data));
+        }
       } else {
         CoursesFetchFailed();
       }
     }
     if (event is GetCoursesList) {
-      final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses');
+      final subjectResponse =
+      await EdwiselyApi().dio().then((value) => value.get('getFacultyCourses'));
       if (subjectResponse.statusCode == 200) {
         List<DropdownMenuItem> subjects = [];
         subjects.add(
@@ -41,8 +49,11 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             value: 1234567890,
           ),
         );
-        CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
-          (element) {
+        CoursesEntity
+            .fromJsonMap(subjectResponse.data)
+            .data
+            .forEach(
+              (element) {
             subjects.add(
               DropdownMenuItem(
                 child: Text(element.name),
@@ -57,10 +68,12 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetSectionsAndGetCoursesList) {
-      final response = await EdwiselyApi.dio.get(
-          //todo change to event
-          'getCourseDepartmentSections?university_degree_department_id=71');
-      final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses');
+      final response = await EdwiselyApi().dio().then((value) =>
+          value.get(
+            //todo change to event
+              'getCourseDepartmentSections?university_degree_department_id=71'));
+      final subjectResponse =
+      await EdwiselyApi().dio().then((value) => value.get('getFacultyCourses'));
       if (response.statusCode == 200 && subjectResponse.statusCode == 200) {
         List<DropdownMenuItem> subjects = [];
         subjects.add(
@@ -69,8 +82,11 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             value: 1234567890,
           ),
         );
-        CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
-          (element) {
+        CoursesEntity
+            .fromJsonMap(subjectResponse.data)
+            .data
+            .forEach(
+              (element) {
             subjects.add(
               DropdownMenuItem(
                 child: Text(element.name),
@@ -88,9 +104,10 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetSections) {
-      final response = await EdwiselyApi.dio.get(
-          //todo change to event
-          'getCourseDepartmentSections?university_degree_department_id=71');
+      final response = await EdwiselyApi().dio().then((value) =>
+          value.get(
+            //todo change to event
+              'getCourseDepartmentSections?university_degree_department_id=71'));
       if (response.statusCode == 200) {
         yield SectionsFetched(
           SectionEntity.fromJsonMap(response.data),
@@ -100,8 +117,10 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetCourse) {
-      final response = await EdwiselyApi.dio.get(
-          'getCourseDetails?subject_semester_id=${event.subjectSemesterId}');
+      final response = await EdwiselyApi().dio().then((value) =>
+          value.get(
+              'getCourseDetails?subject_semester_id=${event
+                  .subjectSemesterId}'));
       if (response.statusCode == 200) {
         yield CourseAboutDetailsFetched(
           CourseEntity.fromJsonMap(response.data),
@@ -111,8 +130,10 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetCourseSyllabus) {
-      final response = await EdwiselyApi.dio.get(
-          'getCourseSyllabus?subject_semester_id=${event.subjectSemesterId}');
+      final response = await EdwiselyApi().dio().then((value) =>
+          value.get(
+              'getCourseSyllabus?subject_semester_id=${event
+                  .subjectSemesterId}'));
       if (response.statusCode == 200) {
         yield CourseSyllabusFetched(
           SyllabusEntity.fromJsonMap(response.data),
@@ -122,7 +143,9 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetCourseContentData) {
-      final response = await EdwiselyApi.dio.get('getCourseDecks?unit_id=593');
+      final response =
+      await EdwiselyApi().dio().then((value) =>
+          value.get('getCourseDecks?unit_id=593'));
       if (response.statusCode == 200) {
         print('course decks ${response.data}');
         if (response.data['message'] != 'No data to fetch') {
@@ -137,32 +160,33 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetAllCourses) {
-      final response = await Future.wait([
-        EdwiselyApi.dio.get('getCourses'),
-        EdwiselyApi.dio.get(
-            'getCourseDepartmentSections?university_degree_department_id=71'),
-      ]);
-      if (response[0].statusCode == 200 && response[1].statusCode == 200) {
+      final courses = await EdwiselyApi().dio().then((value) =>
+          value.get('getCourses'));
+      final courseDep = await EdwiselyApi().dio().then((value) =>
+          value.get(
+              'getCourseDepartmentSections?university_degree_department_id=71'));
+      if (courses.statusCode == 200 && courseDep.statusCode == 200) {
         yield AllCoursesFetched(
-            GetAllCoursesEntity.fromJsonMap(response[0].data),
-            SectionEntity.fromJsonMap(response[1].data));
+            GetAllCoursesEntity.fromJsonMap(courses.data),
+            SectionEntity.fromJsonMap(courseDep.data));
       } else {
         yield CoursesFetchFailed();
       }
     }
     if (event is AddCourseToFaculty) {
       print(event.sections);
-      final response = await EdwiselyApi.dio.post(
-        'addFacultyCourseSections',
-        data: FormData.fromMap(
-          {
-            'subject_id': event.subjectId,
-            'subject_semester_id': event.subjectSemesterId,
-            //todo consider other developers
-            'sections': '[684, 685]'
-          },
-        ),
-      );
+      final response = await EdwiselyApi().dio().then((value) =>
+          value.post(
+            'addFacultyCourseSections',
+            data: FormData.fromMap(
+              {
+                'subject_id': event.subjectId,
+                'subject_semester_id': event.subjectSemesterId,
+                //todo consider other developers
+                'sections': '[684, 685]'
+              },
+            ),
+          ));
       print(response.data);
       if (response.statusCode == 200) {
         if (response.data['message'] ==
