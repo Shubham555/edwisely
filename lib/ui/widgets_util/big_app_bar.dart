@@ -41,7 +41,7 @@ class BigAppBar extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 32.0,
-                  horizontal: MediaQuery.of(context).size.width * 0.1,
+                  horizontal: MediaQuery.of(context).size.width * 0.17,
                 ),
                 child: Stack(
                   fit: StackFit.expand,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class EdwiselyTheme {
   static const Color PRIMARY_COLOR = Color(0xFF5154CD);
   static const Color NAV_BAR_COLOR = Color(0xFF2A2A2A);
+  static const Color CARD_COLOR = Color(0xFFEEEEEE);
+  static const Color CHIP_COLOR = Color(0xFF787878);
   //<editor-fold desc="This is the App theme for Edwisely">
   static final ThemeData themeDataEdwisely = ThemeData(
     brightness: Brightness.light,
@@ -16,6 +18,12 @@ class EdwiselyTheme {
         fontWeight: FontWeight.bold,
         color: Colors.black,
         fontSize: 48.0,
+      ),
+      headline5: TextStyle(
+        fontSize: 20.0,
+      ),
+      headline6: TextStyle(
+        fontSize: 18.0,
       ),
     ),
   );

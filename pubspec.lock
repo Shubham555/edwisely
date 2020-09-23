@@ -92,13 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3"
-  dropdown_search:
-    dependency: "direct main"
-    description:
-      name: dropdown_search
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.4"
   fake_async:
     dependency: transitive
     description:
@@ -174,6 +167,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  flutter_keyboard_visibility:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -193,6 +193,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_typeahead:
+    dependency: "direct main"
+    description:
+      name: flutter_typeahead
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.8.8"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -218,7 +225,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.7+10"
+    version: "0.6.7+11"
   image_picker_for_web:
     dependency: "direct main"
     description:
@@ -393,7 +400,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.11"
+    version: "0.5.12"
   shared_preferences_linux:
     dependency: transitive
     description:

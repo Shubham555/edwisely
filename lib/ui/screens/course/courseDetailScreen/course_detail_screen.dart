@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../../../data/provider/selected_page.dart';
 
 import '../../../../util/theme.dart';
-import '../../../../util/theme.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   final String _courseName;
@@ -37,7 +36,6 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
   Widget build(BuildContext context) {
     print('semseter subjectid for fm2 ${widget.semesterSubjectId}');
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Row(
         children: [
           NavigationDrawer(
@@ -63,19 +61,22 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8.0,
+                          horizontal: MediaQuery.of(context).size.width * 0.17,
+                        ),
                         child: TabBar(
                           labelPadding: EdgeInsets.symmetric(horizontal: 36.0),
-                          indicatorColor: EdwiselyTheme.PRIMARY_COLOR,
-                          labelColor: Colors.white,
-                          indicator: BoxDecoration(
-                            color: EdwiselyTheme.PRIMARY_COLOR,
-                          ),
+                          indicatorColor: Colors.black,
+                          labelColor: Colors.black,
                           indicatorPadding: const EdgeInsets.only(top: 8.0),
-                          unselectedLabelColor: EdwiselyTheme.PRIMARY_COLOR,
+                          unselectedLabelColor: Colors.grey,
                           unselectedLabelStyle:
                               Theme.of(context).textTheme.headline6,
-                          labelStyle: Theme.of(context).textTheme.headline5,
+                          labelStyle:
+                              Theme.of(context).textTheme.headline5.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                           isScrollable: true,
                           controller: _tabController,
                           tabs: [
@@ -95,23 +96,29 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                         ),
                       ),
                       Expanded(
-                        child: TabBarView(
-                          physics: NeverScrollableScrollPhysics(),
-                          controller: _tabController,
-                          children: [
-                            CourseDetailAboutTab(
-                              widget.semesterSubjectId,
-                            ),
-                            CourseDetailSyllabusTab(
-                              widget.semesterSubjectId,
-                            ),
-                            CourseDetailCourseContentTab(
-                              widget.semesterSubjectId,
-                            ),
-                            CourseDetailQuestionBankTab(
-                              widget.semesterSubjectId,
-                            ),
-                          ],
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.17,
+                          ),
+                          child: TabBarView(
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: _tabController,
+                            children: [
+                              CourseDetailAboutTab(
+                                widget.semesterSubjectId,
+                              ),
+                              CourseDetailSyllabusTab(
+                                widget.semesterSubjectId,
+                              ),
+                              CourseDetailCourseContentTab(
+                                widget.semesterSubjectId,
+                              ),
+                              CourseDetailQuestionBankTab(
+                                widget.semesterSubjectId,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

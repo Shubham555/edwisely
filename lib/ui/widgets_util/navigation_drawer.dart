@@ -68,11 +68,14 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //logo here
-          Image.asset(
-            _isNavigationDrawerCollapsed
-                ? 'assets/logo/small_logo.png'
-                : 'assets/logo/big_logo.png',
-            fit: BoxFit.contain,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0,12.0,16.0,0),
+            child: Image.asset(
+              _isNavigationDrawerCollapsed
+                  ? 'assets/logo/small_logo.png'
+                  : 'assets/logo/big_logo.png',
+              fit: BoxFit.contain,
+            ),
           ),
           //seperator
           Padding(

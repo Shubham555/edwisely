@@ -1,16 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chips_choice/chips_choice.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/cubits/add_course_cubit.dart';
 import 'package:edwisely/data/model/course/getAllCourses/data.dart';
 import 'package:edwisely/data/model/course/getAllCourses/departments.dart';
 import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';
-import 'package:edwisely/data/model/course/sectionEntity/data.dart' as sectionDta;
+import 'package:edwisely/data/model/course/sectionEntity/data.dart'
+    as sectionDta;
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -19,158 +20,175 @@ import '../../../data/provider/selected_page.dart';
 class AddCourseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: BlocListener(
-          cubit: context.bloc<AddCourseCubit>(),
-          listener: (BuildContext context, state) {
-            if (state is CourseAdded) {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text('Course Added Successfully')));
-              Future.delayed(
-                Duration(seconds: 2),
-                () {
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: Center(
+          child: BlocListener(
+            cubit: context.bloc<AddCourseCubit>(),
+            listener: (BuildContext context, state) {
+              if (state is CourseAdded) {
+                Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text('Course Added Successfully')));
+                Future.delayed(
+                  Duration(seconds: 2),
+                  () {
+                    // Navigator.pop(context);
+                    // Navigator.pop(context);
+                    // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
+                  },
+                );
+              }
+              if (state is CoursesError) {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text(state.error)));
+                Future.delayed(Duration(seconds: 2), () {
                   // Navigator.pop(context);
                   // Navigator.pop(context);
                   // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
-                },
-              );
-            }
-            if (state is CoursesError) {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.error)));
-              Future.delayed(Duration(seconds: 2), () {
-                // Navigator.pop(context);
-                // Navigator.pop(context);
-                // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
-              });
-            }
-          },
-          child: BlocBuilder(
-            cubit: context.bloc<CoursesBloc>()..add(GetAllCourses()),
-            builder: (BuildContext context, state) {
-              if (state is AllCoursesFetched) {
-                return Row(
-                  children: [
-                    NavigationDrawer(
-                      isCollapsed: false,
-                      key: context.watch<SelectedPageProvider>().navigatorKey,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          BigAppBar(
-                                  actions: null,
-                                  titleText:
-                                      'Add Courses', //5 minute dedo a raha hioon Ha sarkar
-                                  bottomTab: null,
-                                  appBarSize:
-                                      MediaQuery.of(context).size.height /
-                                          3.5,
-                                  appBarTitle: Text('Edwisely'),
-                                  flatButton: null)
-                              .build(context),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 5,
-                                  padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width /
-                                        100,
-                                  ),
-                                  child: DropdownSearch(
-                                    autoFocusSearchBox: true,
-                                    showClearButton: true,
-                                    label: 'Search Courses',
-                                    showSearchBox: true,
-                                    mode: Mode.MENU,
-                                    items: state.getAllCoursesEntity.data,
-                                    onChanged: (Data data) => _showDialog(
-                                      context,
-                                      data,
-                                      data.departments,
-                                      state.sectionEntity,
+                });
+              }
+            },
+            child: BlocBuilder(
+              cubit: context.bloc<CoursesBloc>()..add(GetAllCourses()),
+              builder: (BuildContext context, state) {
+                if (state is AllCoursesFetched) {
+                  return Row(
+                    children: [
+                      NavigationDrawer(
+                        isCollapsed: false,
+                        key: context.watch<SelectedPageProvider>().navigatorKey,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            BigAppBar(
+                                    actions: null,
+                                    titleText: 'Add Courses',
+                                    //5 minute dedo a raha hioon Ha sarkar
+                                    bottomTab: null,
+                                    appBarSize:
+                                        MediaQuery.of(context).size.height /
+                                            3.5,
+                                    appBarTitle: Text('Edwisely'),
+                                    flatButton: null)
+                                .build(context),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal:
+                                    MediaQuery.of(context).size.width * 0.17,
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 5,
+                                    padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width /
+                                          100,
                                     ),
-                                    showSelectedItem: false,
-                                    dropdownBuilder:
-                                        (context, Data data, String sd) =>
-                                            data != null
-                                                ? Text(data.name)
-                                                : Text(''),
-                                    filterFn: (Data data, String string) =>
-                                        data.name.toLowerCase().contains(
-                                              string,
+                                    child: TypeAheadField(
+                                      textFieldConfiguration:
+                                          TextFieldConfiguration(
+                                        style: DefaultTextStyle.of(context)
+                                            .style
+                                            .copyWith(
+                                              fontStyle: FontStyle.normal,
                                             ),
-                                    popupItemBuilder:
-                                        (context, Data data, bool) =>
-                                            Container(
-                                      padding: EdgeInsets.all(
-                                        10,
+                                        decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            hintText: 'Search Courses'),
                                       ),
-                                      child: Text(
-                                        data.name,
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.black),
+                                      suggestionsCallback: (pttrn) async {
+                                        List<Data> courses = List();
+                                        courses.addAll(
+                                            state.getAllCoursesEntity.data);
+                                        courses.retainWhere(
+                                          (element) => element.name
+                                              .toLowerCase()
+                                              .contains(
+                                                pttrn.toLowerCase(),
+                                              ),
+                                        );
+                                        return courses;
+                                      },
+                                      itemBuilder: (context, Data data) {
+                                        return ListTile(
+                                          title: Text(data.name),
+                                        );
+                                      },
+                                      onSuggestionSelected: (data) =>
+                                          Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              _showDialog(
+                                            context,
+                                            data,
+                                            data.departments,
+                                            state.sectionEntity,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                DropdownButton(items: null, onChanged: null)
-                              ],
+                                  SizedBox(width: 32.0),
+                                  DropdownButton(items: null, onChanged: null)
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: GridView(
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 35,
-                                  crossAxisSpacing: 35,
-                                  crossAxisCount: 3,
-                                  childAspectRatio:
-                                      MediaQuery.of(context).size.width /
-                                          MediaQuery.of(context).size.height /
-                                          1.9,
-                                ),
-                                children: List.generate(
-                                  state.getAllCoursesEntity.data.length,
-                                  (upperIndex) => Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        6,
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: GridView(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisSpacing: 35,
+                                    crossAxisSpacing: 35,
+                                    crossAxisCount: 3,
+                                    childAspectRatio:
+                                        MediaQuery.of(context).size.width /
+                                            MediaQuery.of(context).size.height /
+                                            1.9,
+                                  ),
+                                  children: List.generate(
+                                    state.getAllCoursesEntity.data.length,
+                                    (upperIndex) => Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          6,
+                                        ),
                                       ),
+                                      elevation: 6,
+                                      child: _buildCourseTile(
+                                          upperIndex, context, state),
                                     ),
-                                    elevation: 6,
-                                    child: _buildCourseTile(
-                                        upperIndex, context, state),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              }
-              if (state is CourseAdded) {
-                return Column(
-                  children: [
-                    CircularProgressIndicator(),
-                    Text('Course Added '),
-                  ],
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
+                    ],
+                  );
+                }
+                if (state is CourseAdded) {
+                  return Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      Text('Course Added '),
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
           ),
         ),
       ),
@@ -372,9 +390,14 @@ class AddCourseScreen extends StatelessWidget {
                             print('sections : $sections');
                             print('subject : ${data.id}');
                             if (branch == null || sections.isEmpty) {
-                              Toast.show('Please select at least one section and one department', context, duration: 4);
+                              Toast.show(
+                                  'Please select at least one section and one department',
+                                  context,
+                                  duration: 4);
                             }
-                            outerContext.bloc<AddCourseCubit>().addCourseToFaculty(
+                            outerContext
+                                .bloc<AddCourseCubit>()
+                                .addCourseToFaculty(
                                   data.id,
                                   branch,
                                   sections,

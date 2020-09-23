@@ -12,10 +12,13 @@ class CourseDetailCourseContentTab extends StatefulWidget {
   CourseDetailCourseContentTab(this.semesterId);
 
   @override
-  _CourseDetailCourseContentTabState createState() => _CourseDetailCourseContentTabState();
+  _CourseDetailCourseContentTabState createState() =>
+      _CourseDetailCourseContentTabState();
 }
 
-class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContentTab> with SingleTickerProviderStateMixin {
+class _CourseDetailCourseContentTabState
+    extends State<CourseDetailCourseContentTab>
+    with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     print(widget.semesterId);
@@ -37,33 +40,33 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
               return Container(
                 width: MediaQuery.of(context).size.width / 7,
                 child: StatefulBuilder(
-                  builder: (BuildContext context, void Function(void Function()) setState) {
+                  builder: (BuildContext context,
+                      void Function(void Function()) setState) {
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.units.data.length,
-                      itemBuilder: (BuildContext context, int index) => ListTile(
+                      itemBuilder: (BuildContext context, int index) =>
+                          ListTile(
                         hoverColor: Colors.white,
                         selected: enabledUnitId == state.units.data[index].id,
                         title: Container(
                           padding: const EdgeInsets.symmetric(
                             vertical: 8.0,
-                            horizontal: 16.0,
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.0),
-                            color: enabledUnitId == state.units.data[index].id ? Theme.of(context).primaryColor : Colors.transparent,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: enabledUnitId == state.units.data[index].id ? 6.0 : 0,
-                                color: enabledUnitId == state.units.data[index].id ? Colors.black.withOpacity(0.3) : Colors.transparent,
-                              ),
-                            ],
-                          ),
+                          alignment: Alignment.center,
                           child: Text(
                             state.units.data[index].name,
-                            style: TextStyle(
-                                color: enabledUnitId == state.units.data[index].id ? Colors.white : Theme.of(context).primaryColor,
-                                fontSize: enabledUnitId == state.units.data[index].id ? 25 : null),
+                            style: enabledUnitId == state.units.data[index].id
+                                ? TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                  )
+                                : TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                           ),
                         ),
                         onTap: () {
@@ -100,7 +103,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width * (3.5 / 5),
+                            width:
+                                MediaQuery.of(context).size.width * (3.5 / 5),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +113,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                   'Learning Snippets',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.height / 50,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 50,
                                   ),
                                 ),
                                 FlatButton(
@@ -141,23 +146,28 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                             ),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width * (3.5 / 5),
+                            width:
+                                MediaQuery.of(context).size.width * (3.5 / 5),
                             height: 300,
                             child: GridView.builder(
                               itemCount: state.courseDeckEntity.data.length,
-                              itemBuilder: (BuildContext context, int index) => GridTile(
-                                child: state.courseDeckEntity.data[index].image == ''
-                                    ? Center(
-                                        child: Icon(
-                                          Icons.book,
-                                          size: 60,
-                                        ),
-                                      )
-                                    : Image.network(
-                                        state.courseDeckEntity.data[index].image,
-                                        width: 150,
-                                        height: 200,
-                                      ),
+                              itemBuilder: (BuildContext context, int index) =>
+                                  GridTile(
+                                child:
+                                    state.courseDeckEntity.data[index].image ==
+                                            ''
+                                        ? Center(
+                                            child: Icon(
+                                              Icons.book,
+                                              size: 60,
+                                            ),
+                                          )
+                                        : Image.network(
+                                            state.courseDeckEntity.data[index]
+                                                .image,
+                                            width: 150,
+                                            height: 200,
+                                          ),
                                 footer: Container(
                                   width: 150,
                                   child: Text(
@@ -168,7 +178,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                   ),
                                 ),
                               ),
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
                                 mainAxisSpacing: 20,
                                 crossAxisSpacing: 20,
                                 crossAxisCount: 1,
@@ -216,7 +227,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                   'Curated Content',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.height / 50,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 50,
                                   ),
                                 ),
                                 FlatButton(
@@ -247,10 +259,12 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                               ],
                             ),
                             StatefulBuilder(
-                              builder: (BuildContext context, void Function(void Function()) setState) {
+                              builder: (BuildContext context,
+                                  void Function(void Function()) setState) {
                                 String typeDropDownValue = 'All';
                                 int levelDropDownValue = -1;
-                                TabController tabController = TabController(length: 3, vsync: this);
+                                TabController tabController =
+                                    TabController(length: 3, vsync: this);
                                 return Row(
                                   children: [
                                     Row(
