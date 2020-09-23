@@ -85,10 +85,6 @@ class AddCourseScreen extends StatelessWidget {
                                   Container(
                                     width:
                                         MediaQuery.of(context).size.width / 5,
-                                    padding: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width /
-                                          100,
-                                    ),
                                     child: TypeAheadField(
                                       textFieldConfiguration:
                                           TextFieldConfiguration(
@@ -141,7 +137,11 @@ class AddCourseScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(15),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.17,
+                                ),
                                 child: GridView(
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
@@ -151,7 +151,7 @@ class AddCourseScreen extends StatelessWidget {
                                     childAspectRatio:
                                         MediaQuery.of(context).size.width /
                                             MediaQuery.of(context).size.height /
-                                            1.9,
+                                            2.6,
                                   ),
                                   children: List.generate(
                                     state.getAllCoursesEntity.data.length,
