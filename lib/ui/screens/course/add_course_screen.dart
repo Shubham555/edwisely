@@ -60,10 +60,12 @@ class AddCourseScreen extends StatelessWidget {
                         children: [
                           BigAppBar(
                                   actions: null,
-                                  titleText: 'Add Courses',
-                                  //5 minute dedo a raha hioon Ha sarkar
+                                  titleText:
+                                      'Add Courses', //5 minute dedo a raha hioon Ha sarkar
                                   bottomTab: null,
-                                  appBarSize: MediaQuery.of(context).size.height / 3.5,
+                                  appBarSize:
+                                      MediaQuery.of(context).size.height /
+                                          3.5,
                                   appBarTitle: Text('Edwisely'),
                                   flatButton: null)
                               .build(context),
@@ -72,9 +74,11 @@ class AddCourseScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 5,
+                                  width:
+                                      MediaQuery.of(context).size.width / 5,
                                   padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width / 100,
+                                    left: MediaQuery.of(context).size.width /
+                                        100,
                                   ),
                                   child: DropdownSearch(
                                     autoFocusSearchBox: true,
@@ -90,17 +94,26 @@ class AddCourseScreen extends StatelessWidget {
                                       state.sectionEntity,
                                     ),
                                     showSelectedItem: false,
-                                    dropdownBuilder: (context, Data data, String sd) => data != null ? Text(data.name) : Text(''),
-                                    filterFn: (Data data, String string) => data.name.toLowerCase().contains(
-                                          string,
-                                        ),
-                                    popupItemBuilder: (context, Data data, bool) => Container(
+                                    dropdownBuilder:
+                                        (context, Data data, String sd) =>
+                                            data != null
+                                                ? Text(data.name)
+                                                : Text(''),
+                                    filterFn: (Data data, String string) =>
+                                        data.name.toLowerCase().contains(
+                                              string,
+                                            ),
+                                    popupItemBuilder:
+                                        (context, Data data, bool) =>
+                                            Container(
                                       padding: EdgeInsets.all(
                                         10,
                                       ),
                                       child: Text(
                                         data.name,
-                                        style: TextStyle(fontSize: 20, color: Colors.black),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black),
                                       ),
                                     ),
                                   ),
@@ -113,11 +126,15 @@ class AddCourseScreen extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: GridView(
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   mainAxisSpacing: 35,
                                   crossAxisSpacing: 35,
                                   crossAxisCount: 3,
-                                  childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 1.9,
+                                  childAspectRatio:
+                                      MediaQuery.of(context).size.width /
+                                          MediaQuery.of(context).size.height /
+                                          1.9,
                                 ),
                                 children: List.generate(
                                   state.getAllCoursesEntity.data.length,
@@ -128,7 +145,8 @@ class AddCourseScreen extends StatelessWidget {
                                       ),
                                     ),
                                     elevation: 6,
-                                    child: _buildCourseTile(upperIndex, context, state),
+                                    child: _buildCourseTile(
+                                        upperIndex, context, state),
                                   ),
                                 ),
                               ),
@@ -168,7 +186,8 @@ class AddCourseScreen extends StatelessWidget {
             alignment: Alignment.center,
             child: Container(
               height: MediaQuery.of(context).size.height / 5,
-              child: state.getAllCoursesEntity.data[upperIndex].course_image == ''
+              child: state.getAllCoursesEntity.data[upperIndex].course_image ==
+                      ''
                   ? Image.asset(
                       'placeholder_image.jpg',
                       fit: BoxFit.cover,
@@ -182,7 +201,9 @@ class AddCourseScreen extends StatelessWidget {
           ),
           SizedBox(height: 12.0),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: MediaQuery.of(context).size.height * 0.0001),
+            padding: EdgeInsets.symmetric(
+                horizontal: 18.0,
+                vertical: MediaQuery.of(context).size.height * 0.0001),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.07,
               width: double.infinity,
@@ -193,14 +214,17 @@ class AddCourseScreen extends StatelessWidget {
                 minFontSize: 18.0,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 4.0,
-              horizontal: 12.0,
+              horizontal: 18.0,
             ),
             child: Text(
               'Departments',
@@ -209,23 +233,35 @@ class AddCourseScreen extends StatelessWidget {
               ),
             ),
           ),
-          Row(
-            children: List.generate(
-              state.getAllCoursesEntity.data[upperIndex].departments.length,
-              (index) => Container(
-                height: MediaQuery.of(context).size.height * 0.03,
-                margin: const EdgeInsets.symmetric(horizontal: 6.0),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 4.0,
-                  horizontal: 12.0,
-                ),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xfff7f1e3),
-                ),
-                child: Text(
-                  state.getAllCoursesEntity.data[upperIndex].departments[index].name,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4.0,
+              horizontal: 18.0,
+            ),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: List.generate(
+                  state.getAllCoursesEntity.data[upperIndex].departments.length,
+                  (index) => Container(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    margin: const EdgeInsets.symmetric(horizontal: 6.0),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4.0,
+                      horizontal: 12.0,
+                    ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color(0xfff7f1e3),
+                    ),
+                    child: Text(
+                      state.getAllCoursesEntity.data[upperIndex]
+                          .departments[index].name,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -271,7 +307,8 @@ class AddCourseScreen extends StatelessWidget {
       context: outerContext,
       builder: (BuildContext context) {
         return StatefulBuilder(
-          builder: (BuildContext context, void Function(void Function()) setState) {
+          builder:
+              (BuildContext context, void Function(void Function()) setState) {
             return AlertDialog(
               title: Text(
                 'Finalize Adding ${data.name} to Your Courses',

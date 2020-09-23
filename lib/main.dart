@@ -1,3 +1,4 @@
+import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
 import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
@@ -22,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'data/blocs/objectiveBloc/objective_bloc.dart';
+import 'ui/screens/course/courses_landing_screen.dart';
 import 'data/cubits/course_content_cubit.dart';
 
 void main() {
@@ -90,23 +92,27 @@ class EdWisely extends StatelessWidget {
             create: (BuildContext context) => AddCourseCubit(),
           ),
         ],
-        child: MaterialApp(title: 'Edwisely', theme: EdwiselyTheme.themeDataEdwisely, debugShowCheckedModeBanner: false, home: CoursesLandingScreen()
-            //   MultiBlocProvider(
-            // providers: [
-            //   BlocProvider(
-            //     create: (BuildContext context) => SendAssessmentCubit(),
-            //   )
-            // ],
-            // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-            // ),
-            //     AddQuestionsScreen(
-            //   'T',
-            //   'dfdf',
-            //   352,
-            //   QuestionType.Objective,
-            //   2154,
-            // ),
-            ),
+        child: MaterialApp(
+          title: 'Edwisely',
+          theme: EdwiselyTheme.themeDataEdwisely,
+          debugShowCheckedModeBanner: false,
+          home: CoursesLandingScreen(),
+              //   MultiBlocProvider(
+              // providers: [
+              //   BlocProvider(
+              //     create: (BuildContext context) => SendAssessmentCubit(),
+              //   )
+              // ],
+              // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
+              // ),
+          //     AddQuestionsScreen(
+          //   'T',
+          //   'dfdf',
+          //   352,
+          //   QuestionType.Objective,
+          //   2154,
+          // ),
+        ),
       ),
     );
   }

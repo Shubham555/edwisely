@@ -35,184 +35,223 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Row(
-                              children: [
-                                Row(
-                                  children: [
-                                    DropdownButton(
-                                        items: [
-                                          DropdownMenuItem(
-                                            child: Text('All'),
-                                            value: -1,
-                                          ),
-                                          DropdownMenuItem(
-                                            child: Text('Remember'),
-                                            value: 1,
-                                          ),
-                                          DropdownMenuItem(
-                                            child: Text('Understand'),
-                                            value: 2,
-                                          ),
-                                          DropdownMenuItem(
-                                            child: Text('Apply'),
-                                            value: 3,
-                                          ),
-                                          DropdownMenuItem(
-                                            child: Text('Analyze'),
-                                          ),
-                                        ],
-                                        value: levelDropDownValue,
-                                        onChanged: (value) {
-                                          setState(
-                                            () {
-                                              levelDropDownValue = value;
-                                            },
-                                          );
-                                          value == -1
-                                              ? context
-                                                  .bloc<QuestionBankBloc>()
-                                                  .add(
-                                                    GetUnitQuestions(
-                                                      widget.subjectId,
-                                                      state.unitId,
-                                                    ),
-                                                  )
-                                              : context
-                                                  .bloc<QuestionBankBloc>()
-                                                  .add(
-                                                    GetUnitQuestionsByLevel(
-                                                      value,
-                                                      state.unitId,
-                                                    ),
-                                                  );
-                                        }),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text('Level'),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    DropdownButton(
-                                      items: state.dropDownList,
-                                      value: topicsDropDown,
-                                      onChanged: (value) {
-                                        setState(
-                                          () {
-                                            topicsDropDown = value;
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 12.0,
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Level'),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Container(
+                                        width: MediaQuery.of(context).size.width *
+                                            0.1,
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0,
+                                          horizontal: 12.0,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          border: Border.all(color: Colors.black),
+                                        ),
+                                        child: DropdownButton(
+                                          underline: SizedBox.shrink(),
+                                          isExpanded: true,
+                                          items: [
+                                            DropdownMenuItem(
+                                              child: Text('All'),
+                                              value: -1,
+                                            ),
+                                            DropdownMenuItem(
+                                              child: Text('Remember'),
+                                              value: 1,
+                                            ),
+                                            DropdownMenuItem(
+                                              child: Text('Understand'),
+                                              value: 2,
+                                            ),
+                                            DropdownMenuItem(
+                                              child: Text('Apply'),
+                                              value: 3,
+                                            ),
+                                            DropdownMenuItem(
+                                              child: Text('Analyze'),
+                                            ),
+                                          ],
+                                          value: levelDropDownValue,
+                                          onChanged: (value) {
+                                            setState(
+                                              () {
+                                                levelDropDownValue = value;
+                                              },
+                                            );
+                                            value == -1
+                                                ? context
+                                                    .bloc<QuestionBankBloc>()
+                                                    .add(
+                                                      GetUnitQuestions(
+                                                        widget.subjectId,
+                                                        state.unitId,
+                                                      ),
+                                                    )
+                                                : context
+                                                    .bloc<QuestionBankBloc>()
+                                                    .add(
+                                                      GetUnitQuestionsByLevel(
+                                                        value,
+                                                        state.unitId,
+                                                      ),
+                                                    );
                                           },
-                                        );
-                                        value == 1234567890
-                                            ? context
-                                                .bloc<QuestionBankBloc>()
-                                                .add(
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Topic'),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Container(
+                                        width: MediaQuery.of(context).size.width *
+                                            0.1,
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0,
+                                          horizontal: 12.0,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          border: Border.all(color: Colors.black),
+                                        ),
+                                        child: DropdownButton(
+                                          items: state.dropDownList,
+                                          value: topicsDropDown,
+                                          underline: SizedBox.shrink(),
+                                          isExpanded: true,
+                                          onChanged: (value) {
+                                            setState(
+                                              () {
+                                                topicsDropDown = value;
+                                              },
+                                            );
+                                            value == 1234567890
+                                                ? context
+                                                    .bloc<QuestionBankBloc>()
+                                                    .add(
+                                                      GetUnitQuestions(
+                                                        widget.subjectId,
+                                                        state.unitId,
+                                                      ),
+                                                    )
+                                                : context
+                                                    .bloc<QuestionBankBloc>()
+                                                    .add(
+                                                      GetUnitQuestionsByTopic(
+                                                        value,
+                                                        state.unitId,
+                                                      ),
+                                                    );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        child: FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              isSelected = 0;
+                                            });
+                                            context.bloc<QuestionBankBloc>().add(
                                                   GetUnitQuestions(
                                                     widget.subjectId,
                                                     state.unitId,
                                                   ),
-                                                )
-                                            : context
-                                                .bloc<QuestionBankBloc>()
-                                                .add(
-                                                  GetUnitQuestionsByTopic(
-                                                    value,
+                                                );
+                                          },
+                                          child: Text(
+                                            'All Questions',
+                                            style: TextStyle(
+                                                color: isSelected == 0
+                                                    ? Theme.of(context).primaryColor
+                                                    : Colors.grey.shade500,
+                                                fontWeight: isSelected == 0
+                                                    ? FontWeight.bold
+                                                    : null),
+                                          ),
+                                        ),
+                                        width: 170,
+                                        height: 50,
+                                      ),
+                                      Container(
+                                        child: FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              isSelected = 1;
+                                            });
+                                            context.bloc<QuestionBankBloc>().add(
+                                                  GetQuestionsByBookmark(
                                                     state.unitId,
                                                   ),
                                                 );
-                                      },
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text('Topic'),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      child: FlatButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isSelected = 0;
-                                          });
-                                          context.bloc<QuestionBankBloc>().add(
-                                                GetUnitQuestions(
-                                                  widget.subjectId,
-                                                  state.unitId,
-                                                ),
-                                              );
-                                        },
-                                        child: Text(
-                                          'All Questions',
-                                          style: TextStyle(
-                                              color: isSelected == 0
-                                                  ? null
-                                                  : Colors.grey.shade500,
-                                              fontWeight: isSelected == 0
-                                                  ? FontWeight.bold
-                                                  : null),
+                                          },
+                                          child: Text(
+                                            'Bookmarked',
+                                            style: TextStyle(
+                                                color: isSelected == 1
+                                                    ? Theme.of(context).primaryColor
+                                                    : Colors.grey.shade500,
+                                                fontWeight: isSelected == 1
+                                                    ? FontWeight.bold
+                                                    : null),
+                                          ),
                                         ),
+                                        width: 200,
+                                        height: 50,
                                       ),
-                                      width: 170,
-                                      height: 50,
-                                    ),
-                                    Container(
-                                      child: FlatButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isSelected = 1;
-                                          });
-                                          context.bloc<QuestionBankBloc>().add(
-                                                GetQuestionsByBookmark(
-                                                  state.unitId,
-                                                ),
-                                              );
-                                        },
-                                        child: Text(
-                                          'Bookmarked',
-                                          style: TextStyle(
-                                              color: isSelected == 1
-                                                  ? null
-                                                  : Colors.grey.shade500,
-                                              fontWeight: isSelected == 1
-                                                  ? FontWeight.bold
-                                                  : null),
+                                      Container(
+                                        child: FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              isSelected = 2;
+                                            });
+                                            context.bloc<QuestionBankBloc>().add(
+                                                  GetYourQuestions(
+                                                    state.unitId,
+                                                  ),
+                                                );
+                                          },
+                                          child: Text(
+                                            'Your Questions',
+                                            style: TextStyle(
+                                                color: isSelected == 2
+                                                    ? Theme.of(context).primaryColor
+                                                    : Colors.grey.shade500,
+                                                fontWeight: isSelected == 2
+                                                    ? FontWeight.bold
+                                                    : null),
+                                          ),
                                         ),
+                                        width: 200,
+                                        height: 50,
                                       ),
-                                      width: 200,
-                                      height: 50,
-                                    ),
-                                    Container(
-                                      child: FlatButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isSelected = 2;
-                                          });
-                                          context.bloc<QuestionBankBloc>().add(
-                                                GetYourQuestions(
-                                                  state.unitId,
-                                                ),
-                                              );
-                                        },
-                                        child: Text(
-                                          'Your Questions',
-                                          style: TextStyle(
-                                              color: isSelected == 2
-                                                  ? null
-                                                  : Colors.grey.shade500,
-                                              fontWeight: isSelected == 2
-                                                  ? FontWeight.bold
-                                                  : null),
-                                        ),
-                                      ),
-                                      width: 200,
-                                      height: 50,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    ],
+                                  ),
+                                ],
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              ),
                             ),
                             Column(
                               children: [
@@ -284,7 +323,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                           index]
                                                       .question_img[0],
                                                   width: 250,
-                                                  height: 250,
+                                                  height: 120,
                                                 ),
                                               ],
                                             ),

@@ -57,19 +57,38 @@ class ObjectiveTab extends StatelessWidget {
                     );
                   }
                   if (state is ObjectiveSuccess) {
-                    return ListView.builder(
-                      padding: EdgeInsets.all(10),
-                      itemCount: state.questionsEntity.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return AssessmentTile(
-                            state.questionsEntity.data[index].id,
-                            state.questionsEntity.data[index].name,
-                            state.questionsEntity.data[index].description,
-                            state.questionsEntity.data[index].questions_count
-                                .toString(),
-                            state.questionsEntity.data[index].doe,
-                            state.questionsEntity.data[index].start_time);
-                      },
+                    return Row(
+                      children: [
+                        // ListView.builder(
+                        //   padding: EdgeInsets.all(10),
+                        //   itemCount: state.questionsEntity.data.length / 2,
+                        //   itemBuilder: (BuildContext context, int index) {
+                        //     return AssessmentTile(
+                        //         state.questionsEntity.data[index].id,
+                        //         state.questionsEntity.data[index].name,
+                        //         state.questionsEntity.data[index].description,
+                        //         state.questionsEntity.data[index].questions_count
+                        //             .toString(),
+                        //         state.questionsEntity.data[index].doe,
+                        //         state.questionsEntity.data[index].start_time);
+                        //   },
+                        // ),
+                        ListView.builder(
+                          padding: EdgeInsets.all(10),
+                          itemCount: state.questionsEntity.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return AssessmentTile(
+                                state.questionsEntity.data[index].id,
+                                state.questionsEntity.data[index].name,
+                                state.questionsEntity.data[index].description,
+                                state
+                                    .questionsEntity.data[index].questions_count
+                                    .toString(),
+                                state.questionsEntity.data[index].doe,
+                                state.questionsEntity.data[index].start_time);
+                          },
+                        ),
+                      ],
                     );
                   }
                 },
