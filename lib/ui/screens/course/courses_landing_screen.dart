@@ -85,7 +85,6 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                                                 pttrn.toLowerCase(),
                                               ),
                                         );
-                                        print(courses);
                                         return courses;
                                       },
                                       textFieldConfiguration: TextFieldConfiguration(
