@@ -28,21 +28,28 @@ class BigAppBar extends StatelessWidget {
         children: [
           Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 3.6,
-              decoration:
-                  BoxDecoration(gradient: EdwiselyGradients.appBarGradient),
+              height: MediaQuery.of(context).size.height * 0.2,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 2.0,
+                    color: Colors.black.withOpacity(0.2),
+                  ),
+                ],
+              ),
               child: Padding(
-                padding: const EdgeInsets.all(40),
+                padding: EdgeInsets.symmetric(
+                  vertical: 32.0,
+                  horizontal: MediaQuery.of(context).size.width * 0.1,
+                ),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
                     Align(
                       child: Text(
                         titleText,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: MediaQuery.of(context).size.width / 30,
-                            fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headline1,
                       ),
                       alignment: Alignment.centerLeft,
                     ),
