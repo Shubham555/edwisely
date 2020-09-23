@@ -34,16 +34,13 @@ class LoginCubit extends Cubit<LoginState> {
         ));
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
+        prefs.setString('login_key', response.data['token']);
+        print(response.data['token']);
         if (response.data['force_password_change'] == 1) {
           emit(
             ForcePasswordChange(response.data['name'], response.data['email']),
           );
         } else {
-          prefs.setString(
-            'login_key',
-            response.data['token'],
-          );
-          print(prefs.getString('login_key'));
           emit(
             LoginSuccess(),
           );

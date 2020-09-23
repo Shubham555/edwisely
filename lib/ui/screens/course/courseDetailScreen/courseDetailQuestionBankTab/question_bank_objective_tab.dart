@@ -1,4 +1,3 @@
-import 'package:catex/catex.dart';
 import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +8,7 @@ class QuestionBankObjectiveTab extends StatefulWidget {
   QuestionBankObjectiveTab(this.subjectId);
 
   @override
-  _QuestionBankObjectiveTabState createState() =>
-      _QuestionBankObjectiveTabState();
+  _QuestionBankObjectiveTabState createState() => _QuestionBankObjectiveTabState();
 }
 
 class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
@@ -68,23 +66,23 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         },
                                       );
                                       value == -1
-                                          ? context
-                                              .bloc<QuestionBankObjectiveBloc>()
-                                              .add(
+                                          ? context.bloc<QuestionBankObjectiveBloc>().add(
                                                 GetUnitObjectiveQuestions(
                                                   widget.subjectId,
                                                   state.unitId,
                                                 ),
                                               )
-                                          : context
-                                              .bloc<QuestionBankObjectiveBloc>()
-                                              .add(
+                                          : context.bloc<QuestionBankObjectiveBloc>().add(
                                                 GetUnitObjectiveQuestionsByLevel(
                                                   value,
                                                   state.unitId,
                                                 ),
                                               );
                                     }),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text('Level'),
                                 DropdownButton(
                                   items: state.dropDownList,
                                   value: topicsDropDown,
@@ -95,17 +93,13 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                       },
                                     );
                                     value == 1234567890
-                                        ? context
-                                            .bloc<QuestionBankObjectiveBloc>()
-                                            .add(
+                                        ? context.bloc<QuestionBankObjectiveBloc>().add(
                                               GetUnitObjectiveQuestions(
                                                 widget.subjectId,
                                                 state.unitId,
                                               ),
                                             )
-                                        : context
-                                            .bloc<QuestionBankObjectiveBloc>()
-                                            .add(
+                                        : context.bloc<QuestionBankObjectiveBloc>().add(
                                               GetUnitObjectiveQuestionsByTopic(
                                                 value,
                                                 state.unitId,
@@ -113,6 +107,10 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                             );
                                   },
                                 ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text('Topic'),
                                 Row(
                                   children: [
                                     Container(
@@ -121,9 +119,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           setState(() {
                                             isSelected = 0;
                                           });
-                                          context
-                                              .bloc<QuestionBankObjectiveBloc>()
-                                              .add(
+                                          context.bloc<QuestionBankObjectiveBloc>().add(
                                                 GetUnitObjectiveQuestions(
                                                   widget.subjectId,
                                                   state.unitId,
@@ -132,10 +128,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         },
                                         child: Text(
                                           'All Questions',
-                                          style: TextStyle(
-                                              fontWeight: isSelected == 0
-                                                  ? FontWeight.bold
-                                                  : null),
+                                          style: TextStyle(fontWeight: isSelected == 0 ? FontWeight.bold : null),
                                         ),
                                       ),
                                       width: 170,
@@ -147,9 +140,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           setState(() {
                                             isSelected = 1;
                                           });
-                                          context
-                                              .bloc<QuestionBankObjectiveBloc>()
-                                              .add(
+                                          context.bloc<QuestionBankObjectiveBloc>().add(
                                                 GetObjectiveQuestionsByBookmark(
                                                   state.unitId,
                                                 ),
@@ -157,10 +148,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         },
                                         child: Text(
                                           'Bookmarked',
-                                          style: TextStyle(
-                                              fontWeight: isSelected == 1
-                                                  ? FontWeight.bold
-                                                  : null),
+                                          style: TextStyle(fontWeight: isSelected == 1 ? FontWeight.bold : null),
                                         ),
                                       ),
                                       width: 200,
@@ -172,9 +160,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           setState(() {
                                             isSelected = 2;
                                           });
-                                          context
-                                              .bloc<QuestionBankObjectiveBloc>()
-                                              .add(
+                                          context.bloc<QuestionBankObjectiveBloc>().add(
                                                 GetYourObjectiveQuestions(
                                                   state.unitId,
                                                 ),
@@ -182,10 +168,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         },
                                         child: Text(
                                           'Your Questions',
-                                          style: TextStyle(
-                                              fontWeight: isSelected == 2
-                                                  ? FontWeight.bold
-                                                  : null),
+                                          style: TextStyle(fontWeight: isSelected == 2 ? FontWeight.bold : null),
                                         ),
                                       ),
                                       width: 200,
@@ -204,8 +187,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   'Objective Questions',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        MediaQuery.of(context).size.height / 50,
+                                    fontSize: MediaQuery.of(context).size.height / 50,
                                   ),
                                 ),
                                 FlatButton(
@@ -241,42 +223,34 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                 if (state is UnitObjectiveQuestionsFetched) {
                                   return ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: state.questionBankObjectiveEntity
-                                        .data.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                          print(state
-                                              .questionBankObjectiveEntity
-                                              .data[0]
-                                              .name);
+                                    itemCount: state.questionBankObjectiveEntity.data.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      print(state.questionBankObjectiveEntity.data[0].name);
                                       return Card(
-                                      margin: EdgeInsets.all(
-                                        10,
-                                      ),
-                                      child: ListTile(
-                                        title: Row(
-                                          children: [
-                                            Text('Q. ${index + 1}  '),
-                                            Expanded(
-                                              child: CaTeX(
-                                                state
-                                                    .questionBankObjectiveEntity
-                                                    .data[index]
-                                                    .name,
+                                        margin: EdgeInsets.all(
+                                          10,
+                                        ),
+                                        child: ListTile(
+                                          title: Row(
+                                            children: [
+                                              Text('Q. ${index + 1}  '),
+                                              Expanded(
+                                                child: Text(
+                                                  state.questionBankObjectiveEntity.data[index].name,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
+                                          subtitle: Text(
+                                            'Level ${state.questionBankObjectiveEntity.data[index].blooms_level}',
+                                          ),
+                                          trailing: IconButton(
+                                            icon: Icon(Icons.bookmark),
+                                            onPressed: null,
+                                          ),
                                         ),
-                                        subtitle: Text(
-                                          'Level ${state.questionBankObjectiveEntity.data[index].blooms_level}',
-                                        ),
-                                        trailing: IconButton(
-                                          icon: Icon(Icons.bookmark),
-                                          onPressed: null,
-                                        ),
-                                      ),
-                                    );
-                                        },
+                                      );
+                                    },
                                   );
                                 } else {
                                   return Center(

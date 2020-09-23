@@ -140,6 +140,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   List<Map<String, dynamic>> topics = [];
   final _questionFetchCubit = QuestionsCubit();
   List<int> questions = [];
+  int difficultylevel = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -323,41 +324,82 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Bloom'),
-                                          SizedBox(
-                                            width: 20,
+                                          Row(
+                                            children: [
+                                              Text('Bloom'),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              DropdownButton(
+                                                  value: widget._bloomValue,
+                                                  items: [
+                                                    DropdownMenuItem(
+                                                      child: Text('All'),
+                                                      value: -1,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Remember'),
+                                                      value: 1,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Understand'),
+                                                      value: 2,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Apply'),
+                                                      value: 3,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Analyze'),
+                                                      value: 4,
+                                                    ),
+                                                  ],
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      widget._bloomValue = value;
+                                                    });
+                                                  }),
+                                            ],
                                           ),
-                                          DropdownButton(
-                                              value: widget._bloomValue,
-                                              items: [
-                                                DropdownMenuItem(
-                                                  child: Text('All'),
-                                                  value: -1,
-                                                ),
-                                                DropdownMenuItem(
-                                                  child: Text('Remember'),
-                                                  value: 1,
-                                                ),
-                                                DropdownMenuItem(
-                                                  child: Text('Understand'),
-                                                  value: 2,
-                                                ),
-                                                DropdownMenuItem(
-                                                  child: Text('Apply'),
-                                                  value: 3,
-                                                ),
-                                                DropdownMenuItem(
-                                                  child: Text('Analyze'),
-                                                  value: 4,
-                                                ),
-                                              ],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  widget._bloomValue = value;
-                                                });
-                                              }),
+                                          Row(
+                                            children: [
+                                              Text('Difficulty'),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              DropdownButton(
+                                                  value: difficultylevel,
+                                                  items: [
+                                                    DropdownMenuItem(
+                                                      child: Text('Level 1'),
+                                                      value: 1,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Level 2'),
+                                                      value: 2,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Level 3'),
+                                                      value: 3,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Level 4'),
+                                                      value: 4,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Level 5'),
+                                                      value: 5,
+                                                    ),
+                                                  ],
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      difficultylevel = value;
+                                                    });
+                                                  }),
+                                            ],
+                                          ),
                                         ],
                                       ),
                                       SizedBox(height: height * 0.02),
@@ -584,7 +626,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                     _option5Controller.text,
                                                   ],
                                                   widget._bloomValue,
-                                                  widget._bloomValue,
+                                                  difficultylevel,
                                                   _sourceController.text,
                                                   isPublic ? 'public' : 'private',
                                                   1,
@@ -601,7 +643,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   _solutionController.text,
                                                 );
 
-                                         Future.delayed(Duration(seconds: 1), () =>   _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                            Future.delayed(
+                                                Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
                                           } else {
                                             print('Subjective');
                                           }

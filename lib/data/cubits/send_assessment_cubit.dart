@@ -50,6 +50,7 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
             },
           ),
         ));
+    print(response.data);
     if (response.data['message'] == 'Successfully updated the questions') {
       emit(
         TestSent(),

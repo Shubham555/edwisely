@@ -10,7 +10,7 @@ class EdwiselyApi {
       BaseOptions(
           baseUrl: 'https://stagingfacultypython.edwisely.com/',
           headers: {
-            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMDgyMjY0MCIsImV4cCI6IjE2MDIxMTg2NDAifQ.4WgIb3XZVbeJDFUHWGeDYvpTbBqDvUIHNdAf2Y9vJ0g ',
+            'Authorization': 'Bearer $key',
           }),
     );
   }

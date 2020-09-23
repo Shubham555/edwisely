@@ -95,7 +95,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                               });
                               return ListView.builder(
                                 itemCount: state.assessmentQuestionsEntity.data.length,
-                                itemBuilder: (BuildContext context, int index) =>Card(
+                                itemBuilder: (BuildContext context, int index) => Card(
                                   child: ListTile(
                                     title: Row(
                                       children: [
@@ -487,7 +487,8 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                   RaisedButton.icon(
                                     onPressed: () {
                                       questions.isEmpty ? null : context.bloc<QuestionAddCubit>().addQuestions(widget._assessmentId, questions, []);
-                                      _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId);
+                                      Future.delayed(
+                                          Duration(seconds: 2), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
                                     },
                                     icon: Icon(Icons.add),
                                     label: Text('Add'),

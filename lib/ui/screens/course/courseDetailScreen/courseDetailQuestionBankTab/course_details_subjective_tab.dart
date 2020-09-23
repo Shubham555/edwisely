@@ -86,6 +86,10 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                 ),
                                               );
                                     }),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text('Level'),
                                 DropdownButton(
                                   items: state.dropDownList,
                                   value: topicsDropDown,
@@ -113,7 +117,10 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               ),
                                             );
                                   },
+                                ),   SizedBox(
+                                  width: 10,
                                 ),
+                                Text('Topic'),
                                 Row(
                                   children: [
                                     Container(
