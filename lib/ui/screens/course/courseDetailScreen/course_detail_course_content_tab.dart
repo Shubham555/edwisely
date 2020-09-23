@@ -4,6 +4,7 @@ import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 //doing this page
 class CourseDetailCourseContentTab extends StatefulWidget {
   final int semesterId;
@@ -24,7 +25,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
         BlocBuilder(
           cubit: context.bloc<UnitCubit>()
             ..getUnitsOfACourse(
-              semesterId,
+              widget.semesterId,
             ),
           builder: (BuildContext context, state) {
             if (state is CourseUnitFetched) {
@@ -36,13 +37,11 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
               return Container(
                 width: MediaQuery.of(context).size.width / 7,
                 child: StatefulBuilder(
-                  builder: (BuildContext context,
-                      void Function(void Function()) setState) {
+                  builder: (BuildContext context, void Function(void Function()) setState) {
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.units.data.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          ListTile(
+                      itemBuilder: (BuildContext context, int index) => ListTile(
                         hoverColor: Colors.white,
                         selected: enabledUnitId == state.units.data[index].id,
                         title: Container(
@@ -52,33 +51,19 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            color: enabledUnitId == state.units.data[index].id
-                                ? Theme.of(context).primaryColor
-                                : Colors.transparent,
+                            color: enabledUnitId == state.units.data[index].id ? Theme.of(context).primaryColor : Colors.transparent,
                             boxShadow: [
                               BoxShadow(
-                                blurRadius:
-                                    enabledUnitId == state.units.data[index].id
-                                        ? 6.0
-                                        : 0,
-                                color:
-                                    enabledUnitId == state.units.data[index].id
-                                        ? Colors.black.withOpacity(0.3)
-                                        : Colors.transparent,
+                                blurRadius: enabledUnitId == state.units.data[index].id ? 6.0 : 0,
+                                color: enabledUnitId == state.units.data[index].id ? Colors.black.withOpacity(0.3) : Colors.transparent,
                               ),
                             ],
                           ),
                           child: Text(
                             state.units.data[index].name,
                             style: TextStyle(
-                                color:
-                                    enabledUnitId == state.units.data[index].id
-                                        ? Colors.white
-                                        : Theme.of(context).primaryColor,
-                                fontSize:
-                                    enabledUnitId == state.units.data[index].id
-                                        ? 25
-                                        : null),
+                                color: enabledUnitId == state.units.data[index].id ? Colors.white : Theme.of(context).primaryColor,
+                                fontSize: enabledUnitId == state.units.data[index].id ? 25 : null),
                           ),
                         ),
                         onTap: () {
