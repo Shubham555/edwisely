@@ -1,5 +1,5 @@
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/cubits/course_content_cubit.dart';
+import 'package:edwisely/data/cubits/get_course_decks_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,11 +16,21 @@ class CourseDetailCourseContentTab extends StatefulWidget {
 }
 
 class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContentTab> with SingleTickerProviderStateMixin {
+  TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 3, vsync: this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final listViewSeperationWidth = MediaQuery.of(context).size.width * 0.05;
     print(widget.semesterId);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
       children: [
         BlocBuilder(
           cubit: context.bloc<UnitCubit>()
@@ -32,6 +42,9 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
               context.bloc<CourseContentCubit>().getCourseContent(
                     state.units.data[0].id,
                     widget.semesterId,
+                  );
+              context.bloc<CourseDecksCubit>().getCourseDecks(
+                    state.units.data[0].id,
                   );
               int enabledUnitId = state.units.data[0].id;
               return Container(
@@ -87,270 +100,357 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
             }
           },
         ),
-        Column(
-          children: [
-            BlocBuilder(
-              cubit: context.bloc<CourseContentCubit>(),
-              builder: (BuildContext context, state) {
-                if (state is CourseContentDataFetched) {
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * (3.5 / 5),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Learning Snippets',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.height / 50,
-                                  ),
-                                ),
-                                FlatButton(
-                                  hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6),
-                                    side: BorderSide(
-                                      color: Color(0xFF1D2B64),
-                                    ),
-                                  ),
-                                  onPressed: () => null,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.add,
-                                        color: Color(0xFF1D2B64),
-                                      ),
-                                      Text(
-                                        'Add Your Deck',
-                                        style: TextStyle(
-                                          color: Color(0xFF1D2B64),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * (3.5 / 5),
-                            height: 300,
-                            child: GridView.builder(
-                              itemCount: state.courseDeckEntity.data.length,
-                              itemBuilder: (BuildContext context, int index) => GridTile(
-                                child: state.courseDeckEntity.data[index].image == ''
-                                    ? Center(
-                                        child: Icon(
-                                          Icons.book,
-                                          size: 60,
-                                        ),
-                                      )
-                                    : Image.network(
-                                        state.courseDeckEntity.data[index].image,
-                                        width: 150,
-                                        height: 200,
-                                      ),
-                                footer: Container(
-                                  width: 150,
-                                  child: Text(
-                                    state.courseDeckEntity.data[index].name,
+        Expanded(
+          child: Column(
+            children: [
+              BlocBuilder(
+                cubit: context.bloc<CourseDecksCubit>(),
+                builder: (BuildContext context, state) {
+                  if (state is CourseDecksFetched) {
+                    return SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * (3.5 / 5),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Learning Snippets',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
+                                      fontSize: MediaQuery.of(context).size.height / 50,
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      side: BorderSide(
+                                        color: Color(0xFF1D2B64),
+                                      ),
+                                    ),
+                                    onPressed: () => null,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.add,
+                                          color: Color(0xFF1D2B64),
+                                        ),
+                                        Text(
+                                          'Add Your Deck',
+                                          style: TextStyle(
+                                            color: Color(0xFF1D2B64),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * (3.5 / 5),
+                              height: 300,
+                              child: GridView.builder(
+                                itemCount: state.courseDeckEntity.data.length,
+                                itemBuilder: (BuildContext context, int index) => GridTile(
+                                  child: state.courseDeckEntity.data[index].image == ''
+                                      ? Center(
+                                          child: Icon(
+                                            Icons.book,
+                                            size: 60,
+                                          ),
+                                        )
+                                      : Image.network(
+                                          state.courseDeckEntity.data[index].image,
+                                          width: 150,
+                                          height: 200,
+                                        ),
+                                  footer: Container(
+                                    width: 150,
+                                    child: Text(
+                                      state.courseDeckEntity.data[index].name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  mainAxisSpacing: 20,
+                                  crossAxisSpacing: 20,
+                                  crossAxisCount: 1,
+                                ),
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
                               ),
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisSpacing: 20,
-                                crossAxisSpacing: 20,
-                                crossAxisCount: 1,
-                              ),
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }
-                if (state is CoursesFetchFailed) {
-                  return Center(
-                    child: Text('There was some error'),
-                  );
-                }
-                if (state is CoursesEmpty) {
-                  return Center(
-                    child: Text('No Decks were found for this unit'),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-            Expanded(
-              child: Container(
-                height: MediaQuery.of(context).size.height / 1.5,
+                    );
+                  }
+                  if (state is CoursesDeckFetchFailed) {
+                    return Center(
+                      child: Text('There was some error'),
+                    );
+                  }
+                  if (state is CoursesDeckEmpty) {
+                    return Center(
+                      child: Text('No Decks were found for this unit'),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+              Expanded(
                 child: BlocBuilder(
                   cubit: context.bloc<CourseContentCubit>(),
                   builder: (BuildContext context, state) {
                     if (state is CourseContentFetched) {
                       return Expanded(
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Curated Content',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.height / 50,
-                                  ),
-                                ),
-                                FlatButton(
-                                  hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6),
-                                    side: BorderSide(
-                                      color: Color(0xFF1D2B64),
-                                    ),
-                                  ),
-                                  onPressed: () => null,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Icon(
-                                        Icons.add,
-                                        color: Color(0xFF1D2B64),
-                                      ),
                                       Text(
-                                        'Add Your Content',
+                                        'Curated Content',
                                         style: TextStyle(
-                                          color: Color(0xFF1D2B64),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: MediaQuery.of(context).size.height / 50,
                                         ),
-                                      )
+                                      ),
+                                      FlatButton(
+                                        hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(6),
+                                          side: BorderSide(
+                                            color: Color(0xFF1D2B64),
+                                          ),
+                                        ),
+                                        onPressed: () => null,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              Icons.add,
+                                              color: Color(0xFF1D2B64),
+                                            ),
+                                            Text(
+                                              'Add Your Content',
+                                              style: TextStyle(
+                                                color: Color(0xFF1D2B64),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                            StatefulBuilder(
-                              builder: (BuildContext context, void Function(void Function()) setState) {
-                                String typeDropDownValue = 'All';
-                                int levelDropDownValue = -1;
-                                TabController tabController = TabController(length: 3, vsync: this);
-                                return Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text('Type'),
-                                        DropdownButton(
-                                          items: [
-                                            DropdownMenuItem(
-                                              child: Text('All'),
-                                              value: 'All',
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  StatefulBuilder(
+                                    builder: (BuildContext context, void Function(void Function()) setState) {
+                                      String typeDropDownValue = 'All';
+                                      int levelDropDownValue = -1;
+                                      return Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text('Type'),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              DropdownButton(
+                                                items: [
+                                                  DropdownMenuItem(
+                                                    child: Text('All'),
+                                                    value: 'All',
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text('Documents'),
+                                                    value: 'DOC',
+                                                  ),
+                                                  //todo get type value for videos
+                                                  DropdownMenuItem(
+                                                    child: Text('Videos'),
+                                                    value: 'VID',
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text('PPT'),
+                                                    value: 'PPT',
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text('Other Links'),
+                                                    value: 'DOC',
+                                                  ),
+                                                ],
+                                                onChanged: (value) => null,
+                                                value: typeDropDownValue,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 30,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text('Level'),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              DropdownButton(
+                                                items: [
+                                                  DropdownMenuItem(
+                                                    child: Text('All'),
+                                                    value: -1,
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text('Easy'),
+                                                    value: 1,
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text('Medium'),
+                                                    value: 2,
+                                                  ),
+                                                  DropdownMenuItem(
+                                                    child: Text('Hard'),
+                                                    value: 3,
+                                                  ),
+                                                ],
+                                                onChanged: (value) => null,
+                                                value: levelDropDownValue,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 30,
+                                          ),
+                                          Expanded(
+                                            child: TabBar(
+                                              labelColor: Theme.of(context).primaryColor,
+                                              labelStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                              unselectedLabelStyle: TextStyle(color: Colors.black),
+                                              tabs: [
+                                                Tab(
+                                                  child: Text('All'),
+                                                ),
+                                                Tab(
+                                                  child: Text('Bookmarked'),
+                                                ),
+                                                Tab(
+                                                  child: Text('Your Content'),
+                                                ),
+                                              ],
+                                              controller: tabController,
                                             ),
-                                            DropdownMenuItem(
-                                              child: Text('Documents'),
-                                              value: 'DOC',
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.courseContentEntity.academic_materials.length,
+                                    itemBuilder: (BuildContext context, int index) => ListTile(
+                                      leading: Icon(Icons.android),
+                                      title: Row(
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context).size.width / 7,
+                                            child: Text(
+                                              state.courseContentEntity.academic_materials[index].title ?? '',
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            //todo get type value for videos
-                                            DropdownMenuItem(
-                                              child: Text('Videos'),
-                                              value: 'VID',
-                                            ),
-                                            DropdownMenuItem(
-                                              child: Text('PPT'),
-                                              value: 'PPT',
-                                            ),
-                                            DropdownMenuItem(
-                                              child: Text('Other Links'),
-                                              value: 'DOC',
-                                            ),
-                                          ],
-                                          onChanged: (value) => null,
-                                          value: typeDropDownValue,
+                                          ),
+                                          SizedBox(
+                                            width: 30,
+                                          ),
+                                          Container(width: MediaQuery.of(context).size.width / 7, child: Text('Level - NA')),
+                                          Text('ReadingTime - NA'),
+                                        ],
+                                      ),
+                                      subtitle: Visibility(
+                                        visible: state.courseContentEntity.academic_materials[index].source != '',
+                                        child: Text(
+                                          'Source - ${state.courseContentEntity.academic_materials[index].source}',
                                         ),
-                                      ],
+                                      ),
+                                      trailing: Icon(
+                                        state.courseContentEntity.academic_materials[index].bookmarked == 0 ? Icons.bookmark_border : Icons.bookmark,
+                                      ),
                                     ),
-                                    Row(
-                                      children: [
-                                        Text('Level'),
-                                        DropdownButton(
-                                          items: [
-                                            DropdownMenuItem(
-                                              child: Text('All'),
-                                              value: -1,
+                                  ),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.courseContentEntity.learning_content.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      String level = '';
+                                      switch (state.courseContentEntity.learning_content[index].level) {
+                                        case -1:
+                                          level = 'N/A';
+                                          break;
+                                        case 1:
+                                          level = 'Easy';
+                                          break;
+                                        case 2:
+                                          level = 'Medium';
+                                          break;
+                                        case 3:
+                                          level = 'Hard';
+                                          break;
+                                      }
+                                      return ListTile(
+                                        leading: Icon(Icons.android),
+                                        title: Row(
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context).size.width / 7,
+                                              child: Text(
+                                                state.courseContentEntity.learning_content[index].title ?? '',
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                             ),
-                                            DropdownMenuItem(
-                                              child: Text('Easy'),
-                                              value: 1,
+                                            SizedBox(
+                                              width: 30,
                                             ),
-                                            DropdownMenuItem(
-                                              child: Text('Medium'),
-                                              value: 2,
-                                            ),
-                                            DropdownMenuItem(
-                                              child: Text('Hard'),
-                                              value: 3,
-                                            ),
+                                            Container(width: MediaQuery.of(context).size.width / 7, child: Text('Level - $level ')),
+                                            Text('ReadingTime - ${state.courseContentEntity.learning_content[index].readtime}'),
                                           ],
-                                          onChanged: (value) => null,
-                                          value: levelDropDownValue,
                                         ),
-                                      ],
-                                    ),
-                                    TabBar(
-                                      tabs: [
-                                        Tab(
-                                          child: Text('All'),
+                                        subtitle: Text(
+                                          'Source - ${state.courseContentEntity.learning_content[index].source ?? ''}',
                                         ),
-                                        Tab(
-                                          child: Text('Bookmarked'),
+                                        trailing: Icon(
+                                          state.courseContentEntity.learning_content[index].bookmarked == 0 ? Icons.bookmark_border : Icons.bookmark,
                                         ),
-                                        Tab(
-                                          child: Text('Your Content'),
-                                        ),
-                                      ],
-                                      controller: tabController,
-                                    )
-                                  ],
-                                );
-                              },
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
                             ),
-                            // ListView.builder(
-                            //   shrinkWrap: true,
-                            //   itemCount: state.courseContentEntity.academic_materials.length + state.courseContentEntity.learning_content.length,
-                            //   itemBuilder: (BuildContext context, int index) => ListTile(
-                            //     leading: Icon(Icons.android),
-                            //     title: Row(
-                            //       children: [
-                            //         Text(state.courseContentEntity.academic_materials[index].title),
-                            //         Text('Level - NA'),
-                            //         Text('ReadingTime - NA'),
-                            //       ],
-                            //     ),
-                            //     subtitle: Text(
-                            //       'Source - ${state.courseContentEntity.academic_materials[index].source}',
-                            //     ),
-                            //     trailing: Icon(
-                            //       state.courseContentEntity.academic_materials[index].bookmarked == 0 ? Icons.bookmark_border : Icons.bookmark,
-                            //     ),
-                            //   ),
-                            // )
-                          ],
+                          ),
                         ),
                       );
                     }
@@ -365,9 +465,9 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                     }
                   },
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ],
     );

@@ -6,6 +6,7 @@ import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
 import 'package:edwisely/data/cubits/add_course_cubit.dart';
 import 'package:edwisely/data/cubits/add_question_cubit.dart';
+import 'package:edwisely/data/cubits/get_course_decks_cubit.dart';
 import 'package:edwisely/data/cubits/login_cubit.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
 import 'package:edwisely/data/cubits/question_add_cubit.dart';
@@ -15,7 +16,7 @@ import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/data/cubits/upload_excel_cubit.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
+import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,6 @@ import 'package:provider/provider.dart';
 
 import 'data/blocs/objectiveBloc/objective_bloc.dart';
 import 'data/cubits/course_content_cubit.dart';
-import 'ui/screens/course/courses_landing_screen.dart';
 
 void main() {
   runApp(EdWisely());
@@ -90,12 +90,15 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => AddCourseCubit(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => CourseDecksCubit(),
+          ),
         ],
         child: MaterialApp(
           title: 'Edwisely',
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,
-          home: CoursesLandingScreen(),
+          home: CourseDetailScreen('', 352),
           //   MultiBlocProvider(
           // providers: [
           //   BlocProvider(

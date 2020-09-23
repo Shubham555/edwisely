@@ -30,12 +30,12 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
   @override
   void initState() {
     _tabController = TabController(length: 4, vsync: this);
+    _tabController.index = 2;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('semseter subjectid for fm2 ${widget.semesterSubjectId}');
     return Scaffold(
       backgroundColor: Colors.white,
       body: Row(
