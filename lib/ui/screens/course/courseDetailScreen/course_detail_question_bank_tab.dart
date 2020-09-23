@@ -159,38 +159,35 @@ widget.subjectId              ),
         Expanded(
           child: Column(
             children: [
-              Align(
-                child: TabBar(
-                  labelPadding: EdgeInsets.symmetric(horizontal: 30),
-                  indicatorColor: Colors.white,
-                  labelColor: Colors.black,
-                  physics: NeverScrollableScrollPhysics(),
-                  unselectedLabelColor: Colors.grey,
-                  unselectedLabelStyle:
-                      TextStyle(fontWeight: FontWeight.normal),
-                  labelStyle:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  isScrollable: true,
-                  controller: _tabController,
-                  tabs: [
-                    Tab(
-                      child: Text(
-                        'All',
-                      ),
+              TabBar(
+                labelPadding: EdgeInsets.symmetric(horizontal: 30),
+                indicatorColor: Colors.white,
+                labelColor: Colors.black,
+                physics: NeverScrollableScrollPhysics(),
+                unselectedLabelColor: Colors.grey,
+                unselectedLabelStyle:
+                    TextStyle(fontWeight: FontWeight.normal),
+                labelStyle:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                isScrollable: true,
+                controller: _tabController,
+                tabs: [
+                  Tab(
+                    child: Text(
+                      'All',
                     ),
-                    Tab(
-                      child: Text(
-                        'Objective',
-                      ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'Objective',
                     ),
-                    Tab(
-                      child: Text(
-                        'Subjective',
-                      ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'Subjective',
                     ),
-                  ],
-                ),
-                alignment: Alignment.topLeft,
+                  ),
+                ],
               ),
               Expanded(
                 child: TabBarView(

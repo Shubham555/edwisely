@@ -14,9 +14,7 @@ import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
 import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
-import 'package:edwisely/ui/screens/authorization/edwisely_landing_screen.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
+import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,27 +82,23 @@ class EdWisely extends StatelessWidget {
             create: (BuildContext context) => QuestionAddCubit(),
           ),
         ],
-        child: MaterialApp(
-          title: 'Edwisely',
-          theme: EdwiselyTheme.themeDataEdwisely,
-          debugShowCheckedModeBanner: false,
-          home:
-              //   MultiBlocProvider(
-              // providers: [
-              //   BlocProvider(
-              //     create: (BuildContext context) => SendAssessmentCubit(),
-              //   )
-              // ],
-              // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-              // ),
-              AddQuestionsScreen(
-            'T',
-            'dfdf',
-            352,
-            QuestionType.Objective,
-            2154,
-          ),
-        ),
+        child: MaterialApp(title: 'Edwisely', theme: EdwiselyTheme.themeDataEdwisely, debugShowCheckedModeBanner: false, home: CoursesLandingScreen()
+            //   MultiBlocProvider(
+            // providers: [
+            //   BlocProvider(
+            //     create: (BuildContext context) => SendAssessmentCubit(),
+            //   )
+            // ],
+            // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
+            // ),
+            //     AddQuestionsScreen(
+            //   'T',
+            //   'dfdf',
+            //   352,
+            //   QuestionType.Objective,
+            //   2154,
+            // ),
+            ),
       ),
     );
   }
@@ -124,3 +118,13 @@ class EdWisely extends StatelessWidget {
 //api todo
 //todo add quetion to assessment units context
 //units passed empty
+
+//23/09/2020
+//todo ask about unidepid
+
+//news
+
+//todo password and confirm poassword for login
+//todo add button to right bottom right
+//todo check for apifrom backend for select from existing
+//todo reduce
