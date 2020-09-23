@@ -1,10 +1,10 @@
-import 'package:edwisely/data/blocs/addQuestionScreen/add_question_bloc.dart';
 import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
 import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
 import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
 import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
+import 'package:edwisely/data/cubits/add_course_cubit.dart';
 import 'package:edwisely/data/cubits/add_question_cubit.dart';
 import 'package:edwisely/data/cubits/login_cubit.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
@@ -13,6 +13,7 @@ import 'package:edwisely/data/cubits/select_students_cubit.dart';
 import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
 import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
+import 'package:edwisely/data/cubits/upload_excel_cubit.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
 import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:edwisely/util/theme.dart';
@@ -21,6 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'data/blocs/objectiveBloc/objective_bloc.dart';
+import 'data/cubits/course_content_cubit.dart';
 
 void main() {
   runApp(EdWisely());
@@ -34,7 +36,10 @@ class EdWisely extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (BuildContext context) => AddQuestionBloc(),
+            create: (BuildContext context) => UploadExcelCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => CourseContentCubit(),
           ),
           BlocProvider(
             create: (BuildContext context) => ConductedBloc(),
@@ -80,6 +85,9 @@ class EdWisely extends StatelessWidget {
           ),
           BlocProvider(
             create: (BuildContext context) => QuestionAddCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => AddCourseCubit(),
           ),
         ],
         child: MaterialApp(title: 'Edwisely', theme: EdwiselyTheme.themeDataEdwisely, debugShowCheckedModeBanner: false, home: CoursesLandingScreen()

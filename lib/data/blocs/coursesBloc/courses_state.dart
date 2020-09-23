@@ -14,6 +14,7 @@ class CoursesFetched extends CoursesState {
 }
 
 class CoursesFetchFailed extends CoursesState {}
+
 class LoginFailed extends CoursesState {}
 
 class SectionsFetched extends CoursesState {
@@ -64,4 +65,3 @@ class AllCoursesFetched extends CoursesState {
   AllCoursesFetched(this.getAllCoursesEntity, this.sectionEntity);
 }
 
-class CourseAdded extends CoursesState {}
