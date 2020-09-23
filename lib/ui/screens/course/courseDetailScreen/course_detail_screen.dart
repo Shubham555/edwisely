@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/provider/selected_page.dart';
 
+import '../../../../util/theme.dart';
+import '../../../../util/theme.dart';
+
 class CourseDetailScreen extends StatefulWidget {
   final String _courseName;
   final int semesterSubjectId;
@@ -34,6 +37,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
   Widget build(BuildContext context) {
     print('semseter subjectid for fm2 ${widget.semesterSubjectId}');
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Row(
         children: [
           NavigationDrawer(
@@ -46,15 +50,32 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                 BigAppBar(
                         actions: null,
                         titleText: widget._courseName,
-                        bottomTab: TabBar(
-                          labelPadding: EdgeInsets.symmetric(horizontal: 30),
-                          indicatorColor: Colors.white,
-                          labelColor: Colors.black,
-                          unselectedLabelColor: Colors.grey,
+                        appBarSize: MediaQuery.of(context).size.height / 3,
+                        bottomTab: null,
+                        appBarTitle: Text(
+                          'Edwisely',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        flatButton: null)
+                    .build(context),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TabBar(
+                          labelPadding: EdgeInsets.symmetric(horizontal: 36.0),
+                          indicatorColor: EdwiselyTheme.PRIMARY_COLOR,
+                          labelColor: Colors.white,
+                          indicator: BoxDecoration(
+                            color: EdwiselyTheme.PRIMARY_COLOR,
+                          ),
+                          indicatorPadding: const EdgeInsets.only(top: 8.0),
+                          unselectedLabelColor: EdwiselyTheme.PRIMARY_COLOR,
                           unselectedLabelStyle:
-                              TextStyle(fontWeight: FontWeight.normal),
-                          labelStyle: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
+                              Theme.of(context).textTheme.headline6,
+                          labelStyle: Theme.of(context).textTheme.headline5,
                           isScrollable: true,
                           controller: _tabController,
                           tabs: [
@@ -72,29 +93,26 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                             ),
                           ],
                         ),
-                        appBarSize: MediaQuery.of(context).size.height / 3,
-                        appBarTitle: Text(
-                          'Edwisely',
-                          style: TextStyle(color: Colors.black),
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: _tabController,
+                          children: [
+                            CourseDetailAboutTab(
+                              widget.semesterSubjectId,
+                            ),
+                            CourseDetailSyllabusTab(
+                              widget.semesterSubjectId,
+                            ),
+                            CourseDetailCourseContentTab(
+                              widget.semesterSubjectId,
+                            ),
+                            CourseDetailQuestionBankTab(
+                              widget.semesterSubjectId,
+                            ),
+                          ],
                         ),
-                        flatButton: null)
-                    .build(context),
-                Expanded(
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _tabController,
-                    children: [
-                      CourseDetailAboutTab(
-                        widget.semesterSubjectId,
-                      ),
-                      CourseDetailSyllabusTab(
-                        widget.semesterSubjectId,
-                      ),
-                      CourseDetailCourseContentTab(
-                        widget.semesterSubjectId,
-                      ),
-                      CourseDetailQuestionBankTab(
-                        widget.semesterSubjectId,
                       ),
                     ],
                   ),

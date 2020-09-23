@@ -15,13 +15,15 @@ class CourseDetailCourseContentTab extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BlocBuilder(
-          cubit: context.bloc<UnitCubit>()..getUnitsOfACourse(
-semesterId          ),
+          cubit: context.bloc<UnitCubit>()
+            ..getUnitsOfACourse(
+              semesterId,
+            ),
           builder: (BuildContext context, state) {
             if (state is CourseUnitFetched) {
               int enabledUnitId = state.units.data[0].id;
               return Container(
-                width: MediaQuery.of(context).size.width / 5,
+                width: MediaQuery.of(context).size.width / 7,
                 child: StatefulBuilder(
                   builder: (BuildContext context,
                       void Function(void Function()) setState) {
@@ -32,22 +34,41 @@ semesterId          ),
                           ListTile(
                         hoverColor: Colors.white,
                         selected: enabledUnitId == state.units.data[index].id,
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              state.units.data[index].name,
-                              style: TextStyle(
-                                  color: enabledUnitId ==
-                                          state.units.data[index].id
-                                      ? Colors.black
-                                      : Colors.grey.shade600,
-                                  fontSize: enabledUnitId ==
-                                          state.units.data[index].id
-                                      ? 25
-                                      : null),
-                            ),
-                          ],
+                        title: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 16.0,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            color: enabledUnitId == state.units.data[index].id
+                                ? Theme.of(context).primaryColor
+                                : Colors.transparent,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius:
+                                    enabledUnitId == state.units.data[index].id
+                                        ? 6.0
+                                        : 0,
+                                color:
+                                    enabledUnitId == state.units.data[index].id
+                                        ? Colors.black.withOpacity(0.3)
+                                        : Colors.transparent,
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            state.units.data[index].name,
+                            style: TextStyle(
+                                color:
+                                    enabledUnitId == state.units.data[index].id
+                                        ? Colors.white
+                                        : Theme.of(context).primaryColor,
+                                fontSize:
+                                    enabledUnitId == state.units.data[index].id
+                                        ? 25
+                                        : null),
+                          ),
                         ),
                         onTap: () {
                           enabledUnitId = state.units.data[index].id;

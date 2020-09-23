@@ -23,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'data/blocs/objectiveBloc/objective_bloc.dart';
+import 'ui/screens/course/courses_landing_screen.dart';
 
 void main() {
   runApp(EdWisely());
@@ -88,7 +89,7 @@ class EdWisely extends StatelessWidget {
           title: 'Edwisely',
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,
-          home:
+          home: CoursesLandingScreen(),
               //   MultiBlocProvider(
               // providers: [
               //   BlocProvider(
@@ -97,13 +98,13 @@ class EdWisely extends StatelessWidget {
               // ],
               // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
               // ),
-              AddQuestionsScreen(
-            'T',
-            'dfdf',
-            352,
-            QuestionType.Objective,
-            2154,
-          ),
+          //     AddQuestionsScreen(
+          //   'T',
+          //   'dfdf',
+          //   352,
+          //   QuestionType.Objective,
+          //   2154,
+          // ),
         ),
       ),
     );

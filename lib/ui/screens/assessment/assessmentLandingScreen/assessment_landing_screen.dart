@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:provider/provider.dart';
 import '../../../../data/provider/selected_page.dart';
+import '../../../../util/theme.dart';
 
 class AssessmentLandingScreen extends StatefulWidget {
   @override
@@ -47,29 +48,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                 BigAppBar(
                   actions: [],
                   titleText: 'My Assessments',
-                  bottomTab: TabBar(
-                    labelPadding: EdgeInsets.symmetric(horizontal: 30),
-                    indicatorColor: Colors.white,
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.grey,
-                    unselectedLabelStyle:
-                        TextStyle(fontWeight: FontWeight.normal),
-                    labelStyle:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    isScrollable: true,
-                    controller: _assessmentLandingScreenTabController,
-                    tabs: [
-                      Tab(
-                        text: 'Objective',
-                      ),
-                      Tab(
-                        text: 'Subjective',
-                      ),
-                      Tab(
-                        text: 'Conducted',
-                      ),
-                    ],
-                  ),
+                  bottomTab: null,
                   appBarSize: MediaQuery.of(context).size.height / 3,
                   appBarTitle: Text(
                     'Edwisely',
@@ -103,60 +82,102 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                   ),
                 ).build(context),
                 Expanded(
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _assessmentLandingScreenTabController,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      MultiBlocProvider(
-                        providers: [
-                          BlocProvider(
-                            create: (BuildContext context) => ObjectiveBloc()
-                              ..add(
-                                GetObjectiveTests(),
-                              ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TabBar(
+                          labelPadding: EdgeInsets.symmetric(horizontal: 36.0),
+                          indicatorColor: EdwiselyTheme.PRIMARY_COLOR,
+                          labelColor: Colors.white,
+                          indicator: BoxDecoration(
+                            color: EdwiselyTheme.PRIMARY_COLOR,
                           ),
-                          BlocProvider(
-                            create: (BuildContext context) => CoursesBloc()
-                              ..add(
-                                GetCoursesList(),
-                              ),
-                          ),
-                        ],
-                        child: ObjectiveTab(),
+                          indicatorPadding: const EdgeInsets.only(top: 8.0),
+                          unselectedLabelColor: EdwiselyTheme.PRIMARY_COLOR,
+                          unselectedLabelStyle:
+                              Theme.of(context).textTheme.headline6,
+                          labelStyle: Theme.of(context).textTheme.headline5,
+                          controller: _assessmentLandingScreenTabController,
+                          isScrollable: true,
+                          tabs: [
+                            Tab(
+                              text: 'Objective',
+                            ),
+                            Tab(
+                              text: 'Subjective',
+                            ),
+                            Tab(
+                              text: 'Conducted',
+                            ),
+                          ],
+                        ),
                       ),
-                      MultiBlocProvider(
-                        providers: [
-                          BlocProvider(
-                            create: (BuildContext context) => SubjectiveBloc()
-                              ..add(
-                                GetSubjectiveTests(),
-                              ),
-                          ),
-                          BlocProvider(
-                            create: (BuildContext context) => CoursesBloc()
-                              ..add(
-                                GetCoursesList(),
-                              ),
-                          ),
-                        ],
-                        child: SubjectiveTab(),
-                      ),
-                      MultiBlocProvider(
-                        providers: [
-                          BlocProvider(
-                            create: (BuildContext context) => ConductedBloc()
-                              ..add(
-                                GetObjectiveQuestions(),
-                              ),
-                          ),
-                          BlocProvider(
-                            create: (BuildContext context) => CoursesBloc()
-                              ..add(
-                                GetSectionsAndGetCoursesList(71),
-                              ),
-                          ),
-                        ],
-                        child: ConductedTab(),
+                      Expanded(
+                        child: TabBarView(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: _assessmentLandingScreenTabController,
+                          children: [
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider(
+                                  create: (BuildContext context) =>
+                                      ObjectiveBloc()
+                                        ..add(
+                                          GetObjectiveTests(),
+                                        ),
+                                ),
+                                BlocProvider(
+                                  create: (BuildContext context) =>
+                                      CoursesBloc()
+                                        ..add(
+                                          GetCoursesList(),
+                                        ),
+                                ),
+                              ],
+                              child: ObjectiveTab(),
+                            ),
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider(
+                                  create: (BuildContext context) =>
+                                      SubjectiveBloc()
+                                        ..add(
+                                          GetSubjectiveTests(),
+                                        ),
+                                ),
+                                BlocProvider(
+                                  create: (BuildContext context) =>
+                                      CoursesBloc()
+                                        ..add(
+                                          GetCoursesList(),
+                                        ),
+                                ),
+                              ],
+                              child: SubjectiveTab(),
+                            ),
+                            MultiBlocProvider(
+                              providers: [
+                                BlocProvider(
+                                  create: (BuildContext context) =>
+                                      ConductedBloc()
+                                        ..add(
+                                          GetObjectiveQuestions(),
+                                        ),
+                                ),
+                                BlocProvider(
+                                  create: (BuildContext context) =>
+                                      CoursesBloc()
+                                        ..add(
+                                          GetSectionsAndGetCoursesList(71),
+                                        ),
+                                ),
+                              ],
+                              child: ConductedTab(),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

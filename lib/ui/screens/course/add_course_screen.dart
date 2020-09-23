@@ -47,21 +47,22 @@ class AddCourseScreen extends StatelessWidget {
                                       'Add Courses', //5 minute dedo a raha hioon Ha sarkar
                                   bottomTab: null,
                                   appBarSize:
-                                      MediaQuery.of(context).size.height /
-                                          3.5,
+                                      MediaQuery.of(context).size.height / 3.5,
                                   appBarTitle: Text('Edwisely'),
                                   flatButton: null)
                               .build(context),
                           Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 48.0,
+                              horizontal: 108.0,
+                            ),
                             child: Row(
                               children: [
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 5,
+                                  width: MediaQuery.of(context).size.width / 5,
                                   padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width /
-                                        100,
+                                    left:
+                                        MediaQuery.of(context).size.width / 100,
                                   ),
                                   child: DropdownSearch(
                                     autoFocusSearchBox: true,
@@ -87,16 +88,14 @@ class AddCourseScreen extends StatelessWidget {
                                               string,
                                             ),
                                     popupItemBuilder:
-                                        (context, Data data, bool) =>
-                                            Container(
+                                        (context, Data data, bool) => Container(
                                       padding: EdgeInsets.all(
                                         10,
                                       ),
                                       child: Text(
                                         data.name,
                                         style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.black),
+                                            fontSize: 20, color: Colors.black),
                                       ),
                                     ),
                                   ),
@@ -107,18 +106,33 @@ class AddCourseScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.all(15),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.08),
                               child: GridView(
                                 gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
                                   mainAxisSpacing: 35,
                                   crossAxisSpacing: 35,
-                                  crossAxisCount: 3,
+                                  maxCrossAxisExtent:
+                                      MediaQuery.of(context).size.width / 4,
                                   childAspectRatio:
                                       MediaQuery.of(context).size.width /
                                           MediaQuery.of(context).size.height /
                                           1.9,
                                 ),
+
+                                // gridDelegate:
+                                //     SliverGridDelegateWithFixedCrossAxisCount(
+                                //   mainAxisSpacing: 35,
+                                //   crossAxisSpacing: 35,
+                                //   crossAxisCount: 3,
+                                //   childAspectRatio:
+                                //       MediaQuery.of(context).size.width /
+                                //           MediaQuery.of(context).size.height /
+                                //           1.9,
+                                // ),
                                 children: List.generate(
                                   state.getAllCoursesEntity.data.length,
                                   (upperIndex) => Card(
@@ -177,7 +191,7 @@ class AddCourseScreen extends StatelessWidget {
           SizedBox(height: 12.0),
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: 12.0,
+                horizontal: 18.0,
                 vertical: MediaQuery.of(context).size.height * 0.0001),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.07,
@@ -189,14 +203,17 @@ class AddCourseScreen extends StatelessWidget {
                 minFontSize: 18.0,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 4.0,
-              horizontal: 12.0,
+              horizontal: 18.0,
             ),
             child: Text(
               'Departments',
@@ -205,24 +222,35 @@ class AddCourseScreen extends StatelessWidget {
               ),
             ),
           ),
-          Row(
-            children: List.generate(
-              state.getAllCoursesEntity.data[upperIndex].departments.length,
-              (index) => Container(
-                height: MediaQuery.of(context).size.height * 0.03,
-                margin: const EdgeInsets.symmetric(horizontal: 6.0),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 4.0,
-                  horizontal: 12.0,
-                ),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xfff7f1e3),
-                ),
-                child: Text(
-                  state.getAllCoursesEntity.data[upperIndex].departments[index]
-                      .name,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4.0,
+              horizontal: 18.0,
+            ),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: List.generate(
+                  state.getAllCoursesEntity.data[upperIndex].departments.length,
+                  (index) => Container(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    margin: const EdgeInsets.symmetric(horizontal: 6.0),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4.0,
+                      horizontal: 12.0,
+                    ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color(0xfff7f1e3),
+                    ),
+                    child: Text(
+                      state.getAllCoursesEntity.data[upperIndex]
+                          .departments[index].name,
+                    ),
+                  ),
                 ),
               ),
             ),
