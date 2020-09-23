@@ -52,7 +52,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       Container(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.1,
+                                                0.07,
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 4.0,
                                           horizontal: 12.0,
@@ -118,6 +118,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(width: 32.0),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -129,7 +130,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       Container(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.1,
+                                                0.07,
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 4.0,
                                           horizontal: 12.0,
@@ -175,6 +176,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                     ],
                                   ),
+                                  Spacer(),
                                   Row(
                                     children: [
                                       Container(
@@ -196,13 +198,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                           child: Text(
                                             'All Questions',
                                             style: TextStyle(
-                                                color: isSelected == 0
-                                                    ? Theme.of(context)
-                                                        .primaryColor
-                                                    : Colors.grey.shade500,
-                                                fontWeight: isSelected == 0
-                                                    ? FontWeight.bold
-                                                    : null),
+                                              color: isSelected == 0
+                                                  ? Colors.black
+                                                  : Colors.grey.shade500,
+                                              fontWeight: isSelected == 0
+                                                  ? FontWeight.bold
+                                                  : null,
+                                            ),
                                           ),
                                         ),
                                         width: 170,
@@ -226,13 +228,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                           child: Text(
                                             'Bookmarked',
                                             style: TextStyle(
-                                                color: isSelected == 0
-                                                    ? Theme.of(context)
-                                                        .primaryColor
-                                                    : Colors.grey.shade500,
-                                                fontWeight: isSelected == 1
-                                                    ? FontWeight.bold
-                                                    : null),
+                                              color: isSelected == 0
+                                                  ? Colors.black
+                                                  : Colors.grey.shade500,
+                                              fontWeight: isSelected == 1
+                                                  ? FontWeight.bold
+                                                  : null,
+                                            ),
                                           ),
                                         ),
                                         width: 200,
@@ -256,13 +258,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                           child: Text(
                                             'Your Questions',
                                             style: TextStyle(
-                                                color: isSelected == 0
-                                                    ? Theme.of(context)
-                                                        .primaryColor
-                                                    : Colors.grey.shade500,
-                                                fontWeight: isSelected == 2
-                                                    ? FontWeight.bold
-                                                    : null),
+                                              color: isSelected == 0
+                                                  ? Colors.black
+                                                  : Colors.grey.shade500,
+                                              fontWeight: isSelected == 2
+                                                  ? FontWeight.bold
+                                                  : null,
+                                            ),
                                           ),
                                         ),
                                         width: 200,

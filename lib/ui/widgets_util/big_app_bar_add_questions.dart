@@ -28,24 +28,37 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
       child: Column(
         children: [
           Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 5,
-              decoration:
-                  BoxDecoration(gradient: EdwiselyGradients.appBarGradient),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Stack(children: [
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 5.2,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 2.0,
+                  color: Colors.black.withOpacity(0.2),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 32.0,
+                horizontal: MediaQuery.of(context).size.width * 0.17,
+              ),
+              child: Stack(
+                children: [
                   Column(
                     children: [
                       Align(
+                        alignment: Alignment.centerLeft,
                         child: Text(
                           titleText,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width / 45,
-                              fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.headline1,
+                          // TextStyle(
+                          //   color: Colors.white,
+                          //   fontSize: MediaQuery.of(context).size.width / 45,
+                          //   fontWeight: FontWeight.bold,
+                          // ),
                         ),
-                        alignment: Alignment.centerLeft,
                       ),
                       Align(
                         child: Text(
@@ -74,8 +87,10 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: flatButton,
                   )
-                ]),
-              )),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

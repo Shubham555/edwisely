@@ -43,15 +43,17 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                               child: Row(
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('Level'),
                                       SizedBox(
                                         width: 10,
                                       ),
                                       Container(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.1,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.07,
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 4.0,
                                           horizontal: 12.0,
@@ -59,7 +61,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(4.0),
-                                          border: Border.all(color: Colors.black),
+                                          border:
+                                              Border.all(color: Colors.black),
                                         ),
                                         child: DropdownButton(
                                           underline: SizedBox.shrink(),
@@ -114,16 +117,19 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(width: 32.0),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('Topic'),
                                       SizedBox(
                                         width: 10,
                                       ),
                                       Container(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.1,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.07,
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 4.0,
                                           horizontal: 12.0,
@@ -131,7 +137,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(4.0),
-                                          border: Border.all(color: Colors.black),
+                                          border:
+                                              Border.all(color: Colors.black),
                                         ),
                                         child: DropdownButton(
                                           items: state.dropDownList,
@@ -166,6 +173,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                       ),
                                     ],
                                   ),
+                                  Spacer(),
                                   Row(
                                     children: [
                                       Container(
@@ -174,7 +182,9 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                             setState(() {
                                               isSelected = 0;
                                             });
-                                            context.bloc<QuestionBankBloc>().add(
+                                            context
+                                                .bloc<QuestionBankBloc>()
+                                                .add(
                                                   GetUnitQuestions(
                                                     widget.subjectId,
                                                     state.unitId,
@@ -184,12 +194,13 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                           child: Text(
                                             'All Questions',
                                             style: TextStyle(
-                                                color: isSelected == 0
-                                                    ? Theme.of(context).primaryColor
-                                                    : Colors.grey.shade500,
-                                                fontWeight: isSelected == 0
-                                                    ? FontWeight.bold
-                                                    : null),
+                                              color: isSelected == 0
+                                                  ? Colors.black
+                                                  : Colors.grey.shade500,
+                                              fontWeight: isSelected == 0
+                                                  ? FontWeight.bold
+                                                  : null,
+                                            ),
                                           ),
                                         ),
                                         width: 170,
@@ -201,7 +212,9 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                             setState(() {
                                               isSelected = 1;
                                             });
-                                            context.bloc<QuestionBankBloc>().add(
+                                            context
+                                                .bloc<QuestionBankBloc>()
+                                                .add(
                                                   GetQuestionsByBookmark(
                                                     state.unitId,
                                                   ),
@@ -210,12 +223,13 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                           child: Text(
                                             'Bookmarked',
                                             style: TextStyle(
-                                                color: isSelected == 1
-                                                    ? Theme.of(context).primaryColor
-                                                    : Colors.grey.shade500,
-                                                fontWeight: isSelected == 1
-                                                    ? FontWeight.bold
-                                                    : null),
+                                              color: isSelected == 1
+                                                  ? Colors.black
+                                                  : Colors.grey.shade500,
+                                              fontWeight: isSelected == 1
+                                                  ? FontWeight.bold
+                                                  : null,
+                                            ),
                                           ),
                                         ),
                                         width: 200,
@@ -227,7 +241,9 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                             setState(() {
                                               isSelected = 2;
                                             });
-                                            context.bloc<QuestionBankBloc>().add(
+                                            context
+                                                .bloc<QuestionBankBloc>()
+                                                .add(
                                                   GetYourQuestions(
                                                     state.unitId,
                                                   ),
@@ -236,12 +252,13 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                           child: Text(
                                             'Your Questions',
                                             style: TextStyle(
-                                                color: isSelected == 2
-                                                    ? Theme.of(context).primaryColor
-                                                    : Colors.grey.shade500,
-                                                fontWeight: isSelected == 2
-                                                    ? FontWeight.bold
-                                                    : null),
+                                              color: isSelected == 2
+                                                  ? Colors.black
+                                                  : Colors.grey.shade500,
+                                              fontWeight: isSelected == 2
+                                                  ? FontWeight.bold
+                                                  : null,
+                                            ),
                                           ),
                                         ),
                                         width: 200,
@@ -250,7 +267,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                     ],
                                   ),
                                 ],
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                               ),
                             ),
                             Column(

@@ -1,6 +1,7 @@
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
 import 'package:edwisely/ui/screens/course/add_course_screen.dart';
 import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
+import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     screenSize = MediaQuery.of(context).size;
     textTheme = Theme.of(context).textTheme;
     _selectedPage = Provider.of<SelectedPageProvider>(context).selectedPage;
-    // _selectedPage = context.watch<SelectedPageProvider>().selectedPage;
 
     if (screenSize.width < 1000) {
       _sidebarWidth = _isNavigationDrawerCollapsed
@@ -48,7 +48,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           : screenSize.width * 0.28;
     } else {
       _sidebarWidth = _isNavigationDrawerCollapsed
-          ? screenSize.width * 0.05
+          ? screenSize.width * 0.06
           : screenSize.width * 0.15;
     }
 
@@ -62,17 +62,20 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         horizontal: 18.0,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: EdwiselyTheme.NAV_BAR_COLOR,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //logo here
-          Image.asset(
-            _isNavigationDrawerCollapsed
-                ? 'assets/logo/small_logo.png'
-                : 'assets/logo/big_logo.png',
-            fit: BoxFit.contain,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0,12.0,16.0,0),
+            child: Image.asset(
+              _isNavigationDrawerCollapsed
+                  ? 'assets/logo/small_logo.png'
+                  : 'assets/logo/big_logo.png',
+              fit: BoxFit.contain,
+            ),
           ),
           //seperator
           Padding(
@@ -200,18 +203,22 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                                 : 'Collapse',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .button
+                                .copyWith(color: Colors.white),
                           ),
                   ),
                   _isNavigationDrawerCollapsed
                       ? SizedBox.shrink()
                       : SizedBox(
-                          width: 8.0,
+                          width: 12.0,
                         ),
                   Icon(
                     _isNavigationDrawerCollapsed
                         ? Icons.arrow_forward_ios
                         : Icons.arrow_back_ios,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ],
               ),

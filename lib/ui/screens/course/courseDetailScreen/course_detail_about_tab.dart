@@ -27,28 +27,11 @@ class CourseDetailAboutTab extends StatelessWidget {
                       children: [
                         Visibility(
                           visible: state.courseEntity.data.description != '',
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8.0,
-                              horizontal: 16.0,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.0),
-                              color: Theme.of(context).primaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 6.0,
-                                  color: Colors.black.withOpacity(0.3),
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              'Course Description',
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height / 40,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          child: Text(
+                            'Course Description',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -64,28 +47,12 @@ class CourseDetailAboutTab extends StatelessWidget {
                         Visibility(
                           visible:
                               state.courseEntity.data.objectives.isNotEmpty,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8.0,
-                              horizontal: 16.0,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.0),
-                              color: Theme.of(context).primaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 6.0,
-                                  color: Colors.black.withOpacity(0.3),
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              'Learning Objectives',
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height / 40,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                          child: Text(
+                            'Learning Objectives',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                         ),
@@ -104,9 +71,7 @@ class CourseDetailAboutTab extends StatelessWidget {
                                     width: 7,
                                     height: 7,
                                     decoration: BoxDecoration(
-                                      color: Color(
-                                        0xFF1F2C65,
-                                      ),
+                                      color: Colors.black,
                                       borderRadius: BorderRadius.circular(
                                         60,
                                       ),
@@ -131,29 +96,12 @@ class CourseDetailAboutTab extends StatelessWidget {
                         ),
                         Visibility(
                           visible: state.courseEntity.data.outcomes.isNotEmpty,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8.0,
-                              horizontal: 16.0,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.0),
-                              color: Theme.of(context).primaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 6.0,
-                                  color: Colors.black.withOpacity(0.3),
-                                ),
-                              ],
-                            ),
-                            child: Text(
-                              'Learning Outcomes',
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height / 40,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                          child: Text(
+                            'Learning Outcomes',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                         ),
@@ -172,9 +120,7 @@ class CourseDetailAboutTab extends StatelessWidget {
                                     width: 7,
                                     height: 7,
                                     decoration: BoxDecoration(
-                                      color: Color(
-                                        0xFF1F2C65,
-                                      ),
+                                      color: Colors.black,
                                       borderRadius: BorderRadius.circular(
                                         60,
                                       ),

@@ -1,3 +1,4 @@
+import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:edwisely/data/cubits/course_content_cubit.dart';
 import 'package:edwisely/data/cubits/get_course_decks_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
@@ -62,21 +63,20 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                             vertical: 8.0,
                             horizontal: 16.0,
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4.0),
-                            color: enabledUnitId == state.units.data[index].id ? Theme.of(context).primaryColor : Colors.transparent,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: enabledUnitId == state.units.data[index].id ? 6.0 : 0,
-                                color: enabledUnitId == state.units.data[index].id ? Colors.black.withOpacity(0.3) : Colors.transparent,
-                              ),
-                            ],
-                          ),
+                          alignment: Alignment.center,
                           child: Text(
                             state.units.data[index].name,
-                            style: TextStyle(
-                                color: enabledUnitId == state.units.data[index].id ? Colors.white : Theme.of(context).primaryColor,
-                                fontSize: enabledUnitId == state.units.data[index].id ? 25 : null),
+                            style: enabledUnitId == state.units.data[index].id
+                                ? TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                  )
+                                : TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                           ),
                         ),
                         onTap: () {
