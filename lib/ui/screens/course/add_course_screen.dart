@@ -24,55 +24,56 @@ class AddCourseScreen extends StatelessWidget {
       child: Scaffold(
         body: Center(
           child: BlocListener(
-              cubit: context.bloc<AddCourseCubit>(),
-              listener: (BuildContext context, state) {
-                if (state is CourseAdded) {
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text('Course Added Successfully')));
-                  Future.delayed(
-                    Duration(seconds: 2),
-                    () {
-                      // Navigator.pop(context);
-                      // Navigator.pop(context);
-                      // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
-                    },
-                  );
-                }
-                if (state is CoursesError) {
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.error)));
-                  Future.delayed(Duration(seconds: 2), () {
+            cubit: context.bloc<AddCourseCubit>(),
+            listener: (BuildContext context, state) {
+              if (state is CourseAdded) {
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Course Added Successfully')));
+                Future.delayed(
+                  Duration(seconds: 2),
+                  () {
                     // Navigator.pop(context);
                     // Navigator.pop(context);
                     // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
-                  });
-                }
-              },
-              child: Row(
-                children: [
-                  NavigationDrawer(
-                    isCollapsed: false,
-                    key: context.watch<SelectedPageProvider>().navigatorKey,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BigAppBar(
-                                actions: null,
-                                titleText: 'Add Courses',
-                                //5 minute dedo a raha hioon Ha sarkar
-                                bottomTab: null,
-                                appBarSize: MediaQuery.of(context).size.height / 3.5,
-                                appBarTitle: Text('Edwisely'),
-                                flatButton: null)
-                            .build(context),
-                        BlocBuilder(
-                          cubit: context.bloc<CoursesBloc>()
-                            ..add(
-                              GetAllCourses(),
-                            ),
-                          builder: (BuildContext context, state) {
-                            if (state is AllCoursesFetched) {
-                              return Column(
+                  },
+                );
+              }
+              if (state is CoursesError) {
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+                Future.delayed(Duration(seconds: 2), () {
+                  // Navigator.pop(context);
+                  // Navigator.pop(context);
+                  // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
+                });
+              }
+            },
+            child: Row(
+              children: [
+                NavigationDrawer(
+                  isCollapsed: false,
+                  key: context.watch<SelectedPageProvider>().navigatorKey,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      BigAppBar(
+                              actions: null,
+                              titleText: 'Add Courses',
+                              //5 minute dedo a raha hioon Ha sarkar
+                              bottomTab: null,
+                              appBarSize: MediaQuery.of(context).size.height / 3.5,
+                              appBarTitle: Text('Edwisely'),
+                              flatButton: null)
+                          .build(context),
+                      BlocBuilder(
+                        cubit: context.bloc<CoursesBloc>()
+                          ..add(
+                            GetAllCourses(),
+                          ),
+                        builder: (BuildContext context, state) {
+                          if (state is AllCoursesFetched) {
+                            return Expanded(
+                              child: Column(
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.symmetric(
@@ -175,27 +176,31 @@ class AddCourseScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ],
-                              );
-                            }
-                            if (state is CourseAdded) {
-                              return Column(
-                                children: [
-                                  CircularProgressIndicator(),
-                                  Text('Course Added '),
-                                ],
-                              );
-                            } else {
-                              return Center(
+                              ),
+                            );
+                          }
+                          if (state is CourseAdded) {
+                            return Column(
+                              children: [
+                                CircularProgressIndicator(),
+                                Text('Course Added '),
+                              ],
+                            );
+                          } else {
+                            return Expanded(
+                              child: Center(
                                 child: CircularProgressIndicator(),
-                              );
-                            }
-                          },
-                        )
-                      ],
-                    ),
+                              ),
+                            );
+                          }
+                        },
+                      )
+                    ],
                   ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
