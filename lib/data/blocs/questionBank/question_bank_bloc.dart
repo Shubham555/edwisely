@@ -20,10 +20,13 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
   ) async* {
     var currentState = state;
     if (event is GetUnitQuestions) {
-      final response = await EdwiselyApi().dio().then((value) => value.get('questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}'));
+      final response =
+          await EdwiselyApi().dio().then((value) => value.get('questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}'));
       //todo fix university_degree_department
 
-      final topicsResponse = await EdwiselyApi().dio().then((value) => value.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71'));
+      final topicsResponse = await EdwiselyApi()
+          .dio()
+          .then((value) => value.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71'));
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
         List<DropdownMenuItem> dropDownItems = [];
         dropDownItems.add(
@@ -43,75 +46,82 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
             ),
           );
         }
-        yield UnitQuestionsFetched(
-          QuestionBankAllEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          dropDownItems,
-        );
-      } else {
-        yield QuestionBankFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankFetchFailed(response.data['message']);
+        } else
+          yield UnitQuestionsFetched(
+            QuestionBankAllEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            dropDownItems,
+          );
       }
     }
     if (event is GetUnitQuestionsByLevel) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi().dio().then((value) => value.get('questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}'));
+      final response =
+          await EdwiselyApi().dio().then((value) => value.get('questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}'));
       if (response.statusCode == 200) {
-        yield UnitQuestionsFetched(
-          QuestionBankAllEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
-        );
-      } else {
-        yield QuestionBankFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankFetchFailed(response.data['message']);
+        } else
+          yield UnitQuestionsFetched(
+            QuestionBankAllEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
+          );
       }
     }
     if (event is GetUnitQuestionsByTopic) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi().dio().then((value) => value.get('questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}'));
+      final response =
+          await EdwiselyApi().dio().then((value) => value.get('questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}'));
       if (response.statusCode == 200) {
-        yield UnitQuestionsFetched(
-          QuestionBankAllEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
-        );
-      } else {
-        yield QuestionBankFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankFetchFailed(response.data['message']);
+        } else
+          yield UnitQuestionsFetched(
+            QuestionBankAllEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
+          );
       }
     }
     if (event is GetQuestionsByBookmark) {
       yield QuestionBankInitial();
       final response = await EdwiselyApi().dio().then((value) => value.get('getBookmarkedQuestions?unit_id=${event.unitId}'));
       if (response.statusCode == 200) {
-        yield UnitQuestionsFetched(
-          QuestionBankAllEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
-        );
-      } else {
-        yield QuestionBankFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankFetchFailed(response.data['message']);
+        } else
+          yield UnitQuestionsFetched(
+            QuestionBankAllEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
+          );
       }
     }
     if (event is GetYourQuestions) {
       yield QuestionBankInitial();
       final response = await EdwiselyApi().dio().then((value) => value.get('questions/getFacultyAddedQuestions?unit_id=${event.unitId}'));
       if (response.statusCode == 200) {
-        yield UnitQuestionsFetched(
-          QuestionBankAllEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
-        );
-      } else {
-        yield QuestionBankFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankFetchFailed(response.data['message']);
+        } else
+          yield UnitQuestionsFetched(
+            QuestionBankAllEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
+          );
       }
     }
   }

@@ -6,6 +6,7 @@ import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
 import 'package:edwisely/data/cubits/add_course_cubit.dart';
 import 'package:edwisely/data/cubits/add_question_cubit.dart';
+import 'package:edwisely/data/cubits/department_cubit.dart';
 import 'package:edwisely/data/cubits/get_course_decks_cubit.dart';
 import 'package:edwisely/data/cubits/login_cubit.dart';
 import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
@@ -93,6 +94,9 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => CourseDecksCubit(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => DepartmentCubit(),
+          ),
         ],
         child: MaterialApp(
           title: 'Edwisely',
@@ -119,7 +123,6 @@ class EdWisely extends StatelessWidget {
     );
   }
 }
-//todo question bank empty check
 //todo add latex rendering in question bank and all where question is written or viewed
 //todo add filter by departments in add courses
 
@@ -143,4 +146,10 @@ class EdWisely extends StatelessWidget {
 //todo password and confirm poassword for login
 //todo add button to right bottom right
 //todo check for apifrom backend for select from existing
-//todo reduce
+
+//25/09/2020 todos
+//todo ask about where to put the update faculty added objective question type
+// To change the type of faculty added objective question from public to private or vice versa  - type values that are accepted - [‘public’, ‘private’]
+// update faculty added subjective question type
+// To change the type of faculty added subjective question from public to private or vice versa  - type values that are accepted - [‘public’, ‘private’]
+//todo ask about material_type

@@ -46,15 +46,16 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
             ),
           );
         }
-        yield UnitObjectiveQuestionsFetched(
-          QuestionBankObjectiveEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          dropDownItems,
-        );
-      } else {
-        yield QuestionBankObjectiveFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+        } else
+          yield UnitObjectiveQuestionsFetched(
+            QuestionBankObjectiveEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            dropDownItems,
+          );
       }
     }
     if (event is GetUnitObjectiveQuestionsByLevel) {
@@ -69,15 +70,16 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
         if (questionBankObjectiveEntity == null) {
           yield QuestionBankObjectiveEmpty();
         }
-        yield UnitObjectiveQuestionsFetched(
-          QuestionBankObjectiveEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
-        );
-      } else {
-        yield QuestionBankObjectiveFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+        } else
+          yield UnitObjectiveQuestionsFetched(
+            QuestionBankObjectiveEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
+          );
       }
     }
     if (event is GetUnitObjectiveQuestionsByTopic) {
@@ -86,45 +88,48 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
           .dio()
           .then((value) => value.get('questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}'));
       if (response.statusCode == 200) {
-        yield UnitObjectiveQuestionsFetched(
-          QuestionBankObjectiveEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
-        );
-      } else {
-        yield QuestionBankObjectiveFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+        } else
+          yield UnitObjectiveQuestionsFetched(
+            QuestionBankObjectiveEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
+          );
       }
     }
     if (event is GetObjectiveQuestionsByBookmark) {
       yield QuestionBankObjectiveInitial();
       final response = await EdwiselyApi().dio().then((value) => value.get('getBookmarkedQuestions?unit_id=${event.unitId}'));
       if (response.statusCode == 200) {
-        yield UnitObjectiveQuestionsFetched(
-          QuestionBankObjectiveEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
-        );
-      } else {
-        yield QuestionBankObjectiveFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+        } else
+          yield UnitObjectiveQuestionsFetched(
+            QuestionBankObjectiveEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
+          );
       }
     }
     if (event is GetYourObjectiveQuestions) {
       yield QuestionBankObjectiveInitial();
       final response = await EdwiselyApi().dio().then((value) => value.get('questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}'));
       if (response.statusCode == 200) {
-        yield UnitObjectiveQuestionsFetched(
-          QuestionBankObjectiveEntity.fromJsonMap(
-            response.data,
-          ),
-          event.unitId,
-          currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
-        );
-      } else {
-        yield QuestionBankObjectiveFetchFailed();
+        if (response.data['message'] != 'Successfully fetched the data') {
+          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+        } else
+          yield UnitObjectiveQuestionsFetched(
+            QuestionBankObjectiveEntity.fromJsonMap(
+              response.data,
+            ),
+            event.unitId,
+            currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
+          );
       }
     }
   }

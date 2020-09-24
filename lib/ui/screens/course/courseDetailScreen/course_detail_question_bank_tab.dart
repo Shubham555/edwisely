@@ -4,7 +4,6 @@ import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/courseDetailQuestionBankTab/question_bank_all_tab.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/courseDetailQuestionBankTab/question_bank_objective_tab.dart';
-import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,14 +15,12 @@ class CourseDetailQuestionBankTab extends StatefulWidget {
   CourseDetailQuestionBankTab(this.subjectId);
 
   @override
-  _CourseDetailQuestionBankTabState createState() =>
-      _CourseDetailQuestionBankTabState();
+  _CourseDetailQuestionBankTabState createState() => _CourseDetailQuestionBankTabState();
 }
 
-class _CourseDetailQuestionBankTabState
-    extends State<CourseDetailQuestionBankTab>
-    with SingleTickerProviderStateMixin {
+class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTab> with SingleTickerProviderStateMixin {
   TabController _tabController;
+  int unitSeleceted;
 
   @override
   void initState() {
@@ -39,13 +36,11 @@ class _CourseDetailQuestionBankTabState
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: MediaQuery.of(context).size.width / 10,
             child: BlocBuilder(
-              cubit: context.bloc<UnitCubit>()
-                ..getUnitsOfACourse(widget.subjectId),
+              cubit: context.bloc<UnitCubit>()..getUnitsOfACourse(widget.subjectId),
               builder: (BuildContext context, state) {
                 if (state is CourseUnitFetched) {
                   _tabController.index == 0
@@ -86,71 +81,73 @@ class _CourseDetailQuestionBankTabState
                       }
                     },
                   );
-                  int enabledUnitId = state.units.data[0].id;
-
+                  unitSeleceted = state.units.data[0].id;
                   return StatefulBuilder(
-                    builder: (BuildContext context,
-                        void Function(void Function()) setState) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.units.data.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            ListTile(
-                          hoverColor: Colors.white,
-                          selected: enabledUnitId == state.units.data[index].id,
-                          title: Container(
+                    builder: (BuildContext context, void Function(void Function()) setState) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 13,
+                          ),
+                          Text('Units'),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.07,
                             padding: const EdgeInsets.symmetric(
-                              vertical: 8.0,
+                              vertical: 4.0,
+                              horizontal: 12.0,
                             ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              state.units.data[index].name,
-                              style: enabledUnitId == state.units.data[index].id
-                                  ? TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 22.0,
-                                      fontWeight: FontWeight.bold,
-                                    )
-                                  : TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4.0),
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: DropdownButton(
+                              underline: SizedBox.shrink(),
+                              isExpanded: true,
+                              value: unitSeleceted,
+                              items: List.generate(
+                                state.units.data.length,
+                                (index) => DropdownMenuItem(
+                                  child: Text(state.units.data[index].name),
+                                  value: state.units.data[index].id,
+                                ),
+                              ),
+                              onChanged: (value) {
+                                unitSeleceted = value;
+                                switch (_tabController.index) {
+                                  case 0:
+                                    context.bloc<QuestionBankBloc>().add(
+                                          GetUnitQuestions(
+                                            widget.subjectId,
+                                            value,
+                                          ),
+                                        );
+                                    break;
+                                  case 1:
+                                    context.bloc<QuestionBankObjectiveBloc>().add(
+                                          GetUnitObjectiveQuestions(
+                                            widget.subjectId,
+                                            value,
+                                          ),
+                                        );
+                                    break;
+                                  case 2:
+                                    context.bloc<QuestionBankSubjectiveBloc>().add(
+                                          GetUnitSubjectiveQuestions(
+                                            widget.subjectId,
+                                            value,
+                                          ),
+                                        );
+                                    break;
+                                }
+                                setState(() {});
+                              },
                             ),
                           ),
-                          onTap: () {
-                            enabledUnitId = state.units.data[index].id;
-                            setState(
-                              () {},
-                            );
-                            switch (_tabController.index) {
-                              case 0:
-                                context.bloc<QuestionBankBloc>().add(
-                                      GetUnitQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
-                                break;
-                              case 1:
-                                context.bloc<QuestionBankObjectiveBloc>().add(
-                                      GetUnitObjectiveQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
-                                break;
-                              case 2:
-                                context.bloc<QuestionBankSubjectiveBloc>().add(
-                                      GetUnitSubjectiveQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
-                                break;
-                            }
-                          },
-                        ),
+                        ],
                       );
                     },
                   );
