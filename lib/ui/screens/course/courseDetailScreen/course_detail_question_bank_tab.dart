@@ -15,10 +15,13 @@ class CourseDetailQuestionBankTab extends StatefulWidget {
   CourseDetailQuestionBankTab(this.subjectId);
 
   @override
-  _CourseDetailQuestionBankTabState createState() => _CourseDetailQuestionBankTabState();
+  _CourseDetailQuestionBankTabState createState() =>
+      _CourseDetailQuestionBankTabState();
 }
 
-class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTab> with SingleTickerProviderStateMixin {
+class _CourseDetailQuestionBankTabState
+    extends State<CourseDetailQuestionBankTab>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   int unitSeleceted;
 
@@ -36,11 +39,14 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 10,
+            // width: MediaQuery.of(context).size.width / 10,
             child: BlocBuilder(
-              cubit: context.bloc<UnitCubit>()..getUnitsOfACourse(widget.subjectId),
+              cubit: context.bloc<UnitCubit>()
+                ..getUnitsOfACourse(widget.subjectId),
               builder: (BuildContext context, state) {
                 if (state is CourseUnitFetched) {
                   _tabController.index == 0
@@ -83,7 +89,8 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                   );
                   unitSeleceted = state.units.data[0].id;
                   return StatefulBuilder(
-                    builder: (BuildContext context, void Function(void Function()) setState) {
+                    builder: (BuildContext context,
+                        void Function(void Function()) setState) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -127,7 +134,9 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                                         );
                                     break;
                                   case 1:
-                                    context.bloc<QuestionBankObjectiveBloc>().add(
+                                    context
+                                        .bloc<QuestionBankObjectiveBloc>()
+                                        .add(
                                           GetUnitObjectiveQuestions(
                                             widget.subjectId,
                                             value,
@@ -135,7 +144,9 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                                         );
                                     break;
                                   case 2:
-                                    context.bloc<QuestionBankSubjectiveBloc>().add(
+                                    context
+                                        .bloc<QuestionBankSubjectiveBloc>()
+                                        .add(
                                           GetUnitSubjectiveQuestions(
                                             widget.subjectId,
                                             value,

@@ -2,40 +2,40 @@ class DateUtils {
   String getMonthFromDateTime(int month) {
     switch (month) {
       case 1:
-        return 'January';
+        return 'Jan';
         break;
       case 2:
-        return 'February';
+        return 'Feb';
         break;
       case 3:
-        return 'March';
+        return 'Mar';
         break;
       case 4:
-        return 'April';
+        return 'Apr';
         break;
       case 5:
         return 'May';
         break;
       case 6:
-        return 'June';
+        return 'Jun';
         break;
       case 7:
-        return 'July';
+        return 'Jul';
         break;
       case 8:
-        return 'August';
+        return 'Aug';
         break;
       case 9:
-        return 'September';
+        return 'Sep';
         break;
       case 10:
-        return 'October';
+        return 'Oct';
         break;
       case 11:
-        return 'November';
+        return 'Nov';
         break;
       case 12:
-        return 'December';
+        return 'Dec';
         break;
     }
   }

@@ -21,10 +21,36 @@ class ObjectiveTab extends StatelessWidget {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Row(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            BlocBuilder(
+              cubit: context.bloc<CoursesBloc>(),
+              builder: (BuildContext context, state) {
+                if (state is CoursesListFetched) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: DropdownButton(
+                      underline: Container(),
+                      hint: Text('Filter by Subjects'),
+                      items: state.subjects,
+                      onChanged: (value) => value == 1234567890
+                          ? context.bloc<ObjectiveBloc>().add(
+                                GetObjectiveTests(),
+                              )
+                          : context.bloc<ObjectiveBloc>().add(
+                                GetObjectiveTestsBYSubjectId(
+                                  value,
+                                ),
+                              ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
             Expanded(
               child: BlocBuilder(
                 cubit: context.bloc<ObjectiveBloc>(),
@@ -57,69 +83,30 @@ class ObjectiveTab extends StatelessWidget {
                     );
                   }
                   if (state is ObjectiveSuccess) {
-                    return Row(
-                      children: [
-                        // ListView.builder(
-                        //   padding: EdgeInsets.all(10),
-                        //   itemCount: state.questionsEntity.data.length / 2,
-                        //   itemBuilder: (BuildContext context, int index) {
-                        //     return AssessmentTile(
-                        //         state.questionsEntity.data[index].id,
-                        //         state.questionsEntity.data[index].name,
-                        //         state.questionsEntity.data[index].description,
-                        //         state.questionsEntity.data[index].questions_count
-                        //             .toString(),
-                        //         state.questionsEntity.data[index].doe,
-                        //         state.questionsEntity.data[index].start_time);
-                        //   },
-                        // ),
-                        ListView.builder(
-                          padding: EdgeInsets.all(10),
-                          itemCount: state.questionsEntity.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return AssessmentTile(
-                                state.questionsEntity.data[index].id,
-                                state.questionsEntity.data[index].name,
-                                state.questionsEntity.data[index].description,
-                                state
-                                    .questionsEntity.data[index].questions_count
-                                    .toString(),
-                                state.questionsEntity.data[index].doe,
-                                state.questionsEntity.data[index].start_time);
-                          },
-                        ),
-                      ],
+                    return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 32.0,
+                        mainAxisSpacing: 32.0,
+                        childAspectRatio: 3 / 1,
+                      ),
+                      itemCount: state.questionsEntity.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return AssessmentTile(
+                          state.questionsEntity.data[index].id,
+                          state.questionsEntity.data[index].name,
+                          state.questionsEntity.data[index].description,
+                          state.questionsEntity.data[index].questions_count
+                              .toString(),
+                          state.questionsEntity.data[index].doe,
+                          state.questionsEntity.data[index].start_time,
+                        );
+                      },
                     );
                   }
                 },
               ),
             ),
-            BlocBuilder(
-              cubit: context.bloc<CoursesBloc>(),
-              builder: (BuildContext context, state) {
-                if (state is CoursesListFetched) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: DropdownButton(
-                      underline: Container(),
-                      hint: Text('Filter by Subjects'),
-                      items: state.subjects,
-                      onChanged: (value) => value == 1234567890
-                          ? context.bloc<ObjectiveBloc>().add(
-                                GetObjectiveTests(),
-                              )
-                          : context.bloc<ObjectiveBloc>().add(
-                                GetObjectiveTestsBYSubjectId(
-                                  value,
-                                ),
-                              ),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            )
           ],
         ),
       ),

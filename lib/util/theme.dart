@@ -25,6 +25,10 @@ class EdwiselyTheme {
       headline6: TextStyle(
         fontSize: 18.0,
       ),
+      bodyText1: TextStyle(
+        fontSize: 14.0,
+        color: Colors.grey,
+      ),
     ),
   );
 //</editor-fold>

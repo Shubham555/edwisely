@@ -8,56 +8,12 @@ import 'package:intl/intl.dart';
 class ConductedTabSubjectiveTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: BlocBuilder(
-            cubit: context.bloc<ConductedBloc>()
-              ..add(
-                GetSubjectiveQuestions(),
-              ),
-            // ignore: missing_return
-            builder: (BuildContext context, state) {
-              if (state is ConductedInitial) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is ConductedEmpty) {
-                return Center(
-                  child: Text('No Assessments found'),
-                );
-              }
-              if (state is ConductedFailed) {
-                return Center(
-                  child: Text('There is some server error please retry'),
-                );
-              }
-              if (state is ConductedSuccess) {
-                return ListView.builder(
-                  padding: EdgeInsets.all(10),
-                  shrinkWrap: true,
-                  itemCount: state.questionsEntity.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AssessmentTile(
-                      state.questionsEntity.data[index].id,
-                      state.questionsEntity.data[index].name,
-                      state.questionsEntity.data[index].description,
-                      state.questionsEntity.data[index].questions_count
-                          .toString(),
-                      state.questionsEntity.data[index].doe,
-                      state.questionsEntity.data[index].start_time,
-                    );
-                  },
-                );
-              }
-            },
-          ),
-        ),
         Container(
-          width: MediaQuery.of(context).size.width / 3,
-          child: Column(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
                 icon: Icon(Icons.calendar_today_outlined),
@@ -101,9 +57,9 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                 cubit: context.bloc<CoursesBloc>(),
                 builder: (BuildContext context, state) {
                   if (state is SectionsAndGetCoursesListFetched) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(10),
@@ -162,7 +118,57 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        Expanded(
+          child: BlocBuilder(
+            cubit: context.bloc<ConductedBloc>()
+              ..add(
+                GetSubjectiveQuestions(),
+              ),
+            // ignore: missing_return
+            builder: (BuildContext context, state) {
+              if (state is ConductedInitial) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state is ConductedEmpty) {
+                return Center(
+                  child: Text('No Assessments found'),
+                );
+              }
+              if (state is ConductedFailed) {
+                return Center(
+                  child: Text('There is some server error please retry'),
+                );
+              }
+              if (state is ConductedSuccess) {
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 32.0,
+                    mainAxisSpacing: 32.0,
+                    childAspectRatio: 3 / 1,
+                  ),
+                  padding: EdgeInsets.all(10),
+                  shrinkWrap: true,
+                  itemCount: state.questionsEntity.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return AssessmentTile(
+                      state.questionsEntity.data[index].id,
+                      state.questionsEntity.data[index].name,
+                      state.questionsEntity.data[index].description,
+                      state.questionsEntity.data[index].questions_count
+                          .toString(),
+                      state.questionsEntity.data[index].doe,
+                      state.questionsEntity.data[index].start_time,
+                    );
+                  },
+                );
+              }
+            },
+          ),
+        ),
       ],
     );
   }

@@ -17,7 +17,9 @@ import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/data/cubits/upload_excel_cubit.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
+import 'package:edwisely/ui/screens/authorization/login_screen.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
+import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -102,7 +104,9 @@ class EdWisely extends StatelessWidget {
           title: 'Edwisely',
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,
-          home: CourseDetailScreen('', 352),
+          // home: CourseDetailScreen('', 352),
+          home: CoursesLandingScreen(),
+          // home: LoginScreen(),
           //   MultiBlocProvider(
           // providers: [
           //   BlocProvider(

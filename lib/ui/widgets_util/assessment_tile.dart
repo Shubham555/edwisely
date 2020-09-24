@@ -2,6 +2,7 @@ import 'package:edwisely/data/cubits/select_students_cubit.dart';
 import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
 import 'package:edwisely/util/date_utild.dart';
+import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,129 +13,368 @@ class AssessmentTile extends StatelessWidget {
   final String noOfQuestions;
   final String doe;
   final String startTime;
+  final int sentTo;
+  final int answeredCount;
 
-  AssessmentTile(this.assessmentId, this.title, this.description,
-      this.noOfQuestions, this.doe, this.startTime);
+  AssessmentTile(
+    this.assessmentId,
+    this.title,
+    this.description,
+    this.noOfQuestions,
+    this.doe,
+    this.startTime, [
+    this.sentTo,
+    this.answeredCount,
+  ]);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width / 2,
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
-            ),
+    bool isDateVisible = startTime != null &&
+        doe != null &&
+        startTime.isNotEmpty &&
+        doe.isNotEmpty;
+    // int st = DateTime.parse(startTime).month;
+    // print(st);
+    // DateFormat formatter = DateFormat('hh : mm');
+    // String displayStartTime = formatter.format(st);
+    // String displayStartTime = '';
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4.0),
+        boxShadow: [
+          BoxShadow(blurRadius: 2.0, color: Colors.black.withOpacity(0.2)),
+        ],
+      ),
+      child: Column(
+        children: [
+          //top part
+          Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //title and description
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        description,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
+                        title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            'No. of Questions : ',
-                            style: TextStyle(
-                              color: Colors.grey,
+                      Text(
+                        description,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ],
+                  ),
+                  //spacing
+                  Spacer(),
+                  //date and sections
+                  Column(
+                    children: [
+                      isDateVisible
+                          ? SizedBox.shrink()
+                          : Transform.translate(
+                              offset: Offset(10, -10),
+                              child: IconButton(
+                                padding: const EdgeInsets.all(0),
+                                icon: Icon(
+                                  Icons.edit,
+                                  size: 22.0,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  //TODO, add redirecting code here
+                                },
+                              ),
                             ),
-                          ),
-                          Text(
-                            '$noOfQuestions',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      )
+                      Spacer(),
+                      isDateVisible
+                          ? Row(
+                              children: [
+                                Text(
+                                  DateUtils().getMonthFromDateTime(
+                                    DateTime.parse(
+                                      startTime,
+                                    ).month,
+                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  DateTime.parse(
+                                    startTime,
+                                  ).day.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                              ],
+                            )
+                          : SizedBox.shrink(),
                     ],
                   )
                 ],
               ),
             ),
           ),
-        ),
-        if (startTime != null &&
-            doe != null &&
-            startTime.isNotEmpty &&
-            doe.isNotEmpty)
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Text(
-                    DateUtils().getMonthFromDateTime(
-                      DateTime.parse(
-                        startTime,
-                      ).month,
-                    ),
-                    style: TextStyle(),
-                  ),
-                  Text(
-                    DateTime.parse(
-                      startTime,
-                    ).day.toString(),
-                  ),
-                ],
-              ),
+          //bottom Part
+          Container(
+            height: 48.0,
+            color: EdwiselyTheme.CARD_COLOR,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
             ),
-          )
-        else
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
+            child: Row(
               children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.send,
-                    size: 30,
+                //no. of questions
+                Text(
+                  'Questions : ',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                SizedBox(width: 4.0),
+                Text(
+                  '$noOfQuestions',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                //spacing
+                Spacer(),
+                //sent to
+                if (sentTo != null)
+                  Row(
+                    children: [
+                      Text(
+                        'Sent To : ',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      SizedBox(width: 4.0),
+                      Text(
+                        '$sentTo',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => MultiBlocProvider(
-                          providers: [
-                            BlocProvider(
-                              create: (BuildContext context) =>
-                                  SendAssessmentCubit(),
-                            ),
-                            BlocProvider(
-                              create: (BuildContext context) =>
-                                  SelectStudentsCubit(),
-                            ),
-                          ],
-                          child: SendAssessmentScreen(
-                              assessmentId, title, []),
+                //spacing
+                Spacer(),
+                //answered count
+                if (sentTo != null)
+                  Row(
+                    children: [
+                      Text(
+                        'Answered : ',
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      SizedBox(width: 4.0),
+                      Text(
+                        '$answeredCount',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                //scheduled start time
+                // startTime != null
+                //     ? Text(
+                //         displayStartTime,
+                //       )
+                //     : SizedBox.shrink(),
+                //spacing
+                Spacer(),
+                //send button
+                isDateVisible
+                    ? SizedBox.shrink()
+                    : SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.07,
+                        child: RaisedButton(
+                          onPressed: () {
+                            if (int.parse(noOfQuestions) == 0) {
+                              //TODO, REDIRECT TO ADD QUESTIONS PAGE
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider(
+                                        create: (BuildContext context) =>
+                                            SendAssessmentCubit(),
+                                      ),
+                                      BlocProvider(
+                                        create: (BuildContext context) =>
+                                            SelectStudentsCubit(),
+                                      ),
+                                    ],
+                                    child: SendAssessmentScreen(
+                                      assessmentId,
+                                      title,
+                                      [],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          color: Theme.of(context).primaryColor,
+                          elevation: 2.0,
+                          child: Text(
+                            int.parse(noOfQuestions) == 0
+                                ? 'Add Questions'
+                                : 'Send',
+                            maxLines: 1,
+                            style: Theme.of(context).textTheme.button.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 12.0,
+                                ),
+                          ),
                         ),
                       ),
-                    );
-                  },
-                ),
-                Text('Send')
               ],
             ),
-          )
-      ],
+          ),
+        ],
+      ),
     );
+    // return Row(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   mainAxisSize: MainAxisSize.max,
+    //   children: [
+    //     Flexible(
+    //       // width: MediaQuery.of(context).size.width / 1.2,
+    //       child: Card(
+    //         shape: RoundedRectangleBorder(
+    //           borderRadius: BorderRadius.circular(6),
+    //         ),
+    //         child: Padding(
+    //           padding: const EdgeInsets.all(8.0),
+    //           child: Column(
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               Text(
+    //                 title,
+    //                 style: TextStyle(
+    //                   fontWeight: FontWeight.bold,
+    //                   fontSize: 20,
+    //                 ),
+    //               ),
+    //               Row(
+    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                 mainAxisSize: MainAxisSize.max,
+    //                 children: [
+    //                   Text(
+    //                     description,
+    //                     style: TextStyle(
+    //                       fontSize: 16,
+    //                       color: Colors.grey,
+    //                     ),
+    //                   ),
+    //                   Row(
+    //                     children: [
+    //                       Text(
+    //                         'No. of Questions : ',
+    //                         style: TextStyle(
+    //                           color: Colors.grey,
+    //                         ),
+    //                       ),
+    //                       Text(
+    //                         '$noOfQuestions',
+    //                         style: TextStyle(
+    //                           fontWeight: FontWeight.bold,
+    //                         ),
+    //                       )
+    //                     ],
+    //                   )
+    //                 ],
+    //               )
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //     if (startTime != null &&
+    //         doe != null &&
+    //         startTime.isNotEmpty &&
+    //         doe.isNotEmpty)
+    //       Card(
+    //         child: Padding(
+    //           padding: const EdgeInsets.all(10),
+    //           child: Column(
+    //             children: [
+    //               Text(
+    //                 DateUtils().getMonthFromDateTime(
+    //                   DateTime.parse(
+    //                     startTime,
+    //                   ).month,
+    //                 ),
+    //                 style: TextStyle(),
+    //               ),
+    //               Text(
+    //                 DateTime.parse(
+    //                   startTime,
+    //                 ).day.toString(),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       )
+    //     else
+    //       Padding(
+    //         padding: const EdgeInsets.all(8.0),
+    //         child: Column(
+    //           children: [
+    //             IconButton(
+    //               icon: Icon(
+    //                 Icons.send,
+    //                 size: 30,
+    //               ),
+    //               onPressed: () {
+    //                 Navigator.push(
+    //                   context,
+    //                   MaterialPageRoute(
+    //                     builder: (BuildContext context) => MultiBlocProvider(
+    //                       providers: [
+    //                         BlocProvider(
+    //                           create: (BuildContext context) =>
+    //                               SendAssessmentCubit(),
+    //                         ),
+    //                         BlocProvider(
+    //                           create: (BuildContext context) =>
+    //                               SelectStudentsCubit(),
+    //                         ),
+    //                       ],
+    //                       child: SendAssessmentScreen(assessmentId, title, []),
+    //                     ),
+    //                   ),
+    //                 );
+    //               },
+    //             ),
+    //             Text('Send')
+    //           ],
+    //         ),
+    //       )
+    //   ],
+    // );
   }
 }
