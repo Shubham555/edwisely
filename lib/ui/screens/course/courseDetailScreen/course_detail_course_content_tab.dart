@@ -43,11 +43,13 @@ class CourseDetailCourseContentTab extends StatelessWidget {
               return Container(
                 width: MediaQuery.of(context).size.width / 7,
                 child: StatefulBuilder(
-                  builder: (BuildContext context, void Function(void Function()) setState) {
+                  builder: (BuildContext context,
+                      void Function(void Function()) setState) {
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.units.data.length,
-                      itemBuilder: (BuildContext context, int index) => ListTile(
+                      itemBuilder: (BuildContext context, int index) =>
+                          ListTile(
                         hoverColor: Colors.white,
                         selected: enabledUnitId == state.units.data[index].id,
                         title: Container(
@@ -106,20 +108,25 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width * (3.5 / 5),
+                              width:
+                                  MediaQuery.of(context).size.width * (3.5 / 5),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Learning Snippets',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: MediaQuery.of(context).size.height / 50,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height /
+                                              50,
                                     ),
                                   ),
                                   FlatButton(
-                                    hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                    hoverColor:
+                                        Color(0xFF1D2B64).withOpacity(.2),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(6),
                                       side: BorderSide(
@@ -147,12 +154,17 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width * (3.5 / 5),
+                              width:
+                                  MediaQuery.of(context).size.width * (3.5 / 5),
                               height: 300,
                               child: GridView.builder(
                                 itemCount: state.courseDeckEntity.data.length,
-                                itemBuilder: (BuildContext context, int index) => GridTile(
-                                  child: state.courseDeckEntity.data[index].image == ''
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        GridTile(
+                                  child: state.courseDeckEntity.data[index]
+                                              .image ==
+                                          ''
                                       ? Center(
                                           child: Icon(
                                             Icons.book,
@@ -160,7 +172,8 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                           ),
                                         )
                                       : Image.network(
-                                          state.courseDeckEntity.data[index].image,
+                                          state.courseDeckEntity.data[index]
+                                              .image,
                                           width: 150,
                                           height: 200,
                                         ),
@@ -174,7 +187,8 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   mainAxisSpacing: 20,
                                   crossAxisSpacing: 20,
                                   crossAxisCount: 1,
@@ -259,13 +273,16 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                               child: Column(
                                 children: [
                                   StatefulBuilder(
-                                    builder: (BuildContext context, void Function(void Function()) setState) {
+                                    builder: (BuildContext context,
+                                        void Function(void Function())
+                                            setState) {
                                       String typeDropDownValue = 'All';
                                       int levelDropDownValue = -1;
                                       return Row(
                                         children: [
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text('Type'),
                                               SizedBox(
@@ -273,13 +290,17 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                               ),
                                               Container(
                                                 // width: MediaQuery.of(context).size.width * 0.05,
-                                                padding: const EdgeInsets.symmetric(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
                                                   vertical: 4.0,
                                                   horizontal: 12.0,
                                                 ),
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(4.0),
-                                                  border: Border.all(color: Colors.black),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                  border: Border.all(
+                                                      color: Colors.black),
                                                 ),
                                                 child: DropdownButton(
                                                   items: [
@@ -301,11 +322,15 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                                       value: 'PPT',
                                                     ),
                                                     DropdownMenuItem(
-                                                      child: Text('Other Links'),
+                                                      child:
+                                                          Text('Other Links'),
                                                       value: 'DOC',
                                                     ),
                                                   ],
-                                                  onChanged: (value) => context.bloc<CourseContentCubit>().getDocumentWiseData(
+                                                  onChanged: (value) => context
+                                                      .bloc<
+                                                          CourseContentCubit>()
+                                                      .getDocumentWiseData(
                                                         value,
                                                         state.backup,
                                                       ),
@@ -318,7 +343,8 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                             width: 30,
                                           ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text('Level'),
                                               SizedBox(
@@ -326,13 +352,17 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                               ),
                                               Container(
                                                 // width: MediaQuery.of(context).size.width * 0.05,
-                                                padding: const EdgeInsets.symmetric(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
                                                   vertical: 4.0,
                                                   horizontal: 12.0,
                                                 ),
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(4.0),
-                                                  border: Border.all(color: Colors.black),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                  border: Border.all(
+                                                      color: Colors.black),
                                                 ),
                                                 child: DropdownButton(
                                                   items: [
@@ -353,7 +383,10 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                                       value: 3,
                                                     ),
                                                   ],
-                                                  onChanged: (value) => context.bloc<CourseContentCubit>().getLevelWiseData(
+                                                  onChanged: (value) => context
+                                                      .bloc<
+                                                          CourseContentCubit>()
+                                                      .getLevelWiseData(
                                                         value,
                                                         state.backup,
                                                       ),
@@ -366,7 +399,9 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                             width: 30,
                                           ),
                                           StatefulBuilder(
-                                            builder: (BuildContext context, void Function(void Function()) setState) {
+                                            builder: (BuildContext context,
+                                                void Function(void Function())
+                                                    setState) {
                                               int isSelected = 0;
                                               return Expanded(
                                                 child: Row(
@@ -376,13 +411,25 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                                         setState(() {
                                                           isSelected = 0;
                                                         });
-                                                        context.bloc<CourseContentCubit>().getCourseContent(enabledUnitId, semesterId);
+                                                        context
+                                                            .bloc<
+                                                                CourseContentCubit>()
+                                                            .getCourseContent(
+                                                                enabledUnitId,
+                                                                semesterId);
                                                       },
                                                       child: Text(
                                                         'All Questions',
                                                         style: TextStyle(
-                                                          color: isSelected == 0 ? Colors.black : Colors.grey.shade500,
-                                                          fontWeight: isSelected == 0 ? FontWeight.bold : null,
+                                                          color: isSelected == 0
+                                                              ? Colors.black
+                                                              : Colors.grey
+                                                                  .shade500,
+                                                          fontWeight:
+                                                              isSelected == 0
+                                                                  ? FontWeight
+                                                                      .bold
+                                                                  : null,
                                                         ),
                                                       ),
                                                     ),
@@ -392,14 +439,24 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                                           isSelected = 1;
                                                         });
                                                         context
-                                                            .bloc<CourseContentCubit>()
-                                                            .getFacultyBookmarkedCourseContent(enabledUnitId, semesterId);
+                                                            .bloc<
+                                                                CourseContentCubit>()
+                                                            .getFacultyBookmarkedCourseContent(
+                                                                enabledUnitId,
+                                                                semesterId);
                                                       },
                                                       child: Text(
                                                         'Bookmarked',
                                                         style: TextStyle(
-                                                          color: isSelected == 1 ? Colors.black : Colors.grey.shade500,
-                                                          fontWeight: isSelected == 1 ? FontWeight.bold : null,
+                                                          color: isSelected == 1
+                                                              ? Colors.black
+                                                              : Colors.grey
+                                                                  .shade500,
+                                                          fontWeight:
+                                                              isSelected == 1
+                                                                  ? FontWeight
+                                                                      .bold
+                                                                  : null,
                                                         ),
                                                       ),
                                                     ),
@@ -408,13 +465,25 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                                         setState(() {
                                                           isSelected = 2;
                                                         });
-                                                        context.bloc<CourseContentCubit>().getFacultyAddedCourseContent(enabledUnitId, semesterId);
+                                                        context
+                                                            .bloc<
+                                                                CourseContentCubit>()
+                                                            .getFacultyAddedCourseContent(
+                                                                enabledUnitId,
+                                                                semesterId);
                                                       },
                                                       child: Text(
                                                         'Your Content',
                                                         style: TextStyle(
-                                                          color: isSelected == 2 ? Colors.black : Colors.grey.shade500,
-                                                          fontWeight: isSelected == 2 ? FontWeight.bold : null,
+                                                          color: isSelected == 2
+                                                              ? Colors.black
+                                                              : Colors.grey
+                                                                  .shade500,
+                                                          fontWeight:
+                                                              isSelected == 2
+                                                                  ? FontWeight
+                                                                      .bold
+                                                                  : null,
                                                         ),
                                                       ),
                                                     ),
@@ -430,7 +499,8 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                   ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.data.length,
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       String level = '';
                                       switch (state.data[index].level) {
                                         case -1:
@@ -451,7 +521,10 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                         title: Row(
                                           children: [
                                             Container(
-                                              width: MediaQuery.of(context).size.width / 7,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  7,
                                               child: Text(
                                                 state.data[index].title ?? '',
                                                 overflow: TextOverflow.ellipsis,
@@ -464,14 +537,17 @@ class CourseDetailCourseContentTab extends StatelessWidget {
                                             SizedBox(
                                               width: 30,
                                             ),
-                                            Text('ReadingTime - ${state.data[index].readtime}'),
+                                            Text(
+                                                'ReadingTime - ${state.data[index].readtime}'),
                                           ],
                                         ),
                                         subtitle: Text(
                                           'Source - ${state.data[index].source ?? ''}',
                                         ),
                                         trailing: Icon(
-                                          state.data[index].bookmarked == 0 ? Icons.bookmark_border : Icons.bookmark,
+                                          state.data[index].bookmarked == 0
+                                              ? Icons.bookmark_border
+                                              : Icons.bookmark,
                                         ),
                                       );
                                     },
@@ -507,170 +583,196 @@ class CourseDetailCourseContentTab extends StatelessWidget {
       context: context,
       builder: (context) => Dialog(
         child: StatefulBuilder(
-          builder: (BuildContext context, void Function(void Function()) setState) {
+          builder:
+              (BuildContext context, void Function(void Function()) setState) {
             String typeDropDownValue = 'All';
             TextEditingController titleController = TextEditingController();
             String topic;
             bool isPublic = true;
             FilePickerCross file;
-            return Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Type'),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      // width: MediaQuery.of(context).size.width * 0.05,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 4.0,
-                        horizontal: 12.0,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4.0),
-                        border: Border.all(color: Colors.black),
-                      ),
-                      child: DropdownButton(
-                        items: [
-                          DropdownMenuItem(
-                            child: Text('All'),
-                            value: 'All',
+            return Container(
+              width: MediaQuery.of(context).size.width * 0.3,
+              height: MediaQuery.of(context).size.height * 0.5,
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Type'),
+                          SizedBox(
+                            width: 20,
                           ),
-                          DropdownMenuItem(
-                            child: Text('Documents'),
-                            value: 'DOC',
-                          ),
-                          //todo get type value for videos
-                          DropdownMenuItem(
-                            child: Text('Videos'),
-                            value: 'VID',
-                          ),
-                          DropdownMenuItem(
-                            child: Text('PPT'),
-                            value: 'PPT',
-                          ),
-                          DropdownMenuItem(
-                            child: Text('Other Links'),
-                            value: 'DOC',
+                          Container(
+                            // width: MediaQuery.of(context).size.width * 0.05,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 4.0,
+                              horizontal: 12.0,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4.0),
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: DropdownButton(
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text('All'),
+                                  value: 'All',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Documents'),
+                                  value: 'DOC',
+                                ),
+                                //todo get type value for videos
+                                DropdownMenuItem(
+                                  child: Text('Videos'),
+                                  value: 'VID',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('PPT'),
+                                  value: 'PPT',
+                                ),
+                                DropdownMenuItem(
+                                  child: Text('Other Links'),
+                                  value: 'DOC',
+                                ),
+                              ],
+                              onChanged: (value) => null,
+                              value: typeDropDownValue,
+                            ),
                           ),
                         ],
-                        onChanged: (value) => null,
-                        value: typeDropDownValue,
                       ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  icon: Icon(Icons.save_alt),
-                  onPressed: () async {
-                    file = await FilePickerCross.importFromStorage(
-                      type: FileTypeCross.any,
-                    );
-                  },
-                ),
-                TextInput(
-                  label: 'Title',
-                  hint: 'Enter Your Content\'s Title',
-                  inputType: TextInputType.text,
-                  controller: titleController,
-                ),
-                BlocBuilder(
-                  cubit: context.bloc<TopicCubit>()
-                    //todo fix
-                    ..getTopics(semesterId, 71),
-                  builder: (BuildContext context, state) {
-                    if (state is TopicFetched) {
-                      return Container(
-                        width: 200,
-                        child: ChipsChoice<String>.single(
-                          value: topic,
-                          isWrapped: true,
-                          options: ChipsChoiceOption.listFrom(
-                            source: state.topicEntity.data,
-                            value: (i, Data v) => v.code,
-                            label: (i, Data v) => v.name,
+                      Spacer(),
+                      IconButton(
+                        icon: Icon(Icons.save_alt),
+                        onPressed: () async {
+                          file = await FilePickerCross.importFromStorage(
+                            type: FileTypeCross.any,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 32.0),
+                  TextInput(
+                    label: 'Title',
+                    hint: 'Enter Your Content\'s Title',
+                    inputType: TextInputType.text,
+                    controller: titleController,
+                  ),
+                  SizedBox(height: 32.0),
+                  BlocBuilder(
+                    cubit: context.bloc<TopicCubit>()
+                      //todo fix
+                      ..getTopics(semesterId, 71),
+                    builder: (BuildContext context, state) {
+                      if (state is TopicFetched) {
+                        return Container(
+                          width: 200,
+                          child: ChipsChoice<String>.single(
+                            value: topic,
+                            isWrapped: true,
+                            options: ChipsChoiceOption.listFrom(
+                              source: state.topicEntity.data,
+                              value: (i, Data v) => v.code,
+                              label: (i, Data v) => v.name,
+                            ),
+                            onChanged: (val) {
+                              setState(
+                                () => topic = val,
+                              );
+                            },
                           ),
-                          onChanged: (val) {
-                            setState(
-                              () => topic = val,
-                            );
-                          },
-                        ),
-                      );
-                    }
-                    if (state is TopicEmpty) {
-                      return Text('No topcis to Tag');
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-                Container(
-                  width: 250,
-                  child: SwitchListTile(
-                    title: Text(
-                      'Public',
-                    ),
-                    value: isPublic,
-                    onChanged: (flag) {
-                      setState(
-                        () => isPublic = flag,
-                      );
+                        );
+                      }
+                      if (state is TopicEmpty) {
+                        return Text('No topcis to Tag');
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
                     },
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    RaisedButton.icon(
-                      onPressed: () {
-                        if (typeDropDownValue.isEmpty || file.path.isEmpty || titleController.text.isEmpty || topic.isEmpty) {
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                'Please Check the contents once',
-                              ),
-                            ),
-                          );
-                        } else {
-                          context
-                              .bloc<AddFacultyContentCubit>()
-                              .addFacultyContent(enabledUnitId, topic, 1, titleController.text, file, isPublic ? 'public' : 'private', 'externalUrl');
-                        }
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.save,
-                        color: Colors.white,
+                  Container(
+                    width: 180,
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: SwitchListTile(
+                      title: Text(
+                        'Public',
                       ),
-                      label: Text(
-                        'Save',
-                        style: TextStyle(
+                      value: isPublic,
+                      onChanged: (flag) {
+                        setState(
+                          () => isPublic = flag,
+                        );
+                      },
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButton.icon(
+                        onPressed: () {
+                          if (typeDropDownValue.isEmpty ||
+                              file.path.isEmpty ||
+                              titleController.text.isEmpty ||
+                              topic.isEmpty) {
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Please Check the contents once',
+                                ),
+                              ),
+                            );
+                          } else {
+                            context
+                                .bloc<AddFacultyContentCubit>()
+                                .addFacultyContent(
+                                    enabledUnitId,
+                                    topic,
+                                    1,
+                                    titleController.text,
+                                    file,
+                                    isPublic ? 'public' : 'private',
+                                    'externalUrl');
+                          }
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(
+                          Icons.save,
                           color: Colors.white,
                         ),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      color: Color(0xFF1D2B64),
-                    ),
-                    FlatButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text('Cancel'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        side: BorderSide(
-                          color: Color(0xFF1D2B64),
+                        label: Text(
+                          'Save',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        color: Color(0xFF1D2B64),
                       ),
-                    )
-                  ],
-                )
-              ],
+                      FlatButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text('Cancel'),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          side: BorderSide(
+                            color: Color(0xFF1D2B64),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             );
           },
         ),
