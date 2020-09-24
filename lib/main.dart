@@ -5,6 +5,7 @@ import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question
 import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
 import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
 import 'package:edwisely/data/cubits/add_course_cubit.dart';
+import 'package:edwisely/data/cubits/add_faculty_content_cubit.dart';
 import 'package:edwisely/data/cubits/add_question_cubit.dart';
 import 'package:edwisely/data/cubits/department_cubit.dart';
 import 'package:edwisely/data/cubits/get_course_decks_cubit.dart';
@@ -17,8 +18,6 @@ import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/data/cubits/upload_excel_cubit.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
-import 'package:edwisely/ui/screens/authorization/login_screen.dart';
-import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +98,9 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => DepartmentCubit(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => AddFacultyContentCubit(),
+          ),
         ],
         child: MaterialApp(
           title: 'Edwisely',
@@ -157,3 +159,4 @@ class EdWisely extends StatelessWidget {
 // update faculty added subjective question type
 // To change the type of faculty added subjective question from public to private or vice versa  - type values that are accepted - [‘public’, ‘private’]
 //todo ask about material_type
+//todo tell to do either docs or doc

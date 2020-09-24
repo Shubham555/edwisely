@@ -12,8 +12,9 @@ import '../../../../data/provider/selected_page.dart';
 class CourseDetailScreen extends StatefulWidget {
   final String _courseName;
   final int semesterSubjectId;
+  final int subjectId;
 
-  CourseDetailScreen(this._courseName, this.semesterSubjectId);
+  CourseDetailScreen(this._courseName, this.semesterSubjectId, this.subjectId);
 
   @override
   _CourseDetailScreenState createState() => _CourseDetailScreenState();
@@ -108,6 +109,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                               ),
                               CourseDetailCourseContentTab(
                                 widget.semesterSubjectId,
+                                widget.subjectId,
                               ),
                               CourseDetailQuestionBankTab(
                                 widget.semesterSubjectId,

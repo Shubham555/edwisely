@@ -28,9 +28,18 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
             ),
           ),
         );
-    print(
-      response.data,
-    );
+    print(response.data);
+    if (response.data['message'] == 'Successfully updated the course details') {
+      emit(
+        AddFacultyContentAdded(),
+      );
+    } else {
+      emit(
+        AddFacultyContentFailed(
+          response.data['message'],
+        ),
+      );
+    }
   }
 }
 
@@ -38,3 +47,11 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
 abstract class AddFacultyContentState {}
 
 class AddFacultyContentInitial extends AddFacultyContentState {}
+
+class AddFacultyContentAdded extends AddFacultyContentState {}
+
+class AddFacultyContentFailed extends AddFacultyContentState {
+  final String error;
+
+  AddFacultyContentFailed(this.error);
+}

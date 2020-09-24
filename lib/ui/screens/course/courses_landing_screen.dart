@@ -40,8 +40,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          EdwiselyLandingScreen(),
+                      builder: (BuildContext context) => EdwiselyLandingScreen(),
                     ),
                   );
                 }
@@ -71,8 +70,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                             return Padding(
                               padding: EdgeInsets.symmetric(
                                 vertical: 16.0,
-                                horizontal:
-                                    MediaQuery.of(context).size.width * 0.17,
+                                horizontal: MediaQuery.of(context).size.width * 0.17,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,8 +87,10 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                               ),
                             );
                           } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
+                            return Expanded(
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
                             );
                           }
                         },
@@ -106,7 +106,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
     );
   }
 
-  Widget _buildCoursesGrid(BuildContext context, state) {
+  Widget _buildCoursesGrid(BuildContext context, CoursesFetched state) {
     return Center(
       child: Container(
         height: MediaQuery.of(context).size.height / 1.56,
@@ -117,9 +117,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
             mainAxisSpacing: 35,
             crossAxisSpacing: 35,
             crossAxisCount: 3,
-            childAspectRatio: MediaQuery.of(context).size.width /
-                MediaQuery.of(context).size.height /
-                2.35,
+            childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 2.35,
           ),
           itemCount: state.coursesEntity.data.length,
           itemBuilder: (context, index) => _courseCard(context, index, state),
@@ -128,18 +126,13 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
     );
   }
 
-  Widget _courseCard(BuildContext context, int index, state) {
+  Widget _courseCard(BuildContext context, int index, CoursesFetched state) {
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => BlocProvider(
-            create: (BuildContext context) => CoursesBloc(),
-            child: CourseDetailScreen(
-              state.coursesEntity.data[index].name,
-              state.coursesEntity.data[index].subject_semester_id,
-            ),
-          ),
+          builder: (BuildContext context) => CourseDetailScreen(
+              state.coursesEntity.data[index].name, state.coursesEntity.data[index].subject_semester_id, state.coursesEntity.data[index].id),
         ),
       ),
       child: Card(
@@ -198,9 +191,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                     runSpacing: 4.0,
                     spacing: 8.0,
                     children: List.generate(
-                      state.coursesEntity.data[index].sections.length > 4
-                          ? 4
-                          : state.coursesEntity.data[index].sections.length,
+                      state.coursesEntity.data[index].sections.length > 4 ? 4 : state.coursesEntity.data[index].sections.length,
                       (index1) => Container(
                         padding: const EdgeInsets.symmetric(
                           vertical: 2.0,
@@ -260,10 +251,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
         onSuggestionSelected: (data) => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => CourseDetailScreen(
-              data.name,
-              data.subject_semester_id,
-            ),
+            builder: (BuildContext context) => CourseDetailScreen(data.name, data.subject_semester_id, data.id),
           ),
         ),
       ),
