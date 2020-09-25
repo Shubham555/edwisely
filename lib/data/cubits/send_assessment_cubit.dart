@@ -14,6 +14,7 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
     final sectionResponse = await EdwiselyApi().dio().then((value) => value.get(
         //todo change to event
         'getCourseDepartmentSections?university_degree_department_id=71'));
+    print(sectionResponse.data);
     if (sectionResponse.statusCode == 200) {
       emit(
         SendAssessmentSectionsFetched(
