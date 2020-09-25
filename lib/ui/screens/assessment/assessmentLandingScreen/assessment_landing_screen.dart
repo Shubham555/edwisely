@@ -200,7 +200,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
+              width: MediaQuery.of(context).size.width * 0.25,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

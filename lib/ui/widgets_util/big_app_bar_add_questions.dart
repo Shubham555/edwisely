@@ -29,7 +29,7 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 5.2,
+            height: MediaQuery.of(context).size.height / 5.0,
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
