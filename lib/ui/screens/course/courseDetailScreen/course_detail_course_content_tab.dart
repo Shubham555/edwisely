@@ -280,85 +280,78 @@ class _CourseDetailCourseContentTabState
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Row(
+                                      Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Type'),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                // width: MediaQuery.of(context).size.width * 0.05,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  vertical: 4.0,
-                                                  horizontal: 12.0,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          4.0),
-                                                  border: Border.all(
-                                                      color: Colors.black),
-                                                ),
-                                                child: DropdownButton(
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      child: Text('All'),
-                                                      value: 'All',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Documents'),
-                                                      value: 'DOC',
-                                                    ),
-                                                    //todo get type value for videos
-                                                    DropdownMenuItem(
-                                                      child: Text('Videos'),
-                                                      value: 'VID',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('PPT'),
-                                                      value: 'PPT',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child:
-                                                          Text('Other Links'),
-                                                      value: 'DOC',
-                                                    ),
-                                                  ],
-                                                  onChanged: (value) {
-                                                    setState(() =>
-                                                        typeDropDownValue =
-                                                            value);
-                                                  },
-                                                  value: typeDropDownValue,
-                                                ),
-                                              ),
-                                            ],
+                                          Text('Type'),
+                                          SizedBox(
+                                            width: 20,
                                           ),
-                                          Spacer(),
-                                          Row(
-                                            children: [
-                                              Text('Attachment'),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.save),
-                                                onPressed: () async {
-                                                  file = await FilePickerCross
-                                                      .importFromStorage(
-                                                    type: FileTypeCross.any,
-                                                  );
-                                                },
-                                              ),
-                                            ],
+                                          Container(
+                                            // width: MediaQuery.of(context).size.width * 0.05,
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 4.0,
+                                              horizontal: 12.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                              border: Border.all(
+                                                  color: Colors.black),
+                                            ),
+                                            child: DropdownButton(
+                                              items: [
+                                                DropdownMenuItem(
+                                                  child: Text('All'),
+                                                  value: 'All',
+                                                ),
+                                                DropdownMenuItem(
+                                                  child: Text('Documents'),
+                                                  value: 'DOCS',
+                                                ),
+                                                DropdownMenuItem(
+                                                  child: Text('Videos'),
+                                                  value: 'MP4',
+                                                ),
+                                                DropdownMenuItem(
+                                                  child: Text('PPT'),
+                                                  value: 'PPT',
+                                                ),
+                                                DropdownMenuItem(
+                                                  child: Text('Other Links'),
+                                                  value: 'DOC',
+                                                ),
+                                              ],
+                                              onChanged: (value) {
+                                                setState(() =>
+                                                    typeDropDownValue = value);
+                                              },
+                                              value: typeDropDownValue,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Attachment'),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          IconButton(
+                                            icon: Icon(file == null
+                                                ? Icons.add
+                                                : Icons.save),
+                                            onPressed: () async {
+                                              file = await FilePickerCross
+                                                  .importFromStorage(
+                                                type: FileTypeCross.any,
+                                              );
+                                              setState(() {});
+                                            },
                                           ),
                                         ],
                                       ),
@@ -408,7 +401,7 @@ class _CourseDetailCourseContentTabState
                                             const EdgeInsets.only(top: 32.0),
                                         child: SwitchListTile(
                                           title: Text(
-                                            'Public',
+                                            'Make Public',
                                           ),
                                           value: isPublic,
                                           onChanged: (flag) {
@@ -564,7 +557,6 @@ class _CourseDetailCourseContentTabState
                                                             Text('Documents'),
                                                         value: 'DOCS',
                                                       ),
-                                                      //todo get type value for videos
                                                       DropdownMenuItem(
                                                         child: Text('Videos'),
                                                         value: 'MP4',
@@ -773,12 +765,21 @@ class _CourseDetailCourseContentTabState
                                               SizedBox(
                                                 width: 30,
                                               ),
-                                              Text('Level - $level '),
+                                              state.data[index].level == -1 ||
+                                                      state.data[index].level ==
+                                                          null
+                                                  ? Container()
+                                                  : Text('Level - $level '),
                                               SizedBox(
                                                 width: 30,
                                               ),
-                                              Text(
-                                                  'ReadingTime - ${state.data[index].readtime}'),
+                                              state.data[index].readtime == 0 ||
+                                                      state.data[index]
+                                                              .readtime ==
+                                                          null
+                                                  ? Container()
+                                                  : Text(
+                                                      'ReadingTime - ${state.data[index].readtime}'),
                                             ],
                                           ),
                                           subtitle: Text(
