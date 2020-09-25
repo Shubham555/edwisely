@@ -20,11 +20,16 @@ class CourseDetailCourseContentTab extends StatefulWidget {
   CourseDetailCourseContentTab(this.semesterId, this.subjectId);
 
   @override
-  _CourseDetailCourseContentTabState createState() => _CourseDetailCourseContentTabState();
+  _CourseDetailCourseContentTabState createState() =>
+      _CourseDetailCourseContentTabState();
 }
 
-class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContentTab> {
+class _CourseDetailCourseContentTabState
+    extends State<CourseDetailCourseContentTab> {
   int enabledUnitId;
+  int questionDropDownValue = 1;
+  String typeDropDownValue = 'All';
+  int levelDropDownValue = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +65,13 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                 return Container(
                   width: MediaQuery.of(context).size.width / 7,
                   child: StatefulBuilder(
-                    builder: (BuildContext context, void Function(void Function()) setState) {
+                    builder: (BuildContext context,
+                        void Function(void Function()) setState) {
                       return ListView.builder(
                         shrinkWrap: true,
                         itemCount: state.units.data.length,
-                        itemBuilder: (BuildContext context, int index) => ListTile(
+                        itemBuilder: (BuildContext context, int index) =>
+                            ListTile(
                           hoverColor: Colors.white,
                           selected: enabledUnitId == state.units.data[index].id,
                           title: Container(
@@ -123,20 +130,25 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * (3.5 / 5),
+                                width: MediaQuery.of(context).size.width *
+                                    (3.5 / 5),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Learning Snippets',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: MediaQuery.of(context).size.height / 50,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height /
+                                                50,
                                       ),
                                     ),
                                     FlatButton(
-                                      hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                      hoverColor:
+                                          Color(0xFF1D2B64).withOpacity(.2),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(6),
                                         side: BorderSide(
@@ -164,12 +176,17 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                 ),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width * (3.5 / 5),
+                                width: MediaQuery.of(context).size.width *
+                                    (3.5 / 5),
                                 height: 300,
                                 child: GridView.builder(
                                   itemCount: state.courseDeckEntity.data.length,
-                                  itemBuilder: (BuildContext context, int index) => GridTile(
-                                    child: state.courseDeckEntity.data[index].image == ''
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          GridTile(
+                                    child: state.courseDeckEntity.data[index]
+                                                .image ==
+                                            ''
                                         ? Center(
                                             child: Icon(
                                               Icons.book,
@@ -177,7 +194,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                             ),
                                           )
                                         : Image.network(
-                                            state.courseDeckEntity.data[index].image,
+                                            state.courseDeckEntity.data[index]
+                                                .image,
                                             width: 150,
                                             height: 200,
                                           ),
@@ -191,7 +209,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                       ),
                                     ),
                                   ),
-                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
                                     mainAxisSpacing: 20,
                                     crossAxisSpacing: 20,
                                     crossAxisCount: 1,
@@ -244,7 +263,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                         context: context,
                         builder: (context) {
                           String typeDropDownValue = 'All';
-                          TextEditingController titleController = TextEditingController();
+                          TextEditingController titleController =
+                              TextEditingController();
                           String topic;
                           bool isPublic = true;
                           FilePickerCross file;
@@ -252,80 +272,86 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                             builder: (context, setState) {
                               return Dialog(
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width * 0.3,
-                                  height: MediaQuery.of(context).size.height * 0.7,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.7,
                                   padding: const EdgeInsets.all(32.0),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Type'),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                // width: MediaQuery.of(context).size.width * 0.05,
-                                                padding: const EdgeInsets.symmetric(
-                                                  vertical: 4.0,
-                                                  horizontal: 12.0,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(4.0),
-                                                  border: Border.all(color: Colors.black),
-                                                ),
-                                                child: DropdownButton(
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      child: Text('All'),
-                                                      value: 'All',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Documents'),
-                                                      value: 'DOC',
-                                                    ),
-                                                    //todo get type value for videos
-                                                    DropdownMenuItem(
-                                                      child: Text('Videos'),
-                                                      value: 'VID',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('PPT'),
-                                                      value: 'PPT',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Other Links'),
-                                                      value: 'DOC',
-                                                    ),
-                                                  ],
-                                                  onChanged: (value) {
-                                                    setState(() => typeDropDownValue = value);
-                                                  },
-                                                  value: typeDropDownValue,
-                                                ),
-                                              ),
-                                            ],
+                                          Text('Type'),
+                                          SizedBox(
+                                            width: 20,
                                           ),
-                                          Spacer(),
-                                          Row(
-                                            children: [
-                                              Text('Attachment'),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.save),
-                                                onPressed: () async {
-                                                  file = await FilePickerCross.importFromStorage(
-                                                    type: FileTypeCross.any,
-                                                  );
-                                                },
-                                              ),
-                                            ],
+                                          Container(
+                                            // width: MediaQuery.of(context).size.width * 0.05,
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 4.0,
+                                              horizontal: 12.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                              border: Border.all(
+                                                  color: Colors.black),
+                                            ),
+                                            child: DropdownButton(
+                                              items: [
+                                                DropdownMenuItem(
+                                                  child: Text('All'),
+                                                  value: 'All',
+                                                ),
+                                                DropdownMenuItem(
+                                                  child: Text('Documents'),
+                                                  value: 'DOCS',
+                                                ),
+                                                DropdownMenuItem(
+                                                  child: Text('Videos'),
+                                                  value: 'MP4',
+                                                ),
+                                                DropdownMenuItem(
+                                                  child: Text('PPT'),
+                                                  value: 'PPT',
+                                                ),
+                                                DropdownMenuItem(
+                                                  child: Text('Other Links'),
+                                                  value: 'DOC',
+                                                ),
+                                              ],
+                                              onChanged: (value) {
+                                                setState(() =>
+                                                    typeDropDownValue = value);
+                                              },
+                                              value: typeDropDownValue,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text('Attachment'),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          IconButton(
+                                            icon: Icon(file == null
+                                                ? Icons.add
+                                                : Icons.save),
+                                            onPressed: () async {
+                                              file = await FilePickerCross
+                                                  .importFromStorage(
+                                                type: FileTypeCross.any,
+                                              );
+                                              setState(() {});
+                                            },
                                           ),
                                         ],
                                       ),
@@ -346,7 +372,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                             return ChipsChoice<String>.single(
                                               value: topic,
                                               isWrapped: true,
-                                              options: ChipsChoiceOption.listFrom(
+                                              options:
+                                                  ChipsChoiceOption.listFrom(
                                                 source: state.topicEntity.data,
                                                 value: (i, Data v) => v.code,
                                                 label: (i, Data v) => v.name,
@@ -362,17 +389,19 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                             return Text('No topcis to Tag');
                                           } else {
                                             return Center(
-                                              child: CircularProgressIndicator(),
+                                              child:
+                                                  CircularProgressIndicator(),
                                             );
                                           }
                                         },
                                       ),
                                       Container(
                                         width: 180,
-                                        padding: const EdgeInsets.only(top: 32.0),
+                                        padding:
+                                            const EdgeInsets.only(top: 32.0),
                                         child: SwitchListTile(
                                           title: Text(
-                                            'Public',
+                                            'Make Public',
                                           ),
                                           value: isPublic,
                                           onChanged: (flag) {
@@ -383,12 +412,18 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
                                           RaisedButton.icon(
                                             onPressed: () {
-                                              if (typeDropDownValue.isEmpty || file.path.isEmpty || titleController.text.isEmpty || topic.isEmpty) {
-                                                Scaffold.of(context).showSnackBar(
+                                              if (typeDropDownValue.isEmpty ||
+                                                  file.path.isEmpty ||
+                                                  titleController
+                                                      .text.isEmpty ||
+                                                  topic.isEmpty) {
+                                                Scaffold.of(context)
+                                                    .showSnackBar(
                                                   SnackBar(
                                                     content: Text(
                                                       'Please Check the contents once',
@@ -396,8 +431,19 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                   ),
                                                 );
                                               } else {
-                                                BlocProvider.of<AddFacultyContentCubit>(context).addFacultyContent(enabledUnitId, topic, 1,
-                                                    titleController.text, file, isPublic ? 'public' : 'private', 'externalUrl');
+                                                BlocProvider.of<
+                                                            AddFacultyContentCubit>(
+                                                        context)
+                                                    .addFacultyContent(
+                                                        enabledUnitId,
+                                                        topic,
+                                                        1,
+                                                        titleController.text,
+                                                        file,
+                                                        isPublic
+                                                            ? 'public'
+                                                            : 'private',
+                                                        'externalUrl');
                                               }
                                               Navigator.pop(context);
                                             },
@@ -412,15 +458,18 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                               ),
                                             ),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(6),
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
                                             ),
                                             color: Color(0xFF1D2B64),
                                           ),
                                           FlatButton(
-                                            onPressed: () => Navigator.pop(context),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
                                             child: Text('Cancel'),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(6),
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
                                               side: BorderSide(
                                                 color: Color(0xFF1D2B64),
                                               ),
@@ -471,13 +520,13 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                 child: Column(
                                   children: [
                                     StatefulBuilder(
-                                      builder: (BuildContext context, void Function(void Function()) setState) {
-                                        String typeDropDownValue = 'All';
-                                        int levelDropDownValue = -1;
+                                      builder: (BuildContext context,
+                                          StateSetter setState) {
                                         return Row(
                                           children: [
                                             Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text('Type'),
                                                 SizedBox(
@@ -485,13 +534,17 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                 ),
                                                 Container(
                                                   // width: MediaQuery.of(context).size.width * 0.05,
-                                                  padding: const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                     vertical: 4.0,
                                                     horizontal: 12.0,
                                                   ),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(4.0),
-                                                    border: Border.all(color: Colors.black),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.0),
+                                                    border: Border.all(
+                                                        color: Colors.black),
                                                   ),
                                                   child: DropdownButton(
                                                     items: [
@@ -500,24 +553,28 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                         value: 'All',
                                                       ),
                                                       DropdownMenuItem(
-                                                        child: Text('Documents'),
-                                                        value: 'DOC',
+                                                        child:
+                                                            Text('Documents'),
+                                                        value: 'DOCS',
                                                       ),
-                                                      //todo get type value for videos
                                                       DropdownMenuItem(
                                                         child: Text('Videos'),
-                                                        value: 'VID',
+                                                        value: 'MP4',
                                                       ),
                                                       DropdownMenuItem(
                                                         child: Text('PPT'),
                                                         value: 'PPT',
                                                       ),
                                                       DropdownMenuItem(
-                                                        child: Text('Other Links'),
-                                                        value: 'DOC',
+                                                        child:
+                                                            Text('Other Links'),
+                                                        value: 'URL',
                                                       ),
                                                     ],
-                                                    onChanged: (value) => context.bloc<CourseContentCubit>().getDocumentWiseData(
+                                                    onChanged: (value) => context
+                                                        .bloc<
+                                                            CourseContentCubit>()
+                                                        .getDocumentWiseData(
                                                           value,
                                                           state.backup,
                                                         ),
@@ -530,7 +587,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                               width: 30,
                                             ),
                                             Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text('Level'),
                                                 SizedBox(
@@ -538,13 +596,17 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                 ),
                                                 Container(
                                                   // width: MediaQuery.of(context).size.width * 0.05,
-                                                  padding: const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                     vertical: 4.0,
                                                     horizontal: 12.0,
                                                   ),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(4.0),
-                                                    border: Border.all(color: Colors.black),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.0),
+                                                    border: Border.all(
+                                                        color: Colors.black),
                                                   ),
                                                   child: DropdownButton(
                                                     items: [
@@ -565,7 +627,10 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                         value: 3,
                                                       ),
                                                     ],
-                                                    onChanged: (value) => context.bloc<CourseContentCubit>().getLevelWiseData(
+                                                    onChanged: (value) => context
+                                                        .bloc<
+                                                            CourseContentCubit>()
+                                                        .getLevelWiseData(
                                                           value,
                                                           state.backup,
                                                         ),
@@ -577,66 +642,87 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                             SizedBox(
                                               width: 30,
                                             ),
-                                            StatefulBuilder(
-                                              builder: (BuildContext context, void Function(void Function()) setState) {
-                                                int isSelected = 0;
-                                                return Expanded(
-                                                  child: Row(
-                                                    children: [
-                                                      FlatButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isSelected = 0;
-                                                          });
-                                                          context.bloc<CourseContentCubit>().getCourseContent(enabledUnitId, widget.semesterId);
-                                                        },
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Questions'),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Container(
+                                                  // width: MediaQuery.of(context).size.width * 0.05,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 4.0,
+                                                    horizontal: 12.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.0),
+                                                    border: Border.all(
+                                                        color: Colors.black),
+                                                  ),
+                                                  child: DropdownButton(
+                                                    items: [
+                                                      DropdownMenuItem(
                                                         child: Text(
-                                                          'All Questions',
-                                                          style: TextStyle(
-                                                            color: isSelected == 0 ? Colors.black : Colors.grey.shade500,
-                                                            fontWeight: isSelected == 0 ? FontWeight.bold : null,
-                                                          ),
-                                                        ),
+                                                            'All Questions'),
+                                                        value: 1,
                                                       ),
-                                                      FlatButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isSelected = 1;
-                                                          });
-                                                          context
-                                                              .bloc<CourseContentCubit>()
-                                                              .getFacultyBookmarkedCourseContent(enabledUnitId, widget.semesterId);
-                                                        },
-                                                        child: Text(
-                                                          'Bookmarked',
-                                                          style: TextStyle(
-                                                            color: isSelected == 1 ? Colors.black : Colors.grey.shade500,
-                                                            fontWeight: isSelected == 1 ? FontWeight.bold : null,
-                                                          ),
-                                                        ),
+                                                      DropdownMenuItem(
+                                                        child:
+                                                            Text('Bookmarked'),
+                                                        value: 2,
                                                       ),
-                                                      FlatButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            isSelected = 2;
-                                                          });
-                                                          context
-                                                              .bloc<CourseContentCubit>()
-                                                              .getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
-                                                        },
+                                                      DropdownMenuItem(
                                                         child: Text(
-                                                          'Your Content',
-                                                          style: TextStyle(
-                                                            color: isSelected == 2 ? Colors.black : Colors.grey.shade500,
-                                                            fontWeight: isSelected == 2 ? FontWeight.bold : null,
-                                                          ),
-                                                        ),
+                                                            'Your Content'),
+                                                        value: 3,
                                                       ),
                                                     ],
+                                                    onChanged: (value) {
+                                                      setState(() =>
+                                                          questionDropDownValue =
+                                                              value);
+
+                                                      switch (value) {
+                                                        case 1:
+                                                          context
+                                                              .bloc<
+                                                                  CourseContentCubit>()
+                                                              .getCourseContent(
+                                                                  enabledUnitId,
+                                                                  widget
+                                                                      .semesterId);
+                                                          break;
+                                                        case 2:
+                                                          context
+                                                              .bloc<
+                                                                  CourseContentCubit>()
+                                                              .getFacultyBookmarkedCourseContent(
+                                                                  enabledUnitId,
+                                                                  widget
+                                                                      .semesterId);
+                                                          break;
+                                                        case 3:
+                                                          context
+                                                              .bloc<
+                                                                  CourseContentCubit>()
+                                                              .getFacultyAddedCourseContent(
+                                                                  enabledUnitId,
+                                                                  widget
+                                                                      .semesterId);
+                                                          break;
+                                                      }
+                                                    },
+                                                    value:
+                                                        questionDropDownValue,
                                                   ),
-                                                );
-                                              },
-                                            )
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         );
                                       },
@@ -644,7 +730,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                     ListView.builder(
                                       shrinkWrap: true,
                                       itemCount: state.data.length,
-                                      itemBuilder: (BuildContext context, int index) {
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
                                         String level = '';
                                         switch (state.data[index].level) {
                                           case -1:
@@ -665,27 +752,43 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                           title: Row(
                                             children: [
                                               Container(
-                                                width: MediaQuery.of(context).size.width / 7,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    7,
                                                 child: Text(
                                                   state.data[index].title ?? '',
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                               SizedBox(
                                                 width: 30,
                                               ),
-                                              Text('Level - $level '),
+                                              state.data[index].level == -1 ||
+                                                      state.data[index].level ==
+                                                          null
+                                                  ? Container()
+                                                  : Text('Level - $level '),
                                               SizedBox(
                                                 width: 30,
                                               ),
-                                              Text('ReadingTime - ${state.data[index].readtime}'),
+                                              state.data[index].readtime == 0 ||
+                                                      state.data[index]
+                                                              .readtime ==
+                                                          null
+                                                  ? Container()
+                                                  : Text(
+                                                      'ReadingTime - ${state.data[index].readtime}'),
                                             ],
                                           ),
                                           subtitle: Text(
                                             'Source - ${state.data[index].source ?? ''}',
                                           ),
                                           trailing: Icon(
-                                            state.data[index].bookmarked == 0 ? Icons.bookmark_border : Icons.bookmark,
+                                            state.data[index].bookmarked == 0
+                                                ? Icons.bookmark_border
+                                                : Icons.bookmark,
                                           ),
                                         );
                                       },

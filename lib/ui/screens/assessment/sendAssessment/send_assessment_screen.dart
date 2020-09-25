@@ -16,8 +16,10 @@ class SendAssessmentScreen extends StatefulWidget {
   final int assessmentId;
   final String title;
   final List<int> questions;
+  final String description;
 
-  SendAssessmentScreen(this.assessmentId, this.title, this.questions);
+  SendAssessmentScreen(
+      this.assessmentId, this.title, this.questions, this.description);
 
   @override
   _SendAssessmentScreenState createState() => _SendAssessmentScreenState();
@@ -78,7 +80,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                       onPressed: () {
                         context.bloc<SendAssessmentCubit>().sendAssessment(
                               widget.title,
-                              'description',
+                              widget.description,
                               _testExpiry.toString(),
                               widget.questions,
                               _testDuration.toString(),
@@ -102,7 +104,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         StatefulBuilder(
-                          builder: (BuildContext context, void Function(void Function()) setState) {
+                          builder: (BuildContext context,
+                              void Function(void Function()) setState) {
                             return Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Row(
@@ -121,7 +124,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                           lastDate: DateTime.now().add(
                                             Duration(days: 100),
                                           )).whenComplete(() async {
-                                        _testStartTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+                                        _testStartTime = await showTimePicker(
+                                            context: context,
+                                            initialTime: TimeOfDay.now());
                                       }).catchError(() {
                                         _testStart = null;
                                         _testStartTime = null;
@@ -130,13 +135,18 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     },
                                   ),
                                   Text(
-                                    _testStart == null ? '' : DateFormat('EEE d MMM yyyy').format(_testStart),
+                                    _testStart == null
+                                        ? ''
+                                        : DateFormat('EEE d MMM yyyy')
+                                            .format(_testStart),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   Text(
-                                    _testStartTime == null ? '' : 'at ${_testStartTime.format(context).toString()}',
+                                    _testStartTime == null
+                                        ? ''
+                                        : 'at ${_testStartTime.format(context).toString()}',
                                   ),
                                 ],
                               ),
@@ -144,7 +154,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                           },
                         ),
                         StatefulBuilder(
-                          builder: (BuildContext context, void Function(void Function()) setState) {
+                          builder: (BuildContext context,
+                              void Function(void Function()) setState) {
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -152,10 +163,12 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                 IconButton(
                                   icon: Icon(Icons.calendar_today),
                                   onPressed: () async {
-                                    if (_testStart == null || _testStartTime == null) {
+                                    if (_testStart == null ||
+                                        _testStartTime == null) {
                                       Scaffold.of(context).showSnackBar(
                                         SnackBar(
-                                          content: Text('Select Starting Date and time first'),
+                                          content: Text(
+                                              'Select Starting Date and time first'),
                                         ),
                                       );
                                     } else {
@@ -166,7 +179,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                           lastDate: DateTime.now().add(
                                             Duration(days: 100),
                                           )).whenComplete(() async {
-                                        _testExpiryTime = await showTimePicker(context: context, initialTime: _testStartTime);
+                                        _testExpiryTime = await showTimePicker(
+                                            context: context,
+                                            initialTime: _testStartTime);
                                       }).catchError(() {
                                         _testExpiry = null;
                                         _testExpiryTime = null;
@@ -177,20 +192,26 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                   },
                                 ),
                                 Text(
-                                  _testExpiry == null ? '' : DateFormat('EEE d MMM yyyy').format(_testExpiry),
+                                  _testExpiry == null
+                                      ? ''
+                                      : DateFormat('EEE d MMM yyyy')
+                                          .format(_testExpiry),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  _testExpiryTime == null ? '' : 'at ${_testExpiryTime.format(context).toString()}',
+                                  _testExpiryTime == null
+                                      ? ''
+                                      : 'at ${_testExpiryTime.format(context).toString()}',
                                 ),
                               ],
                             );
                           },
                         ),
                         StatefulBuilder(
-                          builder: (BuildContext context, void Function(void Function()) setState) {
+                          builder: (BuildContext context,
+                              void Function(void Function()) setState) {
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -206,7 +227,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                   },
                                 ),
                                 Text(
-                                  _testDuration == null ? '' : '${_testDuration.inMinutes.toString()} Minutes',
+                                  _testDuration == null
+                                      ? ''
+                                      : '${_testDuration.inMinutes.toString()} Minutes',
                                 )
                               ],
                             );
@@ -220,95 +243,178 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                     cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                     builder: (BuildContext context, state) {
                       if (state is SendAssessmentSectionsFetched) {
-                        return Expanded(
-                          child: ListView.builder(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 8.0,
-                              horizontal: MediaQuery.of(context).size.width * 0.17,
+                        context
+                            .bloc<SelectStudentsCubit>()
+                            .getStudentsInASection(
+                                state.sectionEntity.data[0].id, 1);
+                        int enabledSectionId = state.sectionEntity.data[0].id;
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width / 7,
+                              child: StatefulBuilder(
+                                builder: (BuildContext context,
+                                    void Function(void Function()) setState) {
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.sectionEntity.data.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            ListTile(
+                                      hoverColor: Colors.white,
+                                      selected: enabledSectionId ==
+                                          state.sectionEntity.data[index].id,
+                                      title: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0,
+                                          horizontal: 16.0,
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          state.sectionEntity.data[index].name,
+                                          style: enabledSectionId ==
+                                                  state.sectionEntity
+                                                      .data[index].id
+                                              ? TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 22.0,
+                                                  fontWeight: FontWeight.bold,
+                                                )
+                                              : TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        enabledSectionId =
+                                            state.sectionEntity.data[index].id;
+                                        context
+                                            .bloc<SelectStudentsCubit>()
+                                            .getStudentsInASection(
+                                                state.sectionEntity.data[index]
+                                                    .id,
+                                                1);
+                                        setState(
+                                          () {},
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                            itemCount: state.sectionEntity.data.length,
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              final efv = SelectStudentsCubit();
-                              efv.getStudentsInASection(
-                                state.sectionEntity.data[index].id,
-                                1,
-                              );
-
-                              return SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                height: MediaQuery.of(context).size.height * 0.5,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                                      child: Text(
-                                        state.sectionEntity.data[index].name,
-                                        style: Theme.of(context).textTheme.headline5,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView(
-                                        children: [
-                                          BlocBuilder(
-                                            cubit: efv,
-                                            builder: (BuildContext context, state) {
-                                              if (state is SelectStudentsStudentsFetched) {
-                                                return StatefulBuilder(
-                                                  builder: (BuildContext context, void Function(void Function()) setState) {
-                                                    return Card(
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.symmetric(
-                                                          vertical: 8.0,
-                                                          horizontal: 12.0,
-                                                        ),
-                                                        child: ListView.builder(
-                                                          scrollDirection: Axis.vertical,
-                                                          shrinkWrap: true,
-                                                          itemCount: state.studentsEntity.data.length,
-                                                          itemBuilder: (BuildContext context, int index) => CheckboxListTile(
-                                                            title: Text(
-                                                              state.studentsEntity.data[index].name,
-                                                            ),
-                                                            subtitle: Text(
-                                                              state.studentsEntity.data[index].roll_number,
-                                                            ),
-                                                            value: students.contains(
-                                                              state.studentsEntity.data[index].id,
-                                                            ),
-                                                            onChanged: (flag) {
-                                                              flag
-                                                                  ? students.add(
-                                                                      state.studentsEntity.data[index].id,
-                                                                    )
-                                                                  : students.remove(
-                                                                      state.studentsEntity.data[index].id,
-                                                                    );
-                                                              setState(() {});
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              } else {
-                                                return Center(
-                                                  child: CircularProgressIndicator(),
-                                                );
-                                              }
-                                            },
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                            Expanded(
+                              child: BlocBuilder(
+                                cubit: context.bloc<SelectStudentsCubit>(),
+                                builder: (BuildContext context, state) {
+                                  if (state is SelectStudentsStudentsFetched) {
+                                    bool selectAll = false;
+                                    return StatefulBuilder(
+                                      builder:
+                                          (BuildContext context, setState) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0,
+                                            horizontal: 12.0,
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text('Select All'),
+                                                    Checkbox(
+                                                      value: selectAll,
+                                                      onChanged: (flag) {
+                                                        flag
+                                                            ? state
+                                                                .studentsEntity
+                                                                .data
+                                                                .forEach(
+                                                                (element) {
+                                                                  students.add(
+                                                                    element.id,
+                                                                  );
+                                                                },
+                                                              )
+                                                            : state
+                                                                .studentsEntity
+                                                                .data
+                                                                .forEach(
+                                                                (element) {
+                                                                  students
+                                                                      .remove(
+                                                                    element.id,
+                                                                  );
+                                                                },
+                                                              );
+                                                        setState(() {
+                                                          selectAll = flag;
+                                                        });
+                                                      },
+                                                    )
+                                                  ],
+                                                ),
+                                                ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: state
+                                                      .studentsEntity
+                                                      .data
+                                                      .length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                              int index) =>
+                                                          CheckboxListTile(
+                                                    title: Text(
+                                                      state.studentsEntity
+                                                          .data[index].name,
+                                                    ),
+                                                    subtitle: Text(
+                                                      state
+                                                          .studentsEntity
+                                                          .data[index]
+                                                          .roll_number,
+                                                    ),
+                                                    value: students.contains(
+                                                      state.studentsEntity
+                                                          .data[index].id,
+                                                    ),
+                                                    onChanged: (flag) {
+                                                      flag
+                                                          ? students.add(
+                                                              state
+                                                                  .studentsEntity
+                                                                  .data[index]
+                                                                  .id,
+                                                            )
+                                                          : students.remove(
+                                                              state
+                                                                  .studentsEntity
+                                                                  .data[index]
+                                                                  .id,
+                                                            );
+                                                      setState(() {});
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                },
+                              ),
+                            )
+                          ],
                         );
                       } else {
                         return Center(

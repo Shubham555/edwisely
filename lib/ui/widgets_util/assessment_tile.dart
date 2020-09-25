@@ -15,6 +15,7 @@ class AssessmentTile extends StatelessWidget {
   final String startTime;
   final int sentTo;
   final int answeredCount;
+  final String subjectName;
 
   AssessmentTile(
     this.assessmentId,
@@ -22,7 +23,8 @@ class AssessmentTile extends StatelessWidget {
     this.description,
     this.noOfQuestions,
     this.doe,
-    this.startTime, [
+    this.startTime,
+    this.subjectName, [
     this.sentTo,
     this.answeredCount,
   ]);
@@ -216,22 +218,11 @@ class AssessmentTile extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      MultiBlocProvider(
-                                    providers: [
-                                      BlocProvider(
-                                        create: (BuildContext context) =>
-                                            SendAssessmentCubit(),
-                                      ),
-                                      BlocProvider(
-                                        create: (BuildContext context) =>
-                                            SelectStudentsCubit(),
-                                      ),
-                                    ],
-                                    child: SendAssessmentScreen(
-                                      assessmentId,
-                                      title,
-                                      [],
-                                    ),
+                                      SendAssessmentScreen(
+                                    assessmentId,
+                                    title,
+                                    [],
+                                    description,
                                   ),
                                 ),
                               );

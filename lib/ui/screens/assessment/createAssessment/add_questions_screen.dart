@@ -64,7 +64,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                   ),
                   flatButton: FlatButton(
                     onPressed: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) => SendAssessmentScreen(widget._assessmentId, widget._title, questions))),
+                        MaterialPageRoute(builder: (BuildContext context) => SendAssessmentScreen(widget._assessmentId, widget._title, questions,widget._description))),
                     child: Text('Save'),
                   ),
                   titleText: 'Add Questions to ${widget._title} Assessment',

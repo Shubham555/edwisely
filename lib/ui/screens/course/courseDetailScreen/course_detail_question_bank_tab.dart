@@ -23,7 +23,7 @@ class _CourseDetailQuestionBankTabState
     extends State<CourseDetailQuestionBankTab>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  int unitSeleceted;
+  int unitSelected;
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _CourseDetailQuestionBankTabState
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            // width: MediaQuery.of(context).size.width / 10,
+            width: MediaQuery.of(context).size.width / 10,
             child: BlocBuilder(
               cubit: context.bloc<UnitCubit>()
                 ..getUnitsOfACourse(widget.subjectId),
@@ -87,78 +87,71 @@ class _CourseDetailQuestionBankTabState
                       }
                     },
                   );
-                  unitSeleceted = state.units.data[0].id;
+                  int enabledUnitId = state.units.data[0].id;
+
                   return StatefulBuilder(
                     builder: (BuildContext context,
                         void Function(void Function()) setState) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 13,
-                          ),
-                          Text('Units'),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.07,
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.units.data.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            ListTile(
+                          hoverColor: Colors.white,
+                          selected: enabledUnitId == state.units.data[index].id,
+                          title: Container(
                             padding: const EdgeInsets.symmetric(
-                              vertical: 4.0,
-                              horizontal: 12.0,
+                              vertical: 8.0,
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.0),
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: DropdownButton(
-                              underline: SizedBox.shrink(),
-                              isExpanded: true,
-                              value: unitSeleceted,
-                              items: List.generate(
-                                state.units.data.length,
-                                (index) => DropdownMenuItem(
-                                  child: Text(state.units.data[index].name),
-                                  value: state.units.data[index].id,
-                                ),
-                              ),
-                              onChanged: (value) {
-                                unitSeleceted = value;
-                                switch (_tabController.index) {
-                                  case 0:
-                                    context.bloc<QuestionBankBloc>().add(
-                                          GetUnitQuestions(
-                                            widget.subjectId,
-                                            value,
-                                          ),
-                                        );
-                                    break;
-                                  case 1:
-                                    context
-                                        .bloc<QuestionBankObjectiveBloc>()
-                                        .add(
-                                          GetUnitObjectiveQuestions(
-                                            widget.subjectId,
-                                            value,
-                                          ),
-                                        );
-                                    break;
-                                  case 2:
-                                    context
-                                        .bloc<QuestionBankSubjectiveBloc>()
-                                        .add(
-                                          GetUnitSubjectiveQuestions(
-                                            widget.subjectId,
-                                            value,
-                                          ),
-                                        );
-                                    break;
-                                }
-                                setState(() {});
-                              },
+                            alignment: Alignment.center,
+                            child: Text(
+                              state.units.data[index].name,
+                              style: enabledUnitId == state.units.data[index].id
+                                  ? TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 22.0,
+                                      fontWeight: FontWeight.bold,
+                                    )
+                                  : TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                             ),
                           ),
-                        ],
+                          onTap: () {
+                            enabledUnitId = state.units.data[index].id;
+                            setState(
+                              () {},
+                            );
+                            switch (_tabController.index) {
+                              case 0:
+                                context.bloc<QuestionBankBloc>().add(
+                                      GetUnitQuestions(
+                                        widget.subjectId,
+                                        state.units.data[0].id,
+                                      ),
+                                    );
+                                break;
+                              case 1:
+                                context.bloc<QuestionBankObjectiveBloc>().add(
+                                      GetUnitObjectiveQuestions(
+                                        widget.subjectId,
+                                        state.units.data[0].id,
+                                      ),
+                                    );
+                                break;
+                              case 2:
+                                context.bloc<QuestionBankSubjectiveBloc>().add(
+                                      GetUnitSubjectiveQuestions(
+                                        widget.subjectId,
+                                        state.units.data[0].id,
+                                      ),
+                                    );
+                                break;
+                            }
+                          },
+                        ),
                       );
                     },
                   );
