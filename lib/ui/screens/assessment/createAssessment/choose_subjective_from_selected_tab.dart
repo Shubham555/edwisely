@@ -1,14 +1,14 @@
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
-import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
-import 'package:edwisely/data/cubits/topic_cubit.dart';
-import 'package:edwisely/data/cubits/unit_cubit.dart';
-import 'package:edwisely/ui/widgets_util/big_app_bar_add_questions.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
+import '../../../../data/cubits/objective_questions_cubit.dart';
+import '../../../../data/cubits/topic_cubit.dart';
+import '../../../../data/cubits/unit_cubit.dart';
 import '../../../../data/model/questionBank/topicEntity/data.dart';
+import '../../../../util/enums/question_type_enum.dart';
+import '../../../widgets_util/big_app_bar_add_questions.dart';
 
 class ChooseSubjectiveFromSelectedTab extends StatelessWidget {
   final String _title;

@@ -1,6 +1,6 @@
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
-import 'package:edwisely/ui/screens/course/add_course_screen.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
+import 'assessment/assessmentLandingScreen/assessment_landing_screen.dart';
+import 'course/add_course_screen.dart';
+import 'course/courses_landing_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets_util/navigation_drawer.dart';

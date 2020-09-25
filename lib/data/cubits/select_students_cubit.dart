@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/studentsSection/StudentsEntity.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
+import '../model/assessment/studentsSection/StudentsEntity.dart';
 
 class SelectStudentsCubit extends Cubit<SelectStudentsState> {
   SelectStudentsCubit() : super(SelectStudentsInitial());

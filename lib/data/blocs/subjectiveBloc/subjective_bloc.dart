@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/assessmentEntity/AssessmentsEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-part 'subjective_event.dart';
+import '../../api/api.dart';
+import '../../model/assessment/assessmentEntity/AssessmentsEntity.dart';
 
+part 'subjective_event.dart';
 part 'subjective_state.dart';
 
 class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {

@@ -1,13 +1,16 @@
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
-import 'package:edwisely/ui/screens/course/add_course_screen.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
-import 'package:edwisely/ui/screens/create_vc.dart';
-import 'package:edwisely/ui/screens/send_notification_screen.dart';
+import '../ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
+import '../ui/screens/course/add_course_screen.dart';
+import '../ui/screens/course/courses_landing_screen.dart';
+import '../ui/screens/create_vc.dart';
+import '../ui/screens/send_notification_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case '/':
+        return _getPageRoute(CoursesLandingScreen(), settings);
+        break;
       case '/all-courses':
         return _getPageRoute(CoursesLandingScreen(), settings);
         break;

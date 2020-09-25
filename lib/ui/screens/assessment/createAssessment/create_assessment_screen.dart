@@ -1,16 +1,16 @@
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/blocs/objectiveBloc/objective_bloc.dart';
-import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
-import 'package:edwisely/data/model/course/coursesEntity/data.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
-import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../data/blocs/coursesBloc/courses_bloc.dart';
+import '../../../../data/blocs/objectiveBloc/objective_bloc.dart';
+import '../../../../data/blocs/subjectiveBloc/subjective_bloc.dart';
+import '../../../../data/model/course/coursesEntity/data.dart';
 import '../../../../data/provider/selected_page.dart';
+import '../../../../util/enums/question_type_enum.dart';
+import '../../../widgets_util/navigation_drawer.dart';
+import 'add_questions_screen.dart';
 
 //todo chips chjoice fix
 class CreateAssessmentScreen extends StatefulWidget {

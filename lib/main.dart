@@ -1,36 +1,34 @@
-import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
-import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
-import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
-import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
-import 'package:edwisely/data/cubits/add_course_cubit.dart';
-import 'package:edwisely/data/cubits/add_faculty_content_cubit.dart';
-import 'package:edwisely/data/cubits/add_question_cubit.dart';
-import 'package:edwisely/data/cubits/department_cubit.dart';
-import 'package:edwisely/data/cubits/get_course_decks_cubit.dart';
-import 'package:edwisely/data/cubits/login_cubit.dart';
-import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
-import 'package:edwisely/data/cubits/question_add_cubit.dart';
-import 'package:edwisely/data/cubits/select_students_cubit.dart';
-import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
-import 'package:edwisely/data/cubits/topic_cubit.dart';
-import 'package:edwisely/data/cubits/unit_cubit.dart';
-import 'package:edwisely/data/cubits/upload_excel_cubit.dart';
-import 'package:edwisely/data/provider/selected_page.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
-import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import 'data/blocs/objectiveBloc/objective_bloc.dart';
-import 'data/cubits/course_content_cubit.dart';
-
-import './util/router.dart';
 import './data/provider/selected_page.dart';
+import './util/router.dart';
+import 'data/blocs/conductdBloc/conducted_bloc.dart';
+import 'data/blocs/coursesBloc/courses_bloc.dart';
+import 'data/blocs/objectiveBloc/objective_bloc.dart';
+import 'data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
+import 'data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
+import 'data/blocs/questionBank/question_bank_bloc.dart';
+import 'data/blocs/subjectiveBloc/subjective_bloc.dart';
+import 'data/cubits/add_course_cubit.dart';
+import 'data/cubits/add_faculty_content_cubit.dart';
+import 'data/cubits/add_question_cubit.dart';
+import 'data/cubits/course_content_cubit.dart';
+import 'data/cubits/department_cubit.dart';
+import 'data/cubits/get_course_decks_cubit.dart';
+import 'data/cubits/live_class_cubit.dart';
+import 'data/cubits/login_cubit.dart';
+import 'data/cubits/notification_cubit.dart';
+import 'data/cubits/objective_questions_cubit.dart';
+import 'data/cubits/question_add_cubit.dart';
+import 'data/cubits/select_students_cubit.dart';
+import 'data/cubits/send_assessment_cubit.dart';
+import 'data/cubits/topic_cubit.dart';
+import 'data/cubits/unit_cubit.dart';
+import 'data/cubits/upload_excel_cubit.dart';
+import 'data/provider/selected_page.dart';
+import 'util/theme.dart';
 
 void main() {
   runApp(EdWisely());
@@ -108,6 +106,12 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => AddFacultyContentCubit(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => NotificationCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => LiveClassCubit(),
+          ),
         ],
         child: MaterialApp(
           title: 'Edwisely',
@@ -116,25 +120,6 @@ class EdWisely extends StatelessWidget {
           // home: CourseDetailScreen('', 352),
           onGenerateRoute: MyRouter.onGenerateRoute,
           navigatorKey: navigatorKey,
-          home:
-              // CoursesLandingScreen(),
-              // home: LoginScreen(),
-              //   MultiBlocProvider(
-              // providers: [
-              //   BlocProvider(
-              //     create: (BuildContext context) => SendAssessmentCubit(),
-              //   )
-              // ],
-              // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-              // ),
-              AddQuestionsScreen(
-            'T',
-            'dfdf',
-            352,
-            QuestionType.Objective,
-            2154,
-          ),
-          
         ),
       ),
     );

@@ -1,16 +1,16 @@
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/model/course/coursesEntity/data.dart';
-import 'package:edwisely/ui/screens/authorization/edwisely_landing_screen.dart';
-import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
-import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
-import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
-import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 
+import '../../../data/blocs/coursesBloc/courses_bloc.dart';
+import '../../../data/model/course/coursesEntity/data.dart';
 import '../../../data/provider/selected_page.dart';
+import '../../../util/theme.dart';
+import '../../widgets_util/big_app_bar.dart';
+import '../../widgets_util/navigation_drawer.dart';
+import '../authorization/edwisely_landing_screen.dart';
+import 'courseDetailScreen/course_detail_screen.dart';
 
 class CoursesLandingScreen extends StatefulWidget {
   @override

@@ -1,9 +1,10 @@
-import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/ui/widgets_util/assessment_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../../data/blocs/conductdBloc/conducted_bloc.dart';
+import '../../../../../data/blocs/coursesBloc/courses_bloc.dart';
+import '../../../../widgets_util/assessment_tile.dart';
 
 class ConductedTabObjectiveTab extends StatelessWidget {
   @override

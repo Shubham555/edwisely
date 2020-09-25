@@ -1,20 +1,19 @@
-import 'package:edwisely/data/blocs/conductdBloc/conducted_bloc.dart';
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/blocs/objectiveBloc/objective_bloc.dart';
-import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/conducted_tab.dart';
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/objective_tab.dart';
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/subjective_tab.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/create_assessment_screen.dart';
-import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
-import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:provider/provider.dart';
+
+import '../../../../data/blocs/conductdBloc/conducted_bloc.dart';
+import '../../../../data/blocs/coursesBloc/courses_bloc.dart';
+import '../../../../data/blocs/objectiveBloc/objective_bloc.dart';
+import '../../../../data/blocs/subjectiveBloc/subjective_bloc.dart';
 import '../../../../data/provider/selected_page.dart';
-import '../../../../util/theme.dart';
+import '../../../../util/enums/question_type_enum.dart';
+import '../../../widgets_util/big_app_bar.dart';
+import '../../../widgets_util/navigation_drawer.dart';
+import '../createAssessment/create_assessment_screen.dart';
+import 'conductedTab/conducted_tab.dart';
+import 'objective_tab.dart';
+import 'subjective_tab.dart';
 
 class AssessmentLandingScreen extends StatefulWidget {
   @override

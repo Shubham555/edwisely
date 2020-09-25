@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
 
 class AddQuestionCubit extends Cubit<AddQuestionState> {
   AddQuestionCubit() : super(AddQuestionInitial());

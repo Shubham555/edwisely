@@ -1,5 +1,5 @@
-import 'package:edwisely/data/model/questionBank/questionBankAll/objective_questions.dart';
-import 'package:edwisely/data/model/questionBank/questionBankAll/subjective_questions.dart';
+import 'objective_questions.dart';
+import 'subjective_questions.dart';
 
 class Data {
 

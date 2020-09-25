@@ -1,6 +1,7 @@
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/objective_tab.dart';
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/subjective_tab.dart';
 import 'package:flutter/material.dart';
+
+import 'objective_tab.dart';
+import 'subjective_tab.dart';
 
 class ConductedTab extends StatefulWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/model/course/syllabusEntity/SyllabusEntity.dart';
 import 'package:meta/meta.dart';
 
 import '../api/api.dart';
+import '../model/course/syllabusEntity/SyllabusEntity.dart';
 
 class UnitCubit extends Cubit<UnitState> {
   UnitCubit() : super(UnitInitial());

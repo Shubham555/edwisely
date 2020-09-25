@@ -1,11 +1,4 @@
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/data/cubits/add_question_cubit.dart';
-import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
-import 'package:edwisely/data/cubits/topic_cubit.dart';
-import 'package:edwisely/data/model/add_question/typed_objective_questions.dart';
-import 'package:edwisely/ui/widgets_util/big_app_bar_add_questions.dart';
-import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +6,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../data/cubits/add_question_cubit.dart';
+import '../../../../data/cubits/objective_questions_cubit.dart';
+import '../../../../data/cubits/topic_cubit.dart';
+import '../../../../data/model/add_question/typed_objective_questions.dart';
 import '../../../../data/model/questionBank/topicEntity/data.dart';
 import '../../../../data/provider/selected_page.dart';
+import '../../../../util/enums/question_type_enum.dart';
+import '../../../widgets_util/big_app_bar_add_questions.dart';
+import '../../../widgets_util/navigation_drawer.dart';
 
 class TypeQuestionTab extends StatefulWidget {
   final String _title;

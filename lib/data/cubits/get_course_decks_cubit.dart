@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/course/courseDeckEntity/CourseDeckEntity.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
+import '../model/course/courseDeckEntity/CourseDeckEntity.dart';
 
 class CourseDecksCubit extends Cubit<GetCourseDecksState> {
   CourseDecksCubit() : super(GetCourseDecksInitial());

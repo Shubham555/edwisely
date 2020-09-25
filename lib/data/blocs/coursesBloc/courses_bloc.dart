@@ -1,19 +1,19 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/course/courseDeckEntity/CourseDeckEntity.dart';
-import 'package:edwisely/data/model/course/courseEntity/CourseEntity.dart';
-import 'package:edwisely/data/model/course/coursesEntity/CoursesEntity.dart';
-import 'package:edwisely/data/model/course/getAllCourses/GetAllCoursesEntity.dart';
-import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';
-import 'package:edwisely/data/model/course/syllabusEntity/SyllabusEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'courses_event.dart';
+import '../../api/api.dart';
+import '../../model/course/courseDeckEntity/CourseDeckEntity.dart';
+import '../../model/course/courseEntity/CourseEntity.dart';
+import '../../model/course/coursesEntity/CoursesEntity.dart';
+import '../../model/course/getAllCourses/GetAllCoursesEntity.dart';
+import '../../model/course/sectionEntity/SectionEntity.dart';
+import '../../model/course/syllabusEntity/SyllabusEntity.dart';
 
+part 'courses_event.dart';
 part 'courses_state.dart';
 
 class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {

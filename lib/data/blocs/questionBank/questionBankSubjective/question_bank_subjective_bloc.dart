@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/questionBank/questionBankSubjective/QuestionBankSubjectiveEntity.dart';
-import 'package:edwisely/data/model/questionBank/topicEntity/TopicEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-part 'question_bank_subjective_event.dart';
+import '../../../api/api.dart';
+import '../../../model/questionBank/questionBankSubjective/QuestionBankSubjectiveEntity.dart';
+import '../../../model/questionBank/topicEntity/TopicEntity.dart';
 
+part 'question_bank_subjective_event.dart';
 part 'question_bank_subjective_state.dart';
 
 class QuestionBankSubjectiveBloc extends Bloc<QuestionBankSubjectiveEvent, QuestionBankSubjectiveState> {

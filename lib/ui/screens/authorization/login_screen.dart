@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/cubits/login_cubit.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/api/api.dart';
+import '../../../data/cubits/login_cubit.dart';
 import '../../widgets_util/text_input.dart';
+import '../course/courses_landing_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   @override

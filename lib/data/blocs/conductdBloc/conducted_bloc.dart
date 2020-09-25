@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/assessmentEntity/AssessmentsEntity.dart';
 import 'package:meta/meta.dart';
 
-part 'conducted_event.dart';
+import '../../api/api.dart';
+import '../../model/assessment/assessmentEntity/AssessmentsEntity.dart';
 
+part 'conducted_event.dart';
 part 'conducted_state.dart';
 
 class ConductedBloc extends Bloc<ConductedEvent, ConductedState> {

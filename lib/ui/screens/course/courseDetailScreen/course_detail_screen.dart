@@ -1,13 +1,13 @@
-import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_about_tab.dart';
-import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_course_content_tab.dart';
-import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_question_bank_tab.dart';
-import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_syllabus_tab.dart';
-import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
-import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/provider/selected_page.dart';
+import '../../../widgets_util/big_app_bar.dart';
+import '../../../widgets_util/navigation_drawer.dart';
+import 'course_detail_about_tab.dart';
+import 'course_detail_course_content_tab.dart';
+import 'course_detail_question_bank_tab.dart';
+import 'course_detail_syllabus_tab.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   final String _courseName;

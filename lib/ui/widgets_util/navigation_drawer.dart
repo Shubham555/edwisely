@@ -1,16 +1,10 @@
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
-import 'package:edwisely/ui/screens/course/add_course_screen.dart';
-import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
-import 'package:edwisely/ui/screens/create_vc.dart';
-import 'package:edwisely/ui/screens/send_notification_screen.dart';
-import 'package:edwisely/util/router.dart';
-import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/provider/selected_page.dart';
-
 import './side_drawer_item.dart';
+import '../../data/provider/selected_page.dart';
+import '../../util/router.dart';
+import '../../util/theme.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final isCollapsed;

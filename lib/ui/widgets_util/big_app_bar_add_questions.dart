@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../util/gradients.dart';
-
 class BigAppBarAddQuestionScreen extends StatelessWidget {
   final List<Widget> actions;
   final String titleText;

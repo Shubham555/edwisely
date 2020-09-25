@@ -1,16 +1,16 @@
-import 'package:edwisely/data/cubits/objective_questions_cubit.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/choose_objective_from_selected_tab.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/choose_subjective_from_selected_tab.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
-import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
-import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
-import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../data/cubits/objective_questions_cubit.dart';
 import '../../../../data/provider/selected_page.dart';
+import '../../../../util/enums/question_type_enum.dart';
+import '../../../widgets_util/big_app_bar.dart';
+import '../../../widgets_util/navigation_drawer.dart';
+import '../sendAssessment/send_assessment_screen.dart';
+import 'choose_objective_from_selected_tab.dart';
+import 'choose_subjective_from_selected_tab.dart';
+import 'type_question_tab.dart';
 
 class AddQuestionsScreen extends StatefulWidget {
   final String _title;

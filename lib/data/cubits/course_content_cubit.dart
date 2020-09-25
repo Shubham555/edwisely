@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/course/courseContent/CourseContentEntity.dart';
-import 'package:edwisely/data/model/course/courseContent/learning_content.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
+import '../model/course/courseContent/CourseContentEntity.dart';
+import '../model/course/courseContent/learning_content.dart';
 
 class CourseContentCubit extends Cubit<CourseContentState> {
   CourseContentCubit() : super(CourseContentInitial());

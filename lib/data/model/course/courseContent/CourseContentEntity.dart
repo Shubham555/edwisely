@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/course/courseContent/learning_content.dart';
+import 'learning_content.dart';
 
 class CourseContentEntity {
 

@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/studentsSection/StudentsEntity.dart';
-import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
+import '../model/assessment/studentsSection/StudentsEntity.dart';
+import '../model/course/sectionEntity/SectionEntity.dart';
 
 class SendAssessmentCubit extends Cubit<SendAssessmentState> {
   SendAssessmentCubit() : super(SendAssessmentInitial());
@@ -14,6 +15,7 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
     final sectionResponse = await EdwiselyApi().dio().then((value) => value.get(
         //todo change to event
         'getCourseDepartmentSections?university_degree_department_id=71'));
+    print(sectionResponse.data);
     if (sectionResponse.statusCode == 200) {
       emit(
         SendAssessmentSectionsFetched(

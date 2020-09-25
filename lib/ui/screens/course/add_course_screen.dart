@@ -1,20 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/cubits/add_course_cubit.dart';
-import 'package:edwisely/data/model/course/getAllCourses/data.dart';
-import 'package:edwisely/data/model/course/getAllCourses/departments.dart';
-import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';
-import 'package:edwisely/data/model/course/sectionEntity/data.dart' as sectionDta;
-import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
-import 'package:edwisely/ui/widgets_util/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+import '../../../data/blocs/coursesBloc/courses_bloc.dart';
+import '../../../data/cubits/add_course_cubit.dart';
+import '../../../data/model/course/getAllCourses/data.dart';
+import '../../../data/model/course/getAllCourses/departments.dart';
+import '../../../data/model/course/sectionEntity/SectionEntity.dart';
+import '../../../data/model/course/sectionEntity/data.dart' as sectionDta;
 import '../../../data/provider/selected_page.dart';
+import '../../widgets_util/big_app_bar.dart';
+import '../../widgets_util/navigation_drawer.dart';
 
 class AddCourseScreen extends StatelessWidget {
   @override

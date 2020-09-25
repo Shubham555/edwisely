@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/assessmentEntity/AssessmentsEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-part 'objective_event.dart';
+import '../../api/api.dart';
+import '../../model/assessment/assessmentEntity/AssessmentsEntity.dart';
 
+part 'objective_event.dart';
 part 'objective_state.dart';
 
 class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {

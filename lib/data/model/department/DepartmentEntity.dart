@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/department/data.dart';
+import 'data.dart';
 
 class DepartmentEntity {
 

@@ -1,16 +1,17 @@
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/data/cubits/add_faculty_content_cubit.dart';
-import 'package:edwisely/data/cubits/course_content_cubit.dart';
-import 'package:edwisely/data/cubits/get_course_decks_cubit.dart';
-import 'package:edwisely/data/cubits/topic_cubit.dart';
-import 'package:edwisely/data/cubits/unit_cubit.dart';
-import 'package:edwisely/data/model/questionBank/topicEntity/data.dart';
-import 'package:edwisely/ui/widgets_util/text_input.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toast/toast.dart';
+
+import '../../../../data/cubits/add_faculty_content_cubit.dart';
+import '../../../../data/cubits/course_content_cubit.dart';
+import '../../../../data/cubits/get_course_decks_cubit.dart';
+import '../../../../data/cubits/topic_cubit.dart';
+import '../../../../data/cubits/unit_cubit.dart';
+import '../../../../data/model/questionBank/topicEntity/data.dart';
+import '../../../widgets_util/text_input.dart';
 
 //doing this page
 class CourseDetailCourseContentTab extends StatefulWidget {

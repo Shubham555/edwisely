@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/assessmentQuestions/AssessmentQuestionsEntity.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
+import '../model/assessment/assessmentQuestions/AssessmentQuestionsEntity.dart';
 
 class QuestionsCubit extends Cubit<QuestionsState> {
   QuestionsCubit() : super(QuestionsInitial());

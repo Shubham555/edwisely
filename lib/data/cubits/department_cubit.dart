@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/department/DepartmentEntity.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
+import '../model/department/DepartmentEntity.dart';
 
 class DepartmentCubit extends Cubit<DepartmentState> {
   DepartmentCubit() : super(DepartmentInitial());

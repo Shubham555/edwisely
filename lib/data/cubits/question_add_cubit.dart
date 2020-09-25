@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
 
 class QuestionAddCubit extends Cubit<QuestionAddState> {
   QuestionAddCubit() : super(QuestionAddInitial());

@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/course/courseDeckEntity/data.dart';
+import 'data.dart';
 
 class CourseDeckEntity {
 

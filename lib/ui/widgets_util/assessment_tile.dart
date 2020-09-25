@@ -1,10 +1,8 @@
-import 'package:edwisely/data/cubits/select_students_cubit.dart';
-import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
-import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
-import 'package:edwisely/util/date_utild.dart';
-import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../util/date_utild.dart';
+import '../../util/theme.dart';
+import '../screens/assessment/sendAssessment/send_assessment_screen.dart';
 
 class AssessmentTile extends StatelessWidget {
   final int assessmentId;

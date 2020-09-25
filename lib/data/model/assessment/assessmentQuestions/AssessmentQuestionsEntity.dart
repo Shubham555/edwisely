@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/assessment/assessmentQuestions/data.dart';
+import 'data.dart';
 
 class AssessmentQuestionsEntity {
   int status;

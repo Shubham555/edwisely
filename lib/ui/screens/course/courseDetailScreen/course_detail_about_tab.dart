@@ -1,6 +1,7 @@
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../data/blocs/coursesBloc/courses_bloc.dart';
 
 class CourseDetailAboutTab extends StatelessWidget {
   final int semesterId;

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
-import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../data/api/api.dart';
+import '../../../../../data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
 
 class QuestionBankSubjectiveTab extends StatefulWidget {
   final int subjectId;
