@@ -46,7 +46,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Level'),
+                                  Text('Bloom Level'),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -54,7 +54,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                     width: MediaQuery.of(context).size.width *
                                         0.07,
                                     padding: const EdgeInsets.symmetric(
-                                      vertical: 4.0,
+                                      vertical: 0.0,
                                       horizontal: 12.0,
                                     ),
                                     decoration: BoxDecoration(
@@ -129,7 +129,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                     width: MediaQuery.of(context).size.width *
                                         0.07,
                                     padding: const EdgeInsets.symmetric(
-                                      vertical: 4.0,
+                                      vertical: 0.0,
                                       horizontal: 12.0,
                                     ),
                                     decoration: BoxDecoration(
@@ -180,9 +180,9 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width *
-                                        0.07,
+                                        0.1,
                                     padding: const EdgeInsets.symmetric(
-                                      vertical: 4.0,
+                                      vertical: 0.0,
                                       horizontal: 12.0,
                                     ),
                                     decoration: BoxDecoration(
