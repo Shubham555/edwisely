@@ -3,6 +3,7 @@ import 'package:edwisely/data/cubits/select_students_cubit.dart';
 import 'package:edwisely/data/cubits/send_assessment_cubit.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
 import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
+import 'package:edwisely/ui/widgets_util/text_input.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,137 +73,131 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                   ).build(context),
                   Row(
                     children: [
-                      // Form(
-                      //   key: _formKey,
-                      //   child: Padding(
-                      //     padding: EdgeInsets.symmetric(
-                      //       vertical: 12.0,
-                      //       horizontal: screenSize.width * 0.17,
-                      //     ),
-                      //     child: SizedBox(
-                      //       width: screenSize.width * 0.2,
-                      //       child: Column(
-                      //         children: [
-                      //           //spacing
-                      //           SizedBox(
-                      //             height: screenSize.height * 0.05,
-                      //           ),
-                      //           //title
-                      //           TextInput(
-                      //             label: 'Title',
-                      //             hint: 'Enter your title here',
-                      //             inputType: TextInputType.text,
-                      //             autofocus: true,
-                      //             onSaved: (String value) =>
-                      //                 _title = value.trim(),
-                      //             validator: (String value) {
-                      //               if (value.trim().length == 0) {
-                      //                 return 'This field cannot be empty!';
-                      //               }
-                      //               return null;
-                      //             },
-                      //           ),
-                      //           //spacing
-                      //           SizedBox(
-                      //             height: screenSize.height * 0.05,
-                      //           ),
-                      //           //description
-                      //           TextInput(
-                      //             label: 'Description',
-                      //             hint: 'Enter the description here',
-                      //             inputType: TextInputType.multiline,
-                      //             maxLines: 4,
-                      //             onSaved: (String value) =>
-                      //                 _description = value.trim(),
-                      //             validator: (String value) {
-                      //               if (value.trim().length == 0) {
-                      //                 return 'This field cannot be empty!';
-                      //               }
-                      //               return null;
-                      //             },
-                      //           ),
-                      //           //spacing
-                      //           SizedBox(
-                      //             height: screenSize.height * 0.05,
-                      //           ),
-                      //           //priority toggle button
-                      //           //is comment anonymous checkbox
-                      //           Row(
-                      //             crossAxisAlignment: CrossAxisAlignment.center,
-                      //             children: [
-                      //               //priority widget
-                      //               Text('Priority'),
-                      //               Switch(
-                      //                 onChanged: (bool value) => setState(
-                      //                   () => _isPriority = value,
-                      //                 ),
-                      //                 value: _isPriority,
-                      //               ),
-                      //               Spacer(),
-                      //               Text('Comments Anonymous'),
-                      //               Switch(
-                      //                 onChanged: (bool value) => setState(
-                      //                   () => _isCommentAnonymous = value,
-                      //                 ),
-                      //                 value: _isCommentAnonymous,
-                      //               ),
-                      //               //is comment anonymouse wiget
-                      //             ],
-                      //           ),
-                      //           //spacing
-                      //           SizedBox(
-                      //             height: screenSize.height * 0.05,
-                      //           ),
-                      //
-                      //           Row(
-                      //             children: [
-                      //               Text('Select Attachment'),
-                      //               IconButton(
-                      //                 icon: Icon(Icons.add),
-                      //                 onPressed: () async {
-                      //                   file = await FilePickerCross
-                      //                       .importFromStorage(
-                      //                     type: FileTypeCross.any,
-                      //                   );
-                      //                 },
-                      //               )
-                      //             ],
-                      //           ),
-                      //           //spacing
-                      //           SizedBox(
-                      //             height: screenSize.height * 0.05,
-                      //           ),
-                      //           //send notification button
-                      //           Center(
-                      //             child: RaisedButton(
-                      //               onPressed: () {
-                      //                 final form = _formKey.currentState;
-                      //
-                      //                 if (form.validate()) {
-                      //                   form.save();
-                      //                   context
-                      //                       .bloc<NotificationCubit>()
-                      //                       .sendNotification(
-                      //                         _title,
-                      //                         _description,
-                      //                         _isPriority ? 1 : 0,
-                      //                         _isCommentAnonymous ? 1 : 0,
-                      //                         students,
-                      //                         file,
-                      //                       );
-                      //                 }
-                      //               },
-                      //               child: Text(
-                      //                 'Send Notification',
-                      //                 style: Theme.of(context).textTheme.button,
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      Container(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              //spacing
+                              SizedBox(
+                                height: screenSize.height * 0.05,
+                              ),
+                              //title
+                              TextInput(
+                                label: 'Title',
+                                hint: 'Enter your title here',
+                                inputType: TextInputType.text,
+                                autofocus: true,
+                                onSaved: (String value) =>
+                                    _title = value.trim(),
+                                validator: (String value) {
+                                  if (value.trim().length == 0) {
+                                    return 'This field cannot be empty!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              //spacing
+                              SizedBox(
+                                height: screenSize.height * 0.05,
+                              ),
+                              //description
+                              TextInput(
+                                label: 'Description',
+                                hint: 'Enter the description here',
+                                inputType: TextInputType.multiline,
+                                maxLines: 4,
+                                onSaved: (String value) =>
+                                    _description = value.trim(),
+                                validator: (String value) {
+                                  if (value.trim().length == 0) {
+                                    return 'This field cannot be empty!';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              //spacing
+                              SizedBox(
+                                height: screenSize.height * 0.05,
+                              ),
+                              //priority toggle button
+                              //is comment anonymous checkbox
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  //priority widget
+                                  Text('Priority'),
+                                  Switch(
+                                    onChanged: (bool value) => setState(
+                                      () => _isPriority = value,
+                                    ),
+                                    value: _isPriority,
+                                  ),
+                                  Spacer(),
+                                  Text('Comments Anonymous'),
+                                  Switch(
+                                    onChanged: (bool value) => setState(
+                                      () => _isCommentAnonymous = value,
+                                    ),
+                                    value: _isCommentAnonymous,
+                                  ),
+                                  //is comment anonymouse wiget
+                                ],
+                              ),
+                              //spacing
+                              SizedBox(
+                                height: screenSize.height * 0.05,
+                              ),
+
+                              Row(
+                                children: [
+                                  Text('Select Attachment'),
+                                  IconButton(
+                                    icon: Icon(Icons.add),
+                                    onPressed: () async {
+                                      file = await FilePickerCross
+                                          .importFromStorage(
+                                        type: FileTypeCross.any,
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
+                              //spacing
+                              SizedBox(
+                                height: screenSize.height * 0.05,
+                              ),
+                              //send notification button
+                              Center(
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    final form = _formKey.currentState;
+
+                                    if (form.validate()) {
+                                      form.save();
+                                      context
+                                          .bloc<NotificationCubit>()
+                                          .sendNotification(
+                                            _title,
+                                            _description,
+                                            _isPriority ? 1 : 0,
+                                            _isCommentAnonymous ? 1 : 0,
+                                            students,
+                                            file,
+                                          );
+                                    }
+                                  },
+                                  child: Text(
+                                    'Send Notification',
+                                    style: Theme.of(context).textTheme.button,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        width: MediaQuery.of(context).size.width / 4,
+                      ),
                       Expanded(
                         child: BlocBuilder(
                           //todo change
@@ -225,8 +220,8 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      width:
-                                          MediaQuery.of(context).size.width / 7,
+                                      width: MediaQuery.of(context).size.width /
+                                          10,
                                       child: StatefulBuilder(
                                         builder: (BuildContext context,
                                             void Function(void Function())
@@ -306,8 +301,8 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                     0.7,
                                                 width: MediaQuery.of(context)
                                                         .size
-                                                        .width *
-                                                    0.25,
+                                                        .width /
+                                                    10,
                                                 child: Column(
                                                   children: [
                                                     SizedBox(

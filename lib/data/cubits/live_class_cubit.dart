@@ -17,7 +17,7 @@ class LiveClassCubit extends Cubit<LiveClassState> {
   ) async {
     final response = await EdwiselyApi().dio().then(
           (value) => value.post(
-            'college/createNotification',
+            'college/createVC',
             data: FormData.fromMap(
               {
                 'title': title,
@@ -29,6 +29,7 @@ class LiveClassCubit extends Cubit<LiveClassState> {
             ),
           ),
         );
+    print(response.data);
     if (response.data['message'] ==
         'Successfully created the video conference') {
       emit(
