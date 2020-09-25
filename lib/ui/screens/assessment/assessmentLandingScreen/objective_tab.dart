@@ -100,6 +100,8 @@ class ObjectiveTab extends StatelessWidget {
                               .toString(),
                           state.questionsEntity.data[index].doe,
                           state.questionsEntity.data[index].start_time,
+                          //todo add subject name thru api
+                          ''
                         );
                       },
                     );

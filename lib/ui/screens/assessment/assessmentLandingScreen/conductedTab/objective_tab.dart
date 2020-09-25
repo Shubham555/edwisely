@@ -164,6 +164,8 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                           .toString(),
                       state.questionsEntity.data[index].doe,
                       state.questionsEntity.data[index].start_time,
+                      //todo add subject name thru api
+                      '',
                       state.questionsEntity.data[index].sent,//check these two variables what is coming
                       state.questionsEntity.data[index].students_count,
                     );

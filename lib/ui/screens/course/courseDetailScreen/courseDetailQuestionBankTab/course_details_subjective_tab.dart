@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
+import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,13 +11,15 @@ class QuestionBankSubjectiveTab extends StatefulWidget {
   QuestionBankSubjectiveTab(this.subjectId);
 
   @override
-  _QuestionBankSubjectiveTabState createState() => _QuestionBankSubjectiveTabState();
+  _QuestionBankSubjectiveTabState createState() =>
+      _QuestionBankSubjectiveTabState();
 }
 
 class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
   int levelDropDownValue = -1;
   int topicsDropDown = 1234567890;
   int isSelected = 0;
+  int questionsDropDownValue = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -43,21 +46,26 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                               child: Row(
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('Level'),
                                       SizedBox(
                                         width: 10,
                                       ),
                                       Container(
-                                        width: MediaQuery.of(context).size.width * 0.07,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.07,
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 4.0,
                                           horizontal: 12.0,
                                         ),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(4.0),
-                                          border: Border.all(color: Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          border:
+                                              Border.all(color: Colors.black),
                                         ),
                                         child: DropdownButton(
                                             underline: SizedBox.shrink(),
@@ -92,13 +100,19 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                 },
                                               );
                                               value == -1
-                                                  ? context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                  ? context
+                                                      .bloc<
+                                                          QuestionBankSubjectiveBloc>()
+                                                      .add(
                                                         GetUnitSubjectiveQuestions(
                                                           widget.subjectId,
                                                           state.unitId,
                                                         ),
                                                       )
-                                                  : context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                  : context
+                                                      .bloc<
+                                                          QuestionBankSubjectiveBloc>()
+                                                      .add(
                                                         GetUnitSubjectiveQuestionsByLevel(
                                                           value,
                                                           state.unitId,
@@ -108,23 +122,27 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(width: 32.0),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('Topic'),
                                       SizedBox(
                                         width: 10,
                                       ),
                                       Container(
-                                        width: MediaQuery.of(context).size.width * 0.07,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.07,
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 4.0,
                                           horizontal: 12.0,
                                         ),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(4.0),
-                                          border: Border.all(color: Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          border:
+                                              Border.all(color: Colors.black),
                                         ),
                                         child: DropdownButton(
                                           underline: SizedBox.shrink(),
@@ -138,13 +156,19 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               },
                                             );
                                             value == 1234567890
-                                                ? context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                ? context
+                                                    .bloc<
+                                                        QuestionBankSubjectiveBloc>()
+                                                    .add(
                                                       GetUnitSubjectiveQuestions(
                                                         widget.subjectId,
                                                         state.unitId,
                                                       ),
                                                     )
-                                                : context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                : context
+                                                    .bloc<
+                                                        QuestionBankSubjectiveBloc>()
+                                                    .add(
                                                       GetUnitSubjectiveQuestionsByTopic(
                                                         value,
                                                         state.unitId,
@@ -155,83 +179,99 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
-                                  Row(
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: FlatButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              isSelected = 0;
-                                            });
-                                            context.bloc<QuestionBankSubjectiveBloc>().add(
-                                                  GetUnitSubjectiveQuestions(
-                                                    widget.subjectId,
-                                                    state.unitId,
-                                                  ),
-                                                );
-                                          },
-                                          child: Text(
-                                            'All Questions',
-                                            style: TextStyle(
-                                              color: isSelected == 0 ? Colors.black : Colors.grey.shade500,
-                                              fontWeight: isSelected == 0 ? FontWeight.bold : null,
-                                            ),
-                                          ),
-                                        ),
-                                        width: 170,
-                                        height: 50,
+                                      Text('Questions'),
+                                      SizedBox(
+                                        width: 10,
                                       ),
                                       Container(
-                                        child: FlatButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              isSelected = 1;
-                                            });
-                                            context.bloc<QuestionBankSubjectiveBloc>().add(
-                                                  GetSubjectiveQuestionsByBookmark(
-                                                    state.unitId,
-                                                  ),
-                                                );
-                                          },
-                                          child: Text(
-                                            'Bookmarked',
-                                            style: TextStyle(
-                                              color: isSelected == 0 ? Colors.black : Colors.grey.shade500,
-                                              fontWeight: isSelected == 1 ? FontWeight.bold : null,
-                                            ),
-                                          ),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.07,
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0,
+                                          horizontal: 12.0,
                                         ),
-                                        width: 200,
-                                        height: 50,
-                                      ),
-                                      Container(
-                                        child: FlatButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              isSelected = 2;
-                                            });
-                                            context.bloc<QuestionBankSubjectiveBloc>().add(
-                                                  GetYourSubjectiveQuestions(
-                                                    state.unitId,
-                                                  ),
-                                                );
-                                          },
-                                          child: Text(
-                                            'Your Questions',
-                                            style: TextStyle(
-                                              color: isSelected == 0 ? Colors.black : Colors.grey.shade500,
-                                              fontWeight: isSelected == 2 ? FontWeight.bold : null,
-                                            ),
-                                          ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4.0),
+                                          border:
+                                              Border.all(color: Colors.black),
                                         ),
-                                        width: 200,
-                                        height: 50,
+                                        child: DropdownButton(
+                                          underline: SizedBox.shrink(),
+                                          isExpanded: true,
+                                          items: [
+                                            DropdownMenuItem(
+                                              child: Text('All Questions'),
+                                              value: 1,
+                                            ),
+                                            DropdownMenuItem(
+                                              child: Text('Bookmarked'),
+                                              value: 2,
+                                            ),
+                                            DropdownMenuItem(
+                                              child: Text('Your Questions'),
+                                              value: 3,
+                                            ),
+                                          ],
+                                          value: questionsDropDownValue,
+                                          onChanged: (value) {
+                                            setState(
+                                              () {
+                                                questionsDropDownValue = value;
+                                              },
+                                            );
+                                            switch (value) {
+                                              case 1:
+                                                {
+                                                  context
+                                                      .bloc<
+                                                          QuestionBankSubjectiveBloc>()
+                                                      .add(
+                                                        GetUnitSubjectiveQuestions(
+                                                          widget.subjectId,
+                                                          state.unitId,
+                                                        ),
+                                                      );
+                                                }
+                                                break;
+                                              case 2:
+                                                {
+                                                  context
+                                                      .bloc<
+                                                          QuestionBankSubjectiveBloc>()
+                                                      .add(
+                                                        GetSubjectiveQuestionsByBookmark(
+                                                          state.unitId,
+                                                        ),
+                                                      );
+                                                }
+                                                break;
+                                              case 3:
+                                                {
+                                                  context
+                                                      .bloc<
+                                                          QuestionBankSubjectiveBloc>()
+                                                      .add(
+                                                        GetYourSubjectiveQuestions(
+                                                          state.unitId,
+                                                        ),
+                                                      );
+                                                }
+                                                break;
+                                            }
+                                          },
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ],
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                               ),
                             ),
                             Row(
@@ -242,7 +282,8 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                   'Subjective Questions',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.height / 50,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 50,
                                   ),
                                 ),
                                 FlatButton(
@@ -278,8 +319,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                 if (state is UnitSubjectiveQuestionsFetched) {
                                   return ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: state.questionBankSubjectiveEntity.data.length,
-                                    itemBuilder: (BuildContext context, int index) => Card(
+                                    itemCount: state
+                                        .questionBankSubjectiveEntity
+                                        .data
+                                        .length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            Card(
                                       margin: EdgeInsets.all(
                                         10,
                                       ),
@@ -288,7 +334,8 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                           children: [
                                             Text('Q. ${index + 1}'),
                                             Image.network(
-                                              state.questionBankSubjectiveEntity.data[index].question_img[0],
+                                              state.questionBankSubjectiveEntity
+                                                  .data[index].question_img[0],
                                               width: 250,
                                               height: 120,
                                             ),
@@ -298,60 +345,103 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                           'Level ${state.questionBankSubjectiveEntity.data[index].blooms_level}',
                                         ),
                                         trailing: StatefulBuilder(
-                                          builder: (BuildContext context, void Function(void Function()) setState) {
-                                            bool isBookmarked = state.questionBankSubjectiveEntity.data[index].bookmarked == 1;
+                                          builder: (BuildContext context,
+                                              void Function(void Function())
+                                                  setState) {
+                                            bool isBookmarked = state
+                                                    .questionBankSubjectiveEntity
+                                                    .data[index]
+                                                    .bookmarked ==
+                                                1;
                                             return IconButton(
                                               icon: Icon(
-                                                isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                                                isBookmarked
+                                                    ? Icons.bookmark
+                                                    : Icons.bookmark_border,
                                               ),
                                               onPressed: () async {
                                                 //going the easy way allah maaf kre
                                                 if (isBookmarked) {
-                                                  final response = await EdwiselyApi().dio().then(
-                                                        (value) => value.post(
-                                                          'deleteBookmark',
-                                                          data: FormData.fromMap(
-                                                            {
-                                                              'type': state.questionBankSubjectiveEntity.data[index].type,
-                                                              'id': state.questionBankSubjectiveEntity.data[index].id,
-                                                            },
-                                                          ),
-                                                        ),
-                                                      );
+                                                  final response =
+                                                      await EdwiselyApi()
+                                                          .dio()
+                                                          .then(
+                                                            (value) =>
+                                                                value.post(
+                                                              'deleteBookmark',
+                                                              data: FormData
+                                                                  .fromMap(
+                                                                {
+                                                                  'type': state
+                                                                      .questionBankSubjectiveEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .type,
+                                                                  'id': state
+                                                                      .questionBankSubjectiveEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .id,
+                                                                },
+                                                              ),
+                                                            ),
+                                                          );
                                                   print(response.data);
-                                                  if (response.data['message'] == 'Successfully deleted the bookmark') {
+                                                  if (response
+                                                          .data['message'] ==
+                                                      'Successfully deleted the bookmark') {
                                                     setState(
-                                                      () => isBookmarked = false,
+                                                      () =>
+                                                          isBookmarked = false,
                                                     );
                                                   } else {
-                                                    Scaffold.of(context).showSnackBar(
+                                                    Scaffold.of(context)
+                                                        .showSnackBar(
                                                       SnackBar(
-                                                        content: Text('Some Error Occurred'),
+                                                        content: Text(
+                                                            'Some Error Occurred'),
                                                       ),
                                                     );
                                                   }
                                                 } else {
-                                                  final response = await EdwiselyApi().dio().then(
-                                                        (value) => value.post(
-                                                          'addBookmark',
-                                                          data: FormData.fromMap(
-                                                            {
-                                                              'type': state.questionBankSubjectiveEntity.data[index].type,
-                                                              'id': state.questionBankSubjectiveEntity.data[index].id,
-                                                            },
-                                                          ),
-                                                        ),
-                                                      );
+                                                  final response =
+                                                      await EdwiselyApi()
+                                                          .dio()
+                                                          .then(
+                                                            (value) =>
+                                                                value.post(
+                                                              'addBookmark',
+                                                              data: FormData
+                                                                  .fromMap(
+                                                                {
+                                                                  'type': state
+                                                                      .questionBankSubjectiveEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .type,
+                                                                  'id': state
+                                                                      .questionBankSubjectiveEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .id,
+                                                                },
+                                                              ),
+                                                            ),
+                                                          );
                                                   print(response.data);
 
-                                                  if (response.data['message'] == 'Successfully added the bookmark') {
+                                                  if (response
+                                                          .data['message'] ==
+                                                      'Successfully added the bookmark') {
                                                     setState(
                                                       () => isBookmarked = true,
                                                     );
                                                   } else {
-                                                    Scaffold.of(context).showSnackBar(
+                                                    Scaffold.of(context)
+                                                        .showSnackBar(
                                                       SnackBar(
-                                                        content: Text('Some Error Occurred'),
+                                                        content: Text(
+                                                            'Some Error Occurred'),
                                                       ),
                                                     );
                                                   }
@@ -364,11 +454,14 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                     ),
                                   );
                                 }
-                                if (state is QuestionBankSubjectiveFetchFailed) {
+                                if (state
+                                    is QuestionBankSubjectiveFetchFailed) {
                                   return Center(
                                     child: Text(
                                       'No Questions',
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30),
                                     ),
                                   );
                                 } else {

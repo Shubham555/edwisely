@@ -160,6 +160,8 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                       state.questionsEntity.data[index].description,
                       state.questionsEntity.data[index].questions_count
                           .toString(),
+                      //todo add subject name thru api
+                      '',
                       state.questionsEntity.data[index].doe,
                       state.questionsEntity.data[index].start_time,
                     );
