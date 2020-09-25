@@ -29,6 +29,17 @@ class EdwiselyTheme {
         fontSize: 14.0,
         color: Colors.grey,
       ),
+      button: TextStyle(
+        fontSize: 18.0,
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    buttonTheme: ButtonThemeData(
+      buttonColor: PRIMARY_COLOR,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
     ),
   );
 //</editor-fold>
