@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class SelectedPageProvider extends ChangeNotifier {
-  final UniqueKey _navigatorKey = UniqueKey();
+  final _navigatorKey;
+
+  SelectedPageProvider(this._navigatorKey);
 
   int _selectedPage = 0;
   int _previousIndex = 0;

@@ -29,15 +29,20 @@ import 'package:provider/provider.dart';
 import 'data/blocs/objectiveBloc/objective_bloc.dart';
 import 'data/cubits/course_content_cubit.dart';
 
+import './util/router.dart';
+import './data/provider/selected_page.dart';
+
 void main() {
   runApp(EdWisely());
 }
 
 class EdWisely extends StatelessWidget {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => SelectedPageProvider(),
+      create: (context) => SelectedPageProvider(navigatorKey),
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -109,17 +114,19 @@ class EdWisely extends StatelessWidget {
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,
           // home: CourseDetailScreen('', 352),
-          home: 
-          // CoursesLandingScreen(),
-          // home: LoginScreen(),
-          //   MultiBlocProvider(
-          // providers: [
-          //   BlocProvider(
-          //     create: (BuildContext context) => SendAssessmentCubit(),
-          //   )
-          // ],
-          // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
-          // ),
+          onGenerateRoute: MyRouter.onGenerateRoute,
+          navigatorKey: navigatorKey,
+          home:
+              // CoursesLandingScreen(),
+              // home: LoginScreen(),
+              //   MultiBlocProvider(
+              // providers: [
+              //   BlocProvider(
+              //     create: (BuildContext context) => SendAssessmentCubit(),
+              //   )
+              // ],
+              // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
+              // ),
               AddQuestionsScreen(
             'T',
             'dfdf',
@@ -127,6 +134,7 @@ class EdWisely extends StatelessWidget {
             QuestionType.Objective,
             2154,
           ),
+          
         ),
       ),
     );

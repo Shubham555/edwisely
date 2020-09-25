@@ -76,7 +76,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
-
+    print(Provider.of<SelectedPageProvider>(context).selectedPage);
     return Scaffold(
       body: Row(
         children: [

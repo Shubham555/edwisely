@@ -3,6 +3,7 @@ import 'package:edwisely/ui/screens/course/add_course_screen.dart';
 import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
 import 'package:edwisely/ui/screens/create_vc.dart';
 import 'package:edwisely/ui/screens/send_notification_screen.dart';
+import 'package:edwisely/util/router.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class NavigationDrawer extends StatefulWidget {
   NavigationDrawer({
     this.isCollapsed = true,
     Key key,
-  }) : super(key: key);
+  });
 
   @override
   _NavigationDrawerState createState() => _NavigationDrawerState();
@@ -87,11 +88,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           //list of options
           InkWell(
             onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(0);
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => CoursesLandingScreen()),
-              );
+              final pageProvider =
+                  Provider.of<SelectedPageProvider>(context, listen: false);
+              pageProvider.changePage(0);
+              MyRouter().navigateTo(pageProvider.navigatorKey, '/all-courses');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
@@ -105,9 +105,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             onTap: () {
               Provider.of<SelectedPageProvider>(context, listen: false)
                   .changePage(1);
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => AddCourseScreen()),
-              );
+              Navigator.of(context).pushNamed('/add-course');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
@@ -121,10 +119,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             onTap: () {
               Provider.of<SelectedPageProvider>(context, listen: false)
                   .changePage(2);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => AssessmentLandingScreen()),
-              );
+              Navigator.of(context).pushNamed('/send-assesment');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
@@ -138,10 +133,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             onTap: () {
               Provider.of<SelectedPageProvider>(context, listen: false)
                   .changePage(3);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => CreateVCScreen()),
-              );
+              Navigator.of(context).pushNamed('/create-live-class');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
@@ -155,10 +147,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             onTap: () {
               Provider.of<SelectedPageProvider>(context, listen: false)
                   .changePage(4);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => SendNotificationScreen()),
-              );
+              Navigator.of(context).pushNamed('/send-notification');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
