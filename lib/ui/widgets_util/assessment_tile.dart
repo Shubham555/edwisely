@@ -219,6 +219,7 @@ class AssessmentTile extends StatelessWidget {
                                     assessmentId,
                                     title,
                                     [],
+                                    description,
                                   ),
                                 ),
                               );

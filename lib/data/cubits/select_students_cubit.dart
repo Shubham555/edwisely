@@ -8,15 +8,18 @@ class SelectStudentsCubit extends Cubit<SelectStudentsState> {
   SelectStudentsCubit() : super(SelectStudentsInitial());
 
   getStudentsInASection(int sectionId, int year) async {
+    emit(
+      SelectStudentsInitial(),
+    );
     final response = await EdwiselyApi().dio().then((value) => value.post(
-      'common/getCollegeDepartmentSectionStudents',
-      data: FormData.fromMap(
-        {
-          'college_department_section_id': sectionId,
-          'year': year,
-        },
-      ),
-    ));
+          'common/getCollegeDepartmentSectionStudents',
+          data: FormData.fromMap(
+            {
+              'college_department_section_id': sectionId,
+              'year': year,
+            },
+          ),
+        ));
     if (response.statusCode == 200) {
       emit(
         SelectStudentsStudentsFetched(
