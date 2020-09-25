@@ -18,7 +18,9 @@ import 'package:edwisely/data/cubits/topic_cubit.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/data/cubits/upload_excel_cubit.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,7 +109,8 @@ class EdWisely extends StatelessWidget {
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,
           // home: CourseDetailScreen('', 352),
-          home: CoursesLandingScreen(),
+          home: 
+          // CoursesLandingScreen(),
           // home: LoginScreen(),
           //   MultiBlocProvider(
           // providers: [
@@ -117,13 +120,13 @@ class EdWisely extends StatelessWidget {
           // ],
           // child: SendAssessmentScreen(2052, 'title', 'noOfQuestions'),
           // ),
-          //     AddQuestionsScreen(
-          //   'T',
-          //   'dfdf',
-          //   352,
-          //   QuestionType.Objective,
-          //   2154,
-          // ),
+              AddQuestionsScreen(
+            'T',
+            'dfdf',
+            352,
+            QuestionType.Objective,
+            2154,
+          ),
         ),
       ),
     );
