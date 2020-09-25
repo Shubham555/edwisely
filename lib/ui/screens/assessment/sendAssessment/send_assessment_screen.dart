@@ -339,7 +339,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.3,
+                                              0.25,
                                           child: Column(
                                             children: [
                                               SizedBox(

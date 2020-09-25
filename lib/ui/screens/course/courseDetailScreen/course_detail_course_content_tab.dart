@@ -294,16 +294,17 @@ class _CourseDetailCourseContentTabState
                                           Container(
                                             // width: MediaQuery.of(context).size.width * 0.05,
                                             padding: const EdgeInsets.symmetric(
-                                              vertical: 4.0,
                                               horizontal: 12.0,
                                             ),
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(4.0),
                                               border: Border.all(
-                                                  color: Colors.black),
+                                                color: Colors.black,
+                                              ),
                                             ),
                                             child: DropdownButton(
+                                              underline: SizedBox.shrink(),
                                               items: [
                                                 DropdownMenuItem(
                                                   child: Text('All'),
@@ -536,7 +537,6 @@ class _CourseDetailCourseContentTabState
                                                   // width: MediaQuery.of(context).size.width * 0.05,
                                                   padding: const EdgeInsets
                                                       .symmetric(
-                                                    vertical: 4.0,
                                                     horizontal: 12.0,
                                                   ),
                                                   decoration: BoxDecoration(
@@ -544,9 +544,12 @@ class _CourseDetailCourseContentTabState
                                                         BorderRadius.circular(
                                                             4.0),
                                                     border: Border.all(
-                                                        color: Colors.black),
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
                                                   child: DropdownButton(
+                                                    underline:
+                                                        SizedBox.shrink(),
                                                     items: [
                                                       DropdownMenuItem(
                                                         child: Text('All'),
@@ -598,17 +601,20 @@ class _CourseDetailCourseContentTabState
                                                   // width: MediaQuery.of(context).size.width * 0.05,
                                                   padding: const EdgeInsets
                                                       .symmetric(
-                                                    vertical: 4.0,
                                                     horizontal: 12.0,
                                                   ),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            4.0),
+                                                      4.0,
+                                                    ),
                                                     border: Border.all(
-                                                        color: Colors.black),
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
                                                   child: DropdownButton(
+                                                    underline:
+                                                        SizedBox.shrink(),
                                                     items: [
                                                       DropdownMenuItem(
                                                         child: Text('All'),
@@ -654,17 +660,20 @@ class _CourseDetailCourseContentTabState
                                                   // width: MediaQuery.of(context).size.width * 0.05,
                                                   padding: const EdgeInsets
                                                       .symmetric(
-                                                    vertical: 4.0,
                                                     horizontal: 12.0,
                                                   ),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            4.0),
+                                                      4.0,
+                                                    ),
                                                     border: Border.all(
-                                                        color: Colors.black),
+                                                      color: Colors.black,
+                                                    ),
                                                   ),
                                                   child: DropdownButton(
+                                                    underline:
+                                                        SizedBox.shrink(),
                                                     items: [
                                                       DropdownMenuItem(
                                                         child: Text(
@@ -727,6 +736,7 @@ class _CourseDetailCourseContentTabState
                                         );
                                       },
                                     ),
+                                    SizedBox(height: 22.0),
                                     ListView.builder(
                                       shrinkWrap: true,
                                       itemCount: state.data.length,

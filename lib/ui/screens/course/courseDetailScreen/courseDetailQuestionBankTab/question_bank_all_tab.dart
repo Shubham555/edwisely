@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
-import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,6 +45,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                 horizontal: 16.0,
                               ),
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Column(
                                     crossAxisAlignment:
@@ -122,6 +123,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(width: 18.0),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -177,6 +179,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(width: 18.0),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -264,8 +267,6 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                     ],
                                   ),
                                 ],
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                               ),
                             ),
                             Column(

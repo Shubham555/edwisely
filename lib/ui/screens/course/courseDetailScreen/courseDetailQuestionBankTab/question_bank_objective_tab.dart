@@ -41,7 +41,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                             horizontal: 16.0,
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,6 +117,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                               ),
+                              SizedBox(width: 18.0),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -171,6 +171,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   ),
                                 ],
                               ),
+                              SizedBox(width: 18.0),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

@@ -122,6 +122,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(width: 18.0),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -179,6 +180,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(width: 18.0),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -270,8 +272,6 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                     ],
                                   ),
                                 ],
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                               ),
                             ),
                             Row(
