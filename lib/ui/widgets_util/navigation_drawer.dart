@@ -1,6 +1,7 @@
 import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
 import 'package:edwisely/ui/screens/course/add_course_screen.dart';
 import 'package:edwisely/ui/screens/course/courses_landing_screen.dart';
+import 'package:edwisely/ui/screens/create_vc.dart';
 import 'package:edwisely/ui/screens/send_notification_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
@@ -133,12 +134,22 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               currentIndex: _selectedPage,
             ),
           ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Live Class',
-            icon: Icons.live_tv,
-            myIndex: 3,
-            currentIndex: _selectedPage,
+          InkWell(
+            onTap: () {
+              Provider.of<SelectedPageProvider>(context, listen: false)
+                  .changePage(3);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => CreateVCScreen()),
+              );
+            },
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'Live Class',
+              icon: Icons.live_tv,
+              myIndex: 3,
+              currentIndex: _selectedPage,
+            ),
           ),
           InkWell(
             onTap: () {
