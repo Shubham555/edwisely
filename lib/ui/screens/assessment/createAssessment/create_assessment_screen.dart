@@ -1,7 +1,7 @@
-import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_select/smart_select.dart';
 
 import '../../../../data/blocs/coursesBloc/courses_bloc.dart';
 import '../../../../data/blocs/objectiveBloc/objective_bloc.dart';
@@ -67,8 +67,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is ObjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                          'Creation of Assessment Failed. PLease try again'),
+                      content: Text('Creation of Assessment Failed. PLease try again'),
                     ),
                   );
                 }
@@ -94,8 +93,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is SubjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                          'Creation of Assessment Failed. Please try again'),
+                      content: Text('Creation of Assessment Failed. Please try again'),
                     ),
                   );
                 }
@@ -121,18 +119,13 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                     children: [
                       Text(
                         'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width / 50),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 50),
                       ),
                       _buildTextFieldWidget('Add Title', 80, _titleController),
-                      _buildTextFieldWidget(
-                          'Description', 200, _descriptionController),
+                      _buildTextFieldWidget('Description', 200, _descriptionController),
                       Text(
                         'Choose Subject',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.width / 50),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 50),
                       ),
                       BlocBuilder(
                         cubit: context.bloc<CoursesBloc>()
@@ -154,31 +147,50 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                                 Text('There is some server error please retry'),
                                 RaisedButton(
                                   color: Color(0xFF1D2B64).withOpacity(.3),
-                                  onPressed: () =>
-                                      context.bloc<CoursesBloc>().add(
-                                            GetCoursesByFaculty(),
-                                          ),
+                                  onPressed: () => context.bloc<CoursesBloc>().add(
+                                        GetCoursesByFaculty(),
+                                      ),
                                   child: Text('Retry'),
                                 )
                               ],
                             );
                           }
                           if (state is CoursesFetched) {
-                            return ChipsChoice<Map<int, int>>.single(
-                              isWrapped: true,
+                            return SmartSelect.single(
+                              title: 'Subjects',
+                              placeholder: 'Select a Subject',
                               value: selectedCouerse,
-                              options: ChipsChoiceOption.listFrom(
+                              choiceItems: S2Choice.listFrom(
                                 source: state.coursesEntity.data,
-                                value: (id, Data data) =>
-                                    {data.id: data.subject_semester_id},
-                                label: (id, Data data) => data.name,
+                                value: (index, Data item) => {item.id: item.subject_semester_id, 'title': item.name},
+                                title: (index, Data item) => item.name,
+                                group: (index, Data item) => '',
                               ),
-                              onChanged: (val) {
-                                setState(() => selectedCouerse = val);
-                              },
+                              modalTitle: 'Choose Subject',
+                              modalType: S2ModalType.popupDialog,
+                              choiceType: S2ChoiceType.chips,
+                              choiceStyle: S2ChoiceStyle(
+                                showCheckmark: true,
+                              ),
+                              choiceLayout: S2ChoiceLayout.wrap,
+                              onChange: (state) => setState(() {
+                                selectedCouerse = state.value;
+                              }),
+                              tileBuilder: (context, state) => S2Tile.fromState(
+                                state,
+                                isTwoLine: true,
+                                leading: Container(
+                                  width: 40,
+                                  alignment: Alignment.center,
+                                  child: const Icon(Icons.subject),
+                                ),
+                              ),
                             );
                           }
                         },
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       RaisedButton(
                         disabledColor: Colors.grey,
@@ -205,9 +217,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
     );
   }
 
-  _buildTextFieldWidget(
-          String title, int maxLength, TextEditingController controller) =>
-      Column(
+  _buildTextFieldWidget(String title, int maxLength, TextEditingController controller) => Column(
         children: [
           TextField(
             controller: controller,
@@ -248,9 +258,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
       );
 
   void _continueButtonOnPressed(BuildContext context) {
-    if (_titleController.text.isEmpty ||
-        _descriptionController.text.isEmpty ||
-        selectedCouerse == null) {
+    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty || selectedCouerse == null) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Please double check the entries !'),
