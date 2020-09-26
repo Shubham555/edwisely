@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/assessmentEntity/AssessmentsEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-part 'objective_event.dart';
+import '../../api/api.dart';
+import '../../model/assessment/assessmentEntity/AssessmentsEntity.dart';
 
+part 'objective_event.dart';
 part 'objective_state.dart';
 
 class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
@@ -20,7 +20,7 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
   ) async* {
     if (event is GetObjectiveTests) {
       final assessmentResponse =
-          await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests');
+          await EdwiselyApi().dio().then((value) => value.get('questionnaireWeb/getObjectiveTests'));
       if (assessmentResponse.statusCode == 200) {
         yield ObjectiveSuccess(
           AssessmentsEntity.fromJsonMap(assessmentResponse.data),
@@ -31,8 +31,8 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     }
     if (event is GetObjectiveTestsBYSubjectId) {
       yield ObjectiveInitial();
-      final assessmentResponse = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getSubjectWiseObjectiveTests?subject_id=${event.subjectId}');
+      final assessmentResponse = await EdwiselyApi().dio().then((value) => value.get(
+          'questionnaireWeb/getSubjectWiseObjectiveTests?subject_id=${event.subjectId}'));
       if (assessmentResponse.statusCode == 200) {
         if (assessmentResponse.data['message'] == 'No tests to fetch') {
           yield ObjectiveEmpty();
@@ -47,7 +47,7 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     }
     if (event is CreateObjectiveQuestionnaire) {
       yield ObjectiveInitial();
-      final response = await EdwiselyApi.dio.post(
+      final response = await EdwiselyApi().dio().then((value) => value.post(
         'questionnaireWeb/createObjectiveTest',
         data: FormData.fromMap(
           {
@@ -56,7 +56,7 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
             'subject_id': event._subjectId,
           },
         ),
-      );
+      ));
       print(response.data);
       if (response.data.toString().contains('Successfully created the test')) {
         yield ObjectiveAssessmentCreated(response.data['test_id']);

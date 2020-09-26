@@ -1,15 +1,17 @@
 import 'package:bloc/bloc.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/assessmentQuestions/AssessmentQuestionsEntity.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
+import '../model/assessment/assessmentQuestions/AssessmentQuestionsEntity.dart';
 
 class QuestionsCubit extends Cubit<QuestionsState> {
   QuestionsCubit() : super(QuestionsInitial());
 
   getQuestionsToAnAssessment(int testId) async {
-    final response = await EdwiselyApi.dio.get(
+    emit(QuestionsInitial());
+    final response = await EdwiselyApi().dio().then((value) => value.get(
       'questionnaireWeb/getObjectiveTestQuestions?test_id=$testId',
-    );
+    ));
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No questions to fetch') {
         emit(

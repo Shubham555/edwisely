@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/questionBank/questionBankAll/questions_options.dart';
+import 'questions_options.dart';
 
 class Objective_questions {
 

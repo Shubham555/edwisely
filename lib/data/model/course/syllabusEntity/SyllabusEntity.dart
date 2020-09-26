@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/course/syllabusEntity/data.dart';
+import 'data.dart';
 
 class SyllabusEntity {
 

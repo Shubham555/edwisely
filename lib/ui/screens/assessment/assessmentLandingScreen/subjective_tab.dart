@@ -1,9 +1,10 @@
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/blocs/subjectiveBloc/subjective_bloc.dart';
-import 'package:edwisely/ui/widgets_util/assessment_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../data/blocs/coursesBloc/courses_bloc.dart';
+import '../../../../data/blocs/subjectiveBloc/subjective_bloc.dart';
+import '../../../widgets_util/assessment_tile.dart';
 
 class SubjectiveTab extends StatelessWidget {
   @override
@@ -22,9 +23,35 @@ class SubjectiveTab extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.all(15),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            BlocBuilder(
+              cubit: context.bloc<CoursesBloc>(),
+              builder: (BuildContext context, state) {
+                if (state is CoursesListFetched) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: DropdownButton(
+                      underline: Container(),
+                      hint: Text('Filter by Subjects'),
+                      items: state.subjects,
+                      onChanged: (value) => value == 1234567890
+                          ? context.bloc<SubjectiveBloc>().add(
+                                GetSubjectiveTests(),
+                              )
+                          : context.bloc<SubjectiveBloc>().add(
+                                GetSubjectiveTestsBYSubjectId(
+                                  value,
+                                ),
+                              ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
             Expanded(
               child: BlocBuilder(
                 cubit: context.bloc<SubjectiveBloc>(),
@@ -57,50 +84,32 @@ class SubjectiveTab extends StatelessWidget {
                     );
                   }
                   if (state is SubjectiveSuccess) {
-                    return ListView.builder(
-                      padding: EdgeInsets.all(10),
+                    return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 32.0,
+                        mainAxisSpacing: 32.0,
+                        childAspectRatio: 3 / 1,
+                      ),
                       itemCount: state.questionsEntity.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return AssessmentTile(
-                            state.questionsEntity.data[index].id,
-                            state.questionsEntity.data[index].name,
-                            state.questionsEntity.data[index].description,
-                            state.questionsEntity.data[index].questions_count
-                                .toString(),
-                            state.questionsEntity.data[index].doe,
-                            state.questionsEntity.data[index].start_time);
+                          state.questionsEntity.data[index].id,
+                          state.questionsEntity.data[index].name,
+                          state.questionsEntity.data[index].description,
+                          state.questionsEntity.data[index].questions_count
+                              .toString(),
+                          state.questionsEntity.data[index].doe,
+                          state.questionsEntity.data[index].start_time,
+                            //todo add subject name thru api
+                            ''
+                        );
                       },
                     );
                   }
                 },
               ),
             ),
-            BlocBuilder(
-              cubit: context.bloc<CoursesBloc>(),
-              builder: (BuildContext context, state) {
-                if (state is CoursesListFetched) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: DropdownButton(
-                      underline: Container(),
-                      hint: Text('Filter by Subjects'),
-                      items: state.subjects,
-                      onChanged: (value) => value == 1234567890
-                          ? context.bloc<SubjectiveBloc>().add(
-                                GetSubjectiveTests(),
-                              )
-                          : context.bloc<SubjectiveBloc>().add(
-                                GetSubjectiveTestsBYSubjectId(
-                                  value,
-                                ),
-                              ),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            )
           ],
         ),
       ),

@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/questionBank/topicEntity/data.dart';
+import 'data.dart';
 
 class TopicEntity {
 

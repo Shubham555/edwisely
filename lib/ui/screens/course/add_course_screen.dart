@@ -1,129 +1,205 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chips_choice/chips_choice.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
-import 'package:edwisely/data/model/course/getAllCourses/data.dart';
-import 'package:edwisely/data/model/course/getAllCourses/departments.dart';
-import 'package:edwisely/data/model/course/sectionEntity/SectionEntity.dart';
-import 'package:edwisely/data/model/course/sectionEntity/data.dart'
-    as sectionDta;
-import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+
+import '../../../data/blocs/coursesBloc/courses_bloc.dart';
+import '../../../data/cubits/add_course_cubit.dart';
+import '../../../data/model/course/getAllCourses/data.dart';
+import '../../../data/model/course/getAllCourses/departments.dart';
+import '../../../data/model/course/sectionEntity/SectionEntity.dart';
+import '../../../data/model/course/sectionEntity/data.dart' as sectionDta;
+import '../../../data/provider/selected_page.dart';
+import '../../widgets_util/big_app_bar.dart';
+import '../../widgets_util/navigation_drawer.dart';
 
 class AddCourseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: BigAppBar(
-              actions: null,
-              titleText: 'Add Courses',
-              bottomTab: null,
-              appBarSize: MediaQuery.of(context).size.height / 3.5,
-              appBarTitle: Text('Edwisely'),
-              flatButton: null)
-          .build(context),
-      body: Center(
-        child: BlocListener(
-          cubit: context.bloc<CoursesBloc>(),
-          listener: (BuildContext context, state) {
-            if (state is CourseAdded) {
-              Navigator.pop(context);
-            }
-          },
-          child: BlocBuilder(
-            cubit: context.bloc<CoursesBloc>()..add(GetAllCourses()),
-            builder: (BuildContext context, state) {
-              if (state is AllCoursesFetched) {
-                return Padding(
-                  padding: const EdgeInsets.all(15),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: Center(
+          child: BlocListener(
+            cubit: context.bloc<AddCourseCubit>(),
+            listener: (BuildContext context, state) {
+              if (state is CourseAdded) {
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Course Added Successfully')));
+                Future.delayed(
+                  Duration(seconds: 2),
+                  () {
+                    // Navigator.pop(context);
+                    // Navigator.pop(context);
+                    // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
+                  },
+                );
+              }
+              if (state is CoursesError) {
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+                Future.delayed(Duration(seconds: 2), () {
+                  // Navigator.pop(context);
+                  // Navigator.pop(context);
+                  // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
+                });
+              }
+            },
+            child: Row(
+              children: [
+                NavigationDrawer(
+                  isCollapsed: false,
+                  key: context.watch<SelectedPageProvider>().navigatorKey,
+                ),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 5,
-                            padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width / 100,
-                            ),
-                            child: DropdownSearch(
-                              autoFocusSearchBox: true,
-                              showClearButton: true,
-                              label: 'Search Courses',
-                              showSearchBox: true,
-                              mode: Mode.MENU,
-                              items: state.getAllCoursesEntity.data,
-                              onChanged: (Data data) => _showDialog(
-                                context,
-                                data,
-                                data.departments,
-                                state.sectionEntity,
-                              ),
-                              showSelectedItem: false,
-                              dropdownBuilder: (context, Data data,
-                                      String sd) =>
-                                  data != null ? Text(data.name) : Text(''),
-                              filterFn: (Data data, String string) =>
-                                  data.name.toLowerCase().contains(
-                                        string,
-                                      ),
-                              popupItemBuilder: (context, Data data, bool) =>
-                                  Container(
-                                padding: EdgeInsets.all(
-                                  10,
-                                ),
-                                child: Text(
-                                  data.name,
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.black),
-                                ),
-                              ),
-                            ),
+                      BigAppBar(
+                              actions: null,
+                              titleText: 'Add Courses',
+                              //5 minute dedo a raha hioon Ha sarkar
+                              bottomTab: null,
+                              appBarSize: MediaQuery.of(context).size.height / 3.5,
+                              appBarTitle: Text('Edwisely'),
+                              flatButton: null)
+                          .build(context),
+                      BlocBuilder(
+                        cubit: context.bloc<CoursesBloc>()
+                          ..add(
+                            GetAllCourses(),
                           ),
-                          DropdownButton(items: null, onChanged: null)
-                        ],
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: GridView(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisSpacing: 35,
-                              crossAxisSpacing: 35,
-                              crossAxisCount: 3,
-                              childAspectRatio:
-                                  MediaQuery.of(context).size.width /
-                                      MediaQuery.of(context).size.height /
-                                      1.9,
-                            ),
-                            children: List.generate(
-                              state.getAllCoursesEntity.data.length,
-                              (upperIndex) => Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    6,
+                        builder: (BuildContext context, state) {
+                          if (state is AllCoursesFetched) {
+                            return Expanded(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 16.0,
+                                      horizontal: MediaQuery.of(context).size.width * 0.17,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context).size.width / 5,
+                                          child: TypeAheadField(
+                                            textFieldConfiguration: TextFieldConfiguration(
+                                              style: DefaultTextStyle.of(context).style.copyWith(
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                              decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Search Courses'),
+                                            ),
+                                            suggestionsCallback: (pttrn) async {
+                                              List<Data> courses = List();
+                                              courses.addAll(state.getAllCoursesEntity.data);
+                                              courses.retainWhere(
+                                                (element) => element.name.toLowerCase().contains(
+                                                      pttrn.toLowerCase(),
+                                                    ),
+                                              );
+                                              return courses;
+                                            },
+                                            itemBuilder: (context, Data data) {
+                                              return ListTile(
+                                                title: Text(data.name),
+                                              );
+                                            },
+                                            onSuggestionSelected: (data) => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (BuildContext context) => _showDialog(
+                                                  context,
+                                                  data,
+                                                  data.departments,
+                                                  state.sectionEntity,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 32.0),
+                                        //todo fix department search
+                                        // BlocBuilder(
+                                        //   cubit: context.bloc<DepartmentCubit>()
+                                        //     ..getDepartments(),
+                                        //   builder: (BuildContext context, state) {
+                                        //     if (state is DepartmentFetched) {
+                                        //       return DropdownButton(
+                                        //         items: List.generate(
+                                        //           state.departmentEntity.data.length,
+                                        //               (index) =>
+                                        //               DropdownMenuItem(
+                                        //                 child: Text(
+                                        //                   state.departmentEntity.data[index].department,
+                                        //                 ),
+                                        //               ),
+                                        //         ), onChanged: (value) => ,
+                                        //       );
+                                        //     } else {
+                                        //       return Center(
+                                        //         child: CircularProgressIndicator(),
+                                        //       );
+                                        //     }
+                                        //   },
+                                        // )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                elevation: 6,
-                                child: _buildCourseTile(
-                                    upperIndex, context, state),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 16.0,
+                                        horizontal: MediaQuery.of(context).size.width * 0.17,
+                                      ),
+                                      child: GridView(
+                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                          mainAxisSpacing: 35,
+                                          crossAxisSpacing: 35,
+                                          crossAxisCount: 3,
+                                          childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 2.6,
+                                        ),
+                                        children: List.generate(
+                                          state.getAllCoursesEntity.data.length,
+                                          (upperIndex) => Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(
+                                                6,
+                                              ),
+                                            ),
+                                            elevation: 6,
+                                            child: _buildCourseTile(upperIndex, context, state),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
+                            );
+                          }
+                          if (state is CourseAdded) {
+                            return Column(
+                              children: [
+                                CircularProgressIndicator(),
+                                Text('Course Added '),
+                              ],
+                            );
+                          } else {
+                            return Expanded(
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+                        },
+                      )
                     ],
                   ),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -139,8 +215,7 @@ class AddCourseScreen extends StatelessWidget {
             alignment: Alignment.center,
             child: Container(
               height: MediaQuery.of(context).size.height / 5,
-              child: state.getAllCoursesEntity.data[upperIndex].course_image ==
-                      ''
+              child: state.getAllCoursesEntity.data[upperIndex].course_image == ''
                   ? Image.asset(
                       'placeholder_image.jpg',
                       fit: BoxFit.cover,
@@ -154,9 +229,7 @@ class AddCourseScreen extends StatelessWidget {
           ),
           SizedBox(height: 12.0),
           Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: MediaQuery.of(context).size.height * 0.0001),
+            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: MediaQuery.of(context).size.height * 0.0001),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.07,
               width: double.infinity,
@@ -167,14 +240,17 @@ class AddCourseScreen extends StatelessWidget {
                 minFontSize: 18.0,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 4.0,
-              horizontal: 12.0,
+              horizontal: 18.0,
             ),
             child: Text(
               'Departments',
@@ -183,24 +259,34 @@ class AddCourseScreen extends StatelessWidget {
               ),
             ),
           ),
-          Row(
-            children: List.generate(
-              state.getAllCoursesEntity.data[upperIndex].departments.length,
-              (index) => Container(
-                height: MediaQuery.of(context).size.height * 0.03,
-                margin: const EdgeInsets.symmetric(horizontal: 6.0),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 4.0,
-                  horizontal: 12.0,
-                ),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xfff7f1e3),
-                ),
-                child: Text(
-                  state.getAllCoursesEntity.data[upperIndex].departments[index]
-                      .name,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 4.0,
+              horizontal: 18.0,
+            ),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: List.generate(
+                  state.getAllCoursesEntity.data[upperIndex].departments.length,
+                  (index) => Container(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    margin: const EdgeInsets.symmetric(horizontal: 6.0),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4.0,
+                      horizontal: 12.0,
+                    ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color(0xfff7f1e3),
+                    ),
+                    child: Text(
+                      state.getAllCoursesEntity.data[upperIndex].departments[index].name,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -246,8 +332,7 @@ class AddCourseScreen extends StatelessWidget {
       context: outerContext,
       builder: (BuildContext context) {
         return StatefulBuilder(
-          builder:
-              (BuildContext context, void Function(void Function()) setState) {
+          builder: (BuildContext context, void Function(void Function()) setState) {
             return AlertDialog(
               title: Text(
                 'Finalize Adding ${data.name} to Your Courses',
@@ -311,18 +396,14 @@ class AddCourseScreen extends StatelessWidget {
                             print('sections : $sections');
                             print('subject : ${data.id}');
                             if (branch == null || sections.isEmpty) {
-                              Toast.show(
-                                  'Please select at least one section and one department',
-                                  context,
-                                  duration: 4);
+                              Toast.show('Please select at least one section and one department', context, duration: 4);
                             }
-                            outerContext.bloc<CoursesBloc>().add(
-                                  AddCourseToFaculty(
-                                    data.id,
-                                    branch,
-                                    sections,
-                                  ),
+                            outerContext.bloc<AddCourseCubit>().addCourseToFaculty(
+                                  data.id,
+                                  branch,
+                                  sections,
                                 );
+                            Navigator.pop(context);
                           },
                           icon: Icon(
                             Icons.save,

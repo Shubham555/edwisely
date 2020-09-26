@@ -1,13 +1,13 @@
-import 'package:edwisely/data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
-import 'package:edwisely/data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
-import 'package:edwisely/data/blocs/questionBank/question_bank_bloc.dart';
-import 'package:edwisely/data/cubits/unit_cubit.dart';
-import 'package:edwisely/ui/screens/course/courseDetailScreen/courseDetailQuestionBankTab/question_bank_all_tab.dart';
-import 'package:edwisely/ui/screens/course/courseDetailScreen/courseDetailQuestionBankTab/question_bank_objective_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
+import '../../../../data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
+import '../../../../data/blocs/questionBank/question_bank_bloc.dart';
+import '../../../../data/cubits/unit_cubit.dart';
 import 'courseDetailQuestionBankTab/course_details_subjective_tab.dart';
+import 'courseDetailQuestionBankTab/question_bank_all_tab.dart';
+import 'courseDetailQuestionBankTab/question_bank_objective_tab.dart';
 
 class CourseDetailQuestionBankTab extends StatefulWidget {
   final subjectId;
@@ -23,6 +23,7 @@ class _CourseDetailQuestionBankTabState
     extends State<CourseDetailQuestionBankTab>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  int unitSelected;
 
   @override
   void initState() {
@@ -35,14 +36,17 @@ class _CourseDetailQuestionBankTabState
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-            width: MediaQuery.of(context).size.width / 6,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width / 10,
             child: BlocBuilder(
-              cubit: context.bloc<UnitCubit>()..getUnitsOfACourse(
-widget.subjectId              ),
+              cubit: context.bloc<UnitCubit>()
+                ..getUnitsOfACourse(widget.subjectId),
               builder: (BuildContext context, state) {
                 if (state is CourseUnitFetched) {
                   _tabController.index == 0
@@ -95,26 +99,28 @@ widget.subjectId              ),
                             ListTile(
                           hoverColor: Colors.white,
                           selected: enabledUnitId == state.units.data[index].id,
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                state.units.data[index].name,
-                                style: TextStyle(
-                                    color: enabledUnitId ==
-                                            state.units.data[index].id
-                                        ? Colors.black
-                                        : Colors.grey.shade600,
-                                    fontSize: enabledUnitId ==
-                                            state.units.data[index].id
-                                        ? 25
-                                        : null),
-                              ),
-                            ],
+                          title: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 8.0,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              state.units.data[index].name,
+                              style: enabledUnitId == state.units.data[index].id
+                                  ? TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 22.0,
+                                      fontWeight: FontWeight.bold,
+                                    )
+                                  : TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                            ),
                           ),
                           onTap: () {
                             enabledUnitId = state.units.data[index].id;
-
                             setState(
                               () {},
                             );
@@ -155,21 +161,22 @@ widget.subjectId              ),
                   );
                 }
               },
-            )),
-        Expanded(
-          child: Column(
-            children: [
-              Align(
-                child: TabBar(
-                  labelPadding: EdgeInsets.symmetric(horizontal: 30),
-                  indicatorColor: Colors.white,
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TabBar(
+                  labelPadding: EdgeInsets.symmetric(horizontal: 36.0),
+                  indicatorColor: Colors.black,
                   labelColor: Colors.black,
-                  physics: NeverScrollableScrollPhysics(),
+                  indicatorPadding: const EdgeInsets.only(top: 8.0),
                   unselectedLabelColor: Colors.grey,
-                  unselectedLabelStyle:
-                      TextStyle(fontWeight: FontWeight.normal),
-                  labelStyle:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  unselectedLabelStyle: Theme.of(context).textTheme.headline6,
+                  labelStyle: Theme.of(context).textTheme.headline5.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                   isScrollable: true,
                   controller: _tabController,
                   tabs: [
@@ -190,38 +197,37 @@ widget.subjectId              ),
                     ),
                   ],
                 ),
-                alignment: Alignment.topLeft,
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    BlocProvider.value(
-                      value: context.bloc<QuestionBankBloc>(),
-                      child: QuestionBankAllTab(
-                        widget.subjectId,
-                        _tabController,
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      BlocProvider.value(
+                        value: context.bloc<QuestionBankBloc>(),
+                        child: QuestionBankAllTab(
+                          widget.subjectId,
+                          _tabController,
+                        ),
                       ),
-                    ),
-                    BlocProvider.value(
-                      value: context.bloc<QuestionBankBloc>(),
-                      child: QuestionBankObjectiveTab(
-                        widget.subjectId,
+                      BlocProvider.value(
+                        value: context.bloc<QuestionBankBloc>(),
+                        child: QuestionBankObjectiveTab(
+                          widget.subjectId,
+                        ),
                       ),
-                    ),
-                    BlocProvider.value(
-                      value: context.bloc<QuestionBankBloc>(),
-                      child: QuestionBankSubjectiveTab(
-                        widget.subjectId,
+                      BlocProvider.value(
+                        value: context.bloc<QuestionBankBloc>(),
+                        child: QuestionBankSubjectiveTab(
+                          widget.subjectId,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

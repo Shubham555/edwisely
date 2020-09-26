@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
 
 class AddQuestionCubit extends Cubit<AddQuestionState> {
   AddQuestionCubit() : super(AddQuestionInitial());
@@ -32,68 +33,51 @@ class AddQuestionCubit extends Cubit<AddQuestionState> {
 
     // FilePickerCross solutionImage,
   ) async {
-    final response = await EdwiselyApi.dio.post(
-      'questionnaireWeb/addObjectiveQuestion',
-      data: FormData.fromMap(
-        {
-          //todo no topics so using this
-          'question': question,
-          'topics': jsonEncode([
-            {'id': 13779, "type": "Gtopic"},
-            {"id": 13780, "type": "Gtopic"},
-          ]),
-          'options': jsonEncode(options),
-          'blooms_level': bloomsLevel,
-          'difficulty_level': difficultyLevel,
-          'source': source,
-          'type': type,
-          //mcq
-          'field_type': 1,
-          'answer': answer,
-          'question_img': questionImage == null
-              ? null
-              : MultipartFile.fromBytes(questionImage.toUint8List(),
-                  filename: questionImage.fileName),
-          // 'solution_img': MultipartFile.fromBytes(solutionImage.toUint8List(),
-          //     filename: solutionImage.fileName),
-          'option1': option1 == null
-              ? null
-              : MultipartFile.fromBytes(option1.toUint8List(),
-                  filename: option1.fileName),
-          'option2': option2 == null
-              ? null
-              : MultipartFile.fromBytes(option2.toUint8List(),
-                  filename: option2.fileName),
-          'option3': option3 == null
-              ? null
-              : MultipartFile.fromBytes(option3.toUint8List(),
-                  filename: option3.fileName),
-          'option4': option4 == null
-              ? null
-              : MultipartFile.fromBytes(option4.toUint8List(),
-                  filename: option4.fileName),
-          'option5': option5 == null
-              ? null
-              : MultipartFile.fromBytes(option5.toUint8List(),
-                  filename: option5.fileName),
-          'hint': hint,
-          'solution': solution
-        },
-      ),
-    );
+    final response = await EdwiselyApi().dio().then((value) => value.post(
+          'questionnaireWeb/addObjectiveQuestion',
+          data: FormData.fromMap(
+            {
+              //todo no topics so using this
+              'question': question,
+              'topics': jsonEncode([
+                {'id': 13779, "type": "Gtopic"},
+                {"id": 13780, "type": "Gtopic"},
+              ]),
+              'options': jsonEncode(options),
+              'blooms_level': bloomsLevel,
+              'difficulty_level': difficultyLevel,
+              'source': source,
+              'type': type,
+              //mcq
+              'field_type': 1,
+              'answer': answer,
+              'question_img': questionImage == null ? null : MultipartFile.fromBytes(questionImage.toUint8List(), filename: questionImage.fileName),
+              // 'solution_img': MultipartFile.fromBytes(solutionImage.toUint8List(),
+              //     filename: solutionImage.fileName),
+              'option1_img': option1 == null ? null : MultipartFile.fromBytes(option1.toUint8List(), filename: option1.fileName),
+              'option2_img': option2 == null ? null : MultipartFile.fromBytes(option2.toUint8List(), filename: option2.fileName),
+              'option3_img': option3 == null ? null : MultipartFile.fromBytes(option3.toUint8List(), filename: option3.fileName),
+              'option4_img': option4 == null ? null : MultipartFile.fromBytes(option4.toUint8List(), filename: option4.fileName),
+              'option5_img': option5 == null ? null : MultipartFile.fromBytes(option5.toUint8List(), filename: option5.fileName),
+              'hint': hint,
+              'solution': solution
+            },
+          ),
+        ));
     if (response.data['message'] == 'Successfully updated the questions') {
       print(response.data);
-      questions.add(response.data['question_id']);
-      final rresponse = await EdwiselyApi.dio.post(
-        'questionnaireWeb/editObjectiveTestQuestions',
-        data: FormData.fromMap(
-          {
-            'test_id': assessmentId,
-            'questions': jsonEncode(questions),
-            'units' : jsonEncode([])
-          },
-        ),
-      );
+      questions.add(response.data['data']['id']);
+      print(questions);
+      final rresponse = await EdwiselyApi().dio().then((value) => value.post(
+            'questionnaireWeb/editObjectiveTestQuestions',
+            data: FormData.fromMap(
+              {
+                'test_id': assessmentId,
+                'questions': jsonEncode(questions),
+                'units': jsonEncode([]),
+              },
+            ),
+          ));
       print(rresponse.data);
       if (rresponse.statusCode == 200) {}
       emit(

@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/assessment/assessmentQuestions/questions_options.dart';
+import 'questions_options.dart';
 
 class Data {
 

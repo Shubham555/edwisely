@@ -1,22 +1,26 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:edwisely/data/api/api.dart';
-import 'package:edwisely/data/model/assessment/studentsSection/StudentsEntity.dart';
 import 'package:meta/meta.dart';
+
+import '../api/api.dart';
+import '../model/assessment/studentsSection/StudentsEntity.dart';
 
 class SelectStudentsCubit extends Cubit<SelectStudentsState> {
   SelectStudentsCubit() : super(SelectStudentsInitial());
 
   getStudentsInASection(int sectionId, int year) async {
-    final response = await EdwiselyApi.dio.post(
-      'common/getCollegeDepartmentSectionStudents',
-      data: FormData.fromMap(
-        {
-          'college_department_section_id': sectionId,
-          'year': year,
-        },
-      ),
+    emit(
+      SelectStudentsInitial(),
     );
+    final response = await EdwiselyApi().dio().then((value) => value.post(
+          'common/getCollegeDepartmentSectionStudents',
+          data: FormData.fromMap(
+            {
+              'college_department_section_id': sectionId,
+              'year': year,
+            },
+          ),
+        ));
     if (response.statusCode == 200) {
       emit(
         SelectStudentsStudentsFetched(

@@ -31,18 +31,6 @@ class GetCourseSyllabus extends CoursesEvent {
   GetCourseSyllabus(this.subjectSemesterId);
 }
 
-class GetCourseContentData extends CoursesEvent {
-  final int unitId;
-
-  GetCourseContentData(this.unitId);
-}
 
 class GetAllCourses extends CoursesEvent {}
 
-class AddCourseToFaculty extends CoursesEvent {
-  final int subjectId;
-  final int subjectSemesterId;
-  final List<int> sections;
-
-  AddCourseToFaculty(this.subjectId, this.subjectSemesterId, this.sections);
-}

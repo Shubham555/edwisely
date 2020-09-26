@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/questionBank/questionBankSubjective/data.dart';
+import 'data.dart';
 
 class QuestionBankSubjectiveEntity {
 

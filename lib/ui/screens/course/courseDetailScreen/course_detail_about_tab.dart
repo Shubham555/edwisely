@@ -1,6 +1,7 @@
-import 'package:edwisely/data/blocs/coursesBloc/courses_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../data/blocs/coursesBloc/courses_bloc.dart';
 
 class CourseDetailAboutTab extends StatelessWidget {
   final int semesterId;
@@ -52,40 +53,42 @@ class CourseDetailAboutTab extends StatelessWidget {
                             style: TextStyle(
                               fontSize: MediaQuery.of(context).size.height / 40,
                               fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(
-                            state.courseEntity.data.objectives.length,
-                            (index) => Row(
-                              children: [
-                                Container(
-                                  width: 7,
-                                  height: 7,
-                                  decoration: BoxDecoration(
-                                    color: Color(
-                                      0xFF1F2C65,
-                                    ),
-                                    borderRadius: BorderRadius.circular(
-                                      60,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: List.generate(
+                              state.courseEntity.data.objectives.length,
+                              (index) => Row(
+                                children: [
+                                  Container(
+                                    width: 7,
+                                    height: 7,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(
+                                        60,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  state.courseEntity.data.objectives[index],
-                                  style: TextStyle(
-                                    color: Colors.grey.shade600,
+                                  SizedBox(
+                                    width: 10,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    state.courseEntity.data.objectives[index],
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -99,40 +102,42 @@ class CourseDetailAboutTab extends StatelessWidget {
                             style: TextStyle(
                               fontSize: MediaQuery.of(context).size.height / 40,
                               fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(
-                            state.courseEntity.data.outcomes.length,
-                            (index) => Row(
-                              children: [
-                                Container(
-                                  width: 7,
-                                  height: 7,
-                                  decoration: BoxDecoration(
-                                    color: Color(
-                                      0xFF1F2C65,
-                                    ),
-                                    borderRadius: BorderRadius.circular(
-                                      60,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: List.generate(
+                              state.courseEntity.data.outcomes.length,
+                              (index) => Row(
+                                children: [
+                                  Container(
+                                    width: 7,
+                                    height: 7,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(
+                                        60,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  state.courseEntity.data.outcomes[index],
-                                  style: TextStyle(
-                                    color: Colors.grey.shade600,
+                                  SizedBox(
+                                    width: 10,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    state.courseEntity.data.outcomes[index],
+                                    style: TextStyle(
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -142,9 +147,9 @@ class CourseDetailAboutTab extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.all(20),
-                  width: MediaQuery.of(context).size.width / 5,
+                  width: MediaQuery.of(context).size.width / 4,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: 150,

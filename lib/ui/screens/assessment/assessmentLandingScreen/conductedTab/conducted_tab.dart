@@ -1,6 +1,7 @@
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/objective_tab.dart';
-import 'package:edwisely/ui/screens/assessment/assessmentLandingScreen/conductedTab/subjective_tab.dart';
 import 'package:flutter/material.dart';
+
+import 'objective_tab.dart';
+import 'subjective_tab.dart';
 
 class ConductedTab extends StatefulWidget {
   @override
@@ -22,13 +23,17 @@ class _ConductedTabState extends State<ConductedTab>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 32.0),
         TabBar(
-          labelPadding: EdgeInsets.symmetric(horizontal: 30),
-          indicatorColor: Colors.white,
+          labelPadding: EdgeInsets.symmetric(horizontal: 36.0),
+          indicatorColor: Colors.black,
           labelColor: Colors.black,
+          indicatorPadding: const EdgeInsets.only(top: 8.0),
           unselectedLabelColor: Colors.grey,
-          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
-          labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          unselectedLabelStyle: Theme.of(context).textTheme.headline6,
+          labelStyle: Theme.of(context).textTheme.headline5.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
           isScrollable: true,
           controller: _objectiveOrSubjectiveTabController,
           tabs: [
@@ -40,6 +45,7 @@ class _ConductedTabState extends State<ConductedTab>
             ),
           ],
         ),
+        SizedBox(height: 32.0),
         Expanded(
           child: TabBarView(
             controller: _objectiveOrSubjectiveTabController,

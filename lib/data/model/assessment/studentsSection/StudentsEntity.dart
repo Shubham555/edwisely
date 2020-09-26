@@ -1,4 +1,4 @@
-import 'package:edwisely/data/model/assessment/studentsSection/data.dart';
+import 'data.dart';
 
 class StudentsEntity {
   List<Data> data;

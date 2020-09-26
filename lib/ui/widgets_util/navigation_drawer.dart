@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './side_drawer_item.dart';
+import '../../data/provider/selected_page.dart';
+import '../../util/router.dart';
+import '../../util/theme.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final isCollapsed;
-  final selectedIndex;
-  final Function onPageChanged;
 
   NavigationDrawer({
     this.isCollapsed = true,
-    this.selectedIndex,
-    @required this.onPageChanged,
+    Key key,
   });
 
   @override
@@ -19,7 +20,7 @@ class NavigationDrawer extends StatefulWidget {
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
   bool _isNavigationDrawerCollapsed = false;
-
+  int _selectedPage = 0;
   double _sidebarWidth;
 
   Size screenSize;
@@ -36,6 +37,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
     textTheme = Theme.of(context).textTheme;
+    _selectedPage = Provider.of<SelectedPageProvider>(context).selectedPage;
 
     if (screenSize.width < 1000) {
       _sidebarWidth = _isNavigationDrawerCollapsed
@@ -43,7 +45,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           : screenSize.width * 0.28;
     } else {
       _sidebarWidth = _isNavigationDrawerCollapsed
-          ? screenSize.width * 0.05
+          ? screenSize.width * 0.06
           : screenSize.width * 0.15;
     }
 
@@ -57,17 +59,20 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         horizontal: 18.0,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: EdwiselyTheme.NAV_BAR_COLOR,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //logo here
-          Image.asset(
-            _isNavigationDrawerCollapsed
-                ? 'assets/logo/small_logo.png'
-                : 'assets/logo/big_logo.png',
-            fit: BoxFit.contain,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 0),
+            child: Image.asset(
+              _isNavigationDrawerCollapsed
+                  ? 'assets/logo/small_logo.png'
+                  : 'assets/logo/big_logo.png',
+              fit: BoxFit.contain,
+            ),
           ),
           //seperator
           Padding(
@@ -76,48 +81,75 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           //list of options
           InkWell(
-            onTap: () => widget.onPageChanged(0),
+            onTap: () {
+              final pageProvider =
+                  Provider.of<SelectedPageProvider>(context, listen: false);
+              pageProvider.changePage(0);
+              MyRouter().navigateTo(pageProvider.navigatorKey, '/all-courses');
+            },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
               title: 'All Courses',
               icon: Icons.import_contacts,
               myIndex: 0,
-              currentIndex: widget.selectedIndex,
+              currentIndex: _selectedPage,
             ),
           ),
           InkWell(
-            onTap: () => widget.onPageChanged(1),
+            onTap: () {
+              Provider.of<SelectedPageProvider>(context, listen: false)
+                  .changePage(1);
+              Navigator.of(context).pushNamed('/add-course');
+            },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
               title: 'Add Course',
               icon: Icons.book,
               myIndex: 1,
-              currentIndex: widget.selectedIndex,
+              currentIndex: _selectedPage,
             ),
           ),
           InkWell(
-            onTap: () => widget.onPageChanged(2),
+            onTap: () {
+              Provider.of<SelectedPageProvider>(context, listen: false)
+                  .changePage(2);
+              Navigator.of(context).pushNamed('/send-assesment');
+            },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
               title: 'Assesments',
               icon: Icons.assessment,
               myIndex: 2,
-              currentIndex: widget.selectedIndex,
+              currentIndex: _selectedPage,
             ),
           ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Live Class',
-            icon: Icons.live_tv,
-            myIndex: 3,
-            currentIndex: widget.selectedIndex,
+          InkWell(
+            onTap: () {
+              Provider.of<SelectedPageProvider>(context, listen: false)
+                  .changePage(3);
+              Navigator.of(context).pushNamed('/create-live-class');
+            },
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'Live Class',
+              icon: Icons.live_tv,
+              myIndex: 3,
+              currentIndex: _selectedPage,
+            ),
           ),
-          SideDrawerItem(
-            isCollapsed: _isNavigationDrawerCollapsed,
-            title: 'Send Assignment',
-            icon: Icons.assignment,
-            myIndex: 4,
-            currentIndex: widget.selectedIndex,
+          InkWell(
+            onTap: () {
+              Provider.of<SelectedPageProvider>(context, listen: false)
+                  .changePage(4);
+              Navigator.of(context).pushNamed('/send-notification');
+            },
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'Send Notification',
+              icon: Icons.send_and_archive,
+              myIndex: 4,
+              currentIndex: _selectedPage,
+            ),
           ),
           // SideDrawerItem(
           //   isCollapsed: _isNavigationDrawerCollapsed,
@@ -176,18 +208,22 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                                 : 'Collapse',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .button
+                                .copyWith(color: Colors.white),
                           ),
                   ),
                   _isNavigationDrawerCollapsed
                       ? SizedBox.shrink()
                       : SizedBox(
-                          width: 8.0,
+                          width: 12.0,
                         ),
                   Icon(
                     _isNavigationDrawerCollapsed
                         ? Icons.arrow_forward_ios
                         : Icons.arrow_back_ios,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ],
               ),

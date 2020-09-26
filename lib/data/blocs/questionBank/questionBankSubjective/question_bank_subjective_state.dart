@@ -5,7 +5,11 @@ abstract class QuestionBankSubjectiveState {}
 
 class QuestionBankSubjectiveInitial extends QuestionBankSubjectiveState {}
 
-class QuestionBankSubjectiveFetchFailed extends QuestionBankSubjectiveState {}
+class QuestionBankSubjectiveFetchFailed extends QuestionBankSubjectiveState {
+  final String error;
+
+  QuestionBankSubjectiveFetchFailed(this.error);
+}
 
 class QuestionBankSubjectiveEmpty extends QuestionBankSubjectiveState {}
 
@@ -14,6 +18,5 @@ class UnitSubjectiveQuestionsFetched extends QuestionBankSubjectiveState {
   final int unitId;
   final List<DropdownMenuItem> dropDownList;
 
-  UnitSubjectiveQuestionsFetched(
-      this.questionBankSubjectiveEntity, this.unitId, this.dropDownList);
+  UnitSubjectiveQuestionsFetched(this.questionBankSubjectiveEntity, this.unitId, this.dropDownList);
 }
