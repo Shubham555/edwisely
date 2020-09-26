@@ -452,7 +452,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                   ),
                                   //todo fix
                                   BlocBuilder(
-                                    cubit: topicCubit..getTopics(45, int.parse(departmentId)),
+                                    cubit: topicCubit..getTopics(45, departmentId),
                                     builder: (BuildContext context, state) {
                                       if (state is TopicFetched) {
                                         return StatefulBuilder(
@@ -489,8 +489,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                   RaisedButton.icon(
                                     onPressed: () {
                                       questions.isEmpty ? null : context.bloc<QuestionAddCubit>().addQuestions(widget._assessmentId, questions, []);
-                                      Future.delayed(
-                                          Duration(seconds: 2), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                      Future.delayed(Duration(seconds: 2), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
                                     },
                                     icon: Icon(Icons.add),
                                     label: Text('Add'),

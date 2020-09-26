@@ -31,8 +31,8 @@ import 'data/cubits/upload_excel_cubit.dart';
 import 'data/provider/selected_page.dart';
 import 'util/theme.dart';
 
-String departmentId;
-String collegeId;
+int departmentId;
+int collegeId;
 String loginToken;
 
 main() {
@@ -42,9 +42,13 @@ main() {
 
 void _initializeVariables() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  departmentId = sharedPreferences.getString('department_id');
-  collegeId = sharedPreferences.getString('college_id');
-  loginToken = sharedPreferences.getString('login_token');
+  // departmentId = sharedPreferences.getString('department_id');
+  // collegeId = sharedPreferences.getString('college_id');
+  // loginToken = sharedPreferences.getString('login_token');
+  departmentId = 71;
+  collegeId = 102;
+  loginToken =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMTExNTgxMCIsImV4cCI6IjE2MDI0MTE4MTAifQ.raH1xdORJpDCqsKWmCHxhfZ-W0ynrU9Gh3TGJmZje9k';
 }
 
 class EdWisely extends StatelessWidget {

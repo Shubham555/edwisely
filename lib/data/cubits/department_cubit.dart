@@ -1,14 +1,21 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 import '../model/department/DepartmentEntity.dart';
 
 class DepartmentCubit extends Cubit<DepartmentState> {
   DepartmentCubit() : super(DepartmentInitial());
 
-  getDepartments(int collegeId) async {
-    final response = await EdwiselyApi.dio.get('common/getCollegeDepartment');
+  getDepartments() async {
+    final response = await EdwiselyApi.dio.post(
+      'common/getCollegeDepartment',
+      data: FormData.fromMap(
+        {'college_id': collegeId},
+      ),
+    );
     if (response.data['message'] == true) {
       emit(
         DepartmentFetched(

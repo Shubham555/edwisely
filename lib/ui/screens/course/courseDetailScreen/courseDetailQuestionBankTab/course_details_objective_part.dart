@@ -5,12 +5,10 @@ import '../../../../../data/blocs/questionBank/question_bank_bloc.dart';
 
 class CourseDetailsObjectivePart extends StatefulWidget {
   @override
-  _CourseDetailsObjectivePartState createState() =>
-      _CourseDetailsObjectivePartState();
+  _CourseDetailsObjectivePartState createState() => _CourseDetailsObjectivePartState();
 }
 
-class _CourseDetailsObjectivePartState
-    extends State<CourseDetailsObjectivePart> {
+class _CourseDetailsObjectivePartState extends State<CourseDetailsObjectivePart> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
@@ -19,16 +17,14 @@ class _CourseDetailsObjectivePartState
         if (state is UnitQuestionsFetched) {
           return ListView.separated(
             shrinkWrap: true,
-            itemCount:
-                state.questionBankAllEntity.data.objective_questions.length,
+            itemCount: state.questionBankAllEntity.data.objective_questions.length,
             itemBuilder: (BuildContext context, int index) => ListTile(
               title: Row(
                 children: [
                   Text('Q. ${index + 1}  '),
                   Expanded(
                     child: Text(
-                      state.questionBankAllEntity.data
-                          .objective_questions[index].name,
+                      state.questionBankAllEntity.data.objective_questions[index].name,
                     ),
                   ),
                 ],

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chips_choice/chips_choice.dart';
+import 'package:edwisely/data/cubits/department_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -16,7 +17,12 @@ import '../../../data/provider/selected_page.dart';
 import '../../widgets_util/big_app_bar.dart';
 import '../../widgets_util/navigation_drawer.dart';
 
-class AddCourseScreen extends StatelessWidget {
+class AddCourseScreen extends StatefulWidget {
+  @override
+  _AddCourseScreenState createState() => _AddCourseScreenState();
+}
+
+class _AddCourseScreenState extends State<AddCourseScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -72,6 +78,7 @@ class AddCourseScreen extends StatelessWidget {
                           ),
                         builder: (BuildContext context, state) {
                           if (state is AllCoursesFetched) {
+                            List<Data> coursesFilter = state.getAllCoursesEntity.data;
                             return Expanded(
                               child: Column(
                                 children: [
@@ -91,12 +98,12 @@ class AddCourseScreen extends StatelessWidget {
                                                   ),
                                               decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Search Courses'),
                                             ),
-                                            suggestionsCallback: (pttrn) async {
+                                            suggestionsCallback: (searchString) async {
                                               List<Data> courses = List();
                                               courses.addAll(state.getAllCoursesEntity.data);
                                               courses.retainWhere(
                                                 (element) => element.name.toLowerCase().contains(
-                                                      pttrn.toLowerCase(),
+                                                      searchString.toLowerCase(),
                                                     ),
                                               );
                                               return courses;
@@ -120,30 +127,41 @@ class AddCourseScreen extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(width: 32.0),
-                                        //todo fix department search
-                                        // BlocBuilder(
-                                        //   cubit: context.bloc<DepartmentCubit>()
-                                        //     ..getDepartments(),
-                                        //   builder: (BuildContext context, state) {
-                                        //     if (state is DepartmentFetched) {
-                                        //       return DropdownButton(
-                                        //         items: List.generate(
-                                        //           state.departmentEntity.data.length,
-                                        //               (index) =>
-                                        //               DropdownMenuItem(
-                                        //                 child: Text(
-                                        //                   state.departmentEntity.data[index].department,
-                                        //                 ),
-                                        //               ),
-                                        //         ), onChanged: (value) => ,
-                                        //       );
-                                        //     } else {
-                                        //       return Center(
-                                        //         child: CircularProgressIndicator(),
-                                        //       );
-                                        //     }
-                                        //   },
-                                        // )
+                                        //todo department fix
+                                        BlocBuilder(
+                                          cubit: context.bloc<DepartmentCubit>()..getDepartments(),
+                                          builder: (BuildContext context, state) {
+                                            if (state is DepartmentFetched) {
+                                              int selectedDropDown = state.departmentEntity.data[0].department_id;
+                                              return StatefulBuilder(
+                                                builder: (BuildContext context, StateSetter setState) => DropdownButton(
+                                                  value: selectedDropDown,
+                                                  items: List.generate(
+                                                    state.departmentEntity.data.length,
+                                                    (index) => DropdownMenuItem(
+                                                      child: Text(
+                                                        state.departmentEntity.data[index].department,
+                                                      ),
+                                                      value: state.departmentEntity.data[index].department_id,
+                                                    ),
+                                                  ),
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      coursesFilter.removeWhere(
+                                                        (element) => element.departments.contains(value),
+                                                      );
+                                                    });
+                                                    return selectedDropDown = value;
+                                                  },
+                                                ),
+                                              );
+                                            } else {
+                                              return Center(
+                                                child: CircularProgressIndicator(),
+                                              );
+                                            }
+                                          },
+                                        )
                                       ],
                                     ),
                                   ),
@@ -153,25 +171,26 @@ class AddCourseScreen extends StatelessWidget {
                                         vertical: 16.0,
                                         horizontal: MediaQuery.of(context).size.width * 0.17,
                                       ),
-                                      child: GridView(
+                                      child: GridView.builder(
                                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                           mainAxisSpacing: 35,
                                           crossAxisSpacing: 35,
                                           crossAxisCount: 3,
                                           childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 2.6,
                                         ),
-                                        children: List.generate(
-                                          state.getAllCoursesEntity.data.length,
-                                          (upperIndex) => Card(
+                                        itemBuilder: (BuildContext context, int index) {
+                                          print(coursesFilter.length);
+                                          return Card(
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(
                                                 6,
                                               ),
                                             ),
                                             elevation: 6,
-                                            child: _buildCourseTile(upperIndex, context, state),
-                                          ),
-                                        ),
+                                            child: _buildCourseTile(index, context, coursesFilter, state),
+                                          );
+                                        },
+                                        itemCount: coursesFilter.length,
                                       ),
                                     ),
                                   ),
@@ -206,7 +225,7 @@ class AddCourseScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseTile(int upperIndex, BuildContext context, state) {
+  Widget _buildCourseTile(int upperIndex, BuildContext context, List<Data> courses, state) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +234,7 @@ class AddCourseScreen extends StatelessWidget {
             alignment: Alignment.center,
             child: Container(
               height: MediaQuery.of(context).size.height / 5,
-              child: state.getAllCoursesEntity.data[upperIndex].course_image == ''
+              child: courses[upperIndex].course_image == ''
                   ? Image.asset(
                       'placeholder_image.jpg',
                       fit: BoxFit.cover,
@@ -223,7 +242,7 @@ class AddCourseScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width / 4,
                     )
                   : Image.network(
-                      state.getAllCoursesEntity.data[upperIndex].course_image,
+                      courses[upperIndex].course_image,
                     ),
             ),
           ),
@@ -234,7 +253,7 @@ class AddCourseScreen extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.07,
               width: double.infinity,
               child: AutoSizeText(
-                state.getAllCoursesEntity.data[upperIndex].name,
+                courses[upperIndex].name,
                 maxLines: 3,
                 maxFontSize: 32.0,
                 minFontSize: 18.0,
@@ -270,7 +289,7 @@ class AddCourseScreen extends StatelessWidget {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: List.generate(
-                  state.getAllCoursesEntity.data[upperIndex].departments.length,
+                  courses[upperIndex].departments.length,
                   (index) => Container(
                     height: MediaQuery.of(context).size.height * 0.03,
                     margin: const EdgeInsets.symmetric(horizontal: 6.0),
@@ -284,7 +303,7 @@ class AddCourseScreen extends StatelessWidget {
                       color: Color(0xfff7f1e3),
                     ),
                     child: Text(
-                      state.getAllCoursesEntity.data[upperIndex].departments[index].name,
+                      courses[upperIndex].departments[index].name,
                     ),
                   ),
                 ),
@@ -301,8 +320,8 @@ class AddCourseScreen extends StatelessWidget {
                 child: RaisedButton(
                   onPressed: () => _showDialog(
                     context,
-                    state.getAllCoursesEntity.data[upperIndex],
-                    state.getAllCoursesEntity.data[upperIndex].departments,
+                    courses[upperIndex],
+                    courses[upperIndex].departments,
                     state.sectionEntity,
                   ),
                   padding: const EdgeInsets.all(0),

@@ -20,8 +20,7 @@ class CourseDetailScreen extends StatefulWidget {
   _CourseDetailScreenState createState() => _CourseDetailScreenState();
 }
 
-class _CourseDetailScreenState extends State<CourseDetailScreen>
-    with SingleTickerProviderStateMixin {
+class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTickerProviderStateMixin {
   TabController _tabController;
 
   bool _isCollapsed = true;
@@ -54,7 +53,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                     'Edwisely',
                     style: TextStyle(color: Colors.black),
                   ),
-                  flatButton:null,
+                  flatButton: null,
                 ).build(context),
                 Expanded(
                   child: Column(
@@ -71,12 +70,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                           labelColor: Colors.black,
                           indicatorPadding: const EdgeInsets.only(top: 8.0),
                           unselectedLabelColor: Colors.grey,
-                          unselectedLabelStyle:
-                              Theme.of(context).textTheme.headline6,
-                          labelStyle:
-                              Theme.of(context).textTheme.headline5.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          unselectedLabelStyle: Theme.of(context).textTheme.headline6,
+                          labelStyle: Theme.of(context).textTheme.headline5.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                           isScrollable: true,
                           controller: _tabController,
                           tabs: [
@@ -98,8 +95,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.17,
+                            horizontal: MediaQuery.of(context).size.width * 0.17,
                           ),
                           child: TabBarView(
                             physics: NeverScrollableScrollPhysics(),
