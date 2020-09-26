@@ -9,8 +9,8 @@ class UploadExcelCubit extends Cubit<UploadExcelState> {
   UploadExcelCubit() : super(UploadExcelInitial());
 
   uploadExcel(FilePickerCross file) async {
-    final response = await EdwiselyApi().dio().then((value) => value.post(
-          'questionnaireWeb/uploadObjectiveQuestions',
+    final response = await EdwiselyApi.dio.post(
+          'question2naireWeb/uploadObjectiveQuestions',
           data: FormData.fromMap(
             {
               'files': MultipartFile.fromBytes(file.toUint8List(), filename: file.fileName),
@@ -20,7 +20,7 @@ class UploadExcelCubit extends Cubit<UploadExcelState> {
               ]
             },
           ),
-        ));
+        );
     print(response.data);
   }
 }

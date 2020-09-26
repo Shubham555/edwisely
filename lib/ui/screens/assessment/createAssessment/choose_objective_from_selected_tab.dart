@@ -1,4 +1,5 @@
 import 'package:chips_choice/chips_choice.dart';
+import 'package:edwisely/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
 
   @override
   Widget build(BuildContext context) {
+    print('subject id in choose_objectivefromselected ${widget._subjectId}');
     int topicId;
     int unitId;
     List<int> questions = [];
@@ -450,7 +452,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                   ),
                                   //todo fix
                                   BlocBuilder(
-                                    cubit: topicCubit..getTopics(45, 71),
+                                    cubit: topicCubit..getTopics(45, int.parse(departmentId)),
                                     builder: (BuildContext context, state) {
                                       if (state is TopicFetched) {
                                         return StatefulBuilder(

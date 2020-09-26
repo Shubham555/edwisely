@@ -9,9 +9,9 @@ class QuestionsCubit extends Cubit<QuestionsState> {
 
   getQuestionsToAnAssessment(int testId) async {
     emit(QuestionsInitial());
-    final response = await EdwiselyApi().dio().then((value) => value.get(
+    final response = await EdwiselyApi.dio.get(
       'questionnaireWeb/getObjectiveTestQuestions?test_id=$testId',
-    ));
+    );
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No questions to fetch') {
         emit(

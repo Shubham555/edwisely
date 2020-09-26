@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
@@ -24,19 +26,26 @@ class LoginCubit extends Cubit<LoginState> {
   signIn(String email, String password) async {
     print('sign in ');
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await EdwiselyApi().dio().then((value) => value.post(
+    final response = await EdwiselyApi.dio.post(
           'auth/loginUser',
           data: FormData.fromMap(
             {
               'username': email,
               'password': password,
             },
-          ),
         ));
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
         prefs.setString('login_key', response.data['token']);
-        print(response.data['token']);
+        prefs.setString(
+          'department_id',
+          response.data['department_id'],
+        );
+        prefs.setString(
+          'college_id',
+          response.data['college_id'],
+        );
+        log('Values Saved');
         if (response.data['force_password_change'] == 1) {
           emit(
             ForcePasswordChange(response.data['name'], response.data['email']),
@@ -57,12 +66,12 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   changePassword(String email, String password) async {
-    final response = await EdwiselyApi().dio().then((value) => value.post(
+    final response = await EdwiselyApi.dio.post(
           'user/updatePassword',
           data: FormData.fromMap(
             {'user_id': email, 'new_password': password},
           ),
-        ));
+        );
 
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Successfully updated password') {

@@ -9,6 +9,7 @@ import '../../api/api.dart';
 import '../../model/assessment/assessmentEntity/AssessmentsEntity.dart';
 
 part 'objective_event.dart';
+
 part 'objective_state.dart';
 
 class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
@@ -19,8 +20,7 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     ObjectiveEvent event,
   ) async* {
     if (event is GetObjectiveTests) {
-      final assessmentResponse =
-          await EdwiselyApi().dio().then((value) => value.get('questionnaireWeb/getObjectiveTests'));
+      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests');
       if (assessmentResponse.statusCode == 200) {
         yield ObjectiveSuccess(
           AssessmentsEntity.fromJsonMap(assessmentResponse.data),
@@ -31,8 +31,7 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     }
     if (event is GetObjectiveTestsBYSubjectId) {
       yield ObjectiveInitial();
-      final assessmentResponse = await EdwiselyApi().dio().then((value) => value.get(
-          'questionnaireWeb/getSubjectWiseObjectiveTests?subject_id=${event.subjectId}'));
+      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectWiseObjectiveTests?subject_id=${event.subjectId}');
       if (assessmentResponse.statusCode == 200) {
         if (assessmentResponse.data['message'] == 'No tests to fetch') {
           yield ObjectiveEmpty();
@@ -47,16 +46,16 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     }
     if (event is CreateObjectiveQuestionnaire) {
       yield ObjectiveInitial();
-      final response = await EdwiselyApi().dio().then((value) => value.post(
-        'questionnaireWeb/createObjectiveTest',
-        data: FormData.fromMap(
-          {
-            'name': event._title,
-            'description': event._description,
-            'subject_id': event._subjectId,
-          },
-        ),
-      ));
+      final response = await EdwiselyApi.dio.post(
+            'questionnaireWeb/createObjectiveTest',
+            data: FormData.fromMap(
+              {
+                'name': event._title,
+                'description': event._description,
+                'subject_id': event._subjectId,
+              },
+            ),
+          );
       print(response.data);
       if (response.data.toString().contains('Successfully created the test')) {
         yield ObjectiveAssessmentCreated(response.data['test_id']);

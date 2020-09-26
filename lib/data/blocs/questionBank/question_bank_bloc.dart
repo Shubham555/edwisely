@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:edwisely/main.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -9,6 +10,7 @@ import '../../model/questionBank/questionBankAll/QuestionBankAllEntity.dart';
 import '../../model/questionBank/topicEntity/TopicEntity.dart';
 
 part 'question_bank_event.dart';
+
 part 'question_bank_state.dart';
 
 class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
@@ -20,13 +22,9 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
   ) async* {
     var currentState = state;
     if (event is GetUnitQuestions) {
-      final response =
-          await EdwiselyApi().dio().then((value) => value.get('questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}'));
-      //todo fix university_degree_department
+      final response = await EdwiselyApi.dio.get('questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
 
-      final topicsResponse = await EdwiselyApi()
-          .dio()
-          .then((value) => value.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71'));
+      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$departmentId');
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
         List<DropdownMenuItem> dropDownItems = [];
         dropDownItems.add(
@@ -60,8 +58,7 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetUnitQuestionsByLevel) {
       yield QuestionBankInitial();
-      final response =
-          await EdwiselyApi().dio().then((value) => value.get('questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}'));
+      final response = await EdwiselyApi.dio.get('questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}');
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -77,8 +74,7 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetUnitQuestionsByTopic) {
       yield QuestionBankInitial();
-      final response =
-          await EdwiselyApi().dio().then((value) => value.get('questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}'));
+      final response = await EdwiselyApi.dio.get('questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}');
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -94,7 +90,7 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetQuestionsByBookmark) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi().dio().then((value) => value.get('getBookmarkedQuestions?unit_id=${event.unitId}'));
+      final response = await EdwiselyApi.dio.get('getBookmarkedQuestions?unit_id=${event.unitId}');
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -110,7 +106,7 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetYourQuestions) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi().dio().then((value) => value.get('questions/getFacultyAddedQuestions?unit_id=${event.unitId}'));
+      final response = await EdwiselyApi.dio.get('questions/getFacultyAddedQuestions?unit_id=${event.unitId}');
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);

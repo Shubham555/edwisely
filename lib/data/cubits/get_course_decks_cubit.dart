@@ -8,9 +8,7 @@ class CourseDecksCubit extends Cubit<GetCourseDecksState> {
   CourseDecksCubit() : super(GetCourseDecksInitial());
 
   getCourseDecks(int unitId) async {
-    final response = await EdwiselyApi().dio().then(
-          (value) => value.get('getCourseDecks?unit_id=$unitId'),
-        );
+    final response = await EdwiselyApi.dio.get('getCourseDecks?unit_id=$unitId');
     print(response.data);
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No data to fetch') {

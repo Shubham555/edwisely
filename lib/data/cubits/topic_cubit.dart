@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:edwisely/main.dart';
 import 'package:meta/meta.dart';
 
 import '../api/api.dart';
@@ -8,9 +9,9 @@ class TopicCubit extends Cubit<TopicState> {
   TopicCubit() : super(TopicInitial());
 
   getTopics(int subjectId, int universityDepartmentId) async {
-    final response = await EdwiselyApi().dio().then((value) => value.get(
-          'questionnaireWeb/getSubjectTopics?subject_id=$subjectId&university_degree_department_id=$universityDepartmentId',
-        ));
+    final response = await EdwiselyApi.dio.get(
+          'questionnaireWeb/getSubjectTopics?subject_id=$subjectId&university_degree_department_id=$departmentId',
+        );
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No topics to fetch') {
         emit(
