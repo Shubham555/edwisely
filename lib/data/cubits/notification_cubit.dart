@@ -18,24 +18,22 @@ class NotificationCubit extends Cubit<NotificationState> {
     List<int> students,
     FilePickerCross file,
   ) async {
-    final response = await EdwiselyApi().dio().then(
-          (value) => value.post(
-            'college/createNotification',
-            data: FormData.fromMap(
-              {
-                'title': title,
-                'description': description,
-                'priority': priority,
-                'is_comment_anonymous': isCommentAnonymous,
-                'students': jsonEncode(students),
-                'file': MultipartFile.fromBytes(
-                  file.toUint8List(),
-                  filename: file.fileName,
-                ),
-              },
-            ),
+    final response = await EdwiselyApi.dio.post(
+      'college/createNotification',
+      data: FormData.fromMap(
+        {
+          'title': title,
+          'description': description,
+          'priority': priority,
+          'is_comment_anonymous': isCommentAnonymous,
+          'students': jsonEncode(students),
+          'file': MultipartFile.fromBytes(
+            file.toUint8List(),
+            filename: file.fileName,
           ),
-        );
+        },
+      ),
+    );
     if (response.data['message'] == 'Successfully created the notification') {
       emit(
         NotificationSent(),

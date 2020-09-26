@@ -9,6 +9,7 @@ import '../../../model/questionBank/questionBankObjective/QuestionBankObjectiveE
 import '../../../model/questionBank/topicEntity/TopicEntity.dart';
 
 part 'question_bank_objective_event.dart';
+
 part 'question_bank_objective_state.dart';
 
 class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, QuestionBankObjectiveState> {
@@ -21,12 +22,8 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     var currentState = state;
 
     if (event is GetUnitObjectiveQuestions) {
-      final response = await EdwiselyApi()
-          .dio()
-          .then((value) => value.get('questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}'));
-      final topicsResponse = await EdwiselyApi()
-          .dio()
-          .then((value) => value.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71'));
+      final response = await EdwiselyApi.dio.get('questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
+      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71');
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
         List<DropdownMenuItem> dropDownItems = [];
         dropDownItems.add(
@@ -60,9 +57,7 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetUnitObjectiveQuestionsByLevel) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi()
-          .dio()
-          .then((value) => value.get('questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}'));
+      final response = await EdwiselyApi.dio.get('questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}');
       if (response.statusCode == 200) {
         QuestionBankObjectiveEntity questionBankObjectiveEntity = QuestionBankObjectiveEntity.fromJsonMap(
           response.data,
@@ -84,9 +79,7 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetUnitObjectiveQuestionsByTopic) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi()
-          .dio()
-          .then((value) => value.get('questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}'));
+      final response = await EdwiselyApi.dio.get('questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}');
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
@@ -102,7 +95,7 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetObjectiveQuestionsByBookmark) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi().dio().then((value) => value.get('getBookmarkedQuestions?unit_id=${event.unitId}'));
+      final response = await EdwiselyApi.dio.get('getBookmarkedQuestions?unit_id=${event.unitId}');
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
@@ -118,7 +111,7 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetYourObjectiveQuestions) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi().dio().then((value) => value.get('questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}'));
+      final response = await EdwiselyApi.dio.get('questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}');
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);

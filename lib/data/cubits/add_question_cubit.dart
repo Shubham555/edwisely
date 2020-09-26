@@ -33,7 +33,7 @@ class AddQuestionCubit extends Cubit<AddQuestionState> {
 
     // FilePickerCross solutionImage,
   ) async {
-    final response = await EdwiselyApi().dio().then((value) => value.post(
+    final response = await EdwiselyApi.dio.post(
           'questionnaireWeb/addObjectiveQuestion',
           data: FormData.fromMap(
             {
@@ -63,12 +63,12 @@ class AddQuestionCubit extends Cubit<AddQuestionState> {
               'solution': solution
             },
           ),
-        ));
+        );
     if (response.data['message'] == 'Successfully updated the questions') {
       print(response.data);
       questions.add(response.data['data']['id']);
       print(questions);
-      final rresponse = await EdwiselyApi().dio().then((value) => value.post(
+      final rresponse = await EdwiselyApi.dio.post(
             'questionnaireWeb/editObjectiveTestQuestions',
             data: FormData.fromMap(
               {
@@ -77,7 +77,7 @@ class AddQuestionCubit extends Cubit<AddQuestionState> {
                 'units': jsonEncode([]),
               },
             ),
-          ));
+          );
       print(rresponse.data);
       if (rresponse.statusCode == 200) {}
       emit(

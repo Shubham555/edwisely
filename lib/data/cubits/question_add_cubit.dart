@@ -13,18 +13,16 @@ class QuestionAddCubit extends Cubit<QuestionAddState> {
     print(assessmentId);
     print(questions);
 
-    final response = await EdwiselyApi().dio().then(
-          (value) => value.post(
-            'questionnaireWeb/editObjectiveTestQuestions',
-            data: FormData.fromMap(
-              {
-                'test_id': assessmentId,
-                'questions': jsonEncode(questions),
-                'units': jsonEncode([]),
-              },
-            ),
-          ),
-        );
+    final response = await EdwiselyApi.dio.post(
+      'questionnaireWeb/editObjectiveTestQuestions',
+      data: FormData.fromMap(
+        {
+          'test_id': assessmentId,
+          'questions': jsonEncode(questions),
+          'units': jsonEncode([]),
+        },
+      ),
+    );
     print(response.data);
     if (response.data['message'] == 'Successfully updated the questions') {
       emit(QuestionsAdded());

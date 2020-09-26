@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 import '../model/assessment/studentsSection/StudentsEntity.dart';
 import '../model/course/sectionEntity/SectionEntity.dart';
@@ -12,9 +13,7 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
   SendAssessmentCubit() : super(SendAssessmentInitial());
 
   getSections(int universityDepartmentId) async {
-    final sectionResponse = await EdwiselyApi().dio().then((value) => value.get(
-        //todo change to event
-        'getCourseDepartmentSections?university_degree_department_id=71'));
+    final sectionResponse = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId');
     print(sectionResponse.data);
     if (sectionResponse.statusCode == 200) {
       emit(
@@ -37,21 +36,12 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
     int testId,
     String startTime,
   ) async {
-    final response = await EdwiselyApi().dio().then((value) => value.post(
-          'questionnaireWeb/editObjectiveTest',
-          data: FormData.fromMap(
-            {
-              'name': name,
-              'description': description,
-              'doe': doe,
-              'questions': jsonEncode(questions),
-              'timelimit': timeLimit,
-              'students': jsonEncode(students),
-              'test_id': testId,
-              'starttime': startTime
-            },
-          ),
-        ));
+    final response = await EdwiselyApi.dio.post(
+      'questionnaireWeb/editObjectiveTest',
+      data: FormData.fromMap(
+        {'name': name, 'description': description, 'doe': doe, 'questions': jsonEncode(questions), 'timelimit': timeLimit, 'students': jsonEncode(students), 'test_id': testId, 'starttime': startTime},
+      ),
+    );
     print(response.data);
     if (response.data['message'] == 'Successfully updated the questions') {
       emit(

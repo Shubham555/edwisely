@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './data/provider/selected_page.dart';
 import './util/router.dart';
@@ -30,8 +31,20 @@ import 'data/cubits/upload_excel_cubit.dart';
 import 'data/provider/selected_page.dart';
 import 'util/theme.dart';
 
-void main() {
+String departmentId;
+String collegeId;
+String loginToken;
+
+main() {
+  _initializeVariables();
   runApp(EdWisely());
+}
+
+void _initializeVariables() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  departmentId = sharedPreferences.getString('department_id');
+  collegeId = sharedPreferences.getString('college_id');
+  loginToken = sharedPreferences.getString('login_token');
 }
 
 class EdWisely extends StatelessWidget {
@@ -117,7 +130,6 @@ class EdWisely extends StatelessWidget {
           title: 'Edwisely',
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,
-          // home: CourseDetailScreen('', 352),
           onGenerateRoute: MyRouter.onGenerateRoute,
           navigatorKey: navigatorKey,
         ),

@@ -166,8 +166,7 @@ class LoginScreen extends StatelessWidget {
                     builder: (context) {
                       TextEditingController forgotController = TextEditingController();
                       return Card(
-                        margin: EdgeInsets.symmetric(
-                            vertical: MediaQuery.of(context).size.height / 3.5, horizontal: MediaQuery.of(context).size.width / 5),
+                        margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height / 3.5, horizontal: MediaQuery.of(context).size.width / 5),
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Column(
@@ -191,14 +190,12 @@ class LoginScreen extends StatelessWidget {
                                 width: screenSize.width * 0.4,
                                 child: RaisedButton(
                                   onPressed: () async {
-                                    final response = await EdwiselyApi().dio().then(
-                                          (value) => value.post(
-                                            'user/forgotPassword',
-                                            data: FormData.fromMap(
-                                              {'email': forgotController.text},
-                                            ),
-                                          ),
-                                        );
+                                    final response = await EdwiselyApi.dio.post(
+                                      'user/forgotPassword',
+                                      data: FormData.fromMap(
+                                        {'email': forgotController.text},
+                                      ),
+                                    );
                                     print(response.data);
                                     if (response.data['message'] == 'Successfully updated password') {
                                       Navigator.pop(context);

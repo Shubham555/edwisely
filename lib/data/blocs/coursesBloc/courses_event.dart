@@ -7,17 +7,9 @@ class GetCoursesByFaculty extends CoursesEvent {}
 
 class GetCoursesList extends CoursesEvent {}
 
-class GetSections extends CoursesEvent {
-  final int universityDegreeDepartmentId;
+class GetSections extends CoursesEvent {}
 
-  GetSections(this.universityDegreeDepartmentId);
-}
-
-class GetSectionsAndGetCoursesList extends CoursesEvent {
-  final int universityDegreeDepartmentId;
-
-  GetSectionsAndGetCoursesList(this.universityDegreeDepartmentId);
-}
+class GetSectionsAndGetCoursesList extends CoursesEvent {}
 
 class GetCourse extends CoursesEvent {
   final int subjectSemesterId;
@@ -31,6 +23,4 @@ class GetCourseSyllabus extends CoursesEvent {
   GetCourseSyllabus(this.subjectSemesterId);
 }
 
-
 class GetAllCourses extends CoursesEvent {}
-

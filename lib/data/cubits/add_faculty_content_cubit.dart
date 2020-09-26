@@ -9,26 +9,31 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
   AddFacultyContentCubit() : super(AddFacultyContentInitial());
 
   addFacultyContent(
-      int unitId, String topicCode, int materialType, String name, FilePickerCross attachments, String displayType, String externalUrl) async {
-    final response = await EdwiselyApi().dio().then(
-          (value) => value.post(
-            'addFacultyContent',
-            data: FormData.fromMap(
-              {
-                'unit_id': unitId,
-                'topic_code': topicCode,
-                'material_type': materialType,
-                'name': name,
-                'attachments': MultipartFile.fromBytes(
-                  attachments.toUint8List(),
-                  filename: attachments.fileName,
-                ),
-                'display_type': displayType,
-                'external_url': externalUrl
-              },
-            ),
+    int unitId,
+    String topicCode,
+    int materialType,
+    String name,
+    FilePickerCross attachments,
+    String displayType,
+    String externalUrl,
+  ) async {
+    final response = await EdwiselyApi.dio.post(
+      'addFacultyContent',
+      data: FormData.fromMap(
+        {
+          'unit_id': unitId,
+          'topic_code': topicCode,
+          'material_type': materialType,
+          'name': name,
+          'attachments': MultipartFile.fromBytes(
+            attachments.toUint8List(),
+            filename: attachments.fileName,
           ),
-        );
+          'display_type': displayType,
+          'external_url': externalUrl
+        },
+      ),
+    );
     print(response.data);
     if (response.data['message'] == 'Successfully updated the course details') {
       emit(

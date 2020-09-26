@@ -12,9 +12,7 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi().dio().then(
-          (value) => value.get('getCourseContent?unit_id=$unitId&subject_semester_id=$semesterId'),
-        );
+    final response = await EdwiselyApi.dio.get('getCourseContent?unit_id=$unitId&subject_semester_id=$semesterId');
     if (response.data['message'] == 'Successfully updated the course details') {
       List<Learning_content> data = [];
       CourseContentEntity d = CourseContentEntity.fromJsonMap(
@@ -42,9 +40,7 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi().dio().then(
-          (value) => value.get('getFacultyAddedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId'),
-        );
+    final response = await EdwiselyApi.dio.get('getFacultyAddedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId');
     if (response.data['message'] == 'Successfully updated the course details') {
       List<Learning_content> data = List<Learning_content>.from(response.data["data"].map((it) => Learning_content.fromJsonMap(it)));
       emit(
@@ -66,9 +62,7 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi().dio().then(
-          (value) => value.get('getFacultyBookmarkedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId'),
-        );
+    final response = await EdwiselyApi.dio.get('getFacultyBookmarkedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId');
     if (response.data['message'] == 'Successfully updated the course details') {
       List<Learning_content> data = [];
       CourseContentEntity d = CourseContentEntity.fromJsonMap(

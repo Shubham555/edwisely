@@ -9,6 +9,7 @@ import '../../api/api.dart';
 import '../../model/assessment/assessmentEntity/AssessmentsEntity.dart';
 
 part 'subjective_event.dart';
+
 part 'subjective_state.dart';
 
 class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
@@ -19,7 +20,7 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
     SubjectiveEvent event,
   ) async* {
     if (event is GetSubjectiveTests) {
-      final assessmentResponse = await EdwiselyApi().dio().then((value) => value.get('questionnaireWeb/getSubjectiveTests'));
+      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectiveTests');
 
       if (assessmentResponse.statusCode == 200) {
         yield SubjectiveSuccess(
@@ -31,7 +32,7 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
     }
     if (event is GetSubjectiveTestsBYSubjectId) {
       yield SubjectiveInitial();
-      final assessmentResponse = await EdwiselyApi().dio().then((value) => value.get('questionnaireWeb/getSubjectWiseSubjectiveTests?subject_id=${event.subjectId}'));
+      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectWiseSubjectiveTests?subject_id=${event.subjectId}');
       if (assessmentResponse.statusCode == 200) {
         if (assessmentResponse.data['message'] == 'No tests to fetch') {
           yield SubjectiveEmpty();
@@ -46,7 +47,7 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
     }
     if (event is CreateSubjectiveQuestionnaire) {
       yield SubjectiveInitial();
-      final response = await EdwiselyApi().dio().then((value) => value.post(
+      final response = await EdwiselyApi.dio.post(
             'questionnaireWeb/createSubjectiveTest',
             data: FormData.fromMap(
               {
@@ -55,7 +56,7 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
                 'subject_id': event._subjectId,
               },
             ),
-          ));
+          );
       print(response.data);
       if (response.data.toString().contains('Successfully created the test')) {
         yield SubjectiveAssessmentCreated(response.data['test_id']);

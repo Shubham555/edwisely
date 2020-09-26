@@ -1,3 +1,4 @@
+import 'package:edwisely/main.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,6 +84,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('departmentId == $departmentId');
     screenSize = MediaQuery.of(context).size;
     print(Provider.of<SelectedPageProvider>(context).selectedPage);
     return Scaffold(

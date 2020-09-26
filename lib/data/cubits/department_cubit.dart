@@ -8,9 +8,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   DepartmentCubit() : super(DepartmentInitial());
 
   getDepartments(int collegeId) async {
-    final response = await EdwiselyApi().dio().then(
-          (value) => value.get('common/getCollegeDepartment'),
-        );
+    final response = await EdwiselyApi.dio.get('common/getCollegeDepartment');
     if (response.data['message'] == true) {
       emit(
         DepartmentFetched(
