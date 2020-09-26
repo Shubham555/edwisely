@@ -162,7 +162,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                               value: selectedCouerse,
                               choiceItems: S2Choice.listFrom(
                                 source: state.coursesEntity.data,
-                                value: (index, Data item) => {item.id: item.subject_semester_id, 'title': item.name},
+                                value: (index, Data item) => {item.id: item.subject_semester_id},
                                 title: (index, Data item) => item.name,
                                 group: (index, Data item) => '',
                               ),
@@ -175,6 +175,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                               choiceLayout: S2ChoiceLayout.wrap,
                               onChange: (state) => setState(() {
                                 selectedCouerse = state.value;
+                                print(selectedCouerse);
                               }),
                               tileBuilder: (context, state) => S2Tile.fromState(
                                 state,
