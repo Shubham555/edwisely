@@ -179,7 +179,7 @@ class ChooseSubjectiveFromSelectedTab extends StatelessWidget {
                         },
                       ),
                       BlocBuilder(
-                        cubit: topicCubit..getTopics(_subjectId, 71),
+                        cubit: topicCubit..getTopics(_subjectId),
                         builder: (BuildContext context, state) {
                           if (state is TopicFetched) {
                             return ChipsChoice<int>.single(

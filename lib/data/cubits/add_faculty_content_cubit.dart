@@ -47,6 +47,41 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
       );
     }
   }
+
+  updateFacultyContent(
+    int topicId,
+    int materialThype,
+    int materialId,
+    String name, {
+    FilePickerCross attachments,
+  }) async {
+    final response = await EdwiselyApi.dio.post(
+      'units/updateMaterial',
+      data: FormData.fromMap(
+        {
+          'topic_id': topicId,
+          'material_type': materialThype,
+          'material_id': materialId,
+          'name': name,
+          'attachements': MultipartFile.fromBytes(
+            attachments.toUint8List(),
+            filename: attachments.fileName,
+          ),
+        },
+      ),
+    );
+    if (response.data['message'] == 'Successfully updated the course details') {
+      emit(
+        AddFacultyContentAdded(),
+      );
+    } else {
+      emit(
+        AddFacultyContentFailed(
+          response.data['message'],
+        ),
+      );
+    }
+  }
 }
 
 @immutable

@@ -24,3 +24,12 @@ class GetCourseSyllabus extends CoursesEvent {
 }
 
 class GetAllCourses extends CoursesEvent {}
+
+class SortCourses extends CoursesEvent {
+  final String pattern;
+
+  final CoursesEntity coursesEntity;
+  final CoursesEntity originalCourseEntity;
+
+  SortCourses(this.pattern, this.coursesEntity, this.originalCourseEntity);
+}

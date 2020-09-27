@@ -93,8 +93,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                   hint: 'Enter your title here',
                                   inputType: TextInputType.text,
                                   autofocus: true,
-                                  onSaved: (String value) =>
-                                      _title = value.trim(),
+                                  onSaved: (String value) => _title = value.trim(),
                                   validator: (String value) {
                                     if (value.trim().length == 0) {
                                       return 'This field cannot be empty!';
@@ -112,8 +111,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                   hint: 'Enter the description here',
                                   inputType: TextInputType.multiline,
                                   maxLines: 4,
-                                  onSaved: (String value) =>
-                                      _description = value.trim(),
+                                  onSaved: (String value) => _description = value.trim(),
                                   validator: (String value) {
                                     if (value.trim().length == 0) {
                                       return 'This field cannot be empty!';
@@ -160,8 +158,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                     IconButton(
                                       icon: Icon(Icons.add),
                                       onPressed: () async {
-                                        file = await FilePickerCross
-                                            .importFromStorage(
+                                        file = await FilePickerCross.importFromStorage(
                                           type: FileTypeCross.any,
                                         );
                                       },
@@ -180,9 +177,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
 
                                       if (form.validate()) {
                                         form.save();
-                                        context
-                                            .bloc<NotificationCubit>()
-                                            .sendNotification(
+                                        context.bloc<NotificationCubit>().sendNotification(
                                               _title,
                                               _description,
                                               _isPriority ? 1 : 0,
@@ -206,80 +201,48 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                         Expanded(
                           child: BlocBuilder(
                             //todo change
-                            cubit: context.bloc<SendAssessmentCubit>()
-                              ..getSections(71),
+                            cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                             builder: (BuildContext context, state) {
                               if (state is SendAssessmentSectionsFetched) {
-                                context
-                                    .bloc<SelectStudentsCubit>()
-                                    .getStudentsInASection(
-                                        state.sectionEntity.data[0].id, 1);
-                                int enabledSectionId =
-                                    state.sectionEntity.data[0].id;
+                                context.bloc<SelectStudentsCubit>().getStudentsInASection(state.sectionEntity.data[0].id, 1);
+                                int enabledSectionId = state.sectionEntity.data[0].id;
                                 return Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      width:
-                                          MediaQuery.of(context).size.width /
-                                              10,
+                                      width: MediaQuery.of(context).size.width / 10,
                                       child: StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            void Function(void Function())
-                                                setState) {
+                                        builder: (BuildContext context, void Function(void Function()) setState) {
                                           return ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: state
-                                                .sectionEntity.data.length,
-                                            itemBuilder:
-                                                (BuildContext context,
-                                                        int index) =>
-                                                    ListTile(
+                                            itemCount: state.sectionEntity.data.length,
+                                            itemBuilder: (BuildContext context, int index) => ListTile(
                                               hoverColor: Colors.white,
-                                              selected: enabledSectionId ==
-                                                  state.sectionEntity
-                                                      .data[index].id,
+                                              selected: enabledSectionId == state.sectionEntity.data[index].id,
                                               title: Container(
-                                                padding: const EdgeInsets
-                                                    .symmetric(
+                                                padding: const EdgeInsets.symmetric(
                                                   vertical: 8.0,
                                                   horizontal: 16.0,
                                                 ),
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                  state.sectionEntity
-                                                      .data[index].name,
-                                                  style: enabledSectionId ==
-                                                          state.sectionEntity
-                                                              .data[index].id
+                                                  state.sectionEntity.data[index].name,
+                                                  style: enabledSectionId == state.sectionEntity.data[index].id
                                                       ? TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 22.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                          fontWeight: FontWeight.bold,
                                                         )
                                                       : TextStyle(
                                                           color: Colors.grey,
                                                           fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight
-                                                                  .normal,
+                                                          fontWeight: FontWeight.normal,
                                                         ),
                                                 ),
                                               ),
                                               onTap: () {
-                                                enabledSectionId = state
-                                                    .sectionEntity
-                                                    .data[index]
-                                                    .id;
-                                                context
-                                                    .bloc<
-                                                        SelectStudentsCubit>()
-                                                    .getStudentsInASection(
-                                                        state.sectionEntity
-                                                            .data[index].id,
-                                                        1);
+                                                enabledSectionId = state.sectionEntity.data[index].id;
+                                                context.bloc<SelectStudentsCubit>().getStudentsInASection(state.sectionEntity.data[index].id, 1);
                                                 setState(
                                                   () {},
                                                 );
@@ -290,65 +253,42 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                       ),
                                     ),
                                     BlocBuilder(
-                                      cubit:
-                                          context.bloc<SelectStudentsCubit>(),
+                                      cubit: context.bloc<SelectStudentsCubit>(),
                                       builder: (BuildContext context, state) {
-                                        if (state
-                                            is SelectStudentsStudentsFetched) {
+                                        if (state is SelectStudentsStudentsFetched) {
                                           bool selectAll = false;
                                           return StatefulBuilder(
-                                            builder: (BuildContext context,
-                                                setState) {
+                                            builder: (BuildContext context, setState) {
                                               return SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.7,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    8,
+                                                height: MediaQuery.of(context).size.height * 0.7,
+                                                width: MediaQuery.of(context).size.width / 8,
                                                 child: Column(
                                                   children: [
                                                     SizedBox(
-                                                      height: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .height *
-                                                          0.05,
+                                                      height: MediaQuery.of(context).size.height * 0.05,
                                                       child: Row(
                                                         children: [
                                                           Text('Select All'),
                                                           Checkbox(
                                                             value: selectAll,
-                                                            onChanged:
-                                                                (flag) {
+                                                            onChanged: (flag) {
                                                               flag
-                                                                  ? state
-                                                                      .studentsEntity
-                                                                      .data
-                                                                      .forEach(
+                                                                  ? state.studentsEntity.data.forEach(
                                                                       (element) {
-                                                                        students
-                                                                            .add(
+                                                                        students.add(
                                                                           element.id,
                                                                         );
                                                                       },
                                                                     )
-                                                                  : state
-                                                                      .studentsEntity
-                                                                      .data
-                                                                      .forEach(
+                                                                  : state.studentsEntity.data.forEach(
                                                                       (element) {
-                                                                        students
-                                                                            .remove(
+                                                                        students.remove(
                                                                           element.id,
                                                                         );
                                                                       },
                                                                     );
                                                               setState(() {
-                                                                selectAll =
-                                                                    flag;
+                                                                selectAll = flag;
                                                               });
                                                             },
                                                           )
@@ -356,63 +296,31 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .height *
-                                                          0.65,
+                                                      height: MediaQuery.of(context).size.height * 0.65,
                                                       child: Scrollbar(
-                                                        controller:
-                                                            _scrollController,
+                                                        controller: _scrollController,
                                                         isAlwaysShown: true,
-                                                        child:
-                                                            ListView.builder(
-                                                          controller:
-                                                              _scrollController,
+                                                        child: ListView.builder(
+                                                          controller: _scrollController,
                                                           shrinkWrap: true,
-                                                          itemCount: state
-                                                              .studentsEntity
-                                                              .data
-                                                              .length,
-                                                          itemBuilder: (BuildContext
-                                                                      context,
-                                                                  int index) =>
-                                                              CheckboxListTile(
+                                                          itemCount: state.studentsEntity.data.length,
+                                                          itemBuilder: (BuildContext context, int index) => CheckboxListTile(
                                                             title: Text(
-                                                              state
-                                                                  .studentsEntity
-                                                                  .data[index]
-                                                                  .name,
+                                                              state.studentsEntity.data[index].name,
                                                             ),
                                                             subtitle: Text(
-                                                              state
-                                                                  .studentsEntity
-                                                                  .data[index]
-                                                                  .roll_number,
+                                                              state.studentsEntity.data[index].roll_number,
                                                             ),
-                                                            value: students
-                                                                .contains(
-                                                              state
-                                                                  .studentsEntity
-                                                                  .data[index]
-                                                                  .id,
+                                                            value: students.contains(
+                                                              state.studentsEntity.data[index].id,
                                                             ),
-                                                            onChanged:
-                                                                (flag) {
+                                                            onChanged: (flag) {
                                                               flag
-                                                                  ? students
-                                                                      .add(
-                                                                      state
-                                                                          .studentsEntity
-                                                                          .data[index]
-                                                                          .id,
+                                                                  ? students.add(
+                                                                      state.studentsEntity.data[index].id,
                                                                     )
-                                                                  : students
-                                                                      .remove(
-                                                                      state
-                                                                          .studentsEntity
-                                                                          .data[index]
-                                                                          .id,
+                                                                  : students.remove(
+                                                                      state.studentsEntity.data[index].id,
                                                                     );
                                                               setState(() {});
                                                             },
@@ -427,8 +335,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                           );
                                         } else {
                                           return Center(
-                                            child:
-                                                CircularProgressIndicator(),
+                                            child: CircularProgressIndicator(),
                                           );
                                         }
                                       },

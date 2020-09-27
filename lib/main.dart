@@ -1,3 +1,4 @@
+import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ import 'data/cubits/select_students_cubit.dart';
 import 'data/cubits/send_assessment_cubit.dart';
 import 'data/cubits/topic_cubit.dart';
 import 'data/cubits/unit_cubit.dart';
+import 'data/cubits/unit_topic_cubit.dart';
 import 'data/cubits/upload_excel_cubit.dart';
 import 'data/provider/selected_page.dart';
 import 'util/theme.dart';
@@ -129,6 +131,12 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => LiveClassCubit(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => TopicQuestionsCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => UnitTopicCubit(),
+          ),
         ],
         child: MaterialApp(
           title: 'Edwisely',
@@ -160,15 +168,17 @@ class EdWisely extends StatelessWidget {
 //todo ask about unidepid
 
 //news
-
 //todo password and confirm poassword for login
 //todo add button to right bottom right
 //todo check for apifrom backend for select from existing
 
-//25/09/2020 todos
 //todo ask about where to put the update faculty added objective question type
 // To change the type of faculty added objective question from public to private or vice versa  - type values that are accepted - [‘public’, ‘private’]
 // update faculty added subjective question type
 // To change the type of faculty added subjective question from public to private or vice versa  - type values that are accepted - [‘public’, ‘private’]
-//todo ask about material_type
-//todo tell to do either docs or doc
+//todo ask about material_type //
+//todo tell to do either docs or doc //
+
+// TODO: 9/26/2020
+//todo understand this new api for choose from selected
+//todo understand thi send api

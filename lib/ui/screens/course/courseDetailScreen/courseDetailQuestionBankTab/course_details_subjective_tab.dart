@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:edwisely/data/model/questionBank/questionBankSubjective/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
 import '../../../../../data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
@@ -280,88 +282,63 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                               builder: (BuildContext context, state) {
                                 if (state is UnitSubjectiveQuestionsFetched) {
                                   return ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: state.questionBankSubjectiveEntity.data.length,
-                                    itemBuilder: (BuildContext context, int index) => Card(
-                                      margin: EdgeInsets.all(
-                                        10,
-                                      ),
-                                      child: ListTile(
-                                        title: Row(
-                                          children: [
-                                            Text('Q. ${index + 1}'),
-                                            Image.network(
-                                              state.questionBankSubjectiveEntity.data[index].question_img[0],
-                                              width: 250,
-                                              height: 120,
+                                      shrinkWrap: true,
+                                      itemCount: state.questionBankSubjectiveEntity.data.length,
+                                      itemBuilder: (BuildContext context, int index) => Card(
+                                            margin: EdgeInsets.all(
+                                              10,
                                             ),
-                                          ],
-                                        ),
-                                        subtitle: Text(
-                                          'Level ${state.questionBankSubjectiveEntity.data[index].blooms_level}',
-                                        ),
-                                        trailing: StatefulBuilder(
-                                          builder: (BuildContext context, void Function(void Function()) setState) {
-                                            bool isBookmarked = state.questionBankSubjectiveEntity.data[index].bookmarked == 1;
-                                            return IconButton(
-                                              icon: Icon(
-                                                isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                                            child: ListTile(
+                                              title: Row(
+                                                children: [
+                                                  Text('Q. ${index + 1}'),
+                                                  Image.network(
+                                                    state.questionBankSubjectiveEntity.data[index].question_img[0],
+                                                    width: 250,
+                                                    height: 120,
+                                                  ),
+                                                ],
                                               ),
-                                              onPressed: () async {
-                                                //going the easy way allah maaf kre
-                                                if (isBookmarked) {
-                                                  final response = await EdwiselyApi.dio.post(
-                                                    'deleteBookmark',
-                                                    data: FormData.fromMap(
-                                                      {
-                                                        'type': state.questionBankSubjectiveEntity.data[index].type,
-                                                        'id': state.questionBankSubjectiveEntity.data[index].id,
+                                              subtitle: Text(
+                                                'Level ${state.questionBankSubjectiveEntity.data[index].blooms_level}',
+                                              ),
+                                              trailing: questionsDropDownValue == 3
+                                                  ? PopupMenuButton(
+                                                      onSelected: (string) {
+                                                        switch (string) {
+                                                          case 'Bookmark':
+                                                            _bookmark(state.questionBankSubjectiveEntity.data[index]);
+                                                            break;
+                                                          case 'Change type to Public':
+                                                            _changeType(state.questionBankSubjectiveEntity.data[index].id, 'public');
+                                                            break;
+                                                          case 'Change type to Private':
+                                                            _changeType(state.questionBankSubjectiveEntity.data[index].id, 'private');
+                                                            break;
+                                                        }
                                                       },
-                                                    ),
-                                                  );
-                                                  print(response.data);
-                                                  if (response.data['message'] == 'Successfully deleted the bookmark') {
-                                                    setState(
-                                                      () => isBookmarked = false,
-                                                    );
-                                                  } else {
-                                                    Scaffold.of(context).showSnackBar(
-                                                      SnackBar(
-                                                        content: Text('Some Error Occurred'),
-                                                      ),
-                                                    );
-                                                  }
-                                                } else {
-                                                  final response = await EdwiselyApi.dio.post(
-                                                    'addBookmark',
-                                                    data: FormData.fromMap(
-                                                      {
-                                                        'type': state.questionBankSubjectiveEntity.data[index].type,
-                                                        'id': state.questionBankSubjectiveEntity.data[index].id,
+                                                      itemBuilder: (context) {
+                                                        return [
+                                                          'Bookmark',
+                                                          'Change type to ${state.questionBankSubjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
+                                                        ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                            .map(
+                                                              (e) => PopupMenuItem(
+                                                                child: Text(e),
+                                                                value: e,
+                                                              ),
+                                                            )
+                                                            .toList();
                                                       },
-                                                    ),
-                                                  );
-                                                  print(response.data);
-
-                                                  if (response.data['message'] == 'Successfully added the bookmark') {
-                                                    setState(
-                                                      () => isBookmarked = true,
-                                                    );
-                                                  } else {
-                                                    Scaffold.of(context).showSnackBar(
-                                                      SnackBar(
-                                                        content: Text('Some Error Occurred'),
+                                                    )
+                                                  : IconButton(
+                                                      icon: Icon(state.questionBankSubjectiveEntity.data[index].bookmarked == 1 ? Icons.bookmark : Icons.bookmark_border),
+                                                      onPressed: () => _bookmark(
+                                                        state.questionBankSubjectiveEntity.data[index],
                                                       ),
-                                                    );
-                                                  }
-                                                }
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  );
+                                                    ),
+                                            ),
+                                          ));
                                 }
                                 if (state is QuestionBankSubjectiveFetchFailed) {
                                   return Center(
@@ -393,5 +370,73 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
         },
       ),
     );
+  }
+
+  _bookmark(Data data) async {
+    bool isBookmarked = data.bookmarked == 1;
+
+    if (isBookmarked) {
+      final response = await EdwiselyApi.dio.post(
+        'deleteBookmark',
+        data: FormData.fromMap(
+          {
+            'type': data.type,
+            'id': data.id,
+          },
+        ),
+      );
+      print(response.data);
+      if (response.data['message'] == 'Successfully deleted the bookmark') {
+        setState(
+          () => isBookmarked = false,
+        );
+      } else {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Some Error Occurred'),
+          ),
+        );
+      }
+    } else {
+      final response = await EdwiselyApi.dio.post(
+        'addBookmark',
+        data: FormData.fromMap(
+          {
+            'type': data.type,
+            'id': data.id,
+          },
+        ),
+      );
+      print(response.data);
+
+      if (response.data['message'] == 'Successfully added the bookmark') {
+        setState(
+          () => isBookmarked = true,
+        );
+      } else {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Some Error Occurred'),
+          ),
+        );
+      }
+    }
+  }
+
+  void _changeType(int id, String s) async {
+    final response = await EdwiselyApi.dio.post(
+      'questions/updateFacultyAddedSubjectiveQuestions',
+      data: FormData.fromMap(
+        {
+          'question_id': id,
+          'type': s,
+        },
+      ),
+    );
+    if (response.data['message'] == 'Successfully updated the data') {
+      Toast.show('Changed the type to $s', context);
+    } else {
+      Toast.show('Cannot Change the type to $s', context);
+    }
   }
 }

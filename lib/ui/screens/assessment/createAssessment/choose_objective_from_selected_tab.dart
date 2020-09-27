@@ -1,5 +1,7 @@
 import 'package:chips_choice/chips_choice.dart';
-import 'package:edwisely/main.dart';
+import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
+import 'package:edwisely/data/cubits/unit_topic_cubit.dart';
+import 'package:edwisely/data/model/assessment/unitTopic/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +11,6 @@ import '../../../../data/cubits/objective_questions_cubit.dart';
 import '../../../../data/cubits/question_add_cubit.dart';
 import '../../../../data/cubits/topic_cubit.dart';
 import '../../../../data/cubits/unit_cubit.dart';
-import '../../../../data/model/questionBank/topicEntity/data.dart';
 import '../../../../data/provider/selected_page.dart';
 import '../../../../util/enums/question_type_enum.dart';
 import '../../../widgets_util/big_app_bar_add_questions.dart';
@@ -47,7 +48,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
   @override
   Widget build(BuildContext context) {
     print('subject id in choose_objectivefromselected ${widget._subjectId}');
-    int topicId;
+    List<int> topics = [];
     int unitId;
     List<int> questions = [];
     return Scaffold(
@@ -404,6 +405,9 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                       if (state is CourseUnitFetched) {
                                         int enabledUnitId = state.units.data[0].id;
                                         unitId = state.units.data[0].id;
+                                        context.bloc<UnitTopicCubit>().getTopics(
+                                              unitId,
+                                            );
                                         objectiveBloc.add(GetUnitObjectiveQuestions(widget._subjectId, state.units.data[0].id));
                                         return StatefulBuilder(
                                           builder: (BuildContext context, void Function(void Function()) setState) {
@@ -450,28 +454,25 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                       }
                                     },
                                   ),
-                                  //todo fix
                                   BlocBuilder(
-                                    cubit: topicCubit..getTopics(45, departmentId),
+                                    cubit: context.bloc<UnitTopicCubit>(),
                                     builder: (BuildContext context, state) {
-                                      if (state is TopicFetched) {
+                                      if (state is UnitTopicFetched) {
                                         return StatefulBuilder(
                                           builder: (BuildContext context, void Function(void Function()) setState) {
-                                            return ChipsChoice<int>.single(
+                                            return ChipsChoice<int>.multiple(
                                               isWrapped: true,
-                                              value: topicId,
+                                              value: topics,
                                               options: ChipsChoiceOption.listFrom(
-                                                source: state.topicEntity.data,
-                                                value: (i, Data v) => v.id,
-                                                label: (i, Data v) => v.name,
+                                                source: state.unitTOpicEntity.data[0].topic,
+                                                value: (i, Topic v) => v.topic_id,
+                                                label: (i, Topic v) => v.topic_name,
                                               ),
-                                              onChanged: (int value) {
+                                              onChanged: (List<int> value) {
                                                 setState(() {
-                                                  topicId = value;
+                                                  topics = value;
                                                 });
-                                                objectiveBloc.add(
-                                                  GetUnitObjectiveQuestionsByTopic(value, unitId),
-                                                );
+                                                context.bloc<TopicQuestionsCubit>().getQuestionsToATopic(topics, []);
                                               },
                                             );
                                           },

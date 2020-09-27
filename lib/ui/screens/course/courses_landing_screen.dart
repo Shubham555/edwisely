@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
+import 'package:edwisely/data/api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import '../../../data/blocs/coursesBloc/courses_bloc.dart';
 import '../../../data/model/course/coursesEntity/data.dart';
@@ -131,8 +134,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => CourseDetailScreen(
-              state.coursesEntity.data[index].name, state.coursesEntity.data[index].subject_semester_id, state.coursesEntity.data[index].id),
+          builder: (BuildContext context) => CourseDetailScreen(state.coursesEntity.data[index].name, state.coursesEntity.data[index].subject_semester_id, state.coursesEntity.data[index].id),
         ),
       ),
       child: Card(
@@ -194,18 +196,31 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                       state.coursesEntity.data[index].sections.length > 4 ? 4 : state.coursesEntity.data[index].sections.length,
                       (index1) => Container(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 2.0,
-                          horizontal: 6.0,
+                          vertical: 1,
+                          horizontal: 1,
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0),
                           color: EdwiselyTheme.CARD_COLOR,
                         ),
-                        child: Text(
-                          '${state.coursesEntity.data[index].sections[index1].department_name} ${state.coursesEntity.data[index].sections[index1].department_fullname == '' ? '' : '-'} ${state.coursesEntity.data[index].sections[index1].name}',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              '${state.coursesEntity.data[index].sections[index1].department_name} ${state.coursesEntity.data[index].sections[index1].department_fullname == '' ? '' : '-'} ${state.coursesEntity.data[index].sections[index1].name}',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            // FIXME: 9/27/2020 fix this IconButton
+                            IconButton(
+                                padding: EdgeInsets.zero,
+                                icon: Icon(
+                                  Icons.delete,
+                                  size: 10,
+                                ),
+                                onPressed: () => _deleteSectionFromAFaculty(state.coursesEntity.data[index].sections[index1].faculty_section_id, context))
+                          ],
                         ),
                       ),
                     ),
@@ -256,5 +271,46 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
         ),
       ),
     );
+  }
+
+  _deleteSectionFromAFaculty(int facultySectionId, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirm Delete Section ?'),
+        actions: [
+          FlatButton(
+            onPressed: () => _deleteSectionFromAFacultyBackend(facultySectionId),
+            child: Text('Yes'),
+          ),
+          FlatButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('No'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _deleteSectionFromAFacultyBackend(int facultySectionId) async {
+    final response = await EdwiselyApi.dio.post(
+      'common/facultyUnassingSubjectSection',
+      data: FormData.fromMap(
+        {
+          'data': facultySectionId,
+        },
+      ),
+    );
+    print(response.data);
+    if (response.data['message'] == 'Successfully deleted the data') {
+      print('sdv');
+      _courseBloc.add(
+        GetCoursesByFaculty(),
+      );
+      Navigator.pop(context);
+    } else {
+      Navigator.pop(context);
+      Toast.show('There was some error', context);
+    }
   }
 }

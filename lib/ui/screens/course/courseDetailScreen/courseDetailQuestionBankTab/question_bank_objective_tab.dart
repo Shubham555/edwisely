@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:edwisely/data/model/questionBank/questionBankObjective/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
 import '../../../../../data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
@@ -287,78 +289,55 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                       10,
                                     ),
                                     child: ListTile(
-                                        title: Row(
-                                          children: [
-                                            Text('Q. ${index + 1}  '),
-                                            Expanded(
-                                              child: Text(
-                                                state.questionBankObjectiveEntity.data[index].name,
-                                              ),
+                                      title: Row(
+                                        children: [
+                                          Text('Q. ${index + 1}  '),
+                                          Expanded(
+                                            child: Text(
+                                              state.questionBankObjectiveEntity.data[index].name,
                                             ),
-                                          ],
-                                        ),
-                                        subtitle: Text(
-                                          'Level ${state.questionBankObjectiveEntity.data[index].blooms_level}',
-                                        ),
-                                        trailing: StatefulBuilder(
-                                          builder: (BuildContext context, void Function(void Function()) setState) {
-                                            bool isBookmarked = state.questionBankObjectiveEntity.data[index].bookmarked == 1;
-                                            return IconButton(
-                                              icon: Icon(
-                                                isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                                              ),
-                                              onPressed: () async {
-                                                //going the easy way allah maaf kre
-                                                if (isBookmarked) {
-                                                  final response = await EdwiselyApi.dio.post(
-                                                    'deleteBookmark',
-                                                    data: FormData.fromMap(
-                                                      {
-                                                        'type': state.questionBankObjectiveEntity.data[index].type,
-                                                        'id': state.questionBankObjectiveEntity.data[index].id,
-                                                      },
-                                                    ),
-                                                  );
-                                                  print(response.data);
-                                                  if (response.data['message'] == 'Successfully deleted the bookmark') {
-                                                    setState(
-                                                      () => isBookmarked = false,
-                                                    );
-                                                  } else {
-                                                    Scaffold.of(context).showSnackBar(
-                                                      SnackBar(
-                                                        content: Text('Some Error Occurred'),
-                                                      ),
-                                                    );
-                                                  }
-                                                } else {
-                                                  final response = await EdwiselyApi.dio.post(
-                                                    'addBookmark',
-                                                    data: FormData.fromMap(
-                                                      {
-                                                        'type': state.questionBankObjectiveEntity.data[index].type,
-                                                        'id': state.questionBankObjectiveEntity.data[index].id,
-                                                      },
-                                                    ),
-                                                  );
-                                                  print(response.data);
-
-                                                  if (response.data['message'] == 'Successfully added the bookmark') {
-                                                    setState(
-                                                      () => isBookmarked = true,
-                                                    );
-                                                  } else {
-                                                    Scaffold.of(context).showSnackBar(
-                                                      SnackBar(
-                                                        content: Text('Some Error Occurred'),
-                                                      ),
-                                                    );
-                                                  }
+                                          ),
+                                        ],
+                                      ),
+                                      subtitle: Text(
+                                        'Level ${state.questionBankObjectiveEntity.data[index].blooms_level}',
+                                      ),
+                                      trailing: questionsDropDownValue == 3
+                                          ? PopupMenuButton(
+                                              onSelected: (string) {
+                                                switch (string) {
+                                                  case 'Bookmark':
+                                                    _bookmark(state.questionBankObjectiveEntity.data[index]);
+                                                    break;
+                                                  case 'Change type to Public':
+                                                    _changeType(state.questionBankObjectiveEntity.data[index].id, 'public');
+                                                    break;
+                                                  case 'Change type to Private':
+                                                    _changeType(state.questionBankObjectiveEntity.data[index].id, 'private');
+                                                    break;
                                                 }
                                               },
-                                            );
-                                          },
-                                        )),
+                                              itemBuilder: (context) {
+                                                return [
+                                                  'Bookmark',
+                                                  'Change type to ${state.questionBankObjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
+                                                ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                    .map(
+                                                      (e) => PopupMenuItem(
+                                                        child: Text(e),
+                                                        value: e,
+                                                      ),
+                                                    )
+                                                    .toList();
+                                              },
+                                            )
+                                          : IconButton(
+                                              icon: Icon(state.questionBankObjectiveEntity.data[index].bookmarked == 1 ? Icons.bookmark : Icons.bookmark_border),
+                                              onPressed: () => _bookmark(
+                                                state.questionBankObjectiveEntity.data[index],
+                                              ),
+                                            ),
+                                    ),
                                   );
                                 },
                               );
@@ -391,5 +370,73 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
         },
       ),
     );
+  }
+
+  _bookmark(Data data) async {
+    bool isBookmarked = data.bookmarked == 1;
+
+    if (isBookmarked) {
+      final response = await EdwiselyApi.dio.post(
+        'deleteBookmark',
+        data: FormData.fromMap(
+          {
+            'type': data.type,
+            'id': data.id,
+          },
+        ),
+      );
+      print(response.data);
+      if (response.data['message'] == 'Successfully deleted the bookmark') {
+        setState(
+          () => isBookmarked = false,
+        );
+      } else {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Some Error Occurred'),
+          ),
+        );
+      }
+    } else {
+      final response = await EdwiselyApi.dio.post(
+        'addBookmark',
+        data: FormData.fromMap(
+          {
+            'type': data.type,
+            'id': data.id,
+          },
+        ),
+      );
+      print(response.data);
+
+      if (response.data['message'] == 'Successfully added the bookmark') {
+        setState(
+          () => isBookmarked = true,
+        );
+      } else {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Some Error Occurred'),
+          ),
+        );
+      }
+    }
+  }
+
+  void _changeType(int id, String s) async {
+    final response = await EdwiselyApi.dio.post(
+      'questions/updateFacultyAddedObjectiveQuestions',
+      data: FormData.fromMap(
+        {
+          'question_id': id,
+          'type': s,
+        },
+      ),
+    );
+    if (response.data['message'] == 'Successfully updated the data') {
+      Toast.show('Changed the type to $s', context);
+    } else {
+      Toast.show('Cannot Change the type to $s', context);
+    }
   }
 }

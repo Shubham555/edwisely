@@ -673,8 +673,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   //todo change
                                   BlocBuilder(
                                     cubit: context.bloc<TopicCubit>()
-                                      //where ever you see 71 its department id and is used from shared preferences so dont worry for this thanks
-                                      ..getTopics(45, 71),
+                                      ..getTopics(45),
                                     builder: (BuildContext context, state) {
                                       if (state is TopicFetched) {
                                         return Container(

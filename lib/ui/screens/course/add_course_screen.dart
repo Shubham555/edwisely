@@ -147,10 +147,9 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                                   ),
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      coursesFilter.removeWhere(
-                                                        (element) => element.departments.contains(value),
-                                                      );
+                                                      coursesFilter.retainWhere((element) => element.departments.any((element) => element.id == value));
                                                     });
+                                                    print(coursesFilter.length);
                                                     return selectedDropDown = value;
                                                   },
                                                 ),
@@ -179,7 +178,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                           childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 2.6,
                                         ),
                                         itemBuilder: (BuildContext context, int index) {
-                                          print(coursesFilter.length);
                                           return Card(
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(
