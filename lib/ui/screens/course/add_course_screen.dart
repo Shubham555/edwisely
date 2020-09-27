@@ -63,14 +63,15 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BigAppBar(
-                              actions: null,
-                              titleText: 'Add Courses',
-                              //5 minute dedo a raha hioon Ha sarkar
-                              bottomTab: null,
-                              appBarSize: MediaQuery.of(context).size.height / 3.5,
-                              appBarTitle: Text('Edwisely'),
-                              flatButton: null)
-                          .build(context),
+                        actions: null,
+                        titleText: 'Add Courses',
+                        //5 minute dedo a raha hioon Ha sarkar
+                        bottomTab: null,
+                        appBarSize: MediaQuery.of(context).size.height / 3.5,
+                        appBarTitle: Text('Edwisely'),
+                        flatButton: null,
+                        route: 'Home > All Courses > Add Courses',
+                      ).build(context),
                       BlocBuilder(
                         cubit: context.bloc<CoursesBloc>()
                           ..add(
@@ -178,6 +179,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                           childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 2.6,
                                         ),
                                         itemBuilder: (BuildContext context, int index) {
+                                          print(coursesFilter.length);
                                           return Card(
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(

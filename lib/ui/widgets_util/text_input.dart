@@ -53,9 +53,13 @@ class TextInput extends StatelessWidget {
         SizedBox(height: 4.0),
         //textfield
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16.0),
           decoration: BoxDecoration(
-            color: Color(0xFFF2F5FA),
+            color: Colors.white,
+            border: Border.all(
+              color: Colors.black,
+              width: 0.5,
+            ),
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Row(

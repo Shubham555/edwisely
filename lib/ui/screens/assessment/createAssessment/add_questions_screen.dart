@@ -62,6 +62,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  route: '',
                   flatButton: FlatButton(
                     onPressed: () => Navigator.push(context,
                         MaterialPageRoute(builder: (BuildContext context) => SendAssessmentScreen(widget._assessmentId, widget._title, questions,widget._description))),

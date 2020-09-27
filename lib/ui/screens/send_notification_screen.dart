@@ -69,7 +69,42 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                       'Edwisely',
                       style: TextStyle(color: Colors.black),
                     ),
-                    flatButton: null,
+                    flatButton: RaisedButton(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 16.0,
+                      ),
+                      onPressed: () {
+                        final form = _formKey.currentState;
+
+                        if (form.validate()) {
+                          form.save();
+                          context.bloc<NotificationCubit>().sendNotification(
+                                _title,
+                                _description,
+                                _isPriority ? 1 : 0,
+                                _isCommentAnonymous ? 1 : 0,
+                                students,
+                                file,
+                              );
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons/send.png',
+                            color: Colors.white,
+                            height: 24.0,
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'Send',
+                            style: Theme.of(context).textTheme.button,
+                          ),
+                        ],
+                      ),
+                    ),
+                    route: 'Home > Send Notification',
                   ).build(context),
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -93,7 +128,8 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                   hint: 'Enter your title here',
                                   inputType: TextInputType.text,
                                   autofocus: true,
-                                  onSaved: (String value) => _title = value.trim(),
+                                  onSaved: (String value) =>
+                                      _title = value.trim(),
                                   validator: (String value) {
                                     if (value.trim().length == 0) {
                                       return 'This field cannot be empty!';
@@ -111,7 +147,8 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                   hint: 'Enter the description here',
                                   inputType: TextInputType.multiline,
                                   maxLines: 4,
-                                  onSaved: (String value) => _description = value.trim(),
+                                  onSaved: (String value) =>
+                                      _description = value.trim(),
                                   validator: (String value) {
                                     if (value.trim().length == 0) {
                                       return 'This field cannot be empty!';
@@ -129,218 +166,412 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     //priority widget
-                                    Text('Priority'),
-                                    Switch(
-                                      onChanged: (bool value) => setState(
-                                        () => _isPriority = value,
-                                      ),
-                                      value: _isPriority,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text('Priority'),
+                                            SizedBox(width: 34.0),
+                                            Switch(
+                                              onChanged: (bool value) =>
+                                                  setState(
+                                                () => _isPriority = value,
+                                              ),
+                                              value: _isPriority,
+                                            ),
+                                          ],
+                                        ),
+                                        //is comment anonymouse wiget
+                                        Row(
+                                          children: [
+                                            Text('Comments \nAnonymous'),
+                                            Switch(
+                                              onChanged: (bool value) =>
+                                                  setState(
+                                                () =>
+                                                    _isCommentAnonymous = value,
+                                              ),
+                                              value: _isCommentAnonymous,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
+                                    //spacing
                                     Spacer(),
-                                    Text('Comments Anonymous'),
-                                    Switch(
-                                      onChanged: (bool value) => setState(
-                                        () => _isCommentAnonymous = value,
-                                      ),
-                                      value: _isCommentAnonymous,
-                                    ),
-                                    //is comment anonymouse wiget
-                                  ],
-                                ),
-                                //spacing
-                                SizedBox(
-                                  height: screenSize.height * 0.05,
-                                ),
-
-                                Row(
-                                  children: [
-                                    Text('Select Attachment'),
-                                    IconButton(
-                                      icon: Icon(Icons.add),
-                                      onPressed: () async {
-                                        file = await FilePickerCross.importFromStorage(
-                                          type: FileTypeCross.any,
-                                        );
-                                      },
-                                    )
-                                  ],
-                                ),
-                                //spacing
-                                SizedBox(
-                                  height: screenSize.height * 0.05,
-                                ),
-                                //send notification button
-                                Center(
-                                  child: RaisedButton(
-                                    onPressed: () {
-                                      final form = _formKey.currentState;
-
-                                      if (form.validate()) {
-                                        form.save();
-                                        context.bloc<NotificationCubit>().sendNotification(
-                                              _title,
-                                              _description,
-                                              _isPriority ? 1 : 0,
-                                              _isCommentAnonymous ? 1 : 0,
-                                              students,
-                                              file,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Select Attachment'),
+                                        InkWell(
+                                          onTap: () async {
+                                            file = await FilePickerCross
+                                                .importFromStorage(
+                                              type: FileTypeCross.any,
                                             );
-                                      }
-                                    },
-                                    child: Text(
-                                      'Send Notification',
-                                      style: Theme.of(context).textTheme.button,
+                                          },
+                                          child: Container(
+                                            width: screenSize.width * 0.08,
+                                            height: screenSize.height * 0.09,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 0.5,
+                                              ),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Image.asset(
+                                              'assets/icons/upload.png',
+                                              width: 24.0,
+                                              height: 32.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
+                                  ],
+                                ),
+                                //spacing
+                                SizedBox(
+                                  height: screenSize.height * 0.05,
+                                ),
+                                Text('Class Select'),
+                                BlocBuilder(
+                                  //todo change
+                                  cubit: context.bloc<SendAssessmentCubit>()
+                                    ..getSections(71),
+                                  builder: (BuildContext context, state) {
+                                    if (state
+                                        is SendAssessmentSectionsFetched) {
+                                      context
+                                          .bloc<SelectStudentsCubit>()
+                                          .getStudentsInASection(
+                                            state.sectionEntity.data[0].id,
+                                            1,
+                                          );
+                                      int enabledSectionId =
+                                          state.sectionEntity.data[0].id;
+                                      return Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.25,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                            width: 0.5,
+                                          ),
+                                        ),
+                                        child: StatefulBuilder(
+                                          builder: (
+                                            BuildContext context,
+                                            void Function(void Function())
+                                                setState,
+                                          ) {
+                                            return ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: state
+                                                  .sectionEntity.data.length,
+                                              itemBuilder: (
+                                                BuildContext context,
+                                                int index,
+                                              ) =>
+                                                  Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8.0,
+                                                        horizontal: 16.0),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    enabledSectionId = state
+                                                        .sectionEntity
+                                                        .data[index]
+                                                        .id;
+                                                    context
+                                                        .bloc<
+                                                            SelectStudentsCubit>()
+                                                        .getStudentsInASection(
+                                                            state.sectionEntity
+                                                                .data[index].id,
+                                                            1);
+                                                    setState(() {});
+                                                  },
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      AnimatedDefaultTextStyle(
+                                                        duration: Duration(
+                                                            milliseconds: 300),
+                                                        style: enabledSectionId ==
+                                                                state
+                                                                    .sectionEntity
+                                                                    .data[index]
+                                                                    .id
+                                                            ? TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 22.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              )
+                                                            : TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontSize: 20.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                        child: Text(
+                                                          state.sectionEntity
+                                                              .data[index].name,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 2.0),
+                                                      AnimatedContainer(
+                                                        duration: Duration(
+                                                          milliseconds: 300,
+                                                        ),
+                                                        width: enabledSectionId ==
+                                                                state
+                                                                    .sectionEntity
+                                                                    .data[index]
+                                                                    .id
+                                                            ? 80.0
+                                                            : 40.0,
+                                                        height: 3.0,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
                           ),
-                          width: screenSize.width * 0.18,
                         ),
                         Expanded(
                           child: BlocBuilder(
-                            //todo change
-                            cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
+                            cubit: context.bloc<SelectStudentsCubit>(),
                             builder: (BuildContext context, state) {
-                              if (state is SendAssessmentSectionsFetched) {
-                                context.bloc<SelectStudentsCubit>().getStudentsInASection(state.sectionEntity.data[0].id, 1);
-                                int enabledSectionId = state.sectionEntity.data[0].id;
-                                return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width / 10,
-                                      child: StatefulBuilder(
-                                        builder: (BuildContext context, void Function(void Function()) setState) {
-                                          return ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: state.sectionEntity.data.length,
-                                            itemBuilder: (BuildContext context, int index) => ListTile(
-                                              hoverColor: Colors.white,
-                                              selected: enabledSectionId == state.sectionEntity.data[index].id,
-                                              title: Container(
-                                                padding: const EdgeInsets.symmetric(
-                                                  vertical: 8.0,
-                                                  horizontal: 16.0,
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  state.sectionEntity.data[index].name,
-                                                  style: enabledSectionId == state.sectionEntity.data[index].id
-                                                      ? TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 22.0,
-                                                          fontWeight: FontWeight.bold,
-                                                        )
-                                                      : TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 20.0,
-                                                          fontWeight: FontWeight.normal,
-                                                        ),
-                                                ),
-                                              ),
-                                              onTap: () {
-                                                enabledSectionId = state.sectionEntity.data[index].id;
-                                                context.bloc<SelectStudentsCubit>().getStudentsInASection(state.sectionEntity.data[index].id, 1);
-                                                setState(
-                                                  () {},
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        },
+                              if (state is SelectStudentsStudentsFetched) {
+                                bool selectAll = false;
+                                return StatefulBuilder(
+                                  builder: (BuildContext context, setState) {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 32.0,
                                       ),
-                                    ),
-                                    BlocBuilder(
-                                      cubit: context.bloc<SelectStudentsCubit>(),
-                                      builder: (BuildContext context, state) {
-                                        if (state is SelectStudentsStudentsFetched) {
-                                          bool selectAll = false;
-                                          return StatefulBuilder(
-                                            builder: (BuildContext context, setState) {
-                                              return SizedBox(
-                                                height: MediaQuery.of(context).size.height * 0.7,
-                                                width: MediaQuery.of(context).size.width / 8,
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: MediaQuery.of(context).size.height * 0.05,
-                                                      child: Row(
-                                                        children: [
-                                                          Text('Select All'),
-                                                          Checkbox(
-                                                            value: selectAll,
-                                                            onChanged: (flag) {
-                                                              flag
-                                                                  ? state.studentsEntity.data.forEach(
-                                                                      (element) {
-                                                                        students.add(
-                                                                          element.id,
-                                                                        );
-                                                                      },
-                                                                    )
-                                                                  : state.studentsEntity.data.forEach(
-                                                                      (element) {
-                                                                        students.remove(
-                                                                          element.id,
-                                                                        );
-                                                                      },
-                                                                    );
-                                                              setState(() {
-                                                                selectAll = flag;
-                                                              });
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.73,
+                                      width:
+                                          MediaQuery.of(context).size.width / 8,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Colors.black,
+                                            width: 0.5,
+                                          )),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.07,
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 16.0,
+                                              horizontal: 22.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12.0),
+                                                topRight: Radius.circular(12.0),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(width: 8.0),
+                                                Text(
+                                                  'Students',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5
+                                                      .copyWith(
+                                                          color: Colors.white),
+                                                ),
+                                                Spacer(),
+                                                VerticalDivider(
+                                                  color: Colors.white,
+                                                  thickness: 2.0,
+                                                  indent: 8.0,
+                                                  endIndent: 8.0,
+                                                ),
+                                                SizedBox(width: 8.0),
+                                                Text(
+                                                  'Select All',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Checkbox(
+                                                  value: selectAll,
+                                                  onChanged: (flag) {
+                                                    flag
+                                                        ? state
+                                                            .studentsEntity.data
+                                                            .forEach(
+                                                            (element) {
+                                                              students.add(
+                                                                element.id,
+                                                              );
                                                             },
                                                           )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: MediaQuery.of(context).size.height * 0.65,
-                                                      child: Scrollbar(
-                                                        controller: _scrollController,
-                                                        isAlwaysShown: true,
-                                                        child: ListView.builder(
-                                                          controller: _scrollController,
-                                                          shrinkWrap: true,
-                                                          itemCount: state.studentsEntity.data.length,
-                                                          itemBuilder: (BuildContext context, int index) => CheckboxListTile(
-                                                            title: Text(
-                                                              state.studentsEntity.data[index].name,
-                                                            ),
-                                                            subtitle: Text(
-                                                              state.studentsEntity.data[index].roll_number,
-                                                            ),
-                                                            value: students.contains(
-                                                              state.studentsEntity.data[index].id,
-                                                            ),
-                                                            onChanged: (flag) {
-                                                              flag
-                                                                  ? students.add(
-                                                                      state.studentsEntity.data[index].id,
-                                                                    )
-                                                                  : students.remove(
-                                                                      state.studentsEntity.data[index].id,
-                                                                    );
-                                                              setState(() {});
+                                                        : state
+                                                            .studentsEntity.data
+                                                            .forEach(
+                                                            (element) {
+                                                              students.remove(
+                                                                element.id,
+                                                              );
                                                             },
+                                                          );
+                                                    setState(() {
+                                                      selectAll = flag;
+                                                    });
+                                                  },
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.65,
+                                            child: Scrollbar(
+                                              controller: _scrollController,
+                                              isAlwaysShown: true,
+                                              child: ListView.builder(
+                                                controller: _scrollController,
+                                                shrinkWrap: true,
+                                                itemCount: state
+                                                    .studentsEntity.data.length,
+                                                itemBuilder: (
+                                                  BuildContext context,
+                                                  int index,
+                                                ) =>
+                                                    Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 22.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: index % 2 == 0
+                                                        ? Colors.white
+                                                        : Theme.of(context)
+                                                            .primaryColor
+                                                            .withOpacity(0.1),
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 0.2,
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        child: Text(
+                                                          state.studentsEntity
+                                                              .data[index].name
+                                                              .substring(0, 1)
+                                                              .toUpperCase(),
+                                                          style: TextStyle(
+                                                            color: Colors.white,
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                      Flexible(
+                                                        child: CheckboxListTile(
+                                                          title: Text(
+                                                            state
+                                                                .studentsEntity
+                                                                .data[index]
+                                                                .name,
+                                                          ),
+                                                          subtitle: Text(
+                                                            state
+                                                                .studentsEntity
+                                                                .data[index]
+                                                                .roll_number,
+                                                          ),
+                                                          value:
+                                                              students.contains(
+                                                            state.studentsEntity
+                                                                .data[index].id,
+                                                          ),
+                                                          onChanged: (flag) {
+                                                            flag
+                                                                ? students.add(
+                                                                    state
+                                                                        .studentsEntity
+                                                                        .data[
+                                                                            index]
+                                                                        .id,
+                                                                  )
+                                                                : students
+                                                                    .remove(
+                                                                    state
+                                                                        .studentsEntity
+                                                                        .data[
+                                                                            index]
+                                                                        .id,
+                                                                  );
+                                                            setState(() {});
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          return Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }
-                                      },
-                                    )
-                                  ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                 );
                               } else {
                                 return Center(
