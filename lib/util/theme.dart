@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class EdwiselyTheme {
-  static const Color PRIMARY_COLOR = Color(0xFF5154CD);
+  static const Color PRIMARY_COLOR = Color(0xFF1B658C);
   static const Color NAV_BAR_COLOR = Color(0xFF2A2A2A);
   static const Color CARD_COLOR = Color(0xFFEEEEEE);
   static const Color CHIP_COLOR = Color(0xFF787878);
@@ -32,7 +32,6 @@ class EdwiselyTheme {
       button: TextStyle(
         fontSize: 18.0,
         color: Colors.white,
-        fontWeight: FontWeight.bold,
       ),
     ),
     buttonTheme: ButtonThemeData(

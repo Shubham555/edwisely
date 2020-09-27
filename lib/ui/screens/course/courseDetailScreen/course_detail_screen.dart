@@ -54,6 +54,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                     style: TextStyle(color: Colors.black),
                   ),
                   flatButton: null,
+                  route: 'Home > All Courses > Course Details',
                 ).build(context),
                 Expanded(
                   child: Column(

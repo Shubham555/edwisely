@@ -58,6 +58,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                         style: TextStyle(color: Colors.black),
                       ),
                       flatButton: null,
+                      route: 'Home > All Courses',
                     ).build(context),
                     Center(
                       child: BlocBuilder(

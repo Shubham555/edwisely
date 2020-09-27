@@ -85,7 +85,12 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                       'Edwisely',
                       style: TextStyle(color: Colors.black),
                     ),
-                    flatButton: FlatButton.icon(
+                    route: 'Home > Send Assesment',
+                    flatButton: RaisedButton(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 16.0,
+                      ),
                       onPressed: () {
                         context.bloc<SendAssessmentCubit>().sendAssessment(
                               widget.title,
@@ -98,8 +103,20 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                               _testStart.toString(),
                             );
                       },
-                      icon: Icon(Icons.send),
-                      label: Text('Send Assessment'),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons/send.png',
+                            color: Colors.white,
+                            height: 24.0,
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'Send',
+                            style: Theme.of(context).textTheme.button,
+                          ),
+                        ],
+                      ),
                     ),
                     appBarSize: MediaQuery.of(context).size.height / 3.0,
                   ).build(context),
@@ -109,303 +126,491 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                       horizontal: MediaQuery.of(context).size.width * 0.17,
                     ),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        StatefulBuilder(
-                          builder: (BuildContext context,
-                              void Function(void Function()) setState) {
-                            return Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('Test Start Date : '),
-                                  IconButton(
-                                    icon: Icon(Icons.calendar_today),
-                                    onPressed: () async {
-                                      _testStart = await showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime.now().subtract(
-                                            Duration(days: 100),
-                                          ),
-                                          lastDate: DateTime.now().add(
-                                            Duration(days: 100),
-                                          )).whenComplete(() async {
-                                        _testStartTime = await showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now());
-                                      }).catchError(() {
-                                        _testStart = null;
-                                        _testStartTime = null;
-                                      });
-                                      setState(() {});
-                                    },
-                                  ),
-                                  Text(
-                                    _testStart == null
-                                        ? ''
-                                        : DateFormat('EEE d MMM yyyy')
-                                            .format(_testStart),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    _testStartTime == null
-                                        ? ''
-                                        : 'at ${_testStartTime.format(context).toString()}',
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                        StatefulBuilder(
-                          builder: (BuildContext context,
-                              void Function(void Function()) setState) {
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('Test Expiry Date : '),
-                                IconButton(
-                                  icon: Icon(Icons.calendar_today),
-                                  onPressed: () async {
-                                    if (_testStart == null ||
-                                        _testStartTime == null) {
-                                      Scaffold.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'Select Starting Date and time first'),
-                                        ),
-                                      );
-                                    } else {
-                                      _testExpiry = await showDatePicker(
-                                          context: context,
-                                          initialDate: _testStart,
-                                          firstDate: _testStart,
-                                          lastDate: DateTime.now().add(
-                                            Duration(days: 100),
-                                          )).whenComplete(() async {
-                                        _testExpiryTime = await showTimePicker(
-                                            context: context,
-                                            initialTime: _testStartTime);
-                                      }).catchError(() {
-                                        _testExpiry = null;
-                                        _testExpiryTime = null;
-                                      });
-                                    }
-
-                                    setState(() {});
-                                  },
-                                ),
-                                Text(
-                                  _testExpiry == null
-                                      ? ''
-                                      : DateFormat('EEE d MMM yyyy')
-                                          .format(_testExpiry),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  _testExpiryTime == null
-                                      ? ''
-                                      : 'at ${_testExpiryTime.format(context).toString()}',
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                        StatefulBuilder(
-                          builder: (BuildContext context,
-                              void Function(void Function()) setState) {
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('Test Duration Time :   '),
-                                IconButton(
-                                  icon: Icon(Icons.calendar_today),
-                                  onPressed: () async {
-                                    _testDuration = await showDurationPicker(
-                                      context: context,
-                                      initialTime: Duration(minutes: 30),
-                                    );
-                                    setState(() {});
-                                  },
-                                ),
-                                Text(
-                                  _testDuration == null
-                                      ? ''
-                                      : '${_testDuration.inMinutes.toString()} Minutes',
-                                )
-                              ],
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  BlocBuilder(
-                    //todo change
-                    cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
-                    builder: (BuildContext context, state) {
-                      if (state is SendAssessmentSectionsFetched) {
-                        context
-                            .bloc<SelectStudentsCubit>()
-                            .getStudentsInASection(
-                            state.sectionEntity.data[0].id, 1);
-                        int enabledSectionId = state.sectionEntity.data[0].id;
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal:
-                            MediaQuery.of(context).size.width * 0.17,
-                          ),
-                          child: Row(
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.28,
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Text('Test Details'),
                               Container(
-                                width: MediaQuery.of(context).size.width / 7,
-                                child: StatefulBuilder(
-                                  builder: (BuildContext context,
-                                      void Function(void Function()) setState) {
-                                    return ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount:
-                                      state.sectionEntity.data.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) =>
-                                          ListTile(
-                                            hoverColor: Colors.white,
-                                            selected: enabledSectionId ==
-                                                state.sectionEntity.data[index].id,
-                                            title: Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                vertical: 8.0,
-                                                horizontal: 16.0,
-                                              ),
-                                              alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                  horizontal: 12.0,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 0.5,
+                                    )),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    StatefulBuilder(
+                                      builder: (BuildContext context,
+                                          void Function(void Function())
+                                              setState) {
+                                        return Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text('Start Date :     '),
+                                            InkWell(
+                                              onTap: () async {
+                                                _testStart =
+                                                    await showDatePicker(
+                                                            context: context,
+                                                            initialDate:
+                                                                DateTime.now(),
+                                                            firstDate:
+                                                                DateTime.now()
+                                                                    .subtract(
+                                                              Duration(
+                                                                  days: 100),
+                                                            ),
+                                                            lastDate: DateTime
+                                                                    .now()
+                                                                .add(
+                                                              Duration(
+                                                                  days: 100),
+                                                            ))
+                                                        .whenComplete(() async {
+                                                  _testStartTime =
+                                                      await showTimePicker(
+                                                          context: context,
+                                                          initialTime:
+                                                              TimeOfDay.now());
+                                                }).catchError(() {
+                                                  _testStart = null;
+                                                  _testStartTime = null;
+                                                });
+                                                setState(() {});
+                                              },
                                               child: Text(
-                                                state
-                                                    .sectionEntity.data[index].name,
-                                                style: enabledSectionId ==
-                                                    state.sectionEntity
-                                                        .data[index].id
-                                                    ? TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 22.0,
-                                                  fontWeight: FontWeight.bold,
-                                                )
-                                                    : TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 20.0,
-                                                  fontWeight:
-                                                  FontWeight.normal,
-                                                ),
+                                                _testStart == null
+                                                    ? 'Pick Start Date  '
+                                                    : DateFormat(
+                                                            'EEE d MMM yyyy')
+                                                        .format(_testStart),
                                               ),
                                             ),
-                                            onTap: () {
-                                              enabledSectionId = state
-                                                  .sectionEntity.data[index].id;
-                                              context
-                                                  .bloc<SelectStudentsCubit>()
-                                                  .getStudentsInASection(
-                                                  state.sectionEntity
-                                                      .data[index].id,
-                                                  1);
-                                              setState(
-                                                    () {},
-                                              );
-                                            },
-                                          ),
-                                    );
-                                  },
+                                            SizedBox(
+                                              height: 18.0,
+                                              child: VerticalDivider(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                thickness: 2.0,
+                                              ),
+                                            ),
+                                            Text(
+                                              _testStartTime == null
+                                                  ? 'Pick Start Time'
+                                                  : 'at ${_testStartTime.format(context).toString()}',
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                    StatefulBuilder(
+                                      builder: (BuildContext context,
+                                          void Function(void Function())
+                                              setState) {
+                                        return Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text('Expiry Date :   '),
+                                            InkWell(
+                                              onTap: () async {
+                                                if (_testStart == null ||
+                                                    _testStartTime == null) {
+                                                  Scaffold.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'Select Starting Date and time first',
+                                                      ),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  _testExpiry =
+                                                      await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              _testStart,
+                                                          firstDate: _testStart,
+                                                          lastDate:
+                                                              DateTime.now()
+                                                                  .add(
+                                                            Duration(days: 100),
+                                                          )).whenComplete(() async {
+                                                    _testExpiryTime =
+                                                        await showTimePicker(
+                                                            context: context,
+                                                            initialTime:
+                                                                _testStartTime);
+                                                  }).catchError(() {
+                                                    _testExpiry = null;
+                                                    _testExpiryTime = null;
+                                                  });
+                                                }
+
+                                                setState(() {});
+                                              },
+                                              child: Text(
+                                                _testExpiry == null
+                                                    ? 'Pick Expiry Date'
+                                                    : DateFormat(
+                                                            'EEE d MMM yyyy')
+                                                        .format(_testExpiry),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 18.0,
+                                              child: VerticalDivider(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                thickness: 2.0,
+                                              ),
+                                            ),
+                                            Text(
+                                              _testExpiryTime == null
+                                                  ? 'Pick Expiry Time'
+                                                  : 'at ${_testExpiryTime.format(context).toString()}',
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                    StatefulBuilder(
+                                      builder: (BuildContext context,
+                                          void Function(void Function())
+                                              setState) {
+                                        return Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text('Duration:         '),
+                                            InkWell(
+                                              onTap: () async {
+                                                _testDuration =
+                                                    await showDurationPicker(
+                                                  context: context,
+                                                  initialTime:
+                                                      Duration(minutes: 30),
+                                                );
+                                                setState(() {});
+                                              },
+                                              child: Text(
+                                                _testDuration == null
+                                                    ? 'Pick Duration'
+                                                    : '${_testDuration.inMinutes.toString()} Minutes',
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
+                              SizedBox(height: 12.0),
+                              Text('Class Select'),
                               BlocBuilder(
-                                cubit: context.bloc<SelectStudentsCubit>(),
+                                //todo change
+                                cubit: context.bloc<SendAssessmentCubit>()
+                                  ..getSections(71),
                                 builder: (BuildContext context, state) {
-                                  if (state is SelectStudentsStudentsFetched) {
-                                    bool selectAll = false;
-                                    return StatefulBuilder(
-                                      builder:
-                                          (BuildContext context, setState) {
-                                        return SizedBox(
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height *
-                                              0.7,
-                                          width: MediaQuery.of(context)
-                                              .size
-                                              .width *
-                                              0.25,
-                                          child: Column(
-                                            children: [
-                                              SizedBox(
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                    0.05,
-                                                child: Row(
+                                  if (state is SendAssessmentSectionsFetched) {
+                                    context
+                                        .bloc<SelectStudentsCubit>()
+                                        .getStudentsInASection(
+                                          state.sectionEntity.data[0].id,
+                                          1,
+                                        );
+                                    int enabledSectionId =
+                                        state.sectionEntity.data[0].id;
+                                    return Container(
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 12.0,
+                                      ),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.25,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 0.5,
+                                        ),
+                                      ),
+                                      child: StatefulBuilder(
+                                        builder: (
+                                          BuildContext context,
+                                          void Function(void Function())
+                                              setState,
+                                        ) {
+                                          return ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount:
+                                                state.sectionEntity.data.length,
+                                            itemBuilder: (
+                                              BuildContext context,
+                                              int index,
+                                            ) =>
+                                                Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 12.0,
+                                                horizontal: 22.0,
+                                              ),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  enabledSectionId = state
+                                                      .sectionEntity
+                                                      .data[index]
+                                                      .id;
+                                                  context
+                                                      .bloc<
+                                                          SelectStudentsCubit>()
+                                                      .getStudentsInASection(
+                                                          state.sectionEntity
+                                                              .data[index].id,
+                                                          1);
+                                                  setState(() {});
+                                                },
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Text('Select All'),
-                                                    Checkbox(
-                                                      value: selectAll,
-                                                      onChanged: (flag) {
-                                                        flag
-                                                            ? state
-                                                            .studentsEntity
-                                                            .data
-                                                            .forEach(
-                                                              (element) {
-                                                            students.add(
-                                                              element.id,
-                                                            );
-                                                          },
-                                                        )
-                                                            : state
-                                                            .studentsEntity
-                                                            .data
-                                                            .forEach(
-                                                              (element) {
-                                                            students
-                                                                .remove(
-                                                              element.id,
-                                                            );
-                                                          },
-                                                        );
-                                                        setState(() {
-                                                          selectAll = flag;
-                                                        });
-                                                      },
-                                                    )
+                                                    AnimatedDefaultTextStyle(
+                                                      duration: Duration(
+                                                          milliseconds: 300),
+                                                      style: enabledSectionId ==
+                                                              state
+                                                                  .sectionEntity
+                                                                  .data[index]
+                                                                  .id
+                                                          ? TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 22.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            )
+                                                          : TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: 20.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                            ),
+                                                      child: Text(
+                                                        state.sectionEntity
+                                                            .data[index].name,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 2.0),
+                                                    AnimatedContainer(
+                                                      duration: Duration(
+                                                        milliseconds: 300,
+                                                      ),
+                                                      width: enabledSectionId ==
+                                                              state
+                                                                  .sectionEntity
+                                                                  .data[index]
+                                                                  .id
+                                                          ? 80.0
+                                                          : 40.0,
+                                                      height: 3.0,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                    ),
                                                   ],
                                                 ),
                                               ),
-                                              SizedBox(
-                                                height: MediaQuery.of(context)
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: BlocBuilder(
+                            cubit: context.bloc<SelectStudentsCubit>(),
+                            builder: (BuildContext context, state) {
+                              if (state is SelectStudentsStudentsFetched) {
+                                bool selectAll = false;
+                                return StatefulBuilder(
+                                  builder: (BuildContext context, setState) {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 32.0,
+                                      ),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.73,
+                                      width:
+                                          MediaQuery.of(context).size.width / 8,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Colors.black,
+                                            width: 0.5,
+                                          )),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                    0.65,
-                                                child: Scrollbar(
-                                                  controller: _scrollController,
-                                                  isAlwaysShown: true,
-                                                  child: ListView.builder(
-                                                    controller:
-                                                    _scrollController,
-                                                    shrinkWrap: true,
-                                                    itemCount: state
-                                                        .studentsEntity
-                                                        .data
-                                                        .length,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                        int index) =>
-                                                        CheckboxListTile(
+                                                0.07,
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 16.0,
+                                              horizontal: 22.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(12.0),
+                                                topRight: Radius.circular(12.0),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(width: 8.0),
+                                                Text(
+                                                  'Students',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5
+                                                      .copyWith(
+                                                          color: Colors.white),
+                                                ),
+                                                Spacer(),
+                                                VerticalDivider(
+                                                  color: Colors.white,
+                                                  thickness: 2.0,
+                                                  indent: 8.0,
+                                                  endIndent: 8.0,
+                                                ),
+                                                SizedBox(width: 8.0),
+                                                Text(
+                                                  'Select All',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Checkbox(
+                                                  value: selectAll,
+                                                  onChanged: (flag) {
+                                                    flag
+                                                        ? state
+                                                            .studentsEntity.data
+                                                            .forEach(
+                                                            (element) {
+                                                              students.add(
+                                                                element.id,
+                                                              );
+                                                            },
+                                                          )
+                                                        : state
+                                                            .studentsEntity.data
+                                                            .forEach(
+                                                            (element) {
+                                                              students.remove(
+                                                                element.id,
+                                                              );
+                                                            },
+                                                          );
+                                                    setState(() {
+                                                      selectAll = flag;
+                                                    });
+                                                  },
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.65,
+                                            child: Scrollbar(
+                                              controller: _scrollController,
+                                              isAlwaysShown: true,
+                                              child: ListView.builder(
+                                                controller: _scrollController,
+                                                shrinkWrap: true,
+                                                itemCount: state
+                                                    .studentsEntity.data.length,
+                                                itemBuilder: (
+                                                  BuildContext context,
+                                                  int index,
+                                                ) =>
+                                                    Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 22.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: index % 2 == 0
+                                                        ? Colors.white
+                                                        : Theme.of(context)
+                                                            .primaryColor
+                                                            .withOpacity(0.1),
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 0.2,
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        child: Text(
+                                                          state.studentsEntity
+                                                              .data[index].name
+                                                              .substring(0, 1)
+                                                              .toUpperCase(),
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Flexible(
+                                                        child: CheckboxListTile(
                                                           title: Text(
-                                                            state.studentsEntity
-                                                                .data[index].name,
+                                                            state
+                                                                .studentsEntity
+                                                                .data[index]
+                                                                .name,
                                                           ),
                                                           subtitle: Text(
                                                             state
@@ -413,52 +618,266 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                                 .data[index]
                                                                 .roll_number,
                                                           ),
-                                                          value: students.contains(
+                                                          value:
+                                                              students.contains(
                                                             state.studentsEntity
                                                                 .data[index].id,
                                                           ),
                                                           onChanged: (flag) {
                                                             flag
                                                                 ? students.add(
-                                                              state
-                                                                  .studentsEntity
-                                                                  .data[index]
-                                                                  .id,
-                                                            )
-                                                                : students.remove(
-                                                              state
-                                                                  .studentsEntity
-                                                                  .data[index]
-                                                                  .id,
-                                                            );
+                                                                    state
+                                                                        .studentsEntity
+                                                                        .data[
+                                                                            index]
+                                                                        .id,
+                                                                  )
+                                                                : students
+                                                                    .remove(
+                                                                    state
+                                                                        .studentsEntity
+                                                                        .data[
+                                                                            index]
+                                                                        .id,
+                                                                  );
                                                             setState(() {});
                                                           },
                                                         ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        );
-                                      },
+                                        ],
+                                      ),
                                     );
-                                  } else {
-                                    return Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  }
-                                },
-                              )
-                            ],
+                                  },
+                                );
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            },
                           ),
-                        );
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
-                  )
+                        ),
+                      ],
+                    ),
+                  ),
+                  // BlocBuilder(
+                  //   //todo change
+                  //   cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
+                  //   builder: (BuildContext context, state) {
+                  //     if (state is SendAssessmentSectionsFetched) {
+                  //       context
+                  //           .bloc<SelectStudentsCubit>()
+                  //           .getStudentsInASection(
+                  //               state.sectionEntity.data[0].id, 1);
+                  //       int enabledSectionId = state.sectionEntity.data[0].id;
+                  //       return Padding(
+                  //         padding: EdgeInsets.symmetric(
+                  //           horizontal:
+                  //               MediaQuery.of(context).size.width * 0.17,
+                  //         ),
+                  //         child: Row(
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: [
+                  //             Container(
+                  //               width: MediaQuery.of(context).size.width / 7,
+                  //               child: StatefulBuilder(
+                  //                 builder: (BuildContext context,
+                  //                     void Function(void Function()) setState) {
+                  //                   return ListView.builder(
+                  //                     shrinkWrap: true,
+                  //                     itemCount:
+                  //                         state.sectionEntity.data.length,
+                  //                     itemBuilder:
+                  //                         (BuildContext context, int index) =>
+                  //                             ListTile(
+                  //                       hoverColor: Colors.white,
+                  //                       selected: enabledSectionId ==
+                  //                           state.sectionEntity.data[index].id,
+                  //                       title: Container(
+                  //                         padding: const EdgeInsets.symmetric(
+                  //                           vertical: 8.0,
+                  //                           horizontal: 16.0,
+                  //                         ),
+                  //                         alignment: Alignment.center,
+                  //                         child: Text(
+                  //                           state
+                  //                               .sectionEntity.data[index].name,
+                  //                           style: enabledSectionId ==
+                  //                                   state.sectionEntity
+                  //                                       .data[index].id
+                  //                               ? TextStyle(
+                  //                                   color: Colors.black,
+                  //                                   fontSize: 22.0,
+                  //                                   fontWeight: FontWeight.bold,
+                  //                                 )
+                  //                               : TextStyle(
+                  //                                   color: Colors.grey,
+                  //                                   fontSize: 20.0,
+                  //                                   fontWeight:
+                  //                                       FontWeight.normal,
+                  //                                 ),
+                  //                         ),
+                  //                       ),
+                  //                       onTap: () {
+                  //                         enabledSectionId = state
+                  //                             .sectionEntity.data[index].id;
+                  //                         context
+                  //                             .bloc<SelectStudentsCubit>()
+                  //                             .getStudentsInASection(
+                  //                                 state.sectionEntity
+                  //                                     .data[index].id,
+                  //                                 1);
+                  //                         setState(
+                  //                           () {},
+                  //                         );
+                  //                       },
+                  //                     ),
+                  //                   );
+                  //                 },
+                  //               ),
+                  //             ),
+                  //             BlocBuilder(
+                  //               cubit: context.bloc<SelectStudentsCubit>(),
+                  //               builder: (BuildContext context, state) {
+                  //                 if (state is SelectStudentsStudentsFetched) {
+                  //                   bool selectAll = false;
+                  //                   return StatefulBuilder(
+                  //                     builder:
+                  //                         (BuildContext context, setState) {
+                  //                       return SizedBox(
+                  //                         height: MediaQuery.of(context)
+                  //                                 .size
+                  //                                 .height *
+                  //                             0.7,
+                  //                         width: MediaQuery.of(context)
+                  //                                 .size
+                  //                                 .width *
+                  //                             0.25,
+                  //                         child: Column(
+                  //                           children: [
+                  //                             SizedBox(
+                  //                               height: MediaQuery.of(context)
+                  //                                       .size
+                  //                                       .height *
+                  //                                   0.05,
+                  //                               child: Row(
+                  //                                 children: [
+                  //                                   Text('Select All'),
+                  //                                   Checkbox(
+                  //                                     value: selectAll,
+                  //                                     onChanged: (flag) {
+                  //                                       flag
+                  //                                           ? state
+                  //                                               .studentsEntity
+                  //                                               .data
+                  //                                               .forEach(
+                  //                                               (element) {
+                  //                                                 students.add(
+                  //                                                   element.id,
+                  //                                                 );
+                  //                                               },
+                  //                                             )
+                  //                                           : state
+                  //                                               .studentsEntity
+                  //                                               .data
+                  //                                               .forEach(
+                  //                                               (element) {
+                  //                                                 students
+                  //                                                     .remove(
+                  //                                                   element.id,
+                  //                                                 );
+                  //                                               },
+                  //                                             );
+                  //                                       setState(() {
+                  //                                         selectAll = flag;
+                  //                                       });
+                  //                                     },
+                  //                                   )
+                  //                                 ],
+                  //                               ),
+                  //                             ),
+                  //                             SizedBox(
+                  //                               height: MediaQuery.of(context)
+                  //                                       .size
+                  //                                       .height *
+                  //                                   0.65,
+                  //                               child: Scrollbar(
+                  //                                 controller: _scrollController,
+                  //                                 isAlwaysShown: true,
+                  //                                 child: ListView.builder(
+                  //                                   controller:
+                  //                                       _scrollController,
+                  //                                   shrinkWrap: true,
+                  //                                   itemCount: state
+                  //                                       .studentsEntity
+                  //                                       .data
+                  //                                       .length,
+                  //                                   itemBuilder:
+                  //                                       (BuildContext context,
+                  //                                               int index) =>
+                  //                                           CheckboxListTile(
+                  //                                     title: Text(
+                  //                                       state.studentsEntity
+                  //                                           .data[index].name,
+                  //                                     ),
+                  //                                     subtitle: Text(
+                  //                                       state
+                  //                                           .studentsEntity
+                  //                                           .data[index]
+                  //                                           .roll_number,
+                  //                                     ),
+                  //                                     value: students.contains(
+                  //                                       state.studentsEntity
+                  //                                           .data[index].id,
+                  //                                     ),
+                  //                                     onChanged: (flag) {
+                  //                                       flag
+                  //                                           ? students.add(
+                  //                                               state
+                  //                                                   .studentsEntity
+                  //                                                   .data[index]
+                  //                                                   .id,
+                  //                                             )
+                  //                                           : students.remove(
+                  //                                               state
+                  //                                                   .studentsEntity
+                  //                                                   .data[index]
+                  //                                                   .id,
+                  //                                             );
+                  //                                       setState(() {});
+                  //                                     },
+                  //                                   ),
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                       );
+                  //                     },
+                  //                   );
+                  //                 } else {
+                  //                   return Center(
+                  //                     child: CircularProgressIndicator(),
+                  //                   );
+                  //                 }
+                  //               },
+                  //             )
+                  //           ],
+                  //         ),
+                  //       );
+                  //     } else {
+                  //       return Center(
+                  //         child: CircularProgressIndicator(),
+                  //       );
+                  //     }
+                  //   },
+                  // )
                 ],
               ),
             ),

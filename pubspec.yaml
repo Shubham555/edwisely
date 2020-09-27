@@ -42,6 +42,9 @@ flutter:
   - assets/icons/schedule_event.svg
   - assets/icons/send_assignment.svg
   - assets/icons/send_notification.svg
+  - assets/icons/send.png
+  - assets/icons/upload.png
+  - assets/icons/create_vc.png
   - assets/images/login_screen.png
   - assets/placeholder_image.jpg
   - assets/logo/

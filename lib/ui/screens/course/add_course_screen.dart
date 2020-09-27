@@ -33,7 +33,8 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
             cubit: context.bloc<AddCourseCubit>(),
             listener: (BuildContext context, state) {
               if (state is CourseAdded) {
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Course Added Successfully')));
+                Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text('Course Added Successfully')));
                 Future.delayed(
                   Duration(seconds: 2),
                   () {
@@ -44,7 +45,8 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 );
               }
               if (state is CoursesError) {
-                Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text(state.error)));
                 Future.delayed(Duration(seconds: 2), () {
                   // Navigator.pop(context);
                   // Navigator.pop(context);
@@ -63,14 +65,15 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BigAppBar(
-                              actions: null,
-                              titleText: 'Add Courses',
-                              //5 minute dedo a raha hioon Ha sarkar
-                              bottomTab: null,
-                              appBarSize: MediaQuery.of(context).size.height / 3.5,
-                              appBarTitle: Text('Edwisely'),
-                              flatButton: null)
-                          .build(context),
+                        actions: null,
+                        titleText: 'Add Courses',
+                        //5 minute dedo a raha hioon Ha sarkar
+                        bottomTab: null,
+                        appBarSize: MediaQuery.of(context).size.height / 3.5,
+                        appBarTitle: Text('Edwisely'),
+                        flatButton: null,
+                        route: 'Home > All Courses > Add Courses',
+                      ).build(context),
                       BlocBuilder(
                         cubit: context.bloc<CoursesBloc>()
                           ..add(
@@ -78,32 +81,50 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           ),
                         builder: (BuildContext context, state) {
                           if (state is AllCoursesFetched) {
-                            List<Data> coursesFilter = state.getAllCoursesEntity.data;
+                            List<Data> coursesFilter =
+                                state.getAllCoursesEntity.data;
                             return Expanded(
                               child: Column(
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                       vertical: 16.0,
-                                      horizontal: MediaQuery.of(context).size.width * 0.17,
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.17,
                                     ),
                                     child: Row(
                                       children: [
                                         Container(
-                                          width: MediaQuery.of(context).size.width / 5,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              5,
                                           child: TypeAheadField(
-                                            textFieldConfiguration: TextFieldConfiguration(
-                                              style: DefaultTextStyle.of(context).style.copyWith(
-                                                    fontStyle: FontStyle.normal,
-                                                  ),
-                                              decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Search Courses'),
+                                            textFieldConfiguration:
+                                                TextFieldConfiguration(
+                                              style:
+                                                  DefaultTextStyle.of(context)
+                                                      .style
+                                                      .copyWith(
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                      ),
+                                              decoration: InputDecoration(
+                                                  border: OutlineInputBorder(),
+                                                  hintText: 'Search Courses'),
                                             ),
-                                            suggestionsCallback: (searchString) async {
+                                            suggestionsCallback:
+                                                (searchString) async {
                                               List<Data> courses = List();
-                                              courses.addAll(state.getAllCoursesEntity.data);
+                                              courses.addAll(state
+                                                  .getAllCoursesEntity.data);
                                               courses.retainWhere(
-                                                (element) => element.name.toLowerCase().contains(
-                                                      searchString.toLowerCase(),
+                                                (element) => element.name
+                                                    .toLowerCase()
+                                                    .contains(
+                                                      searchString
+                                                          .toLowerCase(),
                                                     ),
                                               );
                                               return courses;
@@ -113,10 +134,13 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                                 title: Text(data.name),
                                               );
                                             },
-                                            onSuggestionSelected: (data) => Navigator.push(
+                                            onSuggestionSelected: (data) =>
+                                                Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (BuildContext context) => _showDialog(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        _showDialog(
                                                   context,
                                                   data,
                                                   data.departments,
@@ -129,35 +153,53 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                         SizedBox(width: 32.0),
                                         //todo department fix
                                         BlocBuilder(
-                                          cubit: context.bloc<DepartmentCubit>()..getDepartments(),
-                                          builder: (BuildContext context, state) {
+                                          cubit: context.bloc<DepartmentCubit>()
+                                            ..getDepartments(),
+                                          builder:
+                                              (BuildContext context, state) {
                                             if (state is DepartmentFetched) {
-                                              int selectedDropDown = state.departmentEntity.data[0].department_id;
+                                              int selectedDropDown = state
+                                                  .departmentEntity
+                                                  .data[0]
+                                                  .department_id;
                                               return StatefulBuilder(
-                                                builder: (BuildContext context, StateSetter setState) => DropdownButton(
+                                                builder: (BuildContext context,
+                                                        StateSetter setState) =>
+                                                    DropdownButton(
                                                   value: selectedDropDown,
                                                   items: List.generate(
-                                                    state.departmentEntity.data.length,
+                                                    state.departmentEntity.data
+                                                        .length,
                                                     (index) => DropdownMenuItem(
                                                       child: Text(
-                                                        state.departmentEntity.data[index].department,
+                                                        state
+                                                            .departmentEntity
+                                                            .data[index]
+                                                            .department,
                                                       ),
-                                                      value: state.departmentEntity.data[index].department_id,
+                                                      value: state
+                                                          .departmentEntity
+                                                          .data[index]
+                                                          .department_id,
                                                     ),
                                                   ),
                                                   onChanged: (value) {
                                                     setState(() {
                                                       coursesFilter.removeWhere(
-                                                        (element) => element.departments.contains(value),
+                                                        (element) => element
+                                                            .departments
+                                                            .contains(value),
                                                       );
                                                     });
-                                                    return selectedDropDown = value;
+                                                    return selectedDropDown =
+                                                        value;
                                                   },
                                                 ),
                                               );
                                             } else {
                                               return Center(
-                                                child: CircularProgressIndicator(),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               );
                                             }
                                           },
@@ -169,25 +211,38 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                         vertical: 16.0,
-                                        horizontal: MediaQuery.of(context).size.width * 0.17,
+                                        horizontal:
+                                            MediaQuery.of(context).size.width *
+                                                0.17,
                                       ),
                                       child: GridView.builder(
-                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
                                           mainAxisSpacing: 35,
                                           crossAxisSpacing: 35,
                                           crossAxisCount: 3,
-                                          childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 2.6,
+                                          childAspectRatio:
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  2.6,
                                         ),
-                                        itemBuilder: (BuildContext context, int index) {
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
                                           print(coursesFilter.length);
                                           return Card(
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(
+                                              borderRadius:
+                                                  BorderRadius.circular(
                                                 6,
                                               ),
                                             ),
                                             elevation: 6,
-                                            child: _buildCourseTile(index, context, coursesFilter, state),
+                                            child: _buildCourseTile(index,
+                                                context, coursesFilter, state),
                                           );
                                         },
                                         itemCount: coursesFilter.length,
@@ -225,7 +280,8 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
     );
   }
 
-  Widget _buildCourseTile(int upperIndex, BuildContext context, List<Data> courses, state) {
+  Widget _buildCourseTile(
+      int upperIndex, BuildContext context, List<Data> courses, state) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,7 +304,9 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
           ),
           SizedBox(height: 12.0),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: MediaQuery.of(context).size.height * 0.0001),
+            padding: EdgeInsets.symmetric(
+                horizontal: 18.0,
+                vertical: MediaQuery.of(context).size.height * 0.0001),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.07,
               width: double.infinity,
@@ -351,7 +409,8 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
       context: outerContext,
       builder: (BuildContext context) {
         return StatefulBuilder(
-          builder: (BuildContext context, void Function(void Function()) setState) {
+          builder:
+              (BuildContext context, void Function(void Function()) setState) {
             return AlertDialog(
               title: Text(
                 'Finalize Adding ${data.name} to Your Courses',
@@ -415,9 +474,14 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                             print('sections : $sections');
                             print('subject : ${data.id}');
                             if (branch == null || sections.isEmpty) {
-                              Toast.show('Please select at least one section and one department', context, duration: 4);
+                              Toast.show(
+                                  'Please select at least one section and one department',
+                                  context,
+                                  duration: 4);
                             }
-                            outerContext.bloc<AddCourseCubit>().addCourseToFaculty(
+                            outerContext
+                                .bloc<AddCourseCubit>()
+                                .addCourseToFaculty(
                                   data.id,
                                   branch,
                                   sections,

@@ -50,6 +50,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen> with 
                     'Edwisely',
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),
+                  route: 'Home > My Assesments',
                   flatButton: FlatButton(
                     hoverColor: Color(0xFF1D2B64).withOpacity(.2),
                     shape: RoundedRectangleBorder(
