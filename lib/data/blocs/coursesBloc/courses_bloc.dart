@@ -25,6 +25,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   Stream<CoursesState> mapEventToState(
     CoursesEvent event,
   ) async* {
+    var currentStrate = state;
+
     if (event is GetCoursesByFaculty) {
       final response = await EdwiselyApi.dio.get('getFacultyCourses');
       print(response.data);
@@ -130,6 +132,15 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         yield AllCoursesFetched(GetAllCoursesEntity.fromJsonMap(courses.data), SectionEntity.fromJsonMap(courseDep.data));
       } else {
         yield CoursesFetchFailed();
+      }
+    }
+    if (event is SortCourses) {
+      if (event.pattern == 1234567890) {
+        yield AllCoursesFetched(event.originalCourseEntity, currentStrate is AllCoursesFetched ? currentStrate.sectionEntity : null);
+      } else {
+        GetAllCoursesEntity sv = event.originalCourseEntity;
+        sv.data.retainWhere((element) => element.departments.any((element) => element.id == event.pattern));
+        yield AllCoursesFetched(sv, currentStrate is AllCoursesFetched ? currentStrate.sectionEntity : null);
       }
     }
   }

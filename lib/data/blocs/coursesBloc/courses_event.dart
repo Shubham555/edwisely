@@ -26,10 +26,8 @@ class GetCourseSyllabus extends CoursesEvent {
 class GetAllCourses extends CoursesEvent {}
 
 class SortCourses extends CoursesEvent {
-  final String pattern;
+  final int pattern;
+  final GetAllCoursesEntity originalCourseEntity;
 
-  final CoursesEntity coursesEntity;
-  final CoursesEntity originalCourseEntity;
-
-  SortCourses(this.pattern, this.coursesEntity, this.originalCourseEntity);
+  SortCourses(this.pattern, this.originalCourseEntity);
 }

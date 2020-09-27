@@ -77,9 +77,9 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           ..add(
                             GetAllCourses(),
                           ),
-                        builder: (BuildContext context, state) {
-                          if (state is AllCoursesFetched) {
-                            List<Data> coursesFilter = state.getAllCoursesEntity.data;
+                        builder: (BuildContext context, outerState) {
+                          if (outerState is AllCoursesFetched) {
+                            List<Data> coursesFilter = outerState.getAllCoursesEntity.data;
                             return Expanded(
                               child: Column(
                                 children: [
@@ -101,7 +101,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                             ),
                                             suggestionsCallback: (searchString) async {
                                               List<Data> courses = List();
-                                              courses.addAll(state.getAllCoursesEntity.data);
+                                              courses.addAll(outerState.getAllCoursesEntity.data);
                                               courses.retainWhere(
                                                 (element) => element.name.toLowerCase().contains(
                                                       searchString.toLowerCase(),
@@ -121,14 +121,13 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                                   context,
                                                   data,
                                                   data.departments,
-                                                  state.sectionEntity,
+                                                  outerState.sectionEntity,
                                                 ),
                                               ),
                                             ),
                                           ),
                                         ),
                                         SizedBox(width: 32.0),
-                                        //todo department fix
                                         BlocBuilder(
                                           cubit: context.bloc<DepartmentCubit>()..getDepartments(),
                                           builder: (BuildContext context, state) {
@@ -147,11 +146,9 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                                     ),
                                                   ),
                                                   onChanged: (value) {
-                                                    setState(() {
-                                                      coursesFilter.retainWhere((element) => element.departments.any((element) => element.id == value));
-                                                    });
-                                                    print(coursesFilter.length);
-                                                    return selectedDropDown = value;
+                                                    context.bloc<CoursesBloc>().add(SortCourses(value,outerState.getAllCoursesEntity));
+                                                    selectedDropDown = value;
+                                                    setState(() {});
                                                   },
                                                 ),
                                               );
@@ -187,7 +184,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                               ),
                                             ),
                                             elevation: 6,
-                                            child: _buildCourseTile(index, context, coursesFilter, state),
+                                            child: _buildCourseTile(index, context, coursesFilter, outerState),
                                           );
                                         },
                                         itemCount: coursesFilter.length,
@@ -198,7 +195,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                               ),
                             );
                           }
-                          if (state is CourseAdded) {
+                          if (outerState is CourseAdded) {
                             return Column(
                               children: [
                                 CircularProgressIndicator(),
