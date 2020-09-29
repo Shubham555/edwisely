@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:edwisely/data/model/course/getAllCourses/data.dart';
 import 'package:edwisely/main.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -138,9 +139,11 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       if (event.pattern == 1234567890) {
         yield AllCoursesFetched(event.originalCourseEntity, currentStrate is AllCoursesFetched ? currentStrate.sectionEntity : null);
       } else {
-        GetAllCoursesEntity sv = event.originalCourseEntity;
-        sv.data.retainWhere((element) => element.departments.any((element) => element.id == event.pattern));
-        yield AllCoursesFetched(sv, currentStrate is AllCoursesFetched ? currentStrate.sectionEntity : null);
+        GetAllCoursesEntity f = event.originalCourseEntity;
+        List<Data> sv = List.from(event.originalCourseEntity.data);
+        sv.retainWhere((element) => element.departments.any((element) => element.id == event.pattern));
+        f.data = List.from(sv);
+        yield AllCoursesFetched(f, currentStrate is AllCoursesFetched ? currentStrate.sectionEntity : null);
       }
     }
   }

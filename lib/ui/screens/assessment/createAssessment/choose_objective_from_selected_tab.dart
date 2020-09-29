@@ -1,12 +1,12 @@
-import 'package:chips_choice/chips_choice.dart';
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
 import 'package:edwisely/data/cubits/unit_topic_cubit.dart';
+import 'package:edwisely/data/model/assessment/topicQuestionsEntity/data.dart';
 import 'package:edwisely/data/model/assessment/unitTopic/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_select/smart_select.dart';
 
-import '../../../../data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
 import '../../../../data/cubits/objective_questions_cubit.dart';
 import '../../../../data/cubits/question_add_cubit.dart';
 import '../../../../data/cubits/topic_cubit.dart';
@@ -34,10 +34,10 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
 
   final topicCubit = TopicCubit();
 
-  final objectiveBloc = QuestionBankObjectiveBloc();
-
   final unitCubit = UnitCubit();
   TabController tabController;
+  int bloomsFilter = 0;
+  List<Data> data;
 
   @override
   void initState() {
@@ -49,6 +49,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
   Widget build(BuildContext context) {
     print('subject id in choose_objectivefromselected ${widget._subjectId}');
     List<int> topics = [];
+    List<int> subTopics = [];
     int unitId;
     List<int> questions = [];
     return Scaffold(
@@ -131,274 +132,98 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                         child: Row(
                           children: [
                             Expanded(
-                              child: Column(
-                                children: [
-                                  TabBar(
-                                    labelPadding: EdgeInsets.symmetric(horizontal: 30),
-                                    indicatorColor: Colors.white,
-                                    labelColor: Colors.black,
-                                    unselectedLabelColor: Colors.grey,
-                                    unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
-                                    labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                                    isScrollable: true,
-                                    tabs: [
-                                      Expanded(
-                                        child: FlatButton(
-                                          onPressed: () => objectiveBloc.add(GetUnitObjectiveQuestionsByLevel(1, unitId)),
-                                          child: Tab(
-                                            child: Text('Remember'),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: FlatButton(
-                                          onPressed: () => objectiveBloc.add(GetUnitObjectiveQuestionsByLevel(2, unitId)),
-                                          child: Tab(
-                                            child: Text('Understand'),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: FlatButton(
-                                          onPressed: () => objectiveBloc.add(GetUnitObjectiveQuestionsByLevel(3, unitId)),
-                                          child: Tab(
-                                            child: Text('Apply'),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: FlatButton(
-                                          onPressed: () => objectiveBloc.add(GetUnitObjectiveQuestionsByLevel(4, unitId)),
-                                          child: Tab(
-                                            child: Text('Analyze'),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                    controller: tabController,
-                                  ),
-                                  Expanded(
-                                    child: TabBarView(
-                                      children: [
-                                        BlocBuilder(
-                                          cubit: objectiveBloc..add(GetUnitObjectiveQuestionsByLevel(1, unitId)),
-                                          builder: (BuildContext context, state) {
-                                            if (state is UnitObjectiveQuestionsFetched) {
-                                              return StatefulBuilder(
-                                                builder: (BuildContext context, void Function(void Function()) setState) {
-                                                  return Expanded(
-                                                    child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount: state.questionBankObjectiveEntity.data.length,
-                                                      itemBuilder: (BuildContext context, int index) {
-                                                        return CheckboxListTile(
-                                                          subtitle: Text(state.questionBankObjectiveEntity.data[index].solution),
-                                                          title: Row(
-                                                            children: [
-                                                              Text('Q ${index + 1}'),
-                                                              SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  state.questionBankObjectiveEntity.data[index].name,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          value: questions.contains(state.questionBankObjectiveEntity.data[index].id),
-                                                          onChanged: (flag) {
-                                                            setState(() {
-                                                              flag
-                                                                  ? questions.add(state.questionBankObjectiveEntity.data[index].id)
-                                                                  : questions.remove(state.questionBankObjectiveEntity.data[index].id);
-                                                            });
-                                                          },
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
+                                child: BlocBuilder(
+                              builder: (BuildContext context, state) {
+                                if (state is TopicQuestionsFetched) {
+                                  if (data == null) {
+                                    data = List.unmodifiable(state.data);
+                                  }
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context, void Function(void Function()) setState) {
+                                      return ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: state.data.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return CheckboxListTile(
+                                            subtitle: Text(state.data[index].solution),
+                                            title: Row(
+                                              children: [
+                                                Text('Q ${index + 1}'),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    state.data[index].name,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            value: questions.contains(state.data[index].id),
+                                            onChanged: (flag) {
+                                              setState(
+                                                () {
+                                                  flag ? questions.add(state.data[index].id) : questions.remove(state.data[index].id);
                                                 },
                                               );
-                                            }
-                                            if (state is QuestionBankObjectiveEmpty) {
-                                              return Text('No Questions');
-                                            } else {
-                                              return Center(
-                                                child: CircularProgressIndicator(),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                        BlocBuilder(
-                                          cubit: objectiveBloc..add(GetUnitObjectiveQuestionsByLevel(2, unitId)),
-                                          builder: (BuildContext context, state) {
-                                            if (state is UnitObjectiveQuestionsFetched) {
-                                              return StatefulBuilder(
-                                                builder: (BuildContext context, void Function(void Function()) setState) {
-                                                  return Expanded(
-                                                    child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount: state.questionBankObjectiveEntity.data.length,
-                                                      itemBuilder: (BuildContext context, int index) {
-                                                        return CheckboxListTile(
-                                                          subtitle: Text(state.questionBankObjectiveEntity.data[index].solution),
-                                                          title: Row(
-                                                            children: [
-                                                              Text('Q ${index + 1}'),
-                                                              SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  state.questionBankObjectiveEntity.data[index].name,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          value: questions.contains(state.questionBankObjectiveEntity.data[index].id),
-                                                          onChanged: (flag) {
-                                                            setState(() {
-                                                              flag
-                                                                  ? questions.add(state.questionBankObjectiveEntity.data[index].id)
-                                                                  : questions.remove(state.questionBankObjectiveEntity.data[index].id);
-                                                            });
-                                                          },
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            }
-                                            if (state is QuestionBankObjectiveEmpty) {
-                                              return Text('No Questions');
-                                            } else {
-                                              return Center(
-                                                child: CircularProgressIndicator(),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                        BlocBuilder(
-                                          cubit: objectiveBloc..add(GetUnitObjectiveQuestionsByLevel(3, unitId)),
-                                          builder: (BuildContext context, state) {
-                                            if (state is UnitObjectiveQuestionsFetched) {
-                                              return StatefulBuilder(
-                                                builder: (BuildContext context, void Function(void Function()) setState) {
-                                                  return Expanded(
-                                                    child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount: state.questionBankObjectiveEntity.data.length,
-                                                      itemBuilder: (BuildContext context, int index) {
-                                                        return CheckboxListTile(
-                                                          subtitle: Text(state.questionBankObjectiveEntity.data[index].solution),
-                                                          title: Row(
-                                                            children: [
-                                                              Text('Q ${index + 1}'),
-                                                              SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  state.questionBankObjectiveEntity.data[index].name,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          value: questions.contains(state.questionBankObjectiveEntity.data[index].id),
-                                                          onChanged: (flag) {
-                                                            setState(() {
-                                                              flag
-                                                                  ? questions.add(state.questionBankObjectiveEntity.data[index].id)
-                                                                  : questions.remove(state.questionBankObjectiveEntity.data[index].id);
-                                                            });
-                                                          },
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            }
-                                            if (state is QuestionBankObjectiveEmpty) {
-                                              return Text('No Questions');
-                                            } else {
-                                              return Center(
-                                                child: CircularProgressIndicator(),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                        BlocBuilder(
-                                          cubit: objectiveBloc..add(GetUnitObjectiveQuestionsByLevel(4, unitId)),
-                                          builder: (BuildContext context, state) {
-                                            if (state is UnitObjectiveQuestionsFetched) {
-                                              return StatefulBuilder(
-                                                builder: (BuildContext context, void Function(void Function()) setState) {
-                                                  return Expanded(
-                                                    child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount: state.questionBankObjectiveEntity.data.length,
-                                                      itemBuilder: (BuildContext context, int index) {
-                                                        return CheckboxListTile(
-                                                          subtitle: Text(state.questionBankObjectiveEntity.data[index].solution),
-                                                          title: Row(
-                                                            children: [
-                                                              Text('Q ${index + 1}'),
-                                                              SizedBox(
-                                                                width: 10,
-                                                              ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  state.questionBankObjectiveEntity.data[index].name,
-                                                                  overflow: TextOverflow.ellipsis,
-                                                                  style: TextStyle(),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          value: questions.contains(state.questionBankObjectiveEntity.data[index].id),
-                                                          onChanged: (flag) {
-                                                            setState(() {
-                                                              flag
-                                                                  ? questions.add(state.questionBankObjectiveEntity.data[index].id)
-                                                                  : questions.remove(state.questionBankObjectiveEntity.data[index].id);
-                                                            });
-                                                          },
-                                                        );
-                                                      },
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            }
-                                            if (state is QuestionBankObjectiveEmpty) {
-                                              return Text('No Questions');
-                                            } else {
-                                              return Center(
-                                                child: CircularProgressIndicator(),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                      controller: tabController,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                  );
+                                }
+                                if (state is TopicQuestionsFailed) {
+                                  return Center(
+                                    child: Text(state.error),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                              cubit: context.bloc<TopicQuestionsCubit>(),
+                            )),
                             Container(
                               width: MediaQuery.of(context).size.width / 6,
                               child: Column(
                                 children: [
+                                  StatefulBuilder(
+                                    builder: (BuildContext context, void Function(void Function()) setState) {
+                                      return DropdownButton<int>(
+                                        items: [
+                                          DropdownMenuItem(
+                                            child: Text('All'),
+                                            value: 0,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Remember'),
+                                            value: 1,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Understand'),
+                                            value: 2,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Apply'),
+                                            value: 3,
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text('Analyze'),
+                                            value: 4,
+                                          ),
+                                        ],
+                                        onChanged: (int value) => setState(() {
+                                          bloomsFilter = value;
+                                          context.bloc<TopicQuestionsCubit>().getBloomsQuestions(value, data);
+                                        }),
+                                        value: bloomsFilter,
+                                      );
+                                    },
+                                  ),
                                   BlocBuilder(
                                     cubit: unitCubit..getUnitsOfACourse(widget._subjectId),
                                     builder: (BuildContext context, state) {
@@ -408,7 +233,6 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         context.bloc<UnitTopicCubit>().getTopics(
                                               unitId,
                                             );
-                                        objectiveBloc.add(GetUnitObjectiveQuestions(widget._subjectId, state.units.data[0].id));
                                         return StatefulBuilder(
                                           builder: (BuildContext context, void Function(void Function()) setState) {
                                             return ListView.builder(
@@ -435,10 +259,9 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                       unitId = state.units.data[index].id;
                                                     },
                                                   );
-
-                                                  objectiveBloc.add(
-                                                    GetUnitObjectiveQuestions(widget._subjectId, unitId),
-                                                  );
+                                                  context.bloc<UnitTopicCubit>().getTopics(
+                                                        unitId,
+                                                      );
                                                 },
                                               ),
                                             );
@@ -458,27 +281,58 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                     cubit: context.bloc<UnitTopicCubit>(),
                                     builder: (BuildContext context, state) {
                                       if (state is UnitTopicFetched) {
+                                        state.topics.forEach((element) {
+                                          topics.add(element.topic_id);
+                                        });
+                                        state.subTopics.forEach((element) {
+                                          subTopics.add(element.topic_id);
+                                        });
+                                        context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
                                         return StatefulBuilder(
-                                          builder: (BuildContext context, void Function(void Function()) setState) {
-                                            return ChipsChoice<int>.multiple(
-                                              isWrapped: true,
-                                              value: topics,
-                                              options: ChipsChoiceOption.listFrom(
-                                                source: state.unitTOpicEntity.data[0].topic,
-                                                value: (i, Topic v) => v.topic_id,
-                                                label: (i, Topic v) => v.topic_name,
-                                              ),
-                                              onChanged: (List<int> value) {
-                                                setState(() {
-                                                  topics = value;
-                                                });
-                                                context.bloc<TopicQuestionsCubit>().getQuestionsToATopic(topics, []);
-                                              },
+                                          builder: (BuildContext context, StateSetter setState) {
+                                            return Column(
+                                              children: [
+                                                SmartSelect.multiple(
+                                                  title: 'Topics',
+                                                  value: topics,
+                                                  onChange: (state) {
+                                                    setState(() => topics = state.value);
+                                                    context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                                  },
+                                                  modalType: S2ModalType.popupDialog,
+                                                  choiceItems: S2Choice.listFrom(
+                                                    source: state.topics,
+                                                    value: (index, Topic item) => item.topic_id,
+                                                    title: (index, Topic item) => item.topic_name,
+                                                    group: (index, Topic item) => item.topic_code,
+                                                  ),
+                                                  choiceType: S2ChoiceType.chips,
+                                                  modalConfirm: true,
+                                                ),
+                                                SmartSelect.multiple(
+                                                  title: 'Sub Topics',
+                                                  value: subTopics,
+                                                  onChange: (state) {
+                                                    setState(() => subTopics = state.value);
+                                                    context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                                  },
+                                                  modalType: S2ModalType.popupDialog,
+                                                  choiceItems: S2Choice.listFrom(
+                                                    source: state.subTopics,
+                                                    value: (index, Topic item) => item.topic_id,
+                                                    title: (index, Topic item) => item.topic_name,
+                                                    group: (index, Topic item) => item.topic_code,
+                                                  ),
+                                                  choiceType: S2ChoiceType.chips,
+                                                  modalConfirm: true,
+                                                ),
+                                              ],
                                             );
                                           },
                                         );
                                       }
-                                      if (state is TopicEmpty) {
+                                      if (state is UnitTopicEmpty) {
+                                        context.bloc<TopicQuestionsCubit>().emit(TopicQuestionsFailed('No Questions for this Unit'));
                                         return Text('No topics to Tag');
                                       } else {
                                         return Center(

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:edwisely/data/cubits/department_cubit.dart';
+import 'package:edwisely/data/model/course/getAllCourses/GetAllCoursesEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -23,6 +24,9 @@ class AddCourseScreen extends StatefulWidget {
 }
 
 class _AddCourseScreenState extends State<AddCourseScreen> {
+  GetAllCoursesEntity coursesFilter;
+  int selectedDropDown;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -79,7 +83,10 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           ),
                         builder: (BuildContext context, outerState) {
                           if (outerState is AllCoursesFetched) {
-                            List<Data> coursesFilter = outerState.getAllCoursesEntity.data;
+                            if (coursesFilter == null) {
+                              coursesFilter = outerState.getAllCoursesEntity;
+                              coursesFilter.data = List.unmodifiable(outerState.getAllCoursesEntity.data);
+                            }
                             return Expanded(
                               child: Column(
                                 children: [
@@ -132,7 +139,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                           cubit: context.bloc<DepartmentCubit>()..getDepartments(),
                                           builder: (BuildContext context, state) {
                                             if (state is DepartmentFetched) {
-                                              int selectedDropDown = state.departmentEntity.data[0].department_id;
+                                              selectedDropDown = state.departmentEntity.data[0].department_id;
                                               return StatefulBuilder(
                                                 builder: (BuildContext context, StateSetter setState) => DropdownButton(
                                                   value: selectedDropDown,
@@ -146,9 +153,11 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                                     ),
                                                   ),
                                                   onChanged: (value) {
-                                                    context.bloc<CoursesBloc>().add(SortCourses(value,outerState.getAllCoursesEntity));
-                                                    selectedDropDown = value;
-                                                    setState(() {});
+                                                    setState(() {
+                                                      selectedDropDown = value;
+                                                    });
+                                                    // FIXME: 9/29/2020 need to fix this
+                                                    // context.bloc<CoursesBloc>().add(SortCourses(value, coursesFilter));
                                                   },
                                                 ),
                                               );
@@ -176,7 +185,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                           childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 2.6,
                                         ),
                                         itemBuilder: (BuildContext context, int index) {
-                                          print(coursesFilter.length);
                                           return Card(
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(
@@ -184,10 +192,10 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                               ),
                                             ),
                                             elevation: 6,
-                                            child: _buildCourseTile(index, context, coursesFilter, outerState),
+                                            child: _buildCourseTile(index, context, outerState.getAllCoursesEntity.data, outerState),
                                           );
                                         },
-                                        itemCount: coursesFilter.length,
+                                        itemCount: outerState.getAllCoursesEntity.data.length,
                                       ),
                                     ),
                                   ),

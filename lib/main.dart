@@ -1,11 +1,11 @@
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
+import 'package:edwisely/util/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import './data/provider/selected_page.dart';
-import './util/router.dart';
 import 'data/blocs/conductdBloc/conducted_bloc.dart';
 import 'data/blocs/coursesBloc/courses_bloc.dart';
 import 'data/blocs/objectiveBloc/objective_bloc.dart';
@@ -144,6 +144,13 @@ class EdWisely extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           onGenerateRoute: MyRouter.onGenerateRoute,
           navigatorKey: navigatorKey,
+          // home: AddQuestionsScreen(
+          //   'T',
+          //   'dfdf',
+          //   352,
+          //   QuestionType.Objective,
+          //   2052,
+          // ),
         ),
       ),
     );
@@ -182,7 +189,6 @@ class EdWisely extends StatelessWidget {
 // TODO: 9/26/2020
 //todo understand this new api for choose from selected
 //todo understand thi send api
-
 
 // TODO: 9/28/2020 ask prahalya
 // about layout of the add question for qyuestion bank nad api for it

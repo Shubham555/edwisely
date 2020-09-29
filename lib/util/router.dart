@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+
 import '../ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
 import '../ui/screens/course/add_course_screen.dart';
 import '../ui/screens/course/courses_landing_screen.dart';
 import '../ui/screens/create_vc.dart';
 import '../ui/screens/send_notification_screen.dart';
-import 'package:flutter/material.dart';
 
 class MyRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -56,6 +57,7 @@ PageRoute _getPageRoute(Widget child, RouteSettings settings) {
 class _FadeRoute extends PageRouteBuilder {
   final Widget child;
   final String routeName;
+
   _FadeRoute({this.child, this.routeName})
       : super(
           settings: RouteSettings(name: routeName),

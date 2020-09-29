@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/model/assessment/unitTopic/UnitTOpicEntity.dart';
+import 'package:edwisely/data/model/assessment/unitTopic/topic.dart';
 import 'package:meta/meta.dart';
 
 class UnitTopicCubit extends Cubit<UnitTopicState> {
@@ -15,13 +16,26 @@ class UnitTopicCubit extends Cubit<UnitTopicState> {
       queryParameters: {'unit_ids': unitId},
     );
     if (response.data['message'] == 'Successfully fetched the data') {
-      emit(
-        UnitTopicFetched(
-          UnitTOpicEntity.fromJsonMap(
-            response.data,
-          ),
-        ),
-      );
+      if (response.data['data'].toString() != '[]') {
+        UnitTOpicEntity unitTOpicEntity = UnitTOpicEntity.fromJsonMap(response.data);
+        List<Topic> topics = [];
+        List<Topic> subTopics = [];
+        unitTOpicEntity.data[0].topic.forEach((element) {
+          if (element.type == 'GTopic') {
+            topics.add(element);
+          }
+        });
+        unitTOpicEntity.data[0].topic.forEach((element) {
+          if (element.type == 'GSubtopic') {
+            subTopics.add(element);
+          }
+        });
+        emit(
+          UnitTopicFetched(topics, subTopics),
+        );
+      } else {
+        emit(UnitTopicEmpty());
+      }
     } else {
       emit(
         UnitTopicFailed(),
@@ -36,9 +50,12 @@ abstract class UnitTopicState {}
 class UnitTopicInitial extends UnitTopicState {}
 
 class UnitTopicFetched extends UnitTopicState {
-  final UnitTOpicEntity unitTOpicEntity;
+  final List<Topic> topics;
+  final List<Topic> subTopics;
 
-  UnitTopicFetched(this.unitTOpicEntity);
+  UnitTopicFetched(this.topics, this.subTopics);
 }
 
 class UnitTopicFailed extends UnitTopicState {}
+
+class UnitTopicEmpty extends UnitTopicState {}
