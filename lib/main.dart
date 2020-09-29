@@ -182,3 +182,12 @@ class EdWisely extends StatelessWidget {
 // TODO: 9/26/2020
 //todo understand this new api for choose from selected
 //todo understand thi send api
+
+
+// TODO: 9/28/2020 ask prahalya
+// about layout of the add question for qyuestion bank nad api for it
+// about the apis to be used in the objective and subjective choose from existing
+// about the send assessment api
+
+// TODO: 9/28/2020 add save and send and save in assessment
+// TODO: 9/28/2020 hide mcq and FIB dropdown
