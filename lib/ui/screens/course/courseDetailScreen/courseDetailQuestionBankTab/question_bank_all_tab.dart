@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -286,17 +287,20 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                   cubit: context.bloc<QuestionBankBloc>(),
                                   builder: (BuildContext context, state) {
                                     if (state is UnitQuestionsFetched) {
-                                      if (state.questionBankAllEntity.data.subjective_questions.isEmpty) {
+                                      if (state.questionBankAllEntity.data.subjective_questions
+                                          .isEmpty) {
                                         return Center(
                                           child: Text(
                                             'No Questions',
-                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold, fontSize: 30),
                                           ),
                                         );
                                       }
                                       return ListView.builder(
                                         shrinkWrap: true,
-                                        itemCount: state.questionBankAllEntity.data.subjective_questions.length,
+                                        itemCount: state
+                                            .questionBankAllEntity.data.subjective_questions.length,
                                         itemBuilder: (BuildContext context, int index) => Card(
                                           margin: EdgeInsets.all(
                                             10,
@@ -306,7 +310,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                               children: [
                                                 Text('Q. ${index + 1}'),
                                                 Image.network(
-                                                  state.questionBankAllEntity.data.subjective_questions[index].question_img[0],
+                                                  state.questionBankAllEntity.data
+                                                      .subjective_questions[index].question_img[0],
                                                   width: 250,
                                                   height: 120,
                                                 ),
@@ -316,11 +321,16 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                               'Level ${state.questionBankAllEntity.data.subjective_questions[index].blooms_level}',
                                             ),
                                             trailing: StatefulBuilder(
-                                              builder: (BuildContext context, void Function(void Function()) setState) {
-                                                bool isBookmarked = state.questionBankAllEntity.data.subjective_questions[index].bookmarked == 1;
+                                              builder: (BuildContext context,
+                                                  void Function(void Function()) setState) {
+                                                bool isBookmarked = state.questionBankAllEntity.data
+                                                        .subjective_questions[index].bookmarked ==
+                                                    1;
                                                 return IconButton(
                                                   icon: Icon(
-                                                    isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                                                    isBookmarked
+                                                        ? Icons.bookmark
+                                                        : Icons.bookmark_border,
                                                   ),
                                                   onPressed: () async {
                                                     //going the easy way allah maaf kre
@@ -329,13 +339,16 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                         'deleteBookmark',
                                                         data: FormData.fromMap(
                                                           {
-                                                            'type': state.questionBankAllEntity.data.subjective_questions[index].type,
-                                                            'id': state.questionBankAllEntity.data.subjective_questions[index].id,
+                                                            'type': state.questionBankAllEntity.data
+                                                                .subjective_questions[index].type,
+                                                            'id': state.questionBankAllEntity.data
+                                                                .subjective_questions[index].id,
                                                           },
                                                         ),
                                                       );
                                                       print(response.data);
-                                                      if (response.data['message'] == 'Successfully deleted the bookmark') {
+                                                      if (response.data['message'] ==
+                                                          'Successfully deleted the bookmark') {
                                                         setState(
                                                           () => isBookmarked = false,
                                                         );
@@ -351,14 +364,17 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                         'addBookmark',
                                                         data: FormData.fromMap(
                                                           {
-                                                            'type': state.questionBankAllEntity.data.subjective_questions[index].type,
-                                                            'id': state.questionBankAllEntity.data.subjective_questions[index].id,
+                                                            'type': state.questionBankAllEntity.data
+                                                                .subjective_questions[index].type,
+                                                            'id': state.questionBankAllEntity.data
+                                                                .subjective_questions[index].id,
                                                           },
                                                         ),
                                                       );
                                                       print(response.data);
 
-                                                      if (response.data['message'] == 'Successfully added the bookmark') {
+                                                      if (response.data['message'] ==
+                                                          'Successfully added the bookmark') {
                                                         setState(
                                                           () => isBookmarked = true,
                                                         );
@@ -382,7 +398,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                       return Center(
                                         child: Text(
                                           'No Questions',
-                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                                          style:
+                                              TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                                         ),
                                       );
                                     } else {
@@ -447,7 +464,19 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                       color: Color(0xFF1D2B64),
                                     ),
                                   ),
-                                  onPressed: () => null,
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) => TypeQuestionTab(
+                                        'Add New Objective Question',
+                                        '',
+                                        widget.subjectId,
+                                        QuestionType.Objective,
+                                        1234567890,
+                                        true,
+                                      ),
+                                    ),
+                                  ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -470,7 +499,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                               cubit: context.bloc<QuestionBankBloc>(),
                               builder: (BuildContext context, state) {
                                 if (state is UnitQuestionsFetched) {
-                                  if (state.questionBankAllEntity.data.objective_questions.isEmpty) {
+                                  if (state
+                                      .questionBankAllEntity.data.objective_questions.isEmpty) {
                                     return Center(
                                       child: Text(
                                         'No Questions',
@@ -480,7 +510,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                   }
                                   return ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: state.questionBankAllEntity.data.objective_questions.length,
+                                    itemCount:
+                                        state.questionBankAllEntity.data.objective_questions.length,
                                     itemBuilder: (BuildContext context, int index) => Card(
                                       margin: EdgeInsets.all(10),
                                       child: ListTile(
@@ -489,7 +520,8 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                             Text('Q. ${index + 1}  '),
                                             Expanded(
                                                 child: Text(
-                                              state.questionBankAllEntity.data.objective_questions[index].name,
+                                              state.questionBankAllEntity.data
+                                                  .objective_questions[index].name,
                                             )),
                                           ],
                                         ),
@@ -497,11 +529,16 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                           'Level ${state.questionBankAllEntity.data.objective_questions[index].blooms_level}',
                                         ),
                                         trailing: StatefulBuilder(
-                                          builder: (BuildContext context, void Function(void Function()) setState) {
-                                            bool isBookmarked = state.questionBankAllEntity.data.subjective_questions[index].bookmarked == 1;
+                                          builder: (BuildContext context,
+                                              void Function(void Function()) setState) {
+                                            bool isBookmarked = state.questionBankAllEntity.data
+                                                    .subjective_questions[index].bookmarked ==
+                                                1;
                                             return IconButton(
                                               icon: Icon(
-                                                isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                                                isBookmarked
+                                                    ? Icons.bookmark
+                                                    : Icons.bookmark_border,
                                               ),
                                               onPressed: () async {
                                                 //going the easy way allah maaf kre
@@ -510,13 +547,16 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                     'deleteBookmark',
                                                     data: FormData.fromMap(
                                                       {
-                                                        'type': state.questionBankAllEntity.data.subjective_questions[index].type,
-                                                        'id': state.questionBankAllEntity.data.subjective_questions[index].id,
+                                                        'type': state.questionBankAllEntity.data
+                                                            .subjective_questions[index].type,
+                                                        'id': state.questionBankAllEntity.data
+                                                            .subjective_questions[index].id,
                                                       },
                                                     ),
                                                   );
                                                   print(response.data);
-                                                  if (response.data['message'] == 'Successfully deleted the bookmark') {
+                                                  if (response.data['message'] ==
+                                                      'Successfully deleted the bookmark') {
                                                     setState(
                                                       () => isBookmarked = false,
                                                     );
@@ -532,14 +572,17 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                     'addBookmark',
                                                     data: FormData.fromMap(
                                                       {
-                                                        'type': state.questionBankAllEntity.data.subjective_questions[index].type,
-                                                        'id': state.questionBankAllEntity.data.subjective_questions[index].id,
+                                                        'type': state.questionBankAllEntity.data
+                                                            .subjective_questions[index].type,
+                                                        'id': state.questionBankAllEntity.data
+                                                            .subjective_questions[index].id,
                                                       },
                                                     ),
                                                   );
                                                   print(response.data);
 
-                                                  if (response.data['message'] == 'Successfully added the bookmark') {
+                                                  if (response.data['message'] ==
+                                                      'Successfully added the bookmark') {
                                                     setState(
                                                       () => isBookmarked = true,
                                                     );

@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/model/questionBank/questionBankObjective/data.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toast/toast.dart';
@@ -256,7 +258,19 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   color: Color(0xFF1D2B64),
                                 ),
                               ),
-                              onPressed: () => null,
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) => TypeQuestionTab(
+                                    'Add New Objective Question',
+                                    '',
+                                    widget.subjectId,
+                                    QuestionType.Objective,
+                                    1234567890,
+                                    true,
+                                  ),
+                                ),
+                              ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -307,13 +321,20 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                               onSelected: (string) {
                                                 switch (string) {
                                                   case 'Bookmark':
-                                                    _bookmark(state.questionBankObjectiveEntity.data[index]);
+                                                    _bookmark(state
+                                                        .questionBankObjectiveEntity.data[index]);
                                                     break;
                                                   case 'Change type to Public':
-                                                    _changeType(state.questionBankObjectiveEntity.data[index].id, 'public');
+                                                    _changeType(
+                                                        state.questionBankObjectiveEntity
+                                                            .data[index].id,
+                                                        'public');
                                                     break;
                                                   case 'Change type to Private':
-                                                    _changeType(state.questionBankObjectiveEntity.data[index].id, 'private');
+                                                    _changeType(
+                                                        state.questionBankObjectiveEntity
+                                                            .data[index].id,
+                                                        'private');
                                                     break;
                                                 }
                                               },
@@ -332,7 +353,11 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                               },
                                             )
                                           : IconButton(
-                                              icon: Icon(state.questionBankObjectiveEntity.data[index].bookmarked == 1 ? Icons.bookmark : Icons.bookmark_border),
+                                              icon: Icon(state.questionBankObjectiveEntity
+                                                          .data[index].bookmarked ==
+                                                      1
+                                                  ? Icons.bookmark
+                                                  : Icons.bookmark_border),
                                               onPressed: () => _bookmark(
                                                 state.questionBankObjectiveEntity.data[index],
                                               ),

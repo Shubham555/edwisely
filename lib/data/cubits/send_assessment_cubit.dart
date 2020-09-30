@@ -30,7 +30,6 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
     String name,
     String description,
     String doe,
-    List<int> questions,
     String timeLimit,
     List<int> students,
     int testId,
@@ -39,10 +38,9 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
     final response = await EdwiselyApi.dio.post(
       'questionnaireWeb/editObjectiveTest',
       data: FormData.fromMap(
-        {'name': name, 'description': description, 'doe': doe, 'questions': jsonEncode(questions), 'timelimit': timeLimit, 'students': jsonEncode(students), 'test_id': testId, 'starttime': startTime},
+        {'name': name, 'description': description, 'doe': doe, 'timelimit': timeLimit, 'students': jsonEncode(students), 'test_id': testId, 'starttime': startTime},
       ),
     );
-    print(response.data);
     if (response.data['message'] == 'Successfully updated the questions') {
       emit(
         TestSent(),

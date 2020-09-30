@@ -20,8 +20,9 @@ class TypeQuestionTab extends StatefulWidget {
   final String _title;
   final String _description;
   final int _subjectId;
-  QuestionType _questionType;
+  final QuestionType _questionType;
   final int _assessmentId;
+  final bool isFromQuestionBank;
 
   TypedObjectiveQuestionProvider newQues;
 
@@ -39,6 +40,7 @@ class TypeQuestionTab extends StatefulWidget {
     this._subjectId,
     this._questionType,
     this._assessmentId,
+    this.isFromQuestionBank,
   );
 
   @override
@@ -248,31 +250,31 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text('Question Type '),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          DropdownButton(
-                                              value: widget._questionType,
-                                              items: [
-                                                DropdownMenuItem(
-                                                  child: Text("MCQ"),
-                                                  value: QuestionType.Objective,
-                                                ),
-                                                DropdownMenuItem(
-                                                  child: Text("Fill In The Blanks"),
-                                                  value: QuestionType.Subjective,
-                                                ),
-                                              ],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  widget._questionType = value;
-                                                });
-                                              }),
-                                        ],
-                                      ),
+                                      // Row(
+                                      //   children: [
+                                      //     Text('Question Type '),
+                                      //     SizedBox(
+                                      //       width: 20,
+                                      //     ),
+                                      //     DropdownButton(
+                                      //         value: widget._questionType,
+                                      //         items: [
+                                      //           DropdownMenuItem(
+                                      //             child: Text("MCQ"),
+                                      //             value: QuestionType.Objective,
+                                      //           ),
+                                      //           DropdownMenuItem(
+                                      //             child: Text("Fill In The Blanks"),
+                                      //             value: QuestionType.Subjective,
+                                      //           ),
+                                      //         ],
+                                      //         onChanged: (value) {
+                                      //           setState(() {
+                                      //             widget._questionType = value;
+                                      //           });
+                                      //         }),
+                                      //   ],
+                                      // ),
                                       Container(
                                         margin: EdgeInsets.all(12),
                                         width: width * 0.5,
@@ -616,35 +618,34 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                           print(questions);
                                           if (widget._questionType == QuestionType.Objective) {
                                             context.bloc<AddQuestionCubit>().addQuestion(
-                                                  _questionController.text,
-                                                  topics,
-                                                  [
-                                                    _option1Controller.text,
-                                                    _option2Controller.text,
-                                                    _option3Controller.text,
-                                                    _option4Controller.text,
-                                                    _option5Controller.text,
-                                                  ],
-                                                  widget._bloomValue,
-                                                  difficultylevel,
-                                                  _sourceController.text,
-                                                  isPublic ? 'public' : 'private',
-                                                  1,
-                                                  _correctAnswer,
-                                                  _option1Image,
-                                                  _option2Image,
-                                                  _option3Image,
-                                                  _option4Image,
-                                                  _option5Image,
-                                                  _questionImage,
-                                                  widget._assessmentId,
-                                                  questions,
-                                                  _hintController.text,
-                                                  _solutionController.text,
-                                                );
+                                                _questionController.text,
+                                                topics,
+                                                [
+                                                  _option1Controller.text,
+                                                  _option2Controller.text,
+                                                  _option3Controller.text,
+                                                  _option4Controller.text,
+                                                  _option5Controller.text,
+                                                ],
+                                                widget._bloomValue,
+                                                difficultylevel,
+                                                _sourceController.text,
+                                                isPublic ? 'public' : 'private',
+                                                1,
+                                                _correctAnswer,
+                                                _option1Image,
+                                                _option2Image,
+                                                _option3Image,
+                                                _option4Image,
+                                                _option5Image,
+                                                _questionImage,
+                                                widget._assessmentId,
+                                                questions,
+                                                _hintController.text,
+                                                _solutionController.text,
+                                                false);
 
-                                            Future.delayed(
-                                                Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                            Future.delayed(Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
                                           } else {
                                             print('Subjective');
                                           }
@@ -672,8 +673,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   Text("Tag Topics"),
                                   //todo change
                                   BlocBuilder(
-                                    cubit: context.bloc<TopicCubit>()
-                                      ..getTopics(45),
+                                    cubit: context.bloc<TopicCubit>()..getTopics(45),
                                     builder: (BuildContext context, state) {
                                       if (state is TopicFetched) {
                                         return Container(
