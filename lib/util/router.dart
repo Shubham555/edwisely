@@ -1,3 +1,4 @@
+import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
@@ -10,7 +11,7 @@ class MyRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _getPageRoute(CoursesLandingScreen(), settings);
+        return _getPageRoute(HomeScreen(), settings);
         break;
       case '/all-courses':
         return _getPageRoute(CoursesLandingScreen(), settings);

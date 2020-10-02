@@ -1,3 +1,5 @@
+import 'package:edwisely/ui/widgets_util/big_app_bar.dart';
+import 'package:edwisely/ui/widgets_util/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -32,17 +34,6 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: //<editor-fold desc="White AppBar Need to Create a stless when confirmed for use// ">
-      //     AppBar(
-      //   iconTheme: IconThemeData(color: Colors.black),
-      //   elevation: 3,
-      //   backgroundColor: Colors.white,
-      //   title: Text(
-      //     'Logo here',
-      //     style: TextStyle(color: Colors.black),
-      //   ),
-      // ),
-      //</editor-fold>
       body: Builder(
         builder: (BuildContext context) => MultiBlocListener(
           listeners: [
@@ -67,7 +58,8 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is ObjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Creation of Assessment Failed. PLease try again'),
+                      content: Text(
+                          'Creation of Assessment Failed. PLease try again'),
                     ),
                   );
                 }
@@ -93,7 +85,8 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is SubjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Creation of Assessment Failed. Please try again'),
+                      content: Text(
+                          'Creation of Assessment Failed. Please try again'),
                     ),
                   );
                 }
@@ -101,116 +94,143 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
             ),
           ],
           child: Row(
+            mainAxisSize: MainAxisSize.max,
             children: [
               NavigationDrawer(
                 isCollapsed: true,
                 key: context.watch<SelectedPageProvider>().navigatorKey,
               ),
-              Spacer(),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.3,
-                height: MediaQuery.of(context).size.height,
-                padding: const EdgeInsets.only(top: 72.0),
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 50),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BigAppBar(
+                      actions: [],
+                      titleText:
+                          'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
+                      bottomTab: null,
+                      appBarSize: MediaQuery.of(context).size.height / 3,
+                      appBarTitle: Text(
+                        'Create Assesment',
                       ),
-                      _buildTextFieldWidget('Add Title', 80, _titleController),
-                      _buildTextFieldWidget('Description', 200, _descriptionController),
-                      Text(
-                        'Choose Subject',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.width / 50),
+                      flatButton: RaisedButton(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8.0,
+                          horizontal: 16.0,
+                        ),
+                        onPressed: () =>_continueButtonOnPressed(context),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/save.png',
+                              color: Colors.white,
+                              height: 24.0,
+                            ),
+                            SizedBox(width: 8.0),
+                            Text(
+                              'Continue',
+                              style: Theme.of(context).textTheme.button,
+                            ),
+                          ],
+                        ),
                       ),
-                      BlocBuilder(
-                        cubit: context.bloc<CoursesBloc>()
-                          ..add(
-                            GetCoursesByFaculty(),
+                      route: 'Home > Assesments > Create Assesment',
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 16.0,
+                        horizontal: MediaQuery.of(context).size.width * 0.17,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildTextFieldWidget(
+                              'Add Title', 80, _titleController),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.05,
                           ),
-                        // ignore: missing_return
-                        builder: (BuildContext context, state) {
-                          if (state is CoursesInitial) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (state is CoursesFetchFailed) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('There is some server error please retry'),
-                                RaisedButton(
-                                  color: Color(0xFF1D2B64).withOpacity(.3),
-                                  onPressed: () => context.bloc<CoursesBloc>().add(
-                                        GetCoursesByFaculty(),
-                                      ),
-                                  child: Text('Retry'),
-                                )
-                              ],
-                            );
-                          }
-                          if (state is CoursesFetched) {
-                            return SmartSelect.single(
-                              title: 'Subjects',
-                              placeholder: 'Select a Subject',
-                              value: selectedCouerse,
-                              choiceItems: S2Choice.listFrom(
-                                source: state.coursesEntity.data,
-                                value: (index, Data item) => {item.id: item.subject_semester_id},
-                                title: (index, Data item) => item.name,
-                                group: (index, Data item) => '',
+                          _buildTextFieldWidget(
+                              'Description', 200, _descriptionController),
+                          Text(
+                            'Choose Subject',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 50),
+                          ),
+                          BlocBuilder(
+                            cubit: context.bloc<CoursesBloc>()
+                              ..add(
+                                GetCoursesByFaculty(),
                               ),
-                              modalTitle: 'Choose Subject',
-                              modalType: S2ModalType.popupDialog,
-                              choiceType: S2ChoiceType.chips,
-                              choiceStyle: S2ChoiceStyle(
-                                showCheckmark: true,
-                              ),
-                              choiceLayout: S2ChoiceLayout.wrap,
-                              onChange: (state) => setState(() {
-                                selectedCouerse = state.value;
-                                print(selectedCouerse);
-                              }),
-                              tileBuilder: (context, state) => S2Tile.fromState(
-                                state,
-                                isTwoLine: true,
-                                leading: Container(
-                                  width: 40,
-                                  alignment: Alignment.center,
-                                  child: const Icon(Icons.subject),
-                                ),
-                              ),
-                            );
-                          }
-                        },
+                            // ignore: missing_return
+                            builder: (BuildContext context, state) {
+                              if (state is CoursesInitial) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              if (state is CoursesFetchFailed) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        'There is some server error please retry'),
+                                    RaisedButton(
+                                      color: Color(0xFF1D2B64).withOpacity(.3),
+                                      onPressed: () =>
+                                          context.bloc<CoursesBloc>().add(
+                                                GetCoursesByFaculty(),
+                                              ),
+                                      child: Text('Retry'),
+                                    )
+                                  ],
+                                );
+                              }
+                              if (state is CoursesFetched) {
+                                return SmartSelect.single(
+                                  title: 'Subjects',
+                                  placeholder: 'Select a Subject',
+                                  value: selectedCouerse,
+                                  choiceItems: S2Choice.listFrom(
+                                    source: state.coursesEntity.data,
+                                    value: (index, Data item) =>
+                                        {item.id: item.subject_semester_id},
+                                    title: (index, Data item) => item.name,
+                                    group: (index, Data item) => '',
+                                  ),
+                                  modalTitle: 'Choose Subject',
+                                  modalType: S2ModalType.popupDialog,
+                                  choiceType: S2ChoiceType.chips,
+                                  choiceStyle: S2ChoiceStyle(
+                                    showCheckmark: true,
+                                  ),
+                                  choiceLayout: S2ChoiceLayout.wrap,
+                                  onChange: (state) => setState(() {
+                                    selectedCouerse = state.value;
+                                    print(selectedCouerse);
+                                  }),
+                                  tileBuilder: (context, state) =>
+                                      S2Tile.fromState(
+                                    state,
+                                    isTwoLine: true,
+                                    leading: Container(
+                                      width: 40,
+                                      alignment: Alignment.center,
+                                      child: const Icon(Icons.subject),
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      RaisedButton(
-                        disabledColor: Colors.grey,
-                        disabledElevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        color: Color(0xFF1D2B64),
-                        child: Text(
-                          'Continue',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () => _continueButtonOnPressed(context),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              Spacer(),
             ],
           ),
         ),
@@ -218,19 +238,38 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
     );
   }
 
-  _buildTextFieldWidget(String title, int maxLength, TextEditingController controller) => Column(
-        children: [
-          TextField(
-            controller: controller,
-            keyboardType: TextInputType.multiline,
-            decoration: InputDecoration(
-              labelText: title,
-              border: OutlineInputBorder(),
-            ),
-            maxLength: maxLength,
-          ),
-        ],
+  _buildTextFieldWidget(
+    String title,
+    int maxLength,
+    TextEditingController controller,
+  ) =>
+      TextInput(
+        controller: controller,
+        label: title,
+        hint: '',
+        maxLength: maxLength,
+        inputType: TextInputType.text,
+        autofocus: true,
+        validator: (String value) {
+          if (value.trim().length == 0) {
+            return 'This field cannot be empty!';
+          }
+          return null;
+        },
       );
+  // Column(
+  //   children: [
+  //     TextField(
+  //       controller: controller,
+  //       keyboardType: TextInputType.multiline,
+  //       decoration: InputDecoration(
+  //         labelText: title,
+  //         border: OutlineInputBorder(),
+  //       ),
+  //       maxLength: maxLength,
+  //     ),
+  //   ],
+  // );
 
   _createCourseCard(String text, Function onPressed) => FlatButton(
         hoverColor: Color(0xFF1D2B64).withOpacity(.2),
@@ -259,7 +298,9 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
       );
 
   void _continueButtonOnPressed(BuildContext context) {
-    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty || selectedCouerse == null) {
+    if (_titleController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        selectedCouerse == null) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Please double check the entries !'),
