@@ -1,3 +1,4 @@
+import 'package:edwisely/data/model/assessment/studentsSection/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
@@ -15,11 +16,9 @@ import '../assessmentLandingScreen/assessment_landing_screen.dart';
 class SendAssessmentScreen extends StatefulWidget {
   final int assessmentId;
   final String title;
-  final List<int> questions;
   final String description;
 
-  SendAssessmentScreen(
-      this.assessmentId, this.title, this.questions, this.description);
+  SendAssessmentScreen(this.assessmentId, this.title, this.description);
 
   @override
   _SendAssessmentScreenState createState() => _SendAssessmentScreenState();
@@ -41,7 +40,6 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
   @override
   void dispose() {
     super.dispose();
-
     _scrollController.dispose();
   }
 
@@ -96,7 +94,6 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                               widget.title,
                               widget.description,
                               _testExpiry.toString(),
-                              widget.questions,
                               _testDuration.toString(),
                               students,
                               widget.assessmentId,
@@ -151,43 +148,29 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     )),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     StatefulBuilder(
                                       builder: (BuildContext context,
-                                          void Function(void Function())
-                                              setState) {
+                                          void Function(void Function()) setState) {
                                         return Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Text('Start Date :     '),
                                             InkWell(
                                               onTap: () async {
-                                                _testStart =
-                                                    await showDatePicker(
-                                                            context: context,
-                                                            initialDate:
-                                                                DateTime.now(),
-                                                            firstDate:
-                                                                DateTime.now()
-                                                                    .subtract(
-                                                              Duration(
-                                                                  days: 100),
-                                                            ),
-                                                            lastDate: DateTime
-                                                                    .now()
-                                                                .add(
-                                                              Duration(
-                                                                  days: 100),
-                                                            ))
-                                                        .whenComplete(() async {
-                                                  _testStartTime =
-                                                      await showTimePicker(
-                                                          context: context,
-                                                          initialTime:
-                                                              TimeOfDay.now());
+                                                _testStart = await showDatePicker(
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime.now().subtract(
+                                                      Duration(days: 100),
+                                                    ),
+                                                    lastDate: DateTime.now().add(
+                                                      Duration(days: 100),
+                                                    )).whenComplete(() async {
+                                                  _testStartTime = await showTimePicker(
+                                                      context: context,
+                                                      initialTime: TimeOfDay.now());
                                                 }).catchError(() {
                                                   _testStart = null;
                                                   _testStartTime = null;
@@ -197,16 +180,14 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                               child: Text(
                                                 _testStart == null
                                                     ? 'Pick Start Date  '
-                                                    : DateFormat(
-                                                            'EEE d MMM yyyy')
+                                                    : DateFormat('EEE d MMM yyyy')
                                                         .format(_testStart),
                                               ),
                                             ),
                                             SizedBox(
                                               height: 18.0,
                                               child: VerticalDivider(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                                color: Theme.of(context).primaryColor,
                                                 thickness: 2.0,
                                               ),
                                             ),
@@ -221,19 +202,15 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     ),
                                     StatefulBuilder(
                                       builder: (BuildContext context,
-                                          void Function(void Function())
-                                              setState) {
+                                          void Function(void Function()) setState) {
                                         return Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Text('Expiry Date :   '),
                                             InkWell(
                                               onTap: () async {
-                                                if (_testStart == null ||
-                                                    _testStartTime == null) {
-                                                  Scaffold.of(context)
-                                                      .showSnackBar(
+                                                if (_testStart == null || _testStartTime == null) {
+                                                  Scaffold.of(context).showSnackBar(
                                                     SnackBar(
                                                       content: Text(
                                                         'Select Starting Date and time first',
@@ -241,22 +218,16 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                     ),
                                                   );
                                                 } else {
-                                                  _testExpiry =
-                                                      await showDatePicker(
-                                                          context: context,
-                                                          initialDate:
-                                                              _testStart,
-                                                          firstDate: _testStart,
-                                                          lastDate:
-                                                              DateTime.now()
-                                                                  .add(
-                                                            Duration(days: 100),
-                                                          )).whenComplete(() async {
-                                                    _testExpiryTime =
-                                                        await showTimePicker(
-                                                            context: context,
-                                                            initialTime:
-                                                                _testStartTime);
+                                                  _testExpiry = await showDatePicker(
+                                                      context: context,
+                                                      initialDate: _testStart,
+                                                      firstDate: _testStart,
+                                                      lastDate: DateTime.now().add(
+                                                        Duration(days: 100),
+                                                      )).whenComplete(() async {
+                                                    _testExpiryTime = await showTimePicker(
+                                                        context: context,
+                                                        initialTime: _testStartTime);
                                                   }).catchError(() {
                                                     _testExpiry = null;
                                                     _testExpiryTime = null;
@@ -268,16 +239,14 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                               child: Text(
                                                 _testExpiry == null
                                                     ? 'Pick Expiry Date'
-                                                    : DateFormat(
-                                                            'EEE d MMM yyyy')
+                                                    : DateFormat('EEE d MMM yyyy')
                                                         .format(_testExpiry),
                                               ),
                                             ),
                                             SizedBox(
                                               height: 18.0,
                                               child: VerticalDivider(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                                color: Theme.of(context).primaryColor,
                                                 thickness: 2.0,
                                               ),
                                             ),
@@ -292,20 +261,16 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     ),
                                     StatefulBuilder(
                                       builder: (BuildContext context,
-                                          void Function(void Function())
-                                              setState) {
+                                          void Function(void Function()) setState) {
                                         return Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Text('Duration:         '),
                                             InkWell(
                                               onTap: () async {
-                                                _testDuration =
-                                                    await showDurationPicker(
+                                                _testDuration = await showDurationPicker(
                                                   context: context,
-                                                  initialTime:
-                                                      Duration(minutes: 30),
+                                                  initialTime: Duration(minutes: 30),
                                                 );
                                                 setState(() {});
                                               },
@@ -326,28 +291,22 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                               Text('Class Select'),
                               BlocBuilder(
                                 //todo change
-                                cubit: context.bloc<SendAssessmentCubit>()
-                                  ..getSections(71),
+                                cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                                 builder: (BuildContext context, state) {
                                   if (state is SendAssessmentSectionsFetched) {
-                                    context
-                                        .bloc<SelectStudentsCubit>()
-                                        .getStudentsInASection(
+                                    context.bloc<SelectStudentsCubit>().getStudentsInASection(
                                           state.sectionEntity.data[0].id,
                                           1,
                                         );
-                                    int enabledSectionId =
-                                        state.sectionEntity.data[0].id;
+                                    int enabledSectionId = state.sectionEntity.data[0].id;
                                     return Container(
                                       margin: EdgeInsets.symmetric(
                                         vertical: 12.0,
                                       ),
-                                      width: MediaQuery.of(context).size.width *
-                                          0.25,
+                                      width: MediaQuery.of(context).size.width * 0.25,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
+                                        borderRadius: BorderRadius.circular(12.0),
                                         border: Border.all(
                                           color: Colors.black,
                                           width: 0.5,
@@ -356,69 +315,49 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                       child: StatefulBuilder(
                                         builder: (
                                           BuildContext context,
-                                          void Function(void Function())
-                                              setState,
+                                          void Function(void Function()) setState,
                                         ) {
                                           return ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount:
-                                                state.sectionEntity.data.length,
+                                            itemCount: state.sectionEntity.data.length,
                                             itemBuilder: (
                                               BuildContext context,
                                               int index,
                                             ) =>
                                                 Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                              padding: const EdgeInsets.symmetric(
                                                 vertical: 12.0,
                                                 horizontal: 22.0,
                                               ),
                                               child: InkWell(
                                                 onTap: () {
-                                                  enabledSectionId = state
-                                                      .sectionEntity
-                                                      .data[index]
-                                                      .id;
+                                                  enabledSectionId =
+                                                      state.sectionEntity.data[index].id;
                                                   context
-                                                      .bloc<
-                                                          SelectStudentsCubit>()
+                                                      .bloc<SelectStudentsCubit>()
                                                       .getStudentsInASection(
-                                                          state.sectionEntity
-                                                              .data[index].id,
-                                                          1);
+                                                          state.sectionEntity.data[index].id, 1);
                                                   setState(() {});
                                                 },
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     AnimatedDefaultTextStyle(
-                                                      duration: Duration(
-                                                          milliseconds: 300),
+                                                      duration: Duration(milliseconds: 300),
                                                       style: enabledSectionId ==
-                                                              state
-                                                                  .sectionEntity
-                                                                  .data[index]
-                                                                  .id
+                                                              state.sectionEntity.data[index].id
                                                           ? TextStyle(
-                                                              color:
-                                                                  Colors.black,
+                                                              color: Colors.black,
                                                               fontSize: 22.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontWeight: FontWeight.bold,
                                                             )
                                                           : TextStyle(
-                                                              color:
-                                                                  Colors.grey,
+                                                              color: Colors.grey,
                                                               fontSize: 20.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
+                                                              fontWeight: FontWeight.normal,
                                                             ),
                                                       child: Text(
-                                                        state.sectionEntity
-                                                            .data[index].name,
+                                                        state.sectionEntity.data[index].name,
                                                       ),
                                                     ),
                                                     SizedBox(height: 2.0),
@@ -427,15 +366,11 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                         milliseconds: 300,
                                                       ),
                                                       width: enabledSectionId ==
-                                                              state
-                                                                  .sectionEntity
-                                                                  .data[index]
-                                                                  .id
+                                                              state.sectionEntity.data[index].id
                                                           ? 80.0
                                                           : 40.0,
                                                       height: 3.0,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
+                                                      color: Theme.of(context).primaryColor,
                                                     ),
                                                   ],
                                                 ),
@@ -450,6 +385,52 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     child: CircularProgressIndicator(),
                                   );
                                 },
+                              ),
+                              Text('Total Students Selected'),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                  horizontal: 12.0,
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 0.5,
+                                    )),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    BlocBuilder(
+                                      builder: (BuildContext context, state) {
+                                        if (state is StudentsCountUpdated) {
+                                          return Text(
+                                            state.students.length.toString(),
+                                            style: TextStyle(
+                                              fontSize: 30,
+                                            ),
+                                          );
+                                        }
+                                        if (state is StudentsCountInitial) {
+                                          return Text(
+                                            '0',
+                                            style: TextStyle(
+                                              fontSize: 30,
+                                            ),
+                                          );
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      },
+                                      cubit: context.bloc<StudentsCountCubit>(),
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -466,14 +447,10 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                       margin: const EdgeInsets.symmetric(
                                         horizontal: 32.0,
                                       ),
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.73,
-                                      width:
-                                          MediaQuery.of(context).size.width / 8,
+                                      height: MediaQuery.of(context).size.height * 0.73,
+                                      width: MediaQuery.of(context).size.width / 8,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
+                                          borderRadius: BorderRadius.circular(12.0),
                                           color: Colors.white,
                                           border: Border.all(
                                             color: Colors.black,
@@ -482,25 +459,20 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                       child: Column(
                                         children: [
                                           Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.07,
+                                            height: MediaQuery.of(context).size.height * 0.07,
                                             padding: const EdgeInsets.symmetric(
                                               vertical: 16.0,
                                               horizontal: 22.0,
                                             ),
                                             decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
+                                              color: Theme.of(context).primaryColor,
                                               borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(12.0),
                                                 topRight: Radius.circular(12.0),
                                               ),
                                             ),
                                             child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 SizedBox(width: 8.0),
                                                 Text(
@@ -508,8 +480,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline5
-                                                      .copyWith(
-                                                          color: Colors.white),
+                                                      .copyWith(color: Colors.white),
                                                 ),
                                                 Spacer(),
                                                 VerticalDivider(
@@ -529,24 +500,15 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                   value: selectAll,
                                                   onChanged: (flag) {
                                                     flag
-                                                        ? state
-                                                            .studentsEntity.data
-                                                            .forEach(
-                                                            (element) {
-                                                              students.add(
-                                                                element.id,
-                                                              );
-                                                            },
-                                                          )
-                                                        : state
-                                                            .studentsEntity.data
-                                                            .forEach(
-                                                            (element) {
-                                                              students.remove(
-                                                                element.id,
-                                                              );
-                                                            },
-                                                          );
+                                                        ? context
+                                                            .bloc<StudentsCountCubit>()
+                                                            .addAllStudents(
+                                                                state.studentsEntity.data, students)
+                                                        : context
+                                                            .bloc<StudentsCountCubit>()
+                                                            .removeAllStudents(
+                                                                state.studentsEntity.data,
+                                                                students);
                                                     setState(() {
                                                       selectAll = flag;
                                                     });
@@ -556,25 +518,20 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.65,
+                                            height: MediaQuery.of(context).size.height * 0.65,
                                             child: Scrollbar(
                                               controller: _scrollController,
                                               isAlwaysShown: true,
                                               child: ListView.builder(
                                                 controller: _scrollController,
                                                 shrinkWrap: true,
-                                                itemCount: state
-                                                    .studentsEntity.data.length,
+                                                itemCount: state.studentsEntity.data.length,
                                                 itemBuilder: (
                                                   BuildContext context,
                                                   int index,
                                                 ) =>
                                                     Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
+                                                  padding: const EdgeInsets.symmetric(
                                                     horizontal: 22.0,
                                                   ),
                                                   decoration: BoxDecoration(
@@ -592,11 +549,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                     children: [
                                                       CircleAvatar(
                                                         backgroundColor:
-                                                            Theme.of(context)
-                                                                .primaryColor,
+                                                            Theme.of(context).primaryColor,
                                                         child: Text(
-                                                          state.studentsEntity
-                                                              .data[index].name
+                                                          state.studentsEntity.data[index].name
                                                               .substring(0, 1)
                                                               .toUpperCase(),
                                                           style: TextStyle(
@@ -607,39 +562,29 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                       Flexible(
                                                         child: CheckboxListTile(
                                                           title: Text(
-                                                            state
-                                                                .studentsEntity
-                                                                .data[index]
-                                                                .name,
+                                                            state.studentsEntity.data[index].name,
                                                           ),
                                                           subtitle: Text(
-                                                            state
-                                                                .studentsEntity
-                                                                .data[index]
+                                                            state.studentsEntity.data[index]
                                                                 .roll_number,
                                                           ),
-                                                          value:
-                                                              students.contains(
-                                                            state.studentsEntity
-                                                                .data[index].id,
+                                                          value: students.contains(
+                                                            state.studentsEntity.data[index].id,
                                                           ),
                                                           onChanged: (flag) {
                                                             flag
-                                                                ? students.add(
-                                                                    state
-                                                                        .studentsEntity
-                                                                        .data[
-                                                                            index]
-                                                                        .id,
-                                                                  )
-                                                                : students
-                                                                    .remove(
-                                                                    state
-                                                                        .studentsEntity
-                                                                        .data[
-                                                                            index]
-                                                                        .id,
-                                                                  );
+                                                                ? context
+                                                                    .bloc<StudentsCountCubit>()
+                                                                    .addStudent(
+                                                                        state.studentsEntity
+                                                                            .data[index].id,
+                                                                        students)
+                                                                : context
+                                                                    .bloc<StudentsCountCubit>()
+                                                                    .removeStudent(
+                                                                        state.studentsEntity
+                                                                            .data[index].id,
+                                                                        students);
                                                             setState(() {});
                                                           },
                                                         ),
@@ -886,4 +831,61 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
       ),
     );
   }
+}
+
+// cubit for students
+
+class StudentsCountCubit extends Cubit<StudentsCountState> {
+  StudentsCountCubit() : super(StudentsCountInitial());
+
+  addStudent(int id, List<int> students) {
+    students.add(id);
+    emit(
+      StudentsCountUpdated(
+        students,
+      ),
+    );
+  }
+
+  removeStudent(int id, List<int> students) {
+    students.remove(id);
+    emit(
+      StudentsCountUpdated(
+        students,
+      ),
+    );
+  }
+
+  removeAllStudents(List<Data> data, List<int> students) {
+    data.forEach((element) {
+      students.remove(element.id);
+    });
+    emit(
+      StudentsCountUpdated(
+        students,
+      ),
+    );
+  }
+
+  addAllStudents(List<Data> data, List<int> students) {
+    data.forEach((element) {
+      students.add(element.id);
+    });
+    emit(
+      StudentsCountUpdated(
+        students,
+      ),
+    );
+  }
+}
+
+@immutable
+abstract class StudentsCountState {}
+
+class StudentsCountInitial extends StudentsCountState {}
+
+class StudentsCountUpdated extends StudentsCountState {
+  final List<int> students;
+
+  StudentsCountUpdated(this.students);
 }

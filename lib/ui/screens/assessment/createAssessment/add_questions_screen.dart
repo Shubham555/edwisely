@@ -31,8 +31,7 @@ class AddQuestionsScreen extends StatefulWidget {
   _AddQuestionsScreenState createState() => _AddQuestionsScreenState();
 }
 
-class _AddQuestionsScreenState extends State<AddQuestionsScreen>
-    with SingleTickerProviderStateMixin {
+class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTickerProviderStateMixin {
   final _questionFetchCubit = QuestionsCubit();
   Size screenSize;
   TextTheme textTheme;
@@ -64,36 +63,17 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                     ),
                   ),
                   route: '',
-                  flatButton: RaisedButton(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 16.0,
-                    ),
+                  flatButton: FlatButton(
                     onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => SendAssessmentScreen(
-                          widget._assessmentId,
-                          widget._title,
-                          questions,
-                          widget._description,
-                        ),
-                      ),
-                    ),
-                    child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/save.png',
-                            color: Colors.white,
-                            height: 24.0,
-                          ),
-                          SizedBox(width: 8.0),
-                          Text(
-                            'Save',
-                            style: Theme.of(context).textTheme.button,
-                          ),
-                        ],
-                      ),
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => SendAssessmentScreen(
+                                  widget._assessmentId,
+                                  widget._title,
+                                  questions,
+                                  widget._description,
+                                ))),
+                    child: Text('Save'),
                   ),
                   titleText: 'Add Questions to ${widget._title} Assessment',
                 ).build(context),
@@ -112,23 +92,19 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                           ),
                         builder: (BuildContext context, state) {
                           if (state is QuestionsToAnAssessmentFetched) {
-                            state.assessmentQuestionsEntity.data
-                                .forEach((element) {
+                            state.assessmentQuestionsEntity.data.forEach((element) {
                               questions.add(element.id);
                             });
                             return ListView.builder(
-                              itemCount:
-                                  state.assessmentQuestionsEntity.data.length,
-                              itemBuilder: (BuildContext context, int index) =>
-                                  Card(
+                              itemCount: state.assessmentQuestionsEntity.data.length,
+                              itemBuilder: (BuildContext context, int index) => Card(
                                 child: ListTile(
                                   title: Row(
                                     children: [
                                       Text('Q ${index + 1}   '),
                                       Expanded(
                                         child: Text(
-                                          state.assessmentQuestionsEntity
-                                              .data[index].name,
+                                          state.assessmentQuestionsEntity.data[index].name,
                                           // overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -178,23 +154,15 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                     onTap: () => Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            TypeQuestionTab(
-                                                widget._title,
-                                                widget._description,
-                                                widget._subjectId,
-                                                widget._questionType,
-                                                widget._assessmentId),
+                                        builder: (BuildContext context) => TypeQuestionTab(
+                                            widget._title, widget._description, widget._subjectId, widget._questionType, widget._assessmentId, false),
                                       ),
-                                    ).then((value) => _questionFetchCubit
-                                        .getQuestionsToAnAssessment(
-                                            widget._assessmentId)),
+                                    ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
                                     child: Card(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Icon(
                                               Icons.add_circle_outline,
@@ -210,8 +178,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                     ),
                                   ),
                                 ),
-                                visible: widget._questionType ==
-                                    QuestionType.Objective,
+                                visible: widget._questionType == QuestionType.Objective,
                               ),
                               SizedBox(
                                 height: 20,
@@ -223,8 +190,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.upload_file,
@@ -250,23 +216,15 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                       onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              ChooseObjectiveFromSelectedTab(
-                                                  widget._title,
-                                                  widget._description,
-                                                  widget._subjectId,
-                                                  widget._questionType,
-                                                  widget._assessmentId),
+                                          builder: (BuildContext context) => ChooseObjectiveFromSelectedTab(
+                                              widget._title, widget._description, widget._subjectId, widget._questionType, widget._assessmentId),
                                         ),
-                                      ).then((value) => _questionFetchCubit
-                                          .getQuestionsToAnAssessment(
-                                              widget._assessmentId)),
+                                      ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
                                       child: Card(
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Icon(
                                                 Icons.handyman,
@@ -283,8 +241,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                     ),
                                   ),
                                 ),
-                                visible: widget._questionType ==
-                                    QuestionType.Objective,
+                                visible: widget._questionType == QuestionType.Objective,
                               ),
                               Visibility(
                                 child: Container(
@@ -297,8 +254,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                       onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              ChooseSubjectiveFromSelectedTab(
+                                          builder: (BuildContext context) => ChooseSubjectiveFromSelectedTab(
                                             widget._title,
                                             widget._description,
                                             widget._subjectId,
@@ -306,15 +262,12 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                             widget._assessmentId,
                                           ),
                                         ),
-                                      ).then((value) => _questionFetchCubit
-                                          .getQuestionsToAnAssessment(
-                                              widget._assessmentId)),
+                                      ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
                                       child: Card(
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Icon(
                                                 Icons.handyman,
@@ -331,8 +284,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                     ),
                                   ),
                                 ),
-                                visible: widget._questionType ==
-                                    QuestionType.Subjective,
+                                visible: widget._questionType == QuestionType.Subjective,
                               ),
                             ],
                           ),

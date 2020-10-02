@@ -1,6 +1,10 @@
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
+<<<<<<< HEAD
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
+=======
+import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
+>>>>>>> 96b8ac20a7961ecca4327c684260aba06dad1533
 import 'package:edwisely/util/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -139,6 +143,9 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => UnitTopicCubit(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => StudentsCountCubit(),
+          ),
         ],
         child: MaterialApp(
           title: 'Edwisely',
@@ -159,7 +166,7 @@ class EdWisely extends StatelessWidget {
   }
 }
 //todo add latex rendering in question bank and all where question is written or viewed
-//todo add filter by departments in add courses
+//todo add filter by departments in add courses //done
 
 // new todo
 //todo add dept in detail about //
@@ -189,13 +196,16 @@ class EdWisely extends StatelessWidget {
 //todo tell to do either docs or doc //
 
 // TODO: 9/26/2020
-//todo understand this new api for choose from selected
-//todo understand thi send api
+//todo understand this new api for choose from selected  //done
+//todo understand thi send api // done
 
 // TODO: 9/28/2020 ask prahalya
-// about layout of the add question for qyuestion bank nad api for it
-// about the apis to be used in the objective and subjective choose from existing
-// about the send assessment api
+// about layout of the add question for qyuestion bank nad api for it // done
+// about the apis to be used in the objective and subjective choose from existing //done
+// about the send assessment api //done
 
 // TODO: 9/28/2020 add save and send and save in assessment
-// TODO: 9/28/2020 hide mcq and FIB dropdown
+// TODO: 9/28/2020 hide mcq and FIB dropdown // done
+
+// TODO: 9/30/2020 ui todos
+// students number in send assessment
