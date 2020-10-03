@@ -1,3 +1,5 @@
+import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 
 import '../../util/date_utild.dart';
@@ -14,6 +16,7 @@ class AssessmentTile extends StatelessWidget {
   final int sentTo;
   final int answeredCount;
   final String subjectName;
+  final int subjectId;
 
   AssessmentTile(
     this.assessmentId,
@@ -22,7 +25,8 @@ class AssessmentTile extends StatelessWidget {
     this.noOfQuestions,
     this.doe,
     this.startTime,
-    this.subjectName, [
+    this.subjectName,
+    this.subjectId, [
     this.sentTo,
     this.answeredCount,
   ]);
@@ -59,7 +63,10 @@ class AssessmentTile extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         description,
@@ -137,7 +144,8 @@ class AssessmentTile extends StatelessWidget {
                 SizedBox(width: 4.0),
                 Text(
                   '$noOfQuestions',
-                  style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
+                  style:
+                      Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
                 ),
                 //spacing
                 Spacer(),
@@ -152,7 +160,10 @@ class AssessmentTile extends StatelessWidget {
                       SizedBox(width: 4.0),
                       Text(
                         '$sentTo',
-                        style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -169,7 +180,10 @@ class AssessmentTile extends StatelessWidget {
                       SizedBox(width: 4.0),
                       Text(
                         '$answeredCount',
-                        style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -182,7 +196,18 @@ class AssessmentTile extends StatelessWidget {
                         child: RaisedButton(
                           onPressed: () {
                             if (int.parse(noOfQuestions) == 0) {
-                              //TODO, REDIRECT TO ADD QUESTIONS PAGE
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) => AddQuestionsScreen(
+                                    title,
+                                    description,
+                                    subjectId,
+                                    QuestionType.Objective,
+                                    assessmentId,
+                                  ),
+                                ),
+                              );
                             } else {
                               Navigator.push(
                                 context,

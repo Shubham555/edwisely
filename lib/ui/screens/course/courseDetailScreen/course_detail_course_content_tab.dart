@@ -1,6 +1,7 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
+import 'package:edwisely/data/cubits/deck_items_cubit.dart';
 import 'package:edwisely/data/model/course/courseContent/learning_content.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,9 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
       listener: (BuildContext context, state) {
         if (state is AddFacultyContentAdded) {
           Toast.show('Your Content Added', context);
-          context.bloc<CourseContentCubit>().getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
+          context
+              .bloc<CourseContentCubit>()
+              .getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
         }
         if (state is AddFacultyContentFailed) {
           Toast.show(state.error, context);
@@ -62,8 +65,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                       widget.semesterId,
                     );
                 context.bloc<CourseDecksCubit>().getCourseDecks(
-                      state.units.data[0].id,
-                    );
+                    // FIXME: 10/2/2020 change to state.units.data[0].id
+                    723);
                 enabledUnitId = state.units.data[0].id;
                 return Container(
                   width: MediaQuery.of(context).size.width / 7,
@@ -176,25 +179,33 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                 height: 300,
                                 child: GridView.builder(
                                   itemCount: state.courseDeckEntity.data.length,
-                                  itemBuilder: (BuildContext context, int index) => GridTile(
-                                    child: state.courseDeckEntity.data[index].image == ''
-                                        ? Center(
-                                            child: Icon(
-                                              Icons.book,
-                                              size: 60,
+                                  itemBuilder: (BuildContext context, int index) => GestureDetector(
+                                    onTap: () {
+                                      context.bloc<DeckItemsCubit>().getDeckItems(
+                                            state.courseDeckEntity.data[index].id,
+                                          );
+                                      return _showDeckItems(context);
+                                    },
+                                    child: GridTile(
+                                      child: state.courseDeckEntity.data[index].image == ''
+                                          ? Center(
+                                              child: Icon(
+                                                Icons.book,
+                                                size: 60,
+                                              ),
+                                            )
+                                          : Image.network(
+                                              state.courseDeckEntity.data[index].image,
+                                              width: 150,
+                                              height: 200,
                                             ),
-                                          )
-                                        : Image.network(
-                                            state.courseDeckEntity.data[index].image,
-                                            width: 150,
-                                            height: 200,
+                                      footer: Container(
+                                        width: 150,
+                                        child: Text(
+                                          state.courseDeckEntity.data[index].name,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                    footer: Container(
-                                      width: 150,
-                                      child: Text(
-                                        state.courseDeckEntity.data[index].name,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
@@ -329,7 +340,9 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                         value: 'URL',
                                                       ),
                                                     ],
-                                                    onChanged: (value) => context.bloc<CourseContentCubit>().getDocumentWiseData(
+                                                    onChanged: (value) => context
+                                                        .bloc<CourseContentCubit>()
+                                                        .getDocumentWiseData(
                                                           value,
                                                           state.backup,
                                                         ),
@@ -381,7 +394,9 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                         value: 3,
                                                       ),
                                                     ],
-                                                    onChanged: (value) => context.bloc<CourseContentCubit>().getLevelWiseData(
+                                                    onChanged: (value) => context
+                                                        .bloc<CourseContentCubit>()
+                                                        .getLevelWiseData(
                                                           value,
                                                           state.backup,
                                                         ),
@@ -434,13 +449,22 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
 
                                                       switch (value) {
                                                         case 1:
-                                                          context.bloc<CourseContentCubit>().getCourseContent(enabledUnitId, widget.semesterId);
+                                                          context
+                                                              .bloc<CourseContentCubit>()
+                                                              .getCourseContent(
+                                                                  enabledUnitId, widget.semesterId);
                                                           break;
                                                         case 2:
-                                                          context.bloc<CourseContentCubit>().getFacultyBookmarkedCourseContent(enabledUnitId, widget.semesterId);
+                                                          context
+                                                              .bloc<CourseContentCubit>()
+                                                              .getFacultyBookmarkedCourseContent(
+                                                                  enabledUnitId, widget.semesterId);
                                                           break;
                                                         case 3:
-                                                          context.bloc<CourseContentCubit>().getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
+                                                          context
+                                                              .bloc<CourseContentCubit>()
+                                                              .getFacultyAddedCourseContent(
+                                                                  enabledUnitId, widget.semesterId);
                                                           break;
                                                       }
                                                     },
@@ -487,11 +511,18 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                 SizedBox(
                                                   width: 30,
                                                 ),
-                                                state.data[index].level == -1 || state.data[index].level == null ? Container() : Text('Level - $level '),
+                                                state.data[index].level == -1 ||
+                                                        state.data[index].level == null
+                                                    ? Container()
+                                                    : Text('Level - $level '),
                                                 SizedBox(
                                                   width: 30,
                                                 ),
-                                                state.data[index].readtime == 0 || state.data[index].readtime == null ? Container() : Text('ReadingTime - ${state.data[index].readtime}'),
+                                                state.data[index].readtime == 0 ||
+                                                        state.data[index].readtime == null
+                                                    ? Container()
+                                                    : Text(
+                                                        'ReadingTime - ${state.data[index].readtime}'),
                                               ],
                                             ),
                                             subtitle: Text(
@@ -507,7 +538,9 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                     _delete(state.data[index]);
                                                     break;
                                                   case 'Edit':
-                                                    _showDialog(context, CourseContentAddType.editing, data: state.data[index]);
+                                                    _showDialog(
+                                                        context, CourseContentAddType.editing,
+                                                        data: state.data[index]);
                                                   // case 'Change Type':
                                                   //   _changeType(state.data[index]);
                                                   //   break;
@@ -763,14 +796,29 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                       children: [
                         RaisedButton.icon(
                           onPressed: () {
-                            if (typeDropDownValue.isEmpty || file.path.isEmpty || titleController.text.isEmpty || topic.isEmpty) {
+                            if (typeDropDownValue.isEmpty ||
+                                file.path.isEmpty ||
+                                titleController.text.isEmpty ||
+                                topic.isEmpty) {
                               Toast.show('Please Check contents once', context);
                             } else {
                               if (isAdding) {
-                                BlocProvider.of<AddFacultyContentCubit>(context).addFacultyContent(enabledUnitId, topic, 1, titleController.text, file, isPublic ? 'public' : 'private', 'externalUrl');
+                                BlocProvider.of<AddFacultyContentCubit>(context).addFacultyContent(
+                                    enabledUnitId,
+                                    topic,
+                                    1,
+                                    titleController.text,
+                                    file,
+                                    isPublic ? 'public' : 'private',
+                                    'externalUrl');
                               } else {
                                 BlocProvider.of<AddFacultyContentCubit>(context)
-                                    .updateFacultyContent(int.parse(data.topic_id), int.parse(data.type), data.material_id, titleController.text, attachments: file);
+                                    .updateFacultyContent(
+                                        int.parse(data.topic_id),
+                                        int.parse(data.type),
+                                        data.material_id,
+                                        titleController.text,
+                                        attachments: file);
                               }
                             }
                             Navigator.pop(context);
@@ -809,6 +857,26 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
           },
         );
       },
+    );
+  }
+
+  _showDeckItems(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: BlocBuilder(
+          cubit: context.bloc<DeckItemsCubit>(),
+          builder: (BuildContext context, state) {
+            if (state is DeckItemsFetched) {
+              return Text('');
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 }

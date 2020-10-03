@@ -1,3 +1,4 @@
+import 'package:edwisely/data/cubits/get_units_cubit.dart';
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
 import 'package:edwisely/data/cubits/unit_topic_cubit.dart';
 import 'package:edwisely/data/model/assessment/topicQuestionsEntity/data.dart';
@@ -23,13 +24,15 @@ class ChooseObjectiveFromSelectedTab extends StatefulWidget {
   final QuestionType _questionType;
   final int _assessmentId;
 
-  ChooseObjectiveFromSelectedTab(this._title, this._description, this._subjectId, this._questionType, this._assessmentId);
+  ChooseObjectiveFromSelectedTab(
+      this._title, this._description, this._subjectId, this._questionType, this._assessmentId);
 
   @override
   _ChooseObjectiveFromSelectedTabState createState() => _ChooseObjectiveFromSelectedTabState();
 }
 
-class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSelectedTab> with SingleTickerProviderStateMixin {
+class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSelectedTab>
+    with SingleTickerProviderStateMixin {
   final _questionFetchCubit = QuestionsCubit();
 
   final topicCubit = TopicCubit();
@@ -139,7 +142,8 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                     data = List.unmodifiable(state.data);
                                   }
                                   return StatefulBuilder(
-                                    builder: (BuildContext context, void Function(void Function()) setState) {
+                                    builder: (BuildContext context,
+                                        void Function(void Function()) setState) {
                                       return ListView.builder(
                                         shrinkWrap: true,
                                         itemCount: state.data.length,
@@ -165,7 +169,9 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                             onChanged: (flag) {
                                               setState(
                                                 () {
-                                                  flag ? questions.add(state.data[index].id) : questions.remove(state.data[index].id);
+                                                  flag
+                                                      ? questions.add(state.data[index].id)
+                                                      : questions.remove(state.data[index].id);
                                                 },
                                               );
                                             },
@@ -192,7 +198,8 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                               child: Column(
                                 children: [
                                   StatefulBuilder(
-                                    builder: (BuildContext context, void Function(void Function()) setState) {
+                                    builder: (BuildContext context,
+                                        void Function(void Function()) setState) {
                                       return DropdownButton<int>(
                                         items: [
                                           DropdownMenuItem(
@@ -218,45 +225,60 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         ],
                                         onChanged: (int value) => setState(() {
                                           bloomsFilter = value;
-                                          context.bloc<TopicQuestionsCubit>().getBloomsQuestions(value, data);
+                                          context
+                                              .bloc<TopicQuestionsCubit>()
+                                              .getBloomsQuestions(value, data);
                                         }),
                                         value: bloomsFilter,
                                       );
                                     },
                                   ),
                                   BlocBuilder(
-                                    cubit: unitCubit..getUnitsOfACourse(widget._subjectId),
+                                    cubit: context.bloc<GetUnitsCubit>()
+                                      ..getUnits(widget._subjectId),
                                     builder: (BuildContext context, state) {
-                                      if (state is CourseUnitFetched) {
-                                        int enabledUnitId = state.units.data[0].id;
-                                        unitId = state.units.data[0].id;
+                                      if (state is GetUnitsFetched) {
+                                        int enabledUnitId = state.getUnitsEntity.data[0].id;
+                                        unitId = state.getUnitsEntity.data[0].id;
                                         context.bloc<UnitTopicCubit>().getTopics(
                                               unitId,
                                             );
                                         return StatefulBuilder(
-                                          builder: (BuildContext context, void Function(void Function()) setState) {
+                                          builder: (BuildContext context,
+                                              void Function(void Function()) setState) {
                                             return ListView.builder(
                                               shrinkWrap: true,
-                                              itemCount: state.units.data.length,
-                                              itemBuilder: (BuildContext context, int index) => ListTile(
+                                              itemCount: state.getUnitsEntity.data.length,
+                                              itemBuilder: (BuildContext context, int index) =>
+                                                  ListTile(
                                                 hoverColor: Colors.white,
-                                                selected: enabledUnitId == state.units.data[index].id,
+                                                selected: enabledUnitId ==
+                                                    state.getUnitsEntity.data[index].id,
                                                 title: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      state.units.data[index].name,
+                                                      state.getUnitsEntity.data[index].name,
                                                       style: TextStyle(
-                                                          color: enabledUnitId == state.units.data[index].id ? Colors.black : Colors.grey.shade600,
-                                                          fontSize: enabledUnitId == state.units.data[index].id ? 25 : null),
+                                                          color: enabledUnitId ==
+                                                                  state
+                                                                      .getUnitsEntity.data[index].id
+                                                              ? Colors.black
+                                                              : Colors.grey.shade600,
+                                                          fontSize: enabledUnitId ==
+                                                                  state
+                                                                      .getUnitsEntity.data[index].id
+                                                              ? 25
+                                                              : null),
                                                     ),
                                                   ],
                                                 ),
                                                 onTap: () {
                                                   setState(
                                                     () {
-                                                      enabledUnitId = state.units.data[index].id;
-                                                      unitId = state.units.data[index].id;
+                                                      enabledUnitId =
+                                                          state.getUnitsEntity.data[index].id;
+                                                      unitId = state.getUnitsEntity.data[index].id;
                                                     },
                                                   );
                                                   context.bloc<UnitTopicCubit>().getTopics(
@@ -287,7 +309,9 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         state.subTopics.forEach((element) {
                                           subTopics.add(element.topic_id);
                                         });
-                                        context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                        context
+                                            .bloc<TopicQuestionsCubit>()
+                                            .getTopicQuestions(topics, subTopics);
                                         return StatefulBuilder(
                                           builder: (BuildContext context, StateSetter setState) {
                                             return Column(
@@ -297,7 +321,9 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                   value: topics,
                                                   onChange: (state) {
                                                     setState(() => topics = state.value);
-                                                    context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                                    context
+                                                        .bloc<TopicQuestionsCubit>()
+                                                        .getTopicQuestions(topics, subTopics);
                                                   },
                                                   modalType: S2ModalType.popupDialog,
                                                   choiceItems: S2Choice.listFrom(
@@ -314,7 +340,9 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                   value: subTopics,
                                                   onChange: (state) {
                                                     setState(() => subTopics = state.value);
-                                                    context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                                    context
+                                                        .bloc<TopicQuestionsCubit>()
+                                                        .getTopicQuestions(topics, subTopics);
                                                   },
                                                   modalType: S2ModalType.popupDialog,
                                                   choiceItems: S2Choice.listFrom(
@@ -332,7 +360,8 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         );
                                       }
                                       if (state is UnitTopicEmpty) {
-                                        context.bloc<TopicQuestionsCubit>().emit(TopicQuestionsFailed('No Questions for this Unit'));
+                                        context.bloc<TopicQuestionsCubit>().emit(
+                                            TopicQuestionsFailed('No Questions for this Unit'));
                                         return Text('No topics to Tag');
                                       } else {
                                         return Center(
@@ -343,8 +372,15 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                   ),
                                   RaisedButton.icon(
                                     onPressed: () {
-                                      questions.isEmpty ? null : context.bloc<QuestionAddCubit>().addQuestions(widget._assessmentId, questions, []);
-                                      Future.delayed(Duration(seconds: 2), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                      questions.isEmpty
+                                          ? null
+                                          : context
+                                              .bloc<QuestionAddCubit>()
+                                              .addQuestions(widget._assessmentId, questions, []);
+                                      Future.delayed(
+                                          Duration(seconds: 2),
+                                          () => _questionFetchCubit
+                                              .getQuestionsToAnAssessment(widget._assessmentId));
                                     },
                                     icon: Icon(Icons.add),
                                     label: Text('Add'),

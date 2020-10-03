@@ -1,3 +1,4 @@
+import 'package:edwisely/data/cubits/get_units_cubit.dart';
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
 import 'package:edwisely/util/router.dart';
@@ -18,6 +19,7 @@ import 'data/cubits/add_course_cubit.dart';
 import 'data/cubits/add_faculty_content_cubit.dart';
 import 'data/cubits/add_question_cubit.dart';
 import 'data/cubits/course_content_cubit.dart';
+import 'data/cubits/deck_items_cubit.dart';
 import 'data/cubits/department_cubit.dart';
 import 'data/cubits/get_course_decks_cubit.dart';
 import 'data/cubits/live_class_cubit.dart';
@@ -140,6 +142,11 @@ class EdWisely extends StatelessWidget {
           ),
           BlocProvider(
             create: (BuildContext context) => StudentsCountCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => DeckItemsCubit(),
+          ),BlocProvider(
+            create: (BuildContext context) => GetUnitsCubit(),
           ),
         ],
         child: MaterialApp(
