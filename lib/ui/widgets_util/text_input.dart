@@ -9,13 +9,13 @@ class TextInput extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final String initialValue;
   final int maxLines;
+  final int maxLength;
   final Function onSaved;
   final Function onChanged;
   final Function validator;
   final TextEditingController controller;
   final bool enabled;
   final Widget suffix;
-
 
   TextInput({
     @required this.label,
@@ -26,6 +26,7 @@ class TextInput extends StatelessWidget {
     this.textCapitalization = TextCapitalization.words,
     this.initialValue,
     this.maxLines = 1,
+    this.maxLength,
     this.onSaved,
     this.onChanged,
     this.validator,
@@ -74,13 +75,15 @@ class TextInput extends StatelessWidget {
                   obscureText: obscureText,
                   initialValue: initialValue,
                   maxLines: maxLines,
+                  maxLength: maxLength,
                   onSaved: onSaved,
                   onChanged: onChanged,
                   validator: validator,
                   enabled: enabled,
                   decoration: InputDecoration(
                     hintText: hint,
-                    hintStyle: textTheme.headline6.copyWith(color: Color(0xFF1d1d1d)),
+                    hintStyle:
+                        textTheme.headline6.copyWith(color: Color(0xFF1d1d1d)),
                     errorStyle: TextStyle(
                       color: Color(0xFFFF3F34),
                       fontWeight: FontWeight.w500,

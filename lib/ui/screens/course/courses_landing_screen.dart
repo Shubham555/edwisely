@@ -43,7 +43,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => EdwiselyLandingScreen(),
+                      builder: (BuildContext context) =>
+                          EdwiselyLandingScreen(),
                     ),
                   );
                 }
@@ -74,7 +75,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                             return Padding(
                               padding: EdgeInsets.symmetric(
                                 vertical: 16.0,
-                                horizontal: MediaQuery.of(context).size.width * 0.17,
+                                horizontal:
+                                    MediaQuery.of(context).size.width * 0.17,
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +123,9 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
             mainAxisSpacing: 35,
             crossAxisSpacing: 35,
             crossAxisCount: 3,
-            childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 2.35,
+            childAspectRatio: MediaQuery.of(context).size.width /
+                MediaQuery.of(context).size.height /
+                2.35,
           ),
           itemCount: state.coursesEntity.data.length,
           itemBuilder: (context, index) => _courseCard(context, index, state),
@@ -135,7 +139,10 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => CourseDetailScreen(state.coursesEntity.data[index].name, state.coursesEntity.data[index].subject_semester_id, state.coursesEntity.data[index].id),
+          builder: (BuildContext context) => CourseDetailScreen(
+              state.coursesEntity.data[index].name,
+              state.coursesEntity.data[index].subject_semester_id,
+              state.coursesEntity.data[index].id),
         ),
       ),
       child: Card(
@@ -145,91 +152,98 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
           ),
         ),
         elevation: 2.0,
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                height: MediaQuery.of(context).size.height / 5,
-                child: state.coursesEntity.data[index].course_image == ''
-                    ? Image.asset(
-                        'placeholder_image.jpg',
-                        fit: BoxFit.cover,
-                        height: MediaQuery.of(context).size.height / 4,
-                        width: MediaQuery.of(context).size.width / 4,
-                      )
-                    : Image.network(
-                        state.coursesEntity.data[index].course_image,
-                      ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 5,
+                  child: state.coursesEntity.data[index].course_image == ''
+                      ? Image.asset(
+                          'placeholder_image.jpg',
+                          fit: BoxFit.cover,
+                          height: MediaQuery.of(context).size.height / 4,
+                          width: MediaQuery.of(context).size.width / 4,
+                        )
+                      : Image.network(
+                          state.coursesEntity.data[index].course_image,
+                        ),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(
-                      state.coursesEntity.data[index].name,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Text(
+                        state.coursesEntity.data[index].name,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      height: MediaQuery.of(context).size.height * 0.03,
+                      width: MediaQuery.of(context).size.width / 6,
+                    ),
+                    Text(
+                      'Classes you teach',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        color: EdwiselyTheme.CHIP_COLOR,
                       ),
                     ),
-                    height: MediaQuery.of(context).size.height * 0.03,
-                    width: MediaQuery.of(context).size.width / 6,
-                  ),
-                  Text(
-                    'Classes you teach',
-                    style: TextStyle(
-                      color: EdwiselyTheme.CHIP_COLOR,
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Wrap(
-                    runSpacing: 4.0,
-                    spacing: 8.0,
-                    children: List.generate(
-                      state.coursesEntity.data[index].sections.length > 4 ? 4 : state.coursesEntity.data[index].sections.length,
-                      (index1) => Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 1,
-                          horizontal: 1,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          color: EdwiselyTheme.CARD_COLOR,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              '${state.coursesEntity.data[index].sections[index1].department_name} ${state.coursesEntity.data[index].sections[index1].department_fullname == '' ? '' : '-'} ${state.coursesEntity.data[index].sections[index1].name}',
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            // FIXME: 9/27/2020 fix this IconButton
-                            IconButton(
-                                padding: EdgeInsets.zero,
-                                icon: Icon(
-                                  Icons.delete,
-                                  size: 10,
+                    Wrap(
+                      runSpacing: 4.0,
+                      spacing: 8.0,
+                      children: List.generate(
+                        state.coursesEntity.data[index].sections.length > 4
+                            ? 4
+                            : state.coursesEntity.data[index].sections.length,
+                        (index1) => Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 1,
+                            horizontal: 1,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: EdwiselyTheme.CARD_COLOR,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '${state.coursesEntity.data[index].sections[index1].department_name} ${state.coursesEntity.data[index].sections[index1].department_fullname == '' ? '' : '-'} ${state.coursesEntity.data[index].sections[index1].name}',
+                                style: TextStyle(
+                                  fontSize: 16,
                                 ),
-                                onPressed: () => _deleteSectionFromAFaculty(state.coursesEntity.data[index].sections[index1].faculty_section_id, context))
-                          ],
+                              ),
+                              // FIXME: 9/27/2020 fix this IconButton
+                              IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: Icon(
+                                    Icons.delete,
+                                    size: 10,
+                                  ),
+                                  onPressed: () => _deleteSectionFromAFaculty(
+                                      state.coursesEntity.data[index]
+                                          .sections[index1].faculty_section_id,
+                                      context))
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -267,7 +281,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
         onSuggestionSelected: (data) => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => CourseDetailScreen(data.name, data.subject_semester_id, data.id),
+            builder: (BuildContext context) => CourseDetailScreen(
+                data.name, data.subject_semester_id, data.id),
           ),
         ),
       ),
@@ -281,7 +296,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
         title: Text('Confirm Delete Section ?'),
         actions: [
           FlatButton(
-            onPressed: () => _deleteSectionFromAFacultyBackend(facultySectionId),
+            onPressed: () =>
+                _deleteSectionFromAFacultyBackend(facultySectionId),
             child: Text('Yes'),
           ),
           FlatButton(

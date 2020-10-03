@@ -27,7 +27,7 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 5.0,
+            height: MediaQuery.of(context).size.height * 0.27,
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -42,49 +42,46 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
                 vertical: 32.0,
                 horizontal: MediaQuery.of(context).size.width * 0.17,
               ),
-              child: Stack(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          titleText,
-                          style: Theme.of(context).textTheme.headline1,
-                          // TextStyle(
-                          //   color: Colors.white,
-                          //   fontSize: MediaQuery.of(context).size.width / 45,
-                          //   fontWeight: FontWeight.bold,
-                          // ),
+                      Text(
+                        titleText,
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
+                      Container(
+                        height: 6.0,
+                        width: MediaQuery.of(context).size.width * 0.05,
+                        margin: const EdgeInsets.only(top: 2.0, bottom: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32.0),
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
-                      Align(
-                        child: Text(
-                          description,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width / 60,
-                              fontWeight: FontWeight.w400),
+                      Text(
+                        description,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: MediaQuery.of(context).size.width / 60,
+                          fontWeight: FontWeight.w400,
                         ),
-                        alignment: Alignment.centerLeft,
                       ),
-                      Align(
-                        child: Text(
-                          subject,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).size.width / 60,
-                              fontWeight: FontWeight.w400),
+                      Text(
+                        subject,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: MediaQuery.of(context).size.width / 60,
+                          fontWeight: FontWeight.w400,
                         ),
-                        alignment: Alignment.centerLeft,
                       ),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: flatButton,
-                  )
+                  Spacer(),
+                  flatButton != null ? flatButton : SizedBox.shrink(),
                 ],
               ),
             ),

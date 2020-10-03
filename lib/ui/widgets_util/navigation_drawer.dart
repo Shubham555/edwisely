@@ -8,9 +8,11 @@ import '../../util/theme.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final isCollapsed;
+  final bool isHome;
 
   NavigationDrawer({
     this.isCollapsed = true,
+    this.isHome = false,
     Key key,
   });
 
@@ -23,6 +25,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   int _selectedPage = 0;
   double _sidebarWidth;
 
+  Color _selectedItemColor;
+
   Size screenSize;
   TextTheme textTheme;
 
@@ -31,6 +35,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     super.initState();
 
     _isNavigationDrawerCollapsed = widget.isCollapsed;
+    if (widget.isHome) {
+      _selectedItemColor = EdwiselyTheme.PRIMARY_COLOR;
+    } 
   }
 
   @override
@@ -59,7 +66,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         horizontal: 18.0,
       ),
       decoration: BoxDecoration(
-        color: EdwiselyTheme.NAV_BAR_COLOR,
+        color: widget.isHome
+            ? EdwiselyTheme.BACKGROUND_COLOR
+            : EdwiselyTheme.NAV_BAR_COLOR,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +79,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             child: Image.asset(
               _isNavigationDrawerCollapsed
                   ? 'assets/logo/small_logo.png'
-                  : 'assets/logo/big_logo.png',
+                  : widget.isHome
+                      ? 'assets/logo/big_logo_black.png'
+                      : 'assets/logo/big_logo.png',
               fit: BoxFit.contain,
             ),
           ),
@@ -93,6 +104,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               icon: Icons.import_contacts,
               myIndex: 0,
               currentIndex: _selectedPage,
+              selectedColor: _selectedItemColor,
             ),
           ),
           InkWell(
@@ -107,6 +119,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               icon: Icons.book,
               myIndex: 1,
               currentIndex: _selectedPage,
+              selectedColor: _selectedItemColor,
             ),
           ),
           InkWell(
@@ -121,6 +134,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               icon: Icons.assessment,
               myIndex: 2,
               currentIndex: _selectedPage,
+              selectedColor: _selectedItemColor,
             ),
           ),
           InkWell(
@@ -135,6 +149,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               icon: Icons.live_tv,
               myIndex: 3,
               currentIndex: _selectedPage,
+              selectedColor: _selectedItemColor,
             ),
           ),
           InkWell(
@@ -149,86 +164,54 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               icon: Icons.send_and_archive,
               myIndex: 4,
               currentIndex: _selectedPage,
+              selectedColor: _selectedItemColor,
             ),
           ),
-          // SideDrawerItem(
-          //   isCollapsed: _isNavigationDrawerCollapsed,
-          //   title: 'Schedule Event',
-          //   icon: Icons.calendar_today,
-          //   myIndex: 5,
-          //   currentIndex: widget.selectedIndex,
-          // ),
-          // SideDrawerItem(
-          //   isCollapsed: _isNavigationDrawerCollapsed,
-          //   title: 'My Assesment',
-          //   icon: Icons.assignment_ind,
-          //   myIndex: 6,
-          //   currentIndex: widget.selectedIndex,
-          // ),
-          // SideDrawerItem(
-          //   isCollapsed: _isNavigationDrawerCollapsed,
-          //   title: 'Upcoming Events',
-          //   icon: Icons.event,
-          //   myIndex: 7,
-          //   currentIndex: widget.selectedIndex,
-          // ),
-          // SideDrawerItem(
-          //   isCollapsed: _isNavigationDrawerCollapsed,
-          //   title: 'Get Feedback',
-          //   icon: Icons.feedback,
-          //   myIndex: 8,
-          //   currentIndex: widget.selectedIndex,
-          // ),
-          // SideDrawerItem(
-          //   isCollapsed: _isNavigationDrawerCollapsed,
-          //   title: 'Recently Viewed',
-          //   icon: Icons.schedule,
-          //   myIndex: 9,
-          //   currentIndex: widget.selectedIndex,
-          // ),
           Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: InkWell(
-              onTap: () => setState(() =>
-                  _isNavigationDrawerCollapsed = !_isNavigationDrawerCollapsed),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeIn,
-                    width: _isNavigationDrawerCollapsed ? 0 : null,
-                    child: _isNavigationDrawerCollapsed
-                        ? SizedBox.shrink()
-                        : Text(
-                            _isNavigationDrawerCollapsed
-                                ? 'Expand'
-                                : 'Collapse',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .button
-                                .copyWith(color: Colors.white),
-                          ),
-                  ),
-                  _isNavigationDrawerCollapsed
-                      ? SizedBox.shrink()
-                      : SizedBox(
-                          width: 12.0,
+          widget.isHome
+              ? SizedBox.shrink()
+              : Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: InkWell(
+                    onTap: () => setState(() => _isNavigationDrawerCollapsed =
+                        !_isNavigationDrawerCollapsed),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                          width: _isNavigationDrawerCollapsed ? 0 : null,
+                          child: _isNavigationDrawerCollapsed
+                              ? SizedBox.shrink()
+                              : Text(
+                                  _isNavigationDrawerCollapsed
+                                      ? 'Expand'
+                                      : 'Collapse',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      .copyWith(color: Colors.white),
+                                ),
                         ),
-                  Icon(
-                    _isNavigationDrawerCollapsed
-                        ? Icons.arrow_forward_ios
-                        : Icons.arrow_back_ios,
-                    color: Colors.white,
+                        _isNavigationDrawerCollapsed
+                            ? SizedBox.shrink()
+                            : SizedBox(
+                                width: 12.0,
+                              ),
+                        Icon(
+                          _isNavigationDrawerCollapsed
+                              ? Icons.arrow_forward_ios
+                              : Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
         ],
       ),
     );

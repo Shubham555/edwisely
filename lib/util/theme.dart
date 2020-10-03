@@ -5,6 +5,7 @@ class EdwiselyTheme {
   static const Color NAV_BAR_COLOR = Color(0xFF2A2A2A);
   static const Color CARD_COLOR = Color(0xFFEEEEEE);
   static const Color CHIP_COLOR = Color(0xFF787878);
+  static const Color BACKGROUND_COLOR = Color(0xFFF9F9F9);
   //<editor-fold desc="This is the App theme for Edwisely">
   static final ThemeData themeDataEdwisely = ThemeData(
     brightness: Brightness.light,
@@ -18,6 +19,16 @@ class EdwiselyTheme {
         fontWeight: FontWeight.bold,
         color: Colors.black,
         fontSize: 48.0,
+      ),
+      headline2: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Color(0xFF353535),
+        fontSize: 28.0,
+      ),
+      headline3: TextStyle(
+        fontWeight: FontWeight.w500,
+        color: Colors.white,
+        fontSize: 22.0,
       ),
       headline5: TextStyle(
         fontSize: 20.0,

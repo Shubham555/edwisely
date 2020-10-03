@@ -6,6 +6,7 @@ class SideDrawerItem extends StatelessWidget {
   final IconData icon;
   final int myIndex;
   final int currentIndex;
+  final Color selectedColor;
 
   SideDrawerItem({
     @required this.isCollapsed,
@@ -13,6 +14,7 @@ class SideDrawerItem extends StatelessWidget {
     @required this.icon,
     @required this.myIndex,
     @required this.currentIndex,
+    this.selectedColor,
   });
 
   @override
@@ -30,7 +32,11 @@ class SideDrawerItem extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: isSelected ? Colors.white : Colors.grey,
+            color: isSelected
+                ? selectedColor != null
+                    ? selectedColor
+                    : Colors.white
+                : Colors.grey,
           ),
           isCollapsed
               ? SizedBox.shrink()
@@ -48,7 +54,11 @@ class SideDrawerItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: isSelected ? Colors.white : Colors.grey,
+                      color: isSelected
+                          ? selectedColor != null
+                              ? selectedColor
+                              : Colors.white
+                          : Colors.grey,
                     ),
                   ),
           ),
