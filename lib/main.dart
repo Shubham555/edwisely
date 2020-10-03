@@ -1,10 +1,12 @@
+import 'package:edwisely/data/cubits/get_units_cubit.dart';
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
-<<<<<<< HEAD
+
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
-=======
+
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
->>>>>>> 96b8ac20a7961ecca4327c684260aba06dad1533
+
+import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
 import 'package:edwisely/util/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +25,7 @@ import 'data/cubits/add_course_cubit.dart';
 import 'data/cubits/add_faculty_content_cubit.dart';
 import 'data/cubits/add_question_cubit.dart';
 import 'data/cubits/course_content_cubit.dart';
+import 'data/cubits/deck_items_cubit.dart';
 import 'data/cubits/department_cubit.dart';
 import 'data/cubits/get_course_decks_cubit.dart';
 import 'data/cubits/live_class_cubit.dart';
@@ -146,6 +149,13 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => StudentsCountCubit(),
           ),
+
+          BlocProvider(
+            create: (BuildContext context) => DeckItemsCubit(),
+          ),BlocProvider(
+            create: (BuildContext context) => GetUnitsCubit(),
+          ),
+
         ],
         child: MaterialApp(
           title: 'Edwisely',

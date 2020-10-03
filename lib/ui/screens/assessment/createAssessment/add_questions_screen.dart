@@ -73,6 +73,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                                   questions,
                                   widget._description,
                                 ))),
+
                     child: Text('Save'),
                   ),
                   titleText: 'Add Questions to ${widget._title} Assessment',
@@ -156,6 +157,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                                       MaterialPageRoute(
                                         builder: (BuildContext context) => TypeQuestionTab(
                                             widget._title, widget._description, widget._subjectId, widget._questionType, widget._assessmentId, false),
+
                                       ),
                                     ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
                                     child: Card(

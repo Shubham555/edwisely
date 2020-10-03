@@ -165,6 +165,8 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                       '',
                       state.questionsEntity.data[index].doe,
                       state.questionsEntity.data[index].start_time,
+                      state.questionsEntity.data[index].subject_id,
+
                     );
                   },
                 );

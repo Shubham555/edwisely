@@ -15,8 +15,7 @@ class SubjectiveTab extends StatelessWidget {
         if (state is SubjectiveEmpty) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content:
-                  Text('There were no assessments related to that subject'),
+              content: Text('There were no assessments related to that subject'),
             ),
           );
         }
@@ -97,12 +96,12 @@ class SubjectiveTab extends StatelessWidget {
                           state.questionsEntity.data[index].id,
                           state.questionsEntity.data[index].name,
                           state.questionsEntity.data[index].description,
-                          state.questionsEntity.data[index].questions_count
-                              .toString(),
+                          state.questionsEntity.data[index].questions_count.toString(),
                           state.questionsEntity.data[index].doe,
                           state.questionsEntity.data[index].start_time,
-                            //todo add subject name thru api
-                            ''
+                          //todo add subject name thru api
+                          '',
+                          state.questionsEntity.data[index].subject_id,
                         );
                       },
                     );

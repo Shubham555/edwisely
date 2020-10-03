@@ -38,7 +38,6 @@ class AddQuestionCubit extends Cubit<AddQuestionState> {
       'questionnaireWeb/addObjectiveQuestion',
       data: FormData.fromMap(
         {
-          //todo no topics so using this
           'question': question,
           'topics': jsonEncode(topics),
           'options': jsonEncode(options),

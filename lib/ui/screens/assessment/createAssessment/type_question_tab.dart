@@ -618,35 +618,34 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                           print(questions);
                                           if (widget._questionType == QuestionType.Objective) {
                                             context.bloc<AddQuestionCubit>().addQuestion(
-                                                  _questionController.text,
-                                                  topics,
-                                                  [
-                                                    _option1Controller.text,
-                                                    _option2Controller.text,
-                                                    _option3Controller.text,
-                                                    _option4Controller.text,
-                                                    _option5Controller.text,
-                                                  ],
-                                                  widget._bloomValue,
-                                                  difficultylevel,
-                                                  _sourceController.text,
-                                                  isPublic ? 'public' : 'private',
-                                                  1,
-                                                  _correctAnswer,
-                                                  _option1Image,
-                                                  _option2Image,
-                                                  _option3Image,
-                                                  _option4Image,
-                                                  _option5Image,
-                                                  _questionImage,
-                                                  widget._assessmentId,
-                                                  questions,
-                                                  _hintController.text,
-                                                  _solutionController.text,
-                                                );
+                                                _questionController.text,
+                                                topics,
+                                                [
+                                                  _option1Controller.text,
+                                                  _option2Controller.text,
+                                                  _option3Controller.text,
+                                                  _option4Controller.text,
+                                                  _option5Controller.text,
+                                                ],
+                                                widget._bloomValue,
+                                                difficultylevel,
+                                                _sourceController.text,
+                                                isPublic ? 'public' : 'private',
+                                                1,
+                                                _correctAnswer,
+                                                _option1Image,
+                                                _option2Image,
+                                                _option3Image,
+                                                _option4Image,
+                                                _option5Image,
+                                                _questionImage,
+                                                widget._assessmentId,
+                                                questions,
+                                                _hintController.text,
+                                                _solutionController.text,
+                                                false);
 
-                                            Future.delayed(
-                                                Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                            Future.delayed(Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
                                           } else {
                                             print('Subjective');
                                           }
