@@ -90,6 +90,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                         horizontal: 16.0,
                       ),
                       onPressed: () {
+                        // TODO: 10/4/2020 add validations
                         context.bloc<SendAssessmentCubit>().sendAssessment(
                               widget.title,
                               widget.description,
@@ -290,7 +291,6 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                               SizedBox(height: 12.0),
                               Text('Class Select'),
                               BlocBuilder(
-                                //todo change
                                 cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                                 builder: (BuildContext context, state) {
                                   if (state is SendAssessmentSectionsFetched) {

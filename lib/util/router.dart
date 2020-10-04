@@ -1,3 +1,4 @@
+import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,18 @@ class MyRouter {
         break;
       case '/send-notification':
         return _getPageRoute(SendNotificationScreen(), settings);
+        break;
+      case '/add-questions':
+        final map = settings.arguments as Map<String, dynamic>;
+        return _getPageRoute(
+            AddQuestionsScreen(
+              map['title'],
+              map['description'],
+              map['subjectId'],
+              map['questionType'],
+              map['assessmentId'],
+            ),
+            settings);
     }
     // for (Path path in paths) {
     //   final regExpPattern = RegExp(path.pattern);

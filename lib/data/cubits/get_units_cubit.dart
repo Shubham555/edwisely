@@ -10,7 +10,8 @@ class GetUnitsCubit extends Cubit<GetUnitsState> {
 
   getUnits(int subjectId) async {
     final response = await EdwiselyApi.dio.get(
-        'questionnaire/getUnits?subject_id=$subjectId&university_degree_department_id=$departmentId');
+        'questionnaire/getUnits?subject_id=45&university_degree_department_id=$departmentId');
+    print(response.data);
     if (response.data['message'] == 'Successfully fetched the data') {
       emit(
         GetUnitsFetched(
