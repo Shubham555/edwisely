@@ -729,35 +729,41 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _displayPieChart(dynamic results) {
-    return PieChart(
-      PieChartData(
-        sections: [
-          PieChartSectionData(
-            value: results['percentage_very_good'],
-            radius: 15,
-            title: 'Very Good',
-          ),
-          PieChartSectionData(
-            value: results['percentage_below_average'],
-            radius: 15,
-            title: 'Below Average',
-          ),
-          PieChartSectionData(
-            value: results['percentage_average'],
-            radius: 15,
-            title: 'Average',
-          ),
-          PieChartSectionData(
-            value: results['percentage_good'],
-            radius: 15,
-            title: 'Good',
-          ),
-          PieChartSectionData(
-            value: results['understanding_level'],
-            radius: 15,
-            title: 'Understanding Level',
-          ),
-        ],
+    return Container(
+      width: 50,
+      height: 50,
+      child: PieChart(
+        PieChartData(
+          startDegreeOffset: 180,
+          centerSpaceRadius: 10,
+          sections: [
+            PieChartSectionData(
+              value: double.parse(results['percentage_very_good'].toString()),
+              radius: 15,
+              title: 'Very Good',
+            ),
+            PieChartSectionData(
+              value: double.parse(results['percentage_below_average'].toString()),
+              radius: 15,
+              title: 'Below Average',
+            ),
+            PieChartSectionData(
+              value: double.parse(results['percentage_average'].toString()),
+              radius: 15,
+              title: 'Average',
+            ),
+            PieChartSectionData(
+              value: double.parse(results['percentage_good'].toString()),
+              radius: 15,
+              title: 'Good',
+            ),
+            PieChartSectionData(
+              value: double.parse(results['understanding_level'].toString()),
+              radius: 15,
+              title: 'Understanding Level',
+            ),
+          ],
+        ),
       ),
     );
   }
