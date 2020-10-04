@@ -361,12 +361,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  //right part
-                  activity['doe'] == null
-                      ? Text('sdv')
-                      : DateTime.parse(activity['doe']).isBefore(DateTime.now())
-                          ? _displayPieChart(activity['results'])
-                          : Container()
                 ],
               ),
             ),
@@ -440,11 +434,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text(activity['description']),
                   ),
                   //test status
-                  Text(
-                    // FIXME: 10/4/2020 status
-                    '',
-                    style: textTheme.headline2,
-                  ),
+                  activity['doe'] == null
+                      ? Text('sdv')
+                      : DateTime.parse(activity['doe']).isBefore(DateTime.now())
+                          ? _displayPieChart(activity['results'])
+                          : Container()
                 ],
               ),
             ),
