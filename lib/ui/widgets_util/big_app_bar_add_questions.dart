@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 class BigAppBarAddQuestionScreen extends StatelessWidget {
   final List<Widget> actions;
   final String titleText;
-
   final double appBarSize;
   final Text appBarTitle;
-  final FlatButton flatButton;
+  final Widget flatButton;
   final String description;
   final String subject;
+  final String route;
 
-  BigAppBarAddQuestionScreen(
-      {@required this.actions,
-      @required this.titleText,
-      @required this.appBarSize,
-      @required this.appBarTitle,
-      @required this.flatButton,
-      @required this.description,
-      @required this.subject});
+  BigAppBarAddQuestionScreen({
+    @required this.actions,
+    @required this.titleText,
+    @required this.appBarSize,
+    @required this.appBarTitle,
+    @required this.flatButton,
+    @required this.description,
+    @required this.subject,
+    @required this.route,
+  });
 
   @override
   PreferredSizeWidget build(BuildContext context) {
@@ -27,7 +29,7 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.27,
+            height: MediaQuery.of(context).size.height * 0.22,
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -61,22 +63,28 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                       ),
+                      // Text(
+                      //   description,
+                      //   textAlign: TextAlign.left,
+                      //   style: TextStyle(
+                      //     color: Colors.white,
+                      //     fontSize: MediaQuery.of(context).size.width / 60,
+                      //     fontWeight: FontWeight.w400,
+                      //   ),
+                      // ),
+                      // Text(
+                      //   subject,
+                      //   style: TextStyle(
+                      //     color: Colors.white,
+                      //     fontSize: MediaQuery.of(context).size.width / 60,
+                      //     fontWeight: FontWeight.w400,
+                      //   ),
+                      // ),
                       Text(
-                        description,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width / 60,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Text(
-                        subject,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width / 60,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        route,
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              color: Theme.of(context).primaryColor,
+                            ),
                       ),
                     ],
                   ),

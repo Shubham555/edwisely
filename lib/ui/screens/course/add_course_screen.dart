@@ -330,7 +330,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                     state.sectionEntity,
                   ),
                   padding: const EdgeInsets.all(0),
-                  color: Color(0xFF1D2B64),
+                  color: Theme.of(context).primaryColor,
                   child: Icon(
                     Icons.add,
                     color: Colors.white,

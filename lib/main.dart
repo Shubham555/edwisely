@@ -149,13 +149,12 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => StudentsCountCubit(),
           ),
-
           BlocProvider(
             create: (BuildContext context) => DeckItemsCubit(),
-          ),BlocProvider(
+          ),
+          BlocProvider(
             create: (BuildContext context) => GetUnitsCubit(),
           ),
-
         ],
         child: MaterialApp(
           title: 'Edwisely',
@@ -163,13 +162,13 @@ class EdWisely extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           onGenerateRoute: MyRouter.onGenerateRoute,
           navigatorKey: navigatorKey,
-          // home: AddQuestionsScreen(
-          //   'T',
-          //   'dfdf',
-          //   352,
-          //   QuestionType.Objective,
-          //   2052,
-          // ),
+          home: AddQuestionsScreen(
+            'T',
+            'dfdf',
+            352,
+            QuestionType.Objective,
+            2052,
+          ),
         ),
       ),
     );

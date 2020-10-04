@@ -32,6 +32,7 @@ class ChooseSubjectiveFromSelectedTab extends StatelessWidget {
     List<int> questions = [];
     return Scaffold(
       appBar: BigAppBarAddQuestionScreen(
+        route: 'Home > Add Question > Add Objective Question',
         actions: [],
         appBarSize: MediaQuery.of(context).size.height / 5.2,
         appBarTitle: Text(

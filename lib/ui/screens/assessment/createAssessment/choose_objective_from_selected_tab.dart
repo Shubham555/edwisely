@@ -66,6 +66,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
             child: Column(
               children: [
                 BigAppBarAddQuestionScreen(
+                  route: 'Home > Add Question > Add Objective Question',
                   actions: [],
                   appBarSize: MediaQuery.of(context).size.height * 0.3,
                   appBarTitle: Text(

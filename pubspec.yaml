@@ -27,6 +27,7 @@ dependencies:
   flutter_typeahead: ^1.8.8
   smart_select: ^4.0.1
   datetime_picker_formfield: ^1.0.0
+  dotted_border: ^1.0.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

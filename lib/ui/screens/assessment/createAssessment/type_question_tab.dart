@@ -1,4 +1,9 @@
+import 'dart:typed_data';
+import 'dart:convert';
+
 import 'package:chips_choice/chips_choice.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:edwisely/ui/widgets_util/my_checkbox.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +33,6 @@ class TypeQuestionTab extends StatefulWidget {
 
   int _bloomValue = 1;
   int quesCounter = 0;
-  bool option1Selected = false;
-  bool option2Selected = false;
-  bool option3Selected = false;
-  bool option4Selected = false;
   bool option5Selected = false;
 
   TypeQuestionTab(
@@ -70,15 +71,25 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   FocusNode _option5Node;
 
   FilePickerCross _questionImage;
+  String _question = '';
   FilePickerCross _option1Image;
+  String _option1 = '';
   FilePickerCross _option2Image;
+  String _option2 = '';
   FilePickerCross _option3Image;
+  String _option3 = '';
   FilePickerCross _option4Image;
+  String _option4 = '';
   FilePickerCross _option5Image;
+  String _option5 = '';
+
+  bool _showHint = false;
+  bool _showSoltuion = false;
 
   Future getImage() async {
     print('Picking Image');
     final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
+    _question = pickedFile.toBase64();
 
     setState(() {
       _questionImage = pickedFile;
@@ -93,18 +104,23 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
       switch (opt) {
         case 1:
           _option1Image = pickedFile;
+          _option1 = pickedFile.toBase64();
           break;
         case 2:
           _option2Image = pickedFile;
+          _option2 = pickedFile.toBase64();
           break;
         case 3:
           _option3Image = pickedFile;
+          _option3 = pickedFile.toBase64();
           break;
         case 4:
           _option4Image = pickedFile;
+          _option4 = pickedFile.toBase64();
           break;
         case 5:
           _option5Image = pickedFile;
+          _option5 = pickedFile.toBase64();
           break;
       }
     });
@@ -161,8 +177,9 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
               child: Column(
                 children: [
                   BigAppBarAddQuestionScreen(
+                    route: 'Home > Add Question > Add Objective Question',
                     actions: [],
-                    appBarSize: MediaQuery.of(context).size.height / 5.2,
+                    appBarSize: MediaQuery.of(context).size.height / 5.5,
                     appBarTitle: Text(
                       'Edwisely',
                       style: TextStyle(
@@ -170,9 +187,26 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    flatButton: FlatButton(
-                      onPressed: () => null,
-                      child: Text('Save'),
+                    flatButton: RaisedButton(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 16.0,
+                      ),
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons/save.png',
+                            color: Colors.white,
+                            height: 24.0,
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'Save',
+                            style: Theme.of(context).textTheme.button,
+                          ),
+                        ],
+                      ),
                     ),
                     titleText: 'Type Questions to ${widget._title} Assessment',
                     description: "${widget._description}",
@@ -185,8 +219,21 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width / 6,
-                          // height: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height / 5.2),
-                          color: Colors.grey.shade500,
+                          margin: const EdgeInsets.only(
+                            top: 12.0,
+                            left: 12.0,
+                            bottom: 12.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(18.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 6.0,
+                              ),
+                            ],
+                          ),
                           child: BlocBuilder(
                             cubit: _questionFetchCubit
                               ..getQuestionsToAnAssessment(
@@ -238,423 +285,386 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                         ),
                         StatefulBuilder(
                           builder: (BuildContext context, void Function(void Function()) setState) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 32.0,
-                                vertical: height * 0.02,
-                              ),
-                              child: SingleChildScrollView(
-                                physics: BouncingScrollPhysics(),
-                                child: SizedBox(
-                                  width: width * 0.5,
+                            return Expanded(
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 12.0,
+                                  horizontal: 18.0,
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 32.0,
+                                  vertical: height * 0.02,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      // Row(
-                                      //   children: [
-                                      //     Text('Question Type '),
-                                      //     SizedBox(
-                                      //       width: 20,
-                                      //     ),
-                                      //     DropdownButton(
-                                      //         value: widget._questionType,
-                                      //         items: [
-                                      //           DropdownMenuItem(
-                                      //             child: Text("MCQ"),
-                                      //             value: QuestionType.Objective,
-                                      //           ),
-                                      //           DropdownMenuItem(
-                                      //             child: Text("Fill In The Blanks"),
-                                      //             value: QuestionType.Subjective,
-                                      //           ),
-                                      //         ],
-                                      //         onChanged: (value) {
-                                      //           setState(() {
-                                      //             widget._questionType = value;
-                                      //           });
-                                      //         }),
-                                      //   ],
-                                      // ),
                                       Container(
                                         margin: EdgeInsets.all(12),
-                                        width: width * 0.5,
-                                        height: height * 0.23,
-                                        color: Colors.grey[200],
-                                        child: Column(
-                                          children: [
-                                            TextField(
-                                              maxLines: 4,
-                                              controller: _questionController,
-                                              textAlign: TextAlign.center,
-                                              decoration: InputDecoration(
-                                                hintText: "Enter Question",
-                                                border: InputBorder.none,
-                                                fillColor: Colors.grey[200],
-                                                filled: true,
+                                        padding: const EdgeInsets.only(top: 14.0),
+                                        height: height * 0.17,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius: BorderRadius.circular(18.0),
+                                        ),
+                                        child: TextField(
+                                          maxLines: 4,
+                                          controller: _questionController,
+                                          textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
+                                            hintText: "Click to start typing your question",
+                                            hintStyle: Theme.of(context).textTheme.headline1.copyWith(
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.grey,
+                                                ),
+                                            border: InputBorder.none,
+                                            fillColor: Colors.grey[200],
+                                            filled: true,
+                                          ),
+                                        ),
+                                      ),
+                                      _questionImage == null
+                                          ? Center(
+                                              child: Container(
+                                                height: height * 0.17,
+                                                width: width,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(18.0),
+                                                  color: Colors.grey[100],
+                                                ),
+                                                margin: const EdgeInsets.all(12.0),
+                                                child: FlatButton(
+                                                  onPressed: getImage,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(vertical: 18.0),
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/icons/upload_image.png',
+                                                          height: height * 0.05,
+                                                        ),
+                                                        SizedBox(width: 48.0),
+                                                        Text('Upload Image'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                            _questionImage == null
-                                                ? FlatButton(
+                                            )
+                                          : Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Image.memory(
+                                                    base64Decode(_question),
+                                                    height: height * 0.2,
+                                                    width: height * 0.2,
+                                                    fit: BoxFit.contain,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 18.0,
+                                                  ),
+                                                  FlatButton.icon(
                                                     color: Colors.grey[200],
                                                     onPressed: getImage,
-                                                    child: Text(
-                                                      "+",
-                                                      style: TextStyle(fontSize: 30),
-                                                    ))
-                                                : Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Image.network(
-                                                        _questionImage.path,
-                                                        height: height * 0.1,
-                                                        width: height * 0.1,
-                                                        fit: BoxFit.contain,
+                                                    icon: Icon(
+                                                      Icons.edit,
+                                                    ),
+                                                    label: Text('Edit'),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text('Bloom'),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                DropdownButton(
+                                                    value: widget._bloomValue,
+                                                    items: [
+                                                      DropdownMenuItem(
+                                                        child: Text('All'),
+                                                        value: -1,
                                                       ),
-                                                      SizedBox(
-                                                        width: 18.0,
+                                                      DropdownMenuItem(
+                                                        child: Text('Remember'),
+                                                        value: 1,
                                                       ),
-                                                      FlatButton(
-                                                          color: Colors.grey[200],
-                                                          onPressed: getImage,
-                                                          child: Icon(
-                                                            Icons.edit,
-                                                          ))
+                                                      DropdownMenuItem(
+                                                        child: Text('Understand'),
+                                                        value: 2,
+                                                      ),
+                                                      DropdownMenuItem(
+                                                        child: Text('Apply'),
+                                                        value: 3,
+                                                      ),
+                                                      DropdownMenuItem(
+                                                        child: Text('Analyze'),
+                                                        value: 4,
+                                                      ),
                                                     ],
-                                                  ),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        widget._bloomValue = value;
+                                                      });
+                                                    }),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text('Difficulty'),
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                DropdownButton(
+                                                    value: difficultylevel,
+                                                    items: [
+                                                      DropdownMenuItem(
+                                                        child: Text('Level 1'),
+                                                        value: 1,
+                                                      ),
+                                                      DropdownMenuItem(
+                                                        child: Text('Level 2'),
+                                                        value: 2,
+                                                      ),
+                                                      DropdownMenuItem(
+                                                        child: Text('Level 3'),
+                                                        value: 3,
+                                                      ),
+                                                      DropdownMenuItem(
+                                                        child: Text('Level 4'),
+                                                        value: 4,
+                                                      ),
+                                                      DropdownMenuItem(
+                                                        child: Text('Level 5'),
+                                                        value: 5,
+                                                      ),
+                                                    ],
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        difficultylevel = value;
+                                                      });
+                                                    }),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text('Bloom'),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              DropdownButton(
-                                                  value: widget._bloomValue,
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      child: Text('All'),
-                                                      value: -1,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Remember'),
-                                                      value: 1,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Understand'),
-                                                      value: 2,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Apply'),
-                                                      value: 3,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Analyze'),
-                                                      value: 4,
-                                                    ),
-                                                  ],
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      widget._bloomValue = value;
-                                                    });
-                                                  }),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text('Difficulty'),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              DropdownButton(
-                                                  value: difficultylevel,
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      child: Text('Level 1'),
-                                                      value: 1,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Level 2'),
-                                                      value: 2,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Level 3'),
-                                                      value: 3,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Level 4'),
-                                                      value: 4,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Level 5'),
-                                                      value: 5,
-                                                    ),
-                                                  ],
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      difficultylevel = value;
-                                                    });
-                                                  }),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
                                       SizedBox(height: height * 0.02),
-                                      widget._questionType == QuestionType.Objective
-                                          ? Column(
-                                              children: [
-                                                widget.option1Selected
-                                                    ? OptionField(
-                                                        myValue: 0,
-                                                        groupValue: _correctAnswer,
-                                                        myFocusNode: _option1Node,
-                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                        onTap: (String value) => setState(() => _option1Controller.text = value),
-                                                        optionImagePicker: () => getOptionImage(1),
-                                                        image: _option1Image,
-                                                      )
-                                                    : FlatButton(
-                                                        color: Colors.grey[200],
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            widget.option1Selected = true;
-                                                          });
-                                                          _option1Node.requestFocus();
-                                                        },
-                                                        child: Text(
-                                                          "+",
-                                                          style: TextStyle(fontSize: 30),
-                                                        )),
-                                                SizedBox(
-                                                  width: 30,
+                                      SizedBox(
+                                        height: height * 0.12,
+                                        child: Row(
+                                          children: [
+                                            Flexible(
+                                              flex: 1,
+                                              child: Container(
+                                                child: OptionField(
+                                                  myValue: 0,
+                                                  groupValue: _correctAnswer,
+                                                  myFocusNode: _option1Node,
+                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                  onTap: (String value) => setState(() => _option1Controller.text = value),
+                                                  optionImagePicker: () => getOptionImage(1),
+                                                  image: _option1,
+                                                  color: Color(0xFFC04DD8),
+                                                  label: 'Enter Option',
                                                 ),
-                                                widget.option2Selected
-                                                    ? OptionField(
-                                                        myValue: 1,
-                                                        groupValue: _correctAnswer,
-                                                        myFocusNode: _option2Node,
-                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                        onTap: (String value) => setState(() => _option2Controller.text = value),
-                                                        optionImagePicker: () => getOptionImage(2),
-                                                        image: _option2Image,
-                                                      )
-                                                    : FlatButton(
-                                                        color: Colors.grey[200],
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            widget.option2Selected = true;
-                                                            _option2Node.requestFocus();
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                          "+",
-                                                          style: TextStyle(fontSize: 30),
-                                                        )),
-                                                widget.option3Selected
-                                                    ? OptionField(
-                                                        myValue: 2,
-                                                        groupValue: _correctAnswer,
-                                                        myFocusNode: _option3Node,
-                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                        onTap: (String value) => setState(() => _option3Controller.text = value),
-                                                        optionImagePicker: () => getOptionImage(3),
-                                                        image: _option3Image,
-                                                      )
-                                                    : FlatButton(
-                                                        color: Colors.grey[200],
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            widget.option3Selected = true;
-                                                            _option3Node.requestFocus();
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                          "+",
-                                                          style: TextStyle(fontSize: 30),
-                                                        )),
-                                                SizedBox(
-                                                  width: 30,
-                                                ),
-                                                widget.option4Selected
-                                                    ? OptionField(
-                                                        myValue: 3,
-                                                        groupValue: _correctAnswer,
-                                                        myFocusNode: _option4Node,
-                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                        onTap: (String value) => setState(() => _option4Controller.text = value),
-                                                        optionImagePicker: () => getOptionImage(4),
-                                                        image: _option4Image,
-                                                      )
-                                                    : FlatButton(
-                                                        color: Colors.grey[200],
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            widget.option4Selected = true;
-                                                            _option4Node.requestFocus();
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                          "+",
-                                                          style: TextStyle(fontSize: 30),
-                                                        )),
-                                                SizedBox(
-                                                  width: 30,
-                                                ),
-                                                widget.option5Selected
-                                                    ? OptionField(
-                                                        myValue: 4,
-                                                        groupValue: _correctAnswer,
-                                                        myFocusNode: _option5Node,
-                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                        onTap: (String value) => setState(() => _option5Controller.text = value),
-                                                        optionImagePicker: () => getOptionImage(5),
-                                                        image: _option5Image,
-                                                      )
-                                                    : FlatButton(
-                                                        color: Colors.grey[200],
-                                                        onPressed: () {
-                                                          FocusScope.of(context).unfocus();
-                                                          setState(() {
-                                                            widget.option5Selected = true;
-                                                            _option5Node.requestFocus();
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                          "+",
-                                                          style: TextStyle(fontSize: 30),
-                                                        )),
-                                              ],
-                                            )
-                                          : Container(
-                                              height: height * 0.1,
-                                              width: width * 0.3,
-                                              child: Row(
-                                                children: [
-                                                  Text("Type correct answer: "),
-                                                  Container(
-                                                    height: 20,
-                                                    width: 100,
-                                                    child: TextField(
-                                                      controller: _fillInTheBlanksController,
-                                                      decoration: InputDecoration(hintText: "..."),
-                                                    ),
-                                                  ),
-                                                ],
                                               ),
                                             ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      TextField(
-                                        maxLines: 4,
-                                        controller: _hintController,
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          hintText: "Hint",
-                                          border: InputBorder.none,
-                                          fillColor: Colors.grey[200],
-                                          filled: true,
+                                            Flexible(
+                                              flex: 1,
+                                              child: Container(
+                                                child: OptionField(
+                                                  myValue: 1,
+                                                  groupValue: _correctAnswer,
+                                                  myFocusNode: _option2Node,
+                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                  onTap: (String value) => setState(() => _option2Controller.text = value),
+                                                  optionImagePicker: () => getOptionImage(2),
+                                                  image: _option2,
+                                                  color: Color(0xFF4FB277),
+                                                  label: 'Enter Option',
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       SizedBox(
-                                        height: 30,
-                                      ),
-                                      TextField(
-                                        maxLines: 4,
-                                        controller: _solutionController,
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          hintText: "Solution",
-                                          border: InputBorder.none,
-                                          fillColor: Colors.grey[200],
-                                          filled: true,
+                                        height: height * 0.12,
+                                        child: Row(
+                                          children: [
+                                            Flexible(
+                                              flex: 1,
+                                              child: Container(
+                                                child: OptionField(
+                                                  myValue: 2,
+                                                  groupValue: _correctAnswer,
+                                                  myFocusNode: _option3Node,
+                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                  onTap: (String value) => setState(() => _option3Controller.text = value),
+                                                  optionImagePicker: () => getOptionImage(3),
+                                                  image: _option3,
+                                                  color: Color(0xFF508AE0),
+                                                  label: 'Enter Option(Optional)',
+                                                ),
+                                              ),
+                                            ),
+                                            Flexible(
+                                              flex: 1,
+                                              child: Container(
+                                                child: OptionField(
+                                                  myValue: 3,
+                                                  groupValue: _correctAnswer,
+                                                  myFocusNode: _option4Node,
+                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                  onTap: (String value) => setState(() => _option4Controller.text = value),
+                                                  optionImagePicker: () => getOptionImage(4),
+                                                  image: _option4,
+                                                  color: Color(0xFF4ED8DA),
+                                                  label: 'Enter Option(Optional)',
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      widget.option5Selected
+                                          ? Container(
+                                              height: height * 0.118,
+                                              width: width * 0.292,
+                                              child: OptionField(
+                                                myValue: 4,
+                                                groupValue: _correctAnswer,
+                                                myFocusNode: _option3Node,
+                                                onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                onTap: (String value) => setState(() => _option3Controller.text = value),
+                                                optionImagePicker: () => getOptionImage(3),
+                                                image: _option5,
+                                                color: Color(0xFFff6b6b),
+                                                label: 'Enter Option(Optional)',
+                                              ),
+                                            )
+                                          : InkWell(
+                                              onTap: () => setState(() => widget.option5Selected = true),
+                                              child: Container(
+                                                // height: height * 0.118,
+                                                width: width * 0.12,
+                                                margin: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4.0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(8.0),
+                                                  color: Color(0xFFff6b6b),
+                                                ),
+                                                padding: const EdgeInsets.symmetric(
+                                                  vertical: 12.0,
+                                                  horizontal: 22.0,
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.add,
+                                                      color: Colors.white,
+                                                    ),
+                                                    SizedBox(width: 16.0),
+                                                    Text(
+                                                      'Add Option',
+                                                      style: TextStyle(color: Colors.white),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                      _showHint
+                                          ? Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                vertical: 12.0,
+                                                horizontal: 14.0,
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(12.0),
+                                                child: TextField(
+                                                  maxLines: 2,
+                                                  controller: _hintController,
+                                                  textAlign: TextAlign.center,
+                                                  decoration: InputDecoration(
+                                                    hintText: "Hint",
+                                                    border: InputBorder.none,
+                                                    fillColor: Colors.grey[200],
+                                                    filled: true,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : SizedBox.shrink(),
+                                      _showSoltuion
+                                          ? Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                vertical: 12.0,
+                                                horizontal: 14.0,
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(12.0),
+                                                child: TextField(
+                                                  maxLines: 2,
+                                                  controller: _solutionController,
+                                                  textAlign: TextAlign.center,
+                                                  decoration: InputDecoration(
+                                                    hintText: "Solution",
+                                                    border: InputBorder.none,
+                                                    fillColor: Colors.grey[200],
+                                                    filled: true,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : SizedBox.shrink(),
                                       SizedBox(
-                                        height: 30,
+                                        height: 12.0,
                                       ),
-                                      TextField(
-                                        maxLines: 4,
-                                        controller: _sourceController,
-                                        textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          hintText: "Source(if any)",
-                                          border: InputBorder.none,
-                                          fillColor: Colors.grey[200],
-                                          filled: true,
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(horizontal: 14.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius: BorderRadius.circular(12.0),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text('Public'),
-                                          SizedBox(
-                                            width: 30,
+                                        child: TextField(
+                                          maxLines: 1,
+                                          controller: _sourceController,
+                                          textAlign: TextAlign.center,
+                                          decoration: InputDecoration(
+                                            hintText: "Source(if any)",
+                                            border: InputBorder.none,
+                                            fillColor: Colors.grey[200],
                                           ),
-                                          Switch(
-                                              value: isPublic,
-                                              onChanged: (flag) {
-                                                setState(
-                                                  () {
-                                                    isPublic = flag;
-                                                  },
-                                                );
-                                              }),
-                                        ],
+                                        ),
                                       ),
                                       SizedBox(
-                                        height: height * 0.02,
+                                        height: 30,
                                       ),
-                                      RaisedButton(
-                                        color: Color(0xFF1D2B64),
-                                        onPressed: () {
-                                          print(questions);
-                                          if (widget._questionType == QuestionType.Objective) {
-                                            context.bloc<AddQuestionCubit>().addQuestion(
-                                                _questionController.text,
-                                                topics,
-                                                [
-                                                  _option1Controller.text,
-                                                  _option2Controller.text,
-                                                  _option3Controller.text,
-                                                  _option4Controller.text,
-                                                  _option5Controller.text,
-                                                ],
-                                                widget._bloomValue,
-                                                difficultylevel,
-                                                _sourceController.text,
-                                                isPublic ? 'public' : 'private',
-                                                1,
-                                                _correctAnswer,
-                                                _option1Image,
-                                                _option2Image,
-                                                _option3Image,
-                                                _option4Image,
-                                                _option5Image,
-                                                _questionImage,
-                                                widget._assessmentId,
-                                                questions,
-                                                _hintController.text,
-                                                _solutionController.text,
-                                                false);
-
-                                            Future.delayed(Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
-                                          } else {
-                                            print('Subjective');
-                                          }
-                                        },
-                                        child: Text(
-                                          "Save",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      )
                                     ],
                                   ),
                                 ),
@@ -662,51 +672,166 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                             );
                           },
                         ),
-                        StatefulBuilder(
-                          builder: (BuildContext context, void Function(void Function()) setState) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(vertical: height * 0.02),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text("Tag Topics"),
-                                  //todo change
-                                  BlocBuilder(
-                                    cubit: context.bloc<TopicCubit>()..getTopics(45),
-                                    builder: (BuildContext context, state) {
-                                      if (state is TopicFetched) {
-                                        return Container(
-                                          width: 200,
-                                          child: ChipsChoice<Map<String, dynamic>>.multiple(
-                                            value: topics,
-                                            isWrapped: true,
-                                            options: ChipsChoiceOption.listFrom(
-                                              source: state.topicEntity.data,
-                                              value: (i, Data v) => {'id': v.id, 'type': v.type},
-                                              label: (i, Data v) => v.name,
-                                            ),
-                                            onChanged: (val) {
-                                              setState(
-                                                () => topics = val,
-                                              );
+                        SizedBox(
+                          width: width * 0.13,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 12.0, right: 22.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('Public'),
+                                    SizedBox(
+                                      width: 16.0,
+                                    ),
+                                    Switch(
+                                      value: isPublic,
+                                      activeColor: Theme.of(context).primaryColor,
+                                      onChanged: (flag) {
+                                        setState(
+                                          () {
+                                            isPublic = flag;
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                RaisedButton.icon(
+                                  color: Theme.of(context).primaryColor,
+                                  onPressed: () {
+                                    print(questions);
+                                    if (widget._questionType == QuestionType.Objective) {
+                                      context.bloc<AddQuestionCubit>().addQuestion(
+                                          _questionController.text,
+                                          topics,
+                                          [
+                                            _option1Controller.text,
+                                            _option2Controller.text,
+                                            _option3Controller.text,
+                                            _option4Controller.text,
+                                            _option5Controller.text,
+                                          ],
+                                          widget._bloomValue,
+                                          difficultylevel,
+                                          _sourceController.text,
+                                          isPublic ? 'public' : 'private',
+                                          1,
+                                          _correctAnswer,
+                                          _option1Image,
+                                          _option2Image,
+                                          _option3Image,
+                                          _option4Image,
+                                          _option5Image,
+                                          _questionImage,
+                                          widget._assessmentId,
+                                          questions,
+                                          _hintController.text,
+                                          _solutionController.text,
+                                          false);
+
+                                      Future.delayed(
+                                          Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                    } else {
+                                      print('Subjective');
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                  label: Text(
+                                    "Add",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 12.0,
+                                ),
+                                StatefulBuilder(
+                                  builder: (BuildContext context, void Function(void Function()) setState) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: height * 0.02,
+                                        horizontal: 12.0,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12.0),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.2),
+                                            blurRadius: 6.0,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text("Tag Topics"),
+                                          //todo change
+                                          BlocBuilder(
+                                            cubit: context.bloc<TopicCubit>()..getTopics(45),
+                                            builder: (BuildContext context, state) {
+                                              if (state is TopicFetched) {
+                                                return Container(
+                                                  width: 200,
+                                                  child: ChipsChoice<Map<String, dynamic>>.multiple(
+                                                    value: topics,
+                                                    isWrapped: true,
+                                                    options: ChipsChoiceOption.listFrom(
+                                                      source: state.topicEntity.data,
+                                                      value: (i, Data v) => {'id': v.id, 'type': v.type},
+                                                      label: (i, Data v) => v.name,
+                                                    ),
+                                                    onChanged: (val) {
+                                                      setState(
+                                                        () => topics = val,
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              }
+                                              if (state is TopicEmpty) {
+                                                return Text('No topcis to Tag');
+                                              } else {
+                                                return Center(
+                                                  child: CircularProgressIndicator(),
+                                                );
+                                              }
                                             },
                                           ),
-                                        );
-                                      }
-                                      if (state is TopicEmpty) {
-                                        return Text('No topcis to Tag');
-                                      } else {
-                                        return Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      }
-                                    },
-                                  )
-                                ],
-                              ),
-                            );
-                          },
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 12.0,
+                                ),
+                                RaisedButton(
+                                  onPressed: () => setState(() => _showHint = true),
+                                  child: Text(
+                                    'Add Hint',
+                                    style: Theme.of(context).textTheme.button,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 12.0,
+                                ),
+                                RaisedButton(
+                                  onPressed: () => setState(() => _showSoltuion = true),
+                                  child: Text(
+                                    'Add Solution',
+                                    style: Theme.of(context).textTheme.button,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -724,11 +849,13 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
 class OptionField extends StatelessWidget {
   final int myValue;
   final int groupValue;
-  final FilePickerCross image;
+  final String image;
   final FocusNode myFocusNode;
   final Function onTap;
   final Function onChanged;
   final Function optionImagePicker;
+  final Color color;
+  final String label;
 
   const OptionField({
     @required this.myValue,
@@ -738,63 +865,158 @@ class OptionField extends StatelessWidget {
     @required this.onChanged,
     @required this.onTap,
     @required this.optionImagePicker,
+    @required this.color,
+    @required this.label,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55,
-      width: MediaQuery.of(context).size.width * 0.4,
+      height: MediaQuery.of(context).size.height * 0.1,
+      width: MediaQuery.of(context).size.width * 0.5,
       margin: const EdgeInsets.symmetric(
         horizontal: 12.0,
         vertical: 8.0,
       ),
-      child: RadioListTile(
-        value: myValue,
-        groupValue: groupValue,
-        onChanged: onChanged,
-        title: TextField(
-          focusNode: myFocusNode,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: "Enter option",
-            hintStyle: TextStyle(fontSize: 20),
-            fillColor: Colors.grey[200],
-            filled: true,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 6.0,
           ),
-          onChanged: onTap,
-        ),
-        secondary: image == null
-            ? FlatButton(
-                color: Colors.grey[200],
-                onPressed: optionImagePicker,
-                child: Text(
-                  "+",
-                  style: TextStyle(fontSize: 30),
-                ))
-            : Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.network(
-                    image.path,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    width: MediaQuery.of(context).size.height * 0.1,
-                    fit: BoxFit.contain,
-                  ),
-                  SizedBox(
-                    width: 18.0,
-                  ),
-                  FlatButton(
-                      color: Colors.grey[200],
-                      onPressed: optionImagePicker,
-                      child: Icon(
-                        Icons.edit,
-                      ))
-                ],
-              ),
+        ],
       ),
+      child: Row(
+        children: [
+          Container(
+            width: 35.0,
+            margin: const EdgeInsets.only(right: 12.0),
+            height: MediaQuery.of(context).size.height * 0.1,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(4.0),
+              border: Border.all(
+                color: Colors.white,
+                width: 2.0,
+              ),
+            ),
+            child: MyCheckbox(
+              value: myValue == groupValue,
+              onChanged: () => onChanged(myValue),
+            ),
+          ),
+          Flexible(
+            child: TextField(
+              focusNode: myFocusNode,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: label,
+                hintStyle: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black54),
+              ),
+              onChanged: onTap,
+            ),
+          ),
+          image.length == 0
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  child: FlatButton(
+                    color: color,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18.0,
+                    ),
+                    onPressed: optionImagePicker,
+                    child: Icon(
+                      Icons.image,
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.memory(
+                      base64Decode(image),
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      width: MediaQuery.of(context).size.height * 0.15,
+                      fit: BoxFit.contain,
+                    ),
+                    SizedBox(
+                      width: 18.0,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      child: FlatButton(
+                        color: color,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18.0,
+                        ),
+                        onPressed: optionImagePicker,
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+        ],
+      ),
+      // child: RadioListTile(
+      //   value: myValue,
+      //   groupValue: groupValue,
+      //   onChanged: onChanged,
+      //   title: TextField(
+      //     focusNode: myFocusNode,
+      //     decoration: InputDecoration(
+      //       border: InputBorder.none,
+      //       hintText: "Enter option",
+      //       hintStyle: TextStyle(fontSize: 20),
+      //       fillColor: Colors.grey[200],
+      //       filled: true,
+      //     ),
+      //     onChanged: onTap,
+      //   ),
+      //   secondary: image == null
+      //       ? FlatButton(
+      //           color: color,
+      //           padding: const EdgeInsets.symmetric(
+      //             vertical: 12.0,
+      //             horizontal: 18.0,
+      //           ),
+      //           onPressed: optionImagePicker,
+      //           child: Icon(
+      //             Icons.image,
+      //             color: Colors.white,
+      //           ))
+      //       : Row(
+      //           crossAxisAlignment: CrossAxisAlignment.center,
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           mainAxisSize: MainAxisSize.min,
+      //           children: [
+      //             Image.network(
+      //               image.path,
+      //               height: MediaQuery.of(context).size.height * 0.1,
+      //               width: MediaQuery.of(context).size.height * 0.1,
+      //               fit: BoxFit.contain,
+      //             ),
+      //             SizedBox(
+      //               width: 18.0,
+      //             ),
+      //             FlatButton(
+      //               color: color,
+      //               onPressed: optionImagePicker,
+      //               child: Icon(
+      //                 Icons.edit,
+      //                 color: Colors.white,
+      //               ),
+      //             )
+      //           ],
+      //         ),
+      // ),
     );
   }
 }
