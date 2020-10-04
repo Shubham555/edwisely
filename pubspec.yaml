@@ -27,13 +27,26 @@ dependencies:
   flutter_typeahead: ^1.8.8
   smart_select: ^4.0.1
   datetime_picker_formfield: ^1.0.0
-  fl_chart: ^0.11.1
+  dotted_border: ^1.0.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter:
   uses-material-design: true
   assets:
+  # - assets/icons/add_course_material.svg
+  # - assets/icons/conduct_live_assesment.svg
+  # - assets/icons/conduct_live_class.svg
+  # - assets/icons/get_feedback.svg
+  # - assets/icons/my_assesment.svg
+  # - assets/icons/recently_viewed.svg
+  # - assets/icons/schedule_event.svg
+  # - assets/icons/send_assignment.svg
+  # - assets/icons/send_notification.svg
+  # - assets/icons/send.png
+  # - assets/icons/upload.png
+  # - assets/icons/create_vc.png
+  # - assets/icons/save.png
   - assets/icons/
   - assets/images/login_screen.png
   - assets/placeholder_image.jpg

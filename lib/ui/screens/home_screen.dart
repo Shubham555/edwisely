@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           //side bar
           NavigationDrawer(
             isCollapsed: false,
-            isHome: true,
+            isHome: false,
           ),
           //rest of the screen
           Expanded(

@@ -160,13 +160,13 @@ class EdWisely extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           onGenerateRoute: MyRouter.onGenerateRoute,
           navigatorKey: navigatorKey,
-          // home: AddQuestionsScreen(
-          //   'T',
-          //   'dfdf',
-          //   352,
-          //   QuestionType.Objective,
-          //   2052,
-          // ),
+          home: AddQuestionsScreen(
+            'T',
+            'dfdf',
+            352,
+            QuestionType.Objective,
+            2052,
+          ),
         ),
       ),
     );
