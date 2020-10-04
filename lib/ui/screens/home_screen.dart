@@ -1,4 +1,7 @@
+import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets_util/navigation_drawer.dart';
 
@@ -10,96 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Size screenSize;
   TextTheme textTheme;
-
-  final List<MyCourse> _yourCourses = [
-    MyCourse(
-      title: 'Web Technology',
-      image: 'assets/placeholder_image.jpg',
-    ),
-    MyCourse(
-      title: 'DBMS',
-      image: 'assets/placeholder_image.jpg',
-    ),
-    MyCourse(
-      title: 'Chemistry',
-      image: 'assets/placeholder_image.jpg',
-    ),
-    MyCourse(
-      title: 'Physics',
-      image: 'assets/placeholder_image.jpg',
-    ),
-    MyCourse(
-      title: 'Mathematics II',
-      image: 'assets/placeholder_image.jpg',
-    ),
-    MyCourse(
-      title: 'OOPM',
-      image: 'assets/placeholder_image.jpg',
-    ),
-  ];
-  final List<ActivityWall> _activityWall = [
-    ActivityWall(
-      title: 'Activity Title',
-      type: NotificationType.MEETING,
-      time: DateTime.now(),
-      followers: [
-        'assets/placeholder_image.jpg',
-        'assets/placeholder_image.jpg'
-      ],
-      meetingName: 'Meeting Name',
-      meetingStartTime: DateTime.now(),
-      meetingEndTime: DateTime.now(),
-      status: 'Meeting Completed',
-      sendTo: 10,
-      commentsCount: 0,
-    ),
-    ActivityWall(
-      title: 'Test Title',
-      type: NotificationType.TEST,
-      time: DateTime.now(),
-      followers: [
-        'assets/placeholder_image.jpg',
-        'assets/placeholder_image.jpg'
-      ],
-      description:
-          'A questionnaire named Test created and set to be expired on 25 Sep 2020 02:15 PM',
-      status: 'Test in progress',
-      sendTo: 10,
-      attemptedCount: 0,
-      notAttemptedCount: 10,
-    ),
-    ActivityWall(
-      title: 'Test Title',
-      type: NotificationType.FEEDBACK,
-      time: DateTime.now(),
-      followers: [
-        'assets/placeholder_image.jpg',
-        'assets/placeholder_image.jpg'
-      ],
-      description:
-          'We wish you a Merry Christmas and a Happy New Year. See you all on 2nd Jan. Peace!',
-      sendTo: 10,
-      commentsCount: 2,
-    ),
-  ];
-  final List<UpcomingEvent> _upcomingEvents = [
-    UpcomingEvent(
-      title: 'Test 1 results are out',
-      type: UpcomingEventType.RESULT,
-    ),
-    UpcomingEvent(
-      title: 'Test - Assesment 1 is going to start at 5:00PM today.',
-      type: UpcomingEventType.ANNOUNCEMENT,
-    ),
-    UpcomingEvent(
-      title: 'Test 1 results are out',
-      type: UpcomingEventType.RESULT,
-    ),
-    UpcomingEvent(
-      title: 'Test - Assesment 1 is going to start at 5:00PM today.',
-      type: UpcomingEventType.ANNOUNCEMENT,
-    ),
-  ];
+  HomeScreenDefaultCubit homeScreenDefaultCubit;
   final List<String> _peerActivity = [
     'Dr. Geetha has created a test for CSE 2 Section A.',
     'Prof. Namratha has sent a notification to CSE 2 Section A, 2 Section B.',
@@ -111,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    homeScreenDefaultCubit = context.bloc<HomeScreenDefaultCubit>()..getHomeScreenContent();
     screenSize = MediaQuery.of(context).size;
     textTheme = Theme.of(context).textTheme;
 
@@ -138,26 +53,46 @@ class _HomeScreenState extends State<HomeScreen> {
                       vertical: 22.0,
                       horizontal: 36.0,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //heading text
-                        Text(
-                          'Your Courses',
-                          style: textTheme.headline2,
-                        ),
-                        //list of courses
-                        _yourCoursesList(),
-                        //spacing
-                        SizedBox(height: 18.0),
-                        //heading text
-                        Text(
-                          'Activity Wall',
-                          style: textTheme.headline2,
-                        ),
-                        //activityWall
-                        _activityWallList(),
-                      ],
+                    child: BlocBuilder(
+                      cubit: homeScreenDefaultCubit,
+                      builder: (BuildContext context, state) {
+                        if (state is HomeScreenDefaultFetched) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //heading text
+                              Text(
+                                'Your Courses',
+                                style: textTheme.headline2,
+                              ),
+                              //list of courses
+                              _yourCoursesList(
+                                state.map['courses'],
+                              ),
+                              //spacing
+                              SizedBox(height: 18.0),
+                              //heading text
+                              Text(
+                                'Activity Wall',
+                                style: textTheme.headline2,
+                              ),
+                              //activityWall
+                              activityTabList(
+                                state.map['activity_tab'],
+                              ),
+                            ],
+                          );
+                        }
+                        if (state is HomeScreenDefaultFailed) {
+                          return Center(
+                            child: Text(state.error),
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -268,59 +203,75 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _upcomingEventsList() {
-    return Container(
-      height: screenSize.height * 0.25,
-      margin: const EdgeInsets.only(
-        right: 22.0,
-        top: 12.0,
-      ),
-      padding: const EdgeInsets.symmetric(
-        vertical: 12.0,
-        horizontal: 18.0,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        color: Colors.white,
-        border: Border.all(
-          color: Colors.black,
-          width: 0.5,
-        ),
-      ),
-      child: ListView.builder(
-        itemCount: _upcomingEvents.length,
-        itemBuilder: (ctx, index) => _upcomingEventCard(_upcomingEvents[index]),
-      ),
+    return BlocBuilder(
+      cubit: homeScreenDefaultCubit,
+      builder: (BuildContext context, state) {
+        if (state is HomeScreenDefaultFetched) {
+          return Container(
+            height: screenSize.height * 0.25,
+            margin: const EdgeInsets.only(
+              right: 22.0,
+              top: 12.0,
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 12.0,
+              horizontal: 18.0,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.black,
+                width: 0.5,
+              ),
+            ),
+            child: Column(
+              children: [
+                Text('Objective'),
+                Text('Subjective'),
+                Text('VC'),
+                // TODO: 10/4/2020 get some data to make class
+                // ListView.builder(
+                //   itemCount: state.homeScreenDefault.upcoming_events.objective_tests.length,
+                //   itemBuilder: (BuildContext context, int index) => ListTile(
+                //     title: state.homeScreenDefault.upcoming_events.objective_tests[index],
+                //   ),
+                // )
+              ],
+            ),
+          );
+        }
+        if (state is HomeScreenDefaultFailed) {
+          return Center(
+            child: Text(state.error),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 
-  Widget _upcomingEventCard(UpcomingEvent event) {
-    return ListTile(
-      leading: Image.asset('assets/icons/announcement.png'),
-      title: Text(event.title),
-      trailing: event.type == UpcomingEventType.RESULT
-          ? Text('View')
-          : SizedBox.shrink(),
-    );
-  }
-
-  Widget _activityWallList() {
+  Widget activityTabList(dynamic activityTab) {
     return Expanded(
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: _activityWall.length,
+        itemCount: activityTab.length,
         itemBuilder: (ctx, index) {
-          switch (_activityWall[index].type) {
-            case NotificationType.TEST:
-              return _testActivity(_activityWall[index]);
+          switch (activityTab[index]['type']) {
+            case 'Test':
+              return _testActivity(activityTab[index]);
               break;
-            case NotificationType.NOTIFICATION:
-              return _notificationActivity(_activityWall[index]);
+            case 'Notification':
+              return _notificationActivity(activityTab[index]);
               break;
-            case NotificationType.FEEDBACK:
-              return _feedbackActivity(_activityWall[index]);
+            case 'Feedback':
+              return _feedbackActivity(activityTab[index]);
               break;
-            case NotificationType.MEETING:
-              return _meetingActivity(_activityWall[index]);
+            case 'VideoConference':
+              return _meetingActivity(activityTab[index]);
               break;
           }
           return SizedBox.shrink();
@@ -329,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _meetingActivity(ActivityWall activity) {
+  Widget _meetingActivity(dynamic activity) {
     return Container(
       height: screenSize.height * 0.27,
       margin: const EdgeInsets.symmetric(
@@ -353,16 +304,15 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           _activityTitle(
-            activity.title,
+            activity['title'],
             Color(0xFF4ED8DA),
-            activity.followers,
-            activity.time,
+            activity['followers'],
+            activity['start_time'],
           ),
           //center portion
           Expanded(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 22.0, horizontal: 32.0),
+              padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 32.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -374,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       //meeting title
                       Text(
-                        activity.meetingName,
+                        activity['description'],
                         style: textTheme.headline5,
                       ),
                       //start time
@@ -384,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: textTheme.headline6,
                           children: [
                             TextSpan(
-                              text: activity.meetingStartTime.toString(),
+                              text: activity['start_time'].toString(),
                               style: textTheme.headline6.copyWith(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -400,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: textTheme.headline6,
                           children: [
                             TextSpan(
-                              text: activity.meetingEndTime.toString(),
+                              text: activity['end_time'].toString(),
                               style: textTheme.headline6.copyWith(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -412,10 +362,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   //right part
-                  Text(
-                    activity.status,
-                    style: textTheme.headline2,
-                  ),
+                  activity['doe'] == null
+                      ? Text('sdv')
+                      : DateTime.parse(activity['doe']).isBefore(DateTime.now())
+                          ? _displayPieChart(activity['results'])
+                          : Container()
                 ],
               ),
             ),
@@ -428,14 +379,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset('assets/icons/sendTo.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity.sendTo} Send To'),
+              Text('${activity['sent_to']} Send To'),
               //spacing
               SizedBox(width: screenSize.width * 0.05),
               //comments
               Image.asset('assets/icons/comments.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity.commentsCount} Comments')
+              Text('${activity['comments_count']} Comments')
             ],
           ),
         ],
@@ -443,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _testActivity(ActivityWall activity) {
+  Widget _testActivity(dynamic activity) {
     return Container(
       height: screenSize.height * 0.24,
       margin: const EdgeInsets.symmetric(
@@ -467,10 +418,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           _activityTitle(
-            activity.title,
+            activity['title'],
             Color(0xFFC04DD8),
-            activity.followers,
-            activity.time,
+            activity['followers'],
+            activity['start_time'],
           ),
           //center
           Expanded(
@@ -486,11 +437,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   //description
                   SizedBox(
                     width: screenSize.width * 0.2,
-                    child: Text(activity.description),
+                    child: Text(activity['description']),
                   ),
                   //test status
                   Text(
-                    activity.status,
+                    // FIXME: 10/4/2020 status
+                    '',
                     style: textTheme.headline2,
                   ),
                 ],
@@ -505,21 +457,21 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset('assets/icons/sendTo.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity.sendTo} Send To'),
+              Text('${activity['sent_to']} Send To'),
               //spacing
               SizedBox(width: screenSize.width * 0.05),
               //attempted
               Image.asset('assets/icons/attempted.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity.attemptedCount} Attempted'),
+              Text('Attempted'),
               //spacing
               SizedBox(width: screenSize.width * 0.05),
               //not attempted
               Image.asset('assets/icons/not_attempted.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity.notAttemptedCount} Not Attempted'),
+              Text('Not Attempted'),
               //spacing
               SizedBox(width: screenSize.width * 0.05),
               //forward
@@ -534,7 +486,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _feedbackActivity(ActivityWall activity) {
+  Widget _feedbackActivity(dynamic activity) {
     return Container(
       height: screenSize.height * 0.2,
       margin: const EdgeInsets.symmetric(
@@ -558,10 +510,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           _activityTitle(
-            activity.title,
+            activity['title'],
             Color(0xFF4FB277),
-            activity.followers,
-            activity.time,
+            activity['followers'],
+            activity['start_time'],
           ),
           //center
           Expanded(
@@ -577,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //description
                   SizedBox(
                     width: screenSize.width * 0.2,
-                    child: Text(activity.description),
+                    child: Text(activity['description']),
                   ),
                 ],
               ),
@@ -591,14 +543,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset('assets/icons/sendTo.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity.sendTo} Send To'),
+              Text('${activity['sent_to']} Send To'),
               //spacing
               SizedBox(width: screenSize.width * 0.05),
               //comments
               Image.asset('assets/icons/comments.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity.commentsCount} Comments')
+              Text('${activity['comments_count']} Comments')
             ],
           ),
         ],
@@ -606,15 +558,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _notificationActivity(ActivityWall activity) {
+  Widget _notificationActivity(dynamic activity) {
     return SizedBox.shrink();
   }
 
   Widget _activityTitle(
     String title,
     Color color,
-    List<String> followers,
-    DateTime time,
+    dynamic followers,
+    String time,
   ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -649,31 +601,32 @@ class _HomeScreenState extends State<HomeScreen> {
         //spacing
         Spacer(),
         //right part
-        Text('Followers'),
+        Text('Follower'),
         //spacing
         SizedBox(
           width: 12.0,
         ),
-        //followers
+        // followers
         Row(
-          children: followers
-              .sublist(0, 2)
-              .map(
-                (follower) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CircleAvatar(
-                    radius: 25.0,
-                    backgroundImage: AssetImage(follower),
-                  ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: CircleAvatar(
+                radius: 25.0,
+                backgroundColor: color,
+                child: Text(
+                  followers[0]['faculty_name'].substring(0, 1).toUpperCase(),
+                  style: textTheme.headline3,
                 ),
-              )
-              .toList(),
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
 
-  Widget _yourCoursesList() {
+  Widget _yourCoursesList(dynamic courses) {
     return SizedBox(
       height: screenSize.height * 0.19,
       width: screenSize.width * 0.59,
@@ -688,8 +641,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               scrollDirection: Axis.horizontal,
-              itemCount: _yourCourses.length,
-              itemBuilder: (ctx, index) => _courseCard(_yourCourses[index]),
+              itemCount: courses.length,
+              itemBuilder: (ctx, index) => _courseCard(courses[index]),
             ),
           ),
           Align(
@@ -739,7 +692,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _courseCard(MyCourse course) {
+  Widget _courseCard(dynamic course) {
     return Container(
       height: screenSize.height * 0.18,
       width: screenSize.width * 0.12,
@@ -750,7 +703,7 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         image: DecorationImage(
-          image: AssetImage(course.image),
+          image: NetworkImage(course['course_image']),
           fit: BoxFit.cover,
         ),
       ),
@@ -770,7 +723,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  course.title,
+                  course['name'],
                   style: textTheme.headline3,
                 ),
               ),
@@ -780,60 +733,38 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  _displayPieChart(dynamic results) {
+    return PieChart(
+      PieChartData(
+        sections: [
+          PieChartSectionData(
+            value: results['percentage_very_good'],
+            radius: 15,
+            title: 'Very Good',
+          ),
+          PieChartSectionData(
+            value: results['percentage_below_average'],
+            radius: 15,
+            title: 'Below Average',
+          ),
+          PieChartSectionData(
+            value: results['percentage_average'],
+            radius: 15,
+            title: 'Average',
+          ),
+          PieChartSectionData(
+            value: results['percentage_good'],
+            radius: 15,
+            title: 'Good',
+          ),
+          PieChartSectionData(
+            value: results['understanding_level'],
+            radius: 15,
+            title: 'Understanding Level',
+          ),
+        ],
+      ),
+    );
+  }
 }
-
-class MyCourse {
-  final String title;
-  final String image;
-
-  MyCourse({
-    @required this.title,
-    @required this.image,
-  });
-}
-
-class ActivityWall {
-  final String title;
-  final DateTime time;
-  final int sendTo;
-  final int commentsCount;
-  final int attemptedCount;
-  final int notAttemptedCount;
-  final List<String> followers;
-  final String status;
-  final NotificationType type;
-  final String meetingName;
-  final DateTime meetingStartTime;
-  final DateTime meetingEndTime;
-  final String description;
-
-  ActivityWall({
-    this.title,
-    this.time,
-    this.sendTo,
-    this.commentsCount,
-    this.attemptedCount,
-    this.notAttemptedCount,
-    this.followers,
-    this.status,
-    this.type,
-    this.meetingName,
-    this.meetingStartTime,
-    this.meetingEndTime,
-    this.description,
-  });
-}
-
-enum NotificationType { TEST, FEEDBACK, NOTIFICATION, MEETING }
-
-class UpcomingEvent {
-  final String title;
-  final UpcomingEventType type;
-
-  UpcomingEvent({
-    @required this.title,
-    @required this.type,
-  });
-}
-
-enum UpcomingEventType { RESULT, ANNOUNCEMENT }

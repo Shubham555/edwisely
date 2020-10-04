@@ -63,7 +63,10 @@ class AssessmentTile extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         description,
@@ -87,9 +90,17 @@ class AssessmentTile extends StatelessWidget {
                                   size: 22.0,
                                   color: Colors.black,
                                 ),
-                                onPressed: () {
-                                  //TODO, add redirecting code here
-                                },
+                                onPressed: () => Navigator.pushNamed(
+                                  context,
+                                  '/add-questions',
+                                  arguments: {
+                                    'title': title,
+                                    'description': description,
+                                    'subjectId': subjectId,
+                                    'questionType': QuestionType.Objective,
+                                    'assessmentId': assessmentId,
+                                  },
+                                ),
                               ),
                             ),
                       Spacer(),
@@ -141,8 +152,8 @@ class AssessmentTile extends StatelessWidget {
                 SizedBox(width: 4.0),
                 Text(
                   '$noOfQuestions',
-                  style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
-
+                  style:
+                      Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
                 ),
                 //spacing
                 Spacer(),
@@ -157,7 +168,10 @@ class AssessmentTile extends StatelessWidget {
                       SizedBox(width: 4.0),
                       Text(
                         '$sentTo',
-                        style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -174,7 +188,10 @@ class AssessmentTile extends StatelessWidget {
                       SizedBox(width: 4.0),
                       Text(
                         '$answeredCount',
-                        style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
