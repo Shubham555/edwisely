@@ -51,13 +51,10 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen> with 
                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   route: 'Home > My Assesments',
-                  flatButton: FlatButton(
-                    hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: BorderSide(
-                        color: Color(0xFF1D2B64),
-                      ),
+                  flatButton: RaisedButton(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8.0,
+                      horizontal: 16.0,
                     ),
                     onPressed: () => Navigator.push(
                       context,
@@ -66,20 +63,19 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen> with 
                       ),
                     ),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Create Assessment',
-                          style: TextStyle(
-                            color: Color(0xFF1D2B64),
+                        children: [
+                          Image.asset(
+                            'assets/icons/create_vc.png',
+                            color: Colors.white,
+                            height: 24.0,
                           ),
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_right,
-                          color: Color(0xFF1D2B64),
-                        )
-                      ],
-                    ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'Create Assesment',
+                            style: Theme.of(context).textTheme.button,
+                          ),
+                        ],
+                      ),
                   ),
                 ).build(context),
                 Expanded(

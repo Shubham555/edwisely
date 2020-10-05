@@ -3,6 +3,7 @@ import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
+import 'package:edwisely/ui/screens/authorization/login_screen.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/util/router.dart';
 import 'package:flutter/material.dart';
@@ -53,10 +54,10 @@ void _initializeVariables() async {
   // departmentId = sharedPreferences.getString('department_id');
   // collegeId = sharedPreferences.getString('college_id');
   // loginToken = sharedPreferences.getString('login_token');
-  departmentId = 71;
-  collegeId = 102;
-  loginToken =
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMTExNTgxMCIsImV4cCI6IjE2MDI0MTE4MTAifQ.raH1xdORJpDCqsKWmCHxhfZ-W0ynrU9Gh3TGJmZje9k';
+  // departmentId = 71;
+  // collegeId = 102;
+  // loginToken =
+  //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMTExNTgxMCIsImV4cCI6IjE2MDI0MTE4MTAifQ.raH1xdORJpDCqsKWmCHxhfZ-W0ynrU9Gh3TGJmZje9k';
 }
 
 class EdWisely extends StatelessWidget {
@@ -162,13 +163,14 @@ class EdWisely extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           onGenerateRoute: MyRouter.onGenerateRoute,
           navigatorKey: navigatorKey,
-          home: AddQuestionsScreen(
-            'T',
-            'dfdf',
-            45,
-            QuestionType.Objective,
-            2052,
-          ),
+          home: LoginScreen(),
+          // home: AddQuestionsScreen(
+          //   'T',
+          //   'dfdf',
+          //   352,
+          //   QuestionType.Objective,
+          //   2052,
+          // ),
         ),
       ),
     );

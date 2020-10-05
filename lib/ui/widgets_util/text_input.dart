@@ -16,6 +16,7 @@ class TextInput extends StatelessWidget {
   final TextEditingController controller;
   final bool enabled;
   final Widget suffix;
+  final bool isWhite;
 
   TextInput({
     @required this.label,
@@ -33,6 +34,7 @@ class TextInput extends StatelessWidget {
     this.controller,
     this.enabled = true,
     this.suffix,
+    this.isWhite = false,
   });
 
   @override
@@ -47,7 +49,7 @@ class TextInput extends StatelessWidget {
           Text(
             label,
             style: textTheme.headline6.copyWith(
-              color: Colors.black,
+              color: isWhite ? Colors.white : Colors.black,
             ),
           ),
         //spacing
@@ -82,8 +84,7 @@ class TextInput extends StatelessWidget {
                   enabled: enabled,
                   decoration: InputDecoration(
                     hintText: hint,
-                    hintStyle:
-                        textTheme.headline6.copyWith(color: Color(0xFF1d1d1d)),
+                    hintStyle: textTheme.headline6.copyWith(color: Colors.grey[400]),
                     errorStyle: TextStyle(
                       color: Color(0xFFFF3F34),
                       fontWeight: FontWeight.w500,

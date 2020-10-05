@@ -20,7 +20,7 @@ dependencies:
   image_picker_for_web: ^0.1.0+2
   shared_preferences_web: ^0.1.2+7
   shared_preferences: ^0.5.12
-  flutter_svg: ^0.19.0
+  flutter_svg: ^0.18.1
   auto_size_text: ^2.1.0
   flutter_datetime_picker: ^1.4.0
   provider: ^4.3.2+2
@@ -29,6 +29,7 @@ dependencies:
   datetime_picker_formfield: ^1.0.0
   dotted_border: ^1.0.6
   fl_chart: ^0.11.1
+  websafe_svg: ^1.1.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -36,9 +37,10 @@ flutter:
   uses-material-design: true
   assets:
   - assets/icons/
-  - assets/images/login_screen.png
+  - assets/images/
   - assets/placeholder_image.jpg
   - assets/logo/
+  - assets/icons/blooms/
   fonts:
   - family: Poppins
     fonts:

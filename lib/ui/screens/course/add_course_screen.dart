@@ -139,26 +139,40 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                           cubit: context.bloc<DepartmentCubit>()..getDepartments(),
                                           builder: (BuildContext context, state) {
                                             if (state is DepartmentFetched) {
-                                              selectedDropDown = state.departmentEntity.data[0].department_id;
+                                              // selectedDropDown = state.departmentEntity.data[0].department_id;
                                               return StatefulBuilder(
-                                                builder: (BuildContext context, StateSetter setState) => DropdownButton(
-                                                  value: selectedDropDown,
-                                                  items: List.generate(
-                                                    state.departmentEntity.data.length,
-                                                    (index) => DropdownMenuItem(
-                                                      child: Text(
-                                                        state.departmentEntity.data[index].department,
-                                                      ),
-                                                      value: state.departmentEntity.data[index].department_id,
+                                                builder: (BuildContext context, StateSetter setState) => Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                    vertical: 6.0,
+                                                    horizontal: 16.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(4.0),
+                                                    border: Border.all(
+                                                      color: Colors.grey,
                                                     ),
                                                   ),
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      selectedDropDown = value;
-                                                    });
-                                                    // FIXME: 9/29/2020 need to fix this
-                                                    // context.bloc<CoursesBloc>().add(SortCourses(value, coursesFilter));
-                                                  },
+                                                  child: DropdownButton(
+                                                    value: selectedDropDown,
+                                                    hint: Text('Select Department',),
+                                                    underline: SizedBox.shrink(),
+                                                    items: List.generate(
+                                                      state.departmentEntity.data.length,
+                                                      (index) => DropdownMenuItem(
+                                                        child: Text(
+                                                          state.departmentEntity.data[index].department,
+                                                        ),
+                                                        value: state.departmentEntity.data[index].department_id,
+                                                      ),
+                                                    ),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedDropDown = value;
+                                                      });
+                                                      // FIXME: 9/29/2020 need to fix this
+                                                      // context.bloc<CoursesBloc>().add(SortCourses(value, coursesFilter));
+                                                    },
+                                                  ),
                                                 ),
                                               );
                                             } else {
@@ -442,7 +456,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          color: Color(0xFF1D2B64),
+                          color: Theme.of(context).primaryColor,
                         ),
                         FlatButton(
                           onPressed: () => Navigator.pop(context),
