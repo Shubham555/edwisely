@@ -51,9 +51,9 @@ main() {
 
 void _initializeVariables() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  // departmentId = sharedPreferences.getString('department_id');
-  // collegeId = sharedPreferences.getString('college_id');
-  // loginToken = sharedPreferences.getString('login_token');
+  departmentId = int.parse('${sharedPreferences.getString('department_id')}');
+  collegeId = int.parse('${sharedPreferences.getString('college_id')}');
+  loginToken = sharedPreferences.getString('login_token');
   // departmentId = 71;
   // collegeId = 102;
   // loginToken =

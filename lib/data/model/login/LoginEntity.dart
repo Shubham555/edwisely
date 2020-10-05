@@ -4,13 +4,13 @@ class LoginEntity {
   int college_id;
   int college_university_degree_department_id;
   int department_id;
-  String email;
+  var email;
   int force_password_change;
-  String message;
-  String name;
+  var message;
+  var name;
   bool success;
-  String token;
-  String university_code;
+  var token;
+  var university_code;
   int university_degree_department_id;
   int user_id;
 

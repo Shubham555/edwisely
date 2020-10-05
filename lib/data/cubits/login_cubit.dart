@@ -36,6 +36,7 @@ class LoginCubit extends Cubit<LoginState> {
         ));
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
+        
         prefs.setString('login_key', response.data['token']);
         prefs.setString(
           'department_id',
