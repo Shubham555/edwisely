@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state is HomeScreenDefaultFetched) {
           return Container(
             height: screenSize.height * 0.25,
-            width: screenSize.width  * .25  ,
+            width: screenSize.width * .25,
             margin: const EdgeInsets.only(
               right: 22.0,
               top: 12.0,
@@ -242,8 +242,65 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _meetingActivity(dynamic activity) {
+    List<Comment> _comments = [
+      Comment(
+        id: "840",
+        comment: "how",
+        collegeAccount: null,
+        collegeAccountId: null,
+        createdAt: DateTime.now(),
+        student: {
+          "id": 34771,
+          "name": "Y S Rao",
+          "profile_pic": "https://edwisely-profile-v2.s3.amazonaws.com/profile/ED07/Snapchat-432973534220200316134325.jpg"
+        },
+        studentId: "34771",
+      ),
+      Comment(
+        id: "887",
+        comment: "Testing Comments on material comments",
+        collegeAccount: {
+          "first_name": "Raja",
+          "id": 1146,
+          "last_name": "Sekhar",
+          "profile_pic": "https://frndzzyassetsmigrated.s3.ap-south-1.amazonaws.com/frndzzyassetsmigrated/frndzzy_assets_s3/f951097b46d5b3a3.jpg"
+        },
+        collegeAccountId: "1146",
+        createdAt: DateTime.now(),
+        student: null,
+        studentId: null,
+      ),
+      Comment(
+        id: "841",
+        comment: "hii",
+        collegeAccount: null,
+        collegeAccountId: null,
+        createdAt: DateTime.now(),
+        student: {
+          "id": 34773,
+          "name": "Madan",
+          "profile_pic": "https://edwisely-profile-v2.s3.amazonaws.com/profile/ED007/ProfilePic20200316134325.jpg"
+        },
+        studentId: "34773",
+      ),
+      Comment(
+        id: "893",
+        comment: "eriugvberbgwugvbwiuiuvgerieruerbgviuer[bveriubverwiu[bvgr",
+        collegeAccount: {
+          "first_name": "Prakash Reddy",
+          "id": 1130,
+          "last_name": "Edwisely",
+          "profile_pic": "http://edwisely-academic-materials-v2.s3.amazonaws.com/profile/Prakash Reddy Edwisely/IMG_1516.HEIC"
+        },
+        collegeAccountId: "1130",
+        createdAt: DateTime.now(),
+        student: null,
+        studentId: null,
+      ),
+    ];
+
     return Container(
-      height: screenSize.height * 0.27,
+      width: screenSize.width * 0.24,
       margin: const EdgeInsets.symmetric(
         vertical: 12.0,
         horizontal: 22.0,
@@ -271,59 +328,57 @@ class _HomeScreenState extends State<HomeScreen> {
             activity['start_time'],
           ),
           //center portion
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 32.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //left part
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      //meeting title
-                      Text(
-                        activity['description'],
-                        style: textTheme.headline5,
-                      ),
-                      //start time
-                      Text.rich(
-                        TextSpan(
-                          text: 'Start Time:    ',
-                          style: textTheme.headline6,
-                          children: [
-                            TextSpan(
-                              text: activity['start_time'].toString(),
-                              style: textTheme.headline6.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 32.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                //left part
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    //meeting title
+                    Text(
+                      activity['description'],
+                      style: textTheme.headline5,
+                    ),
+                    //start time
+                    Text.rich(
+                      TextSpan(
+                        text: 'Start Time:    ',
+                        style: textTheme.headline6,
+                        children: [
+                          TextSpan(
+                            text: activity['start_time'].toString(),
+                            style: textTheme.headline6.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      //end time
-                      Text.rich(
-                        TextSpan(
-                          text: 'End Time:      ',
-                          style: textTheme.headline6,
-                          children: [
-                            TextSpan(
-                              text: activity['end_time'].toString(),
-                              style: textTheme.headline6.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                    ),
+                    //end time
+                    Text.rich(
+                      TextSpan(
+                        text: 'End Time:      ',
+                        style: textTheme.headline6,
+                        children: [
+                          TextSpan(
+                            text: activity['end_time'].toString(),
+                            style: textTheme.headline6.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           //footer
@@ -341,8 +396,68 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset('assets/icons/comments.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity['comments_count']} Comments')
+              Text('${activity['comments_count']} Comments'),
             ],
+          ),
+          //divider
+          Divider(
+            color: Colors.black,
+            thickness: 2.0,
+          ),
+          //comments
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: _comments.length,
+            itemBuilder: (ctx, index) => Align(
+              alignment: _comments[index].collegeAccountId == null ? Alignment.centerLeft : Alignment.centerRight,
+              child: Container(
+                height: screenSize.height * 0.07,
+                width: screenSize.width * 0.3,
+                margin: const EdgeInsets.symmetric(vertical: 4.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: _comments[index].collegeAccountId == null ? Color(0xFF7bed9f).withOpacity(0.5) : Color(0xFFff6b81).withOpacity(0.5),
+                ),
+                child: Stack(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(32.0),
+                              child: Image.network(
+                                _comments[index].collegeAccountId == null
+                                    ? _comments[index].student['profile_pic']
+                                    : _comments[index].collegeAccount['profile_pic'],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8.0),
+                        SizedBox(
+                          width: screenSize.width * 0.25,
+                          child: Text(
+                            _comments[index].comment,
+                            maxLines: 2,
+                            softWrap: true,
+                            style: textTheme.headline5,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      right: 4.0,
+                      bottom: 4.0,
+                      child: Text(_comments[index].createdAt.toString()),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -732,4 +847,24 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+class Comment {
+  final String id;
+  final String comment;
+  final Map<String, dynamic> collegeAccount;
+  final String collegeAccountId;
+  final DateTime createdAt;
+  final Map<String, dynamic> student;
+  final String studentId;
+
+  Comment({
+    @required this.id,
+    @required this.comment,
+    @required this.collegeAccount,
+    @required this.collegeAccountId,
+    @required this.createdAt,
+    @required this.student,
+    @required this.studentId,
+  });
 }
