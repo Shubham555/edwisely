@@ -132,7 +132,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
               mainAxisSpacing: 35,
               crossAxisSpacing: 35,
               crossAxisCount: 3,
-              childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 1.8,
+              childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 1.9,
             ),
             itemCount: state.coursesEntity.data.length,
             itemBuilder: (context, index) => _courseCard(context, index, state),
@@ -185,7 +185,6 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
                     width: MediaQuery.of(context).size.width / 6,
                     child: Text(
                       state.coursesEntity.data[index].name,

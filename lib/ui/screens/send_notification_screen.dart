@@ -110,14 +110,14 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 12.0,
-                        horizontal: screenSize.width * 0.17,
+                        horizontal: screenSize.width * 0.155,
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: screenSize.width * 0.24,
+                            width: screenSize.width * 0.3,
                             child: Form(
                               key: _formKey,
                               child: Column(
@@ -133,8 +133,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                     hint: 'Enter your title here',
                                     inputType: TextInputType.text,
                                     autofocus: true,
-                                    onSaved: (String value) =>
-                                        _title = value.trim(),
+                                    onSaved: (String value) => _title = value.trim(),
                                     validator: (String value) {
                                       if (value.trim().length == 0) {
                                         return 'This field cannot be empty!';
@@ -152,8 +151,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                     hint: 'Enter the description here',
                                     inputType: TextInputType.multiline,
                                     maxLines: 4,
-                                    onSaved: (String value) =>
-                                        _description = value.trim(),
+                                    onSaved: (String value) => _description = value.trim(),
                                     validator: (String value) {
                                       if (value.trim().length == 0) {
                                         return 'This field cannot be empty!';
@@ -168,21 +166,18 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                   //priority toggle button
                                   //is comment anonymous checkbox
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       //priority widget
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             children: [
                                               Text('Priority'),
                                               SizedBox(width: 34.0),
                                               Switch(
-                                                onChanged: (bool value) =>
-                                                    setState(
+                                                onChanged: (bool value) => setState(
                                                   () => _isPriority = value,
                                                 ),
                                                 value: _isPriority,
@@ -194,10 +189,8 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                             children: [
                                               Text('Comments \nAnonymous'),
                                               Switch(
-                                                onChanged: (bool value) =>
-                                                    setState(
-                                                  () => _isCommentAnonymous =
-                                                      value,
+                                                onChanged: (bool value) => setState(
+                                                  () => _isCommentAnonymous = value,
                                                 ),
                                                 value: _isCommentAnonymous,
                                               ),
@@ -208,35 +201,38 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                       //spacing
                                       Spacer(),
                                       Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text('Select Attachment'),
                                           InkWell(
                                             onTap: () async {
-                                              file = await FilePickerCross
-                                                  .importFromStorage(
+                                              file = await FilePickerCross.importFromStorage(
                                                 type: FileTypeCross.any,
                                               );
+                                              setState(() {});
                                             },
                                             child: Container(
                                               width: screenSize.width * 0.08,
                                               height: screenSize.height * 0.09,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
+                                                borderRadius: BorderRadius.circular(8.0),
                                                 border: Border.all(
                                                   color: Colors.black,
                                                   width: 0.5,
                                                 ),
                                               ),
                                               alignment: Alignment.center,
-                                              child: Image.asset(
-                                                'assets/icons/upload.png',
-                                                width: 24.0,
-                                                height: 32.0,
-                                              ),
+                                              child: file != null
+                                                  ? Text(
+                                                      file.fileName,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/icons/upload.png',
+                                                      width: 24.0,
+                                                      height: 32.0,
+                                                    ),
                                             ),
                                           ),
                                         ],
@@ -250,28 +246,19 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                   Text('Class Select'),
                                   BlocBuilder(
                                     //todo change
-                                    cubit: context.bloc<SendAssessmentCubit>()
-                                      ..getSections(71),
+                                    cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                                     builder: (BuildContext context, state) {
-                                      if (state
-                                          is SendAssessmentSectionsFetched) {
-                                        context
-                                            .bloc<SelectStudentsCubit>()
-                                            .getStudentsInASection(
+                                      if (state is SendAssessmentSectionsFetched) {
+                                        context.bloc<SelectStudentsCubit>().getStudentsInASection(
                                               state.sectionEntity.data[0].id,
                                               1,
                                             );
-                                        int enabledSectionId =
-                                            state.sectionEntity.data[0].id;
+                                        int enabledSectionId = state.sectionEntity.data[0].id;
                                         return Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.25,
+                                          width: MediaQuery.of(context).size.width * 0.3,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
+                                            borderRadius: BorderRadius.circular(12.0),
                                             border: Border.all(
                                               color: Colors.black,
                                               width: 0.5,
@@ -280,77 +267,43 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                           child: StatefulBuilder(
                                             builder: (
                                               BuildContext context,
-                                              void Function(void Function())
-                                                  setState,
+                                              void Function(void Function()) setState,
                                             ) {
                                               return ListView.builder(
                                                 shrinkWrap: true,
-                                                itemCount: state
-                                                    .sectionEntity.data.length,
+                                                itemCount: state.sectionEntity.data.length,
                                                 itemBuilder: (
                                                   BuildContext context,
                                                   int index,
                                                 ) =>
                                                     Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      vertical: 8.0,
-                                                      horizontal: 16.0),
+                                                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                                                   child: InkWell(
                                                     onTap: () {
-                                                      enabledSectionId = state
-                                                          .sectionEntity
-                                                          .data[index]
-                                                          .id;
+                                                      enabledSectionId = state.sectionEntity.data[index].id;
                                                       context
-                                                          .bloc<
-                                                              SelectStudentsCubit>()
-                                                          .getStudentsInASection(
-                                                              state
-                                                                  .sectionEntity
-                                                                  .data[index]
-                                                                  .id,
-                                                              1);
+                                                          .bloc<SelectStudentsCubit>()
+                                                          .getStudentsInASection(state.sectionEntity.data[index].id, 1);
                                                       setState(() {});
                                                     },
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         AnimatedDefaultTextStyle(
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  300),
-                                                          style: enabledSectionId ==
-                                                                  state
-                                                                      .sectionEntity
-                                                                      .data[
-                                                                          index]
-                                                                      .id
+                                                          duration: Duration(milliseconds: 300),
+                                                          style: enabledSectionId == state.sectionEntity.data[index].id
                                                               ? TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      22.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
+                                                                  color: Colors.black,
+                                                                  fontSize: 22.0,
+                                                                  fontWeight: FontWeight.bold,
                                                                 )
                                                               : TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontSize:
-                                                                      20.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
+                                                                  color: Colors.grey,
+                                                                  fontSize: 20.0,
+                                                                  fontWeight: FontWeight.normal,
                                                                 ),
                                                           child: Text(
-                                                            state
-                                                                .sectionEntity
-                                                                .data[index]
-                                                                .name,
+                                                            state.sectionEntity.data[index].name,
                                                           ),
                                                         ),
                                                         SizedBox(height: 2.0),
@@ -358,18 +311,9 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                           duration: Duration(
                                                             milliseconds: 300,
                                                           ),
-                                                          width: enabledSectionId ==
-                                                                  state
-                                                                      .sectionEntity
-                                                                      .data[
-                                                                          index]
-                                                                      .id
-                                                              ? 80.0
-                                                              : 40.0,
+                                                          width: enabledSectionId == state.sectionEntity.data[index].id ? 80.0 : 40.0,
                                                           height: 3.0,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
+                                                          color: Theme.of(context).primaryColor,
                                                         ),
                                                       ],
                                                     ),
@@ -401,15 +345,10 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                         margin: const EdgeInsets.symmetric(
                                           horizontal: 32.0,
                                         ),
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.73,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                8,
+                                        height: MediaQuery.of(context).size.height * 0.73,
+                                        width: MediaQuery.of(context).size.width / 8,
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
+                                            borderRadius: BorderRadius.circular(12.0),
                                             color: Colors.white,
                                             border: Border.all(
                                               color: Colors.black,
@@ -418,38 +357,25 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                         child: Column(
                                           children: [
                                             Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.07,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                              height: MediaQuery.of(context).size.height * 0.07,
+                                              padding: const EdgeInsets.symmetric(
                                                 vertical: 16.0,
                                                 horizontal: 22.0,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                                color: Theme.of(context).primaryColor,
                                                 borderRadius: BorderRadius.only(
-                                                  topLeft:
-                                                      Radius.circular(12.0),
-                                                  topRight:
-                                                      Radius.circular(12.0),
+                                                  topLeft: Radius.circular(12.0),
+                                                  topRight: Radius.circular(12.0),
                                                 ),
                                               ),
                                               child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: [
                                                   SizedBox(width: 8.0),
                                                   Text(
                                                     'Students',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline5
-                                                        .copyWith(
-                                                            color:
-                                                                Colors.white),
+                                                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
                                                   ),
                                                   Spacer(),
                                                   VerticalDivider(
@@ -469,18 +395,14 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                     value: selectAll,
                                                     onChanged: (flag) {
                                                       flag
-                                                          ? state.studentsEntity
-                                                              .data
-                                                              .forEach(
+                                                          ? state.studentsEntity.data.forEach(
                                                               (element) {
                                                                 students.add(
                                                                   element.id,
                                                                 );
                                                               },
                                                             )
-                                                          : state.studentsEntity
-                                                              .data
-                                                              .forEach(
+                                                          : state.studentsEntity.data.forEach(
                                                               (element) {
                                                                 students.remove(
                                                                   element.id,
@@ -496,35 +418,24 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.65,
+                                              height: MediaQuery.of(context).size.height * 0.65,
                                               child: Scrollbar(
                                                 controller: _scrollController,
                                                 isAlwaysShown: true,
                                                 child: ListView.builder(
                                                   controller: _scrollController,
                                                   shrinkWrap: true,
-                                                  itemCount: state
-                                                      .studentsEntity
-                                                      .data
-                                                      .length,
+                                                  itemCount: state.studentsEntity.data.length,
                                                   itemBuilder: (
                                                     BuildContext context,
                                                     int index,
                                                   ) =>
                                                       Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
+                                                    padding: const EdgeInsets.symmetric(
                                                       horizontal: 22.0,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: index % 2 == 0
-                                                          ? Colors.white
-                                                          : Theme.of(context)
-                                                              .primaryColor
-                                                              .withOpacity(0.1),
+                                                      color: index % 2 == 0 ? Colors.white : Theme.of(context).primaryColor.withOpacity(0.1),
                                                       border: Border.all(
                                                         color: Colors.black,
                                                         width: 0.2,
@@ -533,61 +444,32 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                     child: Row(
                                                       children: [
                                                         CircleAvatar(
-                                                          backgroundColor:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
+                                                          backgroundColor: Theme.of(context).primaryColor,
                                                           child: Text(
-                                                            state
-                                                                .studentsEntity
-                                                                .data[index]
-                                                                .name
-                                                                .substring(0, 1)
-                                                                .toUpperCase(),
+                                                            state.studentsEntity.data[index].name.substring(0, 1).toUpperCase(),
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
+                                                              color: Colors.white,
                                                             ),
                                                           ),
                                                         ),
                                                         Flexible(
-                                                          child:
-                                                              CheckboxListTile(
+                                                          child: CheckboxListTile(
                                                             title: Text(
-                                                              state
-                                                                  .studentsEntity
-                                                                  .data[index]
-                                                                  .name,
+                                                              state.studentsEntity.data[index].name,
                                                             ),
                                                             subtitle: Text(
-                                                              state
-                                                                  .studentsEntity
-                                                                  .data[index]
-                                                                  .roll_number,
+                                                              state.studentsEntity.data[index].roll_number,
                                                             ),
-                                                            value: students
-                                                                .contains(
-                                                              state
-                                                                  .studentsEntity
-                                                                  .data[index]
-                                                                  .id,
+                                                            value: students.contains(
+                                                              state.studentsEntity.data[index].id,
                                                             ),
                                                             onChanged: (flag) {
                                                               flag
-                                                                  ? students
-                                                                      .add(
-                                                                      state
-                                                                          .studentsEntity
-                                                                          .data[
-                                                                              index]
-                                                                          .id,
+                                                                  ? students.add(
+                                                                      state.studentsEntity.data[index].id,
                                                                     )
-                                                                  : students
-                                                                      .remove(
-                                                                      state
-                                                                          .studentsEntity
-                                                                          .data[
-                                                                              index]
-                                                                          .id,
+                                                                  : students.remove(
+                                                                      state.studentsEntity.data[index].id,
                                                                     );
                                                               setState(() {});
                                                             },

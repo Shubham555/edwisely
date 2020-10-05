@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -105,21 +106,26 @@ class LoginScreen extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     return Container(
-      width: screenSize.width * 0.4,
+      width: screenSize.width * 0.3,
       height: screenSize.height,
       padding: const EdgeInsets.symmetric(
         vertical: 12.0,
-        horizontal: 42.0,
+        horizontal: 62.0,
       ),
+      color: EdwiselyTheme.NAV_BAR_COLOR,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          //spacing
+          SizedBox(
+            height: screenSize.height * 0.1,
+          ),
           //app logo
           Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'Edwisely',
-              style: textTheme.headline3,
+            alignment: Alignment.center,
+            child: Image.asset(
+              'assets/logo/big_logo.png',
+              width: screenSize.width * 0.15,
             ),
           ),
           //spacing
@@ -128,8 +134,17 @@ class LoginScreen extends StatelessWidget {
           Text(
             'Login',
             style: textTheme.headline4.copyWith(
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 12.0),
+            width: 88.0,
+            height: 8.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22.0),
             ),
           ),
           //spacing
@@ -140,6 +155,7 @@ class LoginScreen extends StatelessWidget {
             hint: 'Enter your username',
             inputType: TextInputType.emailAddress,
             controller: emailController,
+            isWhite: true,
           ),
           //spacing
           SizedBox(
@@ -147,6 +163,7 @@ class LoginScreen extends StatelessWidget {
           ),
           //password text input
           TextInput(
+            isWhite: true,
             label: 'Password',
             hint: 'Enter your password',
             inputType: TextInputType.visiblePassword,
@@ -160,13 +177,15 @@ class LoginScreen extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: FlatButton(
+              padding: const EdgeInsets.all(0),
               onPressed: () {
                 showDialog(
                     context: context,
                     builder: (context) {
                       TextEditingController forgotController = TextEditingController();
                       return Card(
-                        margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height / 3.5, horizontal: MediaQuery.of(context).size.width / 5),
+                        margin: EdgeInsets.symmetric(
+                            vertical: MediaQuery.of(context).size.height / 3.5, horizontal: MediaQuery.of(context).size.width / 5),
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Column(
@@ -221,7 +240,7 @@ class LoginScreen extends StatelessWidget {
               },
               child: Text(
                 'Forgot Password ?',
-                style: textTheme.button.copyWith(color: Theme.of(context).primaryColor),
+                style: textTheme.button,
               ),
             ),
           ),
@@ -263,35 +282,42 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildLeftPart(Size screenSize, TextTheme textTheme, BuildContext context) {
     return Container(
-      width: screenSize.width * 0.6,
+      width: screenSize.width * 0.7,
       height: screenSize.height,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(22.0),
-          bottomRight: Radius.circular(22.0),
-        ),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 12.0,
-            color: Colors.black.withOpacity(0.3),
-          ),
-        ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
         children: [
           //image
-          Image.asset(
-            'assets/images/login_screen.png',
-            width: screenSize.width * 0.4,
-            height: screenSize.height * 0.7,
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0,
+            child: Image.asset(
+              'assets/images/login.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          //overlay
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0,
+            child: Container(
+              color: Theme.of(context).primaryColor.withOpacity(0.6),
+            ),
           ),
           //text
-          Text(
-            'The best online learning solution',
-            style: textTheme.headline3,
+          Positioned(
+            bottom: 48.0,
+            left: 48.0,
+            child: Text(
+              'Transforming India\nEngineering Institutes into\nAI-Powered Learning Campuses',
+              style: textTheme.headline1.copyWith(color: Colors.white),
+            ),
           ),
         ],
       ),
