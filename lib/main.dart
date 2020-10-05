@@ -1,10 +1,7 @@
 import 'package:edwisely/data/cubits/get_units_cubit.dart';
 import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
-import 'package:edwisely/ui/screens/authorization/login_screen.dart';
-import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:edwisely/util/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,13 +48,13 @@ main() {
 
 void _initializeVariables() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  departmentId = int.parse('${sharedPreferences.getString('department_id')}');
-  collegeId = int.parse('${sharedPreferences.getString('college_id')}');
-  loginToken = sharedPreferences.getString('login_token');
-  // departmentId = 71;
-  // collegeId = 102;
-  // loginToken =
-  //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMTExNTgxMCIsImV4cCI6IjE2MDI0MTE4MTAifQ.raH1xdORJpDCqsKWmCHxhfZ-W0ynrU9Gh3TGJmZje9k';
+  // departmentId = sharedPreferences.getString('department_id');
+  // collegeId = sharedPreferences.getString('college_id');
+  // loginToken = sharedPreferences.getString('login_token');
+  departmentId = 71;
+  collegeId = 102;
+  loginToken =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMTg5MDI3NiIsImV4cCI6IjE2MDMxODYyNzYifQ.myMJblQ-sLqMxlLREs2I4TqkHsECGnTJ6X_4eGFKa0Q';
 }
 
 class EdWisely extends StatelessWidget {
@@ -163,7 +160,7 @@ class EdWisely extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           onGenerateRoute: MyRouter.onGenerateRoute,
           navigatorKey: navigatorKey,
-          home: LoginScreen(),
+          // home: LoginScreen(),
           // home: AddQuestionsScreen(
           //   'T',
           //   'dfdf',
@@ -177,46 +174,9 @@ class EdWisely extends StatelessWidget {
   }
 }
 //todo add latex rendering in question bank and all where question is written or viewed
-//todo add filter by departments in add courses //done
-
-// new todo
-//todo add dept in detail about //
-//todo reduce run and spacing in details syllabus //
-//todo make unit up in question bank //
-//todo add time also in the send assessment
-//todo add courses fix //
-//todo add dropdown for difficulty level in type ques //
-
-//api todo
-//todo add quetion to assessment units context
-//units passed empty
-
-//23/09/2020
-//todo ask about unidepid
-
-//news
-//todo password and confirm poassword for login
-//todo add button to right bottom right
-//todo check for apifrom backend for select from existing
-
-//todo ask about where to put the update faculty added objective question type
-// To change the type of faculty added objective question from public to private or vice versa  - type values that are accepted - [‘public’, ‘private’]
-// update faculty added subjective question type
-// To change the type of faculty added subjective question from public to private or vice versa  - type values that are accepted - [‘public’, ‘private’]
-//todo ask about material_type //
-//todo tell to do either docs or doc //
-
-// TODO: 9/26/2020
-//todo understand this new api for choose from selected  //done
-//todo understand thi send api // done
-
-// TODO: 9/28/2020 ask prahalya
-// about layout of the add question for qyuestion bank nad api for it // done
-// about the apis to be used in the objective and subjective choose from existing //done
-// about the send assessment api //done
-
-// TODO: 9/28/2020 add save and send and save in assessment
-// TODO: 9/28/2020 hide mcq and FIB dropdown // done
-
-// TODO: 9/30/2020 ui todos
-// students number in send assessment
+//todo add filter by departments in add courses
+//todo password and confirm password for login
+// TODO: 10/5/2020 add courses department filter sahi krna hai
+// FIXME: 10/5/2020 add question blooms filter
+// FIXME: 10/5/2020 upload excel tab
+// TODO: 10/5/2020 comments and apis

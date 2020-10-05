@@ -497,6 +497,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                   ),
                                                 ),
                                                 Checkbox(
+                                                  activeColor: Theme.of(context).primaryColor,
                                                   value: selectAll,
                                                   onChanged: (flag) {
                                                     flag
@@ -561,6 +562,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                       ),
                                                       Flexible(
                                                         child: CheckboxListTile(
+                                                          activeColor:
+                                                              Theme.of(context).primaryColor,
                                                           title: Text(
                                                             state.studentsEntity.data[index].name,
                                                           ),

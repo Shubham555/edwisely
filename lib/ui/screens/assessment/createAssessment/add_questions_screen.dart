@@ -1,5 +1,5 @@
+import 'package:edwisely/ui/screens/assessment/createAssessment/upload_excel_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/cubits/objective_questions_cubit.dart';
@@ -31,7 +31,8 @@ class AddQuestionsScreen extends StatefulWidget {
   _AddQuestionsScreenState createState() => _AddQuestionsScreenState();
 }
 
-class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTickerProviderStateMixin {
+class _AddQuestionsScreenState extends State<AddQuestionsScreen>
+    with SingleTickerProviderStateMixin {
   final _questionFetchCubit = QuestionsCubit();
   Size screenSize;
   TextTheme textTheme;
@@ -96,7 +97,8 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                   titleText: 'Add Questions to ${widget._title} Assessment',
                 ).build(context),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.17),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.17),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -185,10 +187,16 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                                       onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (BuildContext context) => TypeQuestionTab(widget._title, widget._description, widget._subjectId,
-                                              widget._questionType, widget._assessmentId, false),
+                                          builder: (BuildContext context) => TypeQuestionTab(
+                                              widget._title,
+                                              widget._description,
+                                              widget._subjectId,
+                                              widget._questionType,
+                                              widget._assessmentId,
+                                              false),
                                         ),
-                                      ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
+                                      ).then((value) => _questionFetchCubit
+                                          .getQuestionsToAnAssessment(widget._assessmentId)),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
@@ -213,35 +221,44 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Container(
-                                  width: 250,
-                                  height: 150,
-                                  margin: const EdgeInsets.only(right: 22.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        blurRadius: 6.0,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/upload_black.png',
-                                          height: 48.0,
-                                          width: 48.0,
+                                GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) => UploadExcelTab(),
+                                    ),
+                                  ).then((value) => _questionFetchCubit
+                                      .getQuestionsToAnAssessment(widget._assessmentId)),
+                                  child: Container(
+                                    width: 250,
+                                    height: 150,
+                                    margin: const EdgeInsets.only(right: 22.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 6.0,
                                         ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text('Upload Questions')
                                       ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            'assets/icons/upload_black.png',
+                                            height: 48.0,
+                                            width: 48.0,
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text('Upload Questions')
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -264,10 +281,16 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                                       onTap: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (BuildContext context) => ChooseObjectiveFromSelectedTab(
-                                              widget._title, widget._description, widget._subjectId, widget._questionType, widget._assessmentId),
+                                          builder: (BuildContext context) =>
+                                              ChooseObjectiveFromSelectedTab(
+                                                  widget._title,
+                                                  widget._description,
+                                                  widget._subjectId,
+                                                  widget._questionType,
+                                                  widget._assessmentId),
                                         ),
-                                      ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
+                                      ).then((value) => _questionFetchCubit
+                                          .getQuestionsToAnAssessment(widget._assessmentId)),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
@@ -303,7 +326,8 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                                         onTap: () => Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (BuildContext context) => ChooseSubjectiveFromSelectedTab(
+                                            builder: (BuildContext context) =>
+                                                ChooseSubjectiveFromSelectedTab(
                                               widget._title,
                                               widget._description,
                                               widget._subjectId,
@@ -311,7 +335,8 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                                               widget._assessmentId,
                                             ),
                                           ),
-                                        ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
+                                        ).then((value) => _questionFetchCubit
+                                            .getQuestionsToAnAssessment(widget._assessmentId)),
                                         child: Card(
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),

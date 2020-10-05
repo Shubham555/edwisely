@@ -56,10 +56,13 @@ class LoginScreen extends StatelessWidget {
                             width: screenSize.width * 0.4,
                             child: RaisedButton(
                               onPressed: () {
-                                context.bloc<LoginCubit>().changePassword(state.email, newPasswordController.text);
+                                context
+                                    .bloc<LoginCubit>()
+                                    .changePassword(state.email, newPasswordController.text);
                               },
                               color: Theme.of(context).primaryColor,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                              shape:
+                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
                               padding: const EdgeInsets.symmetric(vertical: 12.0),
                               child: Text(
                                 'Set Password',
@@ -185,7 +188,9 @@ class LoginScreen extends StatelessWidget {
                       TextEditingController forgotController = TextEditingController();
                       return Card(
                         margin: EdgeInsets.symmetric(
-                            vertical: MediaQuery.of(context).size.height / 3.5, horizontal: MediaQuery.of(context).size.width / 5),
+                          vertical: MediaQuery.of(context).size.height / 3.5,
+                          horizontal: MediaQuery.of(context).size.width / 3,
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Column(
@@ -216,12 +221,14 @@ class LoginScreen extends StatelessWidget {
                                       ),
                                     );
                                     print(response.data);
-                                    if (response.data['message'] == 'Successfully updated password') {
+                                    if (response.data['message'] ==
+                                        'Successfully updated password') {
                                       Navigator.pop(context);
                                     }
                                   },
                                   color: Theme.of(context).primaryColor,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0)),
                                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                                   child: Text(
                                     'Send Password',

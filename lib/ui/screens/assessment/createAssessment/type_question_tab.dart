@@ -232,53 +232,59 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                               ),
                             ],
                           ),
-                          child: BlocBuilder(
-                            cubit: _questionFetchCubit
-                              ..getQuestionsToAnAssessment(
-                                widget._assessmentId,
-                              ),
-                            builder: (BuildContext context, state) {
-                              if (state is QuestionsToAnAssessmentFetched) {
-                                state.assessmentQuestionsEntity.data.forEach(
-                                  (element) {
-                                    questions.add(
-                                      element.id,
+                          child: StatefulBuilder(
+                            builder:
+                                (BuildContext context, void Function(void Function()) setState) {
+                              return BlocBuilder(
+                                cubit: _questionFetchCubit
+                                  ..getQuestionsToAnAssessment(
+                                    widget._assessmentId,
+                                  ),
+                                builder: (BuildContext context, state) {
+                                  if (state is QuestionsToAnAssessmentFetched) {
+                                    state.assessmentQuestionsEntity.data.forEach(
+                                      (element) {
+                                        questions.add(
+                                          element.id,
+                                        );
+                                      },
                                     );
-                                  },
-                                );
-                                return StatefulBuilder(
-                                  builder: (BuildContext context,
-                                      void Function(void Function()) setState) {
-                                    return ListView.builder(
-                                      itemCount: state.assessmentQuestionsEntity.data.length,
-                                      itemBuilder: (BuildContext context, int index) => Card(
-                                        child: ListTile(
-                                          title: Row(
-                                            children: [
-                                              Text('Q ${index + 1}   '),
-                                              Expanded(
-                                                child: Text(
-                                                  state.assessmentQuestionsEntity.data[index].name,
-                                                  // overflow: TextOverflow.ellipsis,
-                                                ),
+                                    return StatefulBuilder(
+                                      builder: (BuildContext context,
+                                          void Function(void Function()) setState) {
+                                        return ListView.builder(
+                                          itemCount: state.assessmentQuestionsEntity.data.length,
+                                          itemBuilder: (BuildContext context, int index) => Card(
+                                            child: ListTile(
+                                              title: Row(
+                                                children: [
+                                                  Text('Q ${index + 1}   '),
+                                                  Expanded(
+                                                    child: Text(
+                                                      state.assessmentQuestionsEntity.data[index]
+                                                          .name,
+                                                      // overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
+                                        );
+                                      },
                                     );
-                                  },
-                                );
-                              }
-                              if (state is QuestionsToAnAssessmentEmpty) {
-                                return Center(
-                                  child: Text('Add Questions to this Assessment'),
-                                );
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
+                                  }
+                                  if (state is QuestionsToAnAssessmentEmpty) {
+                                    return Center(
+                                      child: Text('Add Questions to this Assessment'),
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                },
+                              );
                             },
                           ),
                         ),

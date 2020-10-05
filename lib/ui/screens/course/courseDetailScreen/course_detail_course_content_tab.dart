@@ -28,11 +28,13 @@ class CourseDetailCourseContentTab extends StatefulWidget {
   _CourseDetailCourseContentTabState createState() => _CourseDetailCourseContentTabState();
 }
 
-class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContentTab> {
+class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContentTab>
+    with SingleTickerProviderStateMixin {
   int enabledUnitId;
   int questionDropDownValue = 1;
   String typeDropDownValue = 'All';
   int levelDropDownValue = -1;
+  PageController pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -868,7 +870,13 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
           cubit: context.bloc<DeckItemsCubit>(),
           builder: (BuildContext context, state) {
             if (state is DeckItemsFetched) {
-              return Text('');
+              return PageView.builder(
+                controller: pageController,
+                itemCount: state.deckItemsEntity.data.length,
+                itemBuilder: (BuildContext context, int index) => Card(
+                  child: Image.network(state.deckItemsEntity.data[index].url),
+                ),
+              );
             } else {
               return Center(
                 child: CircularProgressIndicator(),
