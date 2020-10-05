@@ -14,7 +14,6 @@ import '../../../../util/enums/question_type_enum.dart';
 import '../../../widgets_util/navigation_drawer.dart';
 import 'add_questions_screen.dart';
 
-//todo chips chjoice fix
 class CreateAssessmentScreen extends StatefulWidget {
   final QuestionType _questionType;
 
@@ -29,7 +28,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
 
   final TextEditingController _descriptionController = TextEditingController();
 
-  Map<int, int> selectedCouerse;
+  int selectedCouerse;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                       builder: (BuildContext context) => AddQuestionsScreen(
                         _titleController.text,
                         _descriptionController.text,
-                        selectedCouerse.values.first,
+                        selectedCouerse,
                         widget._questionType,
                         state.assessmentId,
                       ),
@@ -58,8 +57,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is ObjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                          'Creation of Assessment Failed. PLease try again'),
+                      content: Text('Creation of Assessment Failed. PLease try again'),
                     ),
                   );
                 }
@@ -75,7 +73,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                       builder: (BuildContext context) => AddQuestionsScreen(
                         _titleController.text,
                         _descriptionController.text,
-                        selectedCouerse.values.first,
+                        selectedCouerse,
                         widget._questionType,
                         state.assessmentId,
                       ),
@@ -85,8 +83,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is SubjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                          'Creation of Assessment Failed. Please try again'),
+                      content: Text('Creation of Assessment Failed. Please try again'),
                     ),
                   );
                 }
@@ -118,7 +115,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                           vertical: 8.0,
                           horizontal: 16.0,
                         ),
-                        onPressed: () =>_continueButtonOnPressed(context),
+                        onPressed: () => _continueButtonOnPressed(context),
                         child: Row(
                           children: [
                             Image.asset(
@@ -144,19 +141,16 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildTextFieldWidget(
-                              'Add Title', 80, _titleController),
+                          _buildTextFieldWidget('Add Title', 80, _titleController),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
-                          _buildTextFieldWidget(
-                              'Description', 200, _descriptionController),
+                          _buildTextFieldWidget('Description', 200, _descriptionController),
                           Text(
                             'Choose Subject',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 50),
+                                fontSize: MediaQuery.of(context).size.width / 50),
                           ),
                           BlocBuilder(
                             cubit: context.bloc<CoursesBloc>()
@@ -175,14 +169,12 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                        'There is some server error please retry'),
+                                    Text('There is some server error please retry'),
                                     RaisedButton(
                                       color: Color(0xFF1D2B64).withOpacity(.3),
-                                      onPressed: () =>
-                                          context.bloc<CoursesBloc>().add(
-                                                GetCoursesByFaculty(),
-                                              ),
+                                      onPressed: () => context.bloc<CoursesBloc>().add(
+                                            GetCoursesByFaculty(),
+                                          ),
                                       child: Text('Retry'),
                                     )
                                   ],
@@ -195,8 +187,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                                   value: selectedCouerse,
                                   choiceItems: S2Choice.listFrom(
                                     source: state.coursesEntity.data,
-                                    value: (index, Data item) =>
-                                        {item.id: item.subject_semester_id},
+                                    value: (index, Data item) => item.id,
                                     title: (index, Data item) => item.name,
                                     group: (index, Data item) => '',
                                   ),
@@ -211,8 +202,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                                     selectedCouerse = state.value;
                                     print(selectedCouerse);
                                   }),
-                                  tileBuilder: (context, state) =>
-                                      S2Tile.fromState(
+                                  tileBuilder: (context, state) => S2Tile.fromState(
                                     state,
                                     isTwoLine: true,
                                     leading: Container(
@@ -257,45 +247,6 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
           return null;
         },
       );
-  // Column(
-  //   children: [
-  //     TextField(
-  //       controller: controller,
-  //       keyboardType: TextInputType.multiline,
-  //       decoration: InputDecoration(
-  //         labelText: title,
-  //         border: OutlineInputBorder(),
-  //       ),
-  //       maxLength: maxLength,
-  //     ),
-  //   ],
-  // );
-
-  _createCourseCard(String text, Function onPressed) => FlatButton(
-        hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-          side: BorderSide(
-            color: Color(0xFF1D2B64),
-          ),
-        ),
-        onPressed: onPressed,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              text,
-              style: TextStyle(
-                color: Color(0xFF1D2B64),
-              ),
-            ),
-            Icon(
-              Icons.keyboard_arrow_right,
-              color: Color(0xFF1D2B64),
-            )
-          ],
-        ),
-      );
 
   void _continueButtonOnPressed(BuildContext context) {
     if (_titleController.text.isEmpty ||
@@ -312,7 +263,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
         CreateObjectiveQuestionnaire(
           _titleController.text,
           _descriptionController.text,
-          selectedCouerse.keys.first,
+          selectedCouerse,
         ),
       );
     } else {
@@ -320,7 +271,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
         CreateSubjectiveQuestionnaire(
           _titleController.text,
           _descriptionController.text,
-          selectedCouerse.keys.first,
+          selectedCouerse,
         ),
       );
     }

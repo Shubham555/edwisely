@@ -165,7 +165,7 @@ class EdWisely extends StatelessWidget {
           home: AddQuestionsScreen(
             'T',
             'dfdf',
-            352,
+            45,
             QuestionType.Objective,
             2052,
           ),
