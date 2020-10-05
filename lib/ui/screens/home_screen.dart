@@ -102,46 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: screenSize.width * 0.22,
-                        height: screenSize.height * 0.28,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 28.0,
-                            horizontal: 22.0,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                'send an assesment',
-                                style: textTheme.headline6,
-                              ),
-                              Text(
-                                'send a notification',
-                                style: textTheme.headline6,
-                              ),
-                              Text(
-                                'send documents',
-                                style: textTheme.headline6,
-                              ),
-                              Text(
-                                'add material',
-                                style: textTheme.headline6,
-                              ),
-                              Text(
-                                'create a live meeting',
-                                style: textTheme.headline6,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      //spacing
-                      SizedBox(
-                        height: screenSize.height * 0.02,
-                      ),
                       //heading text
                       Text(
                         'Upcoming',
@@ -209,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state is HomeScreenDefaultFetched) {
           return Container(
             height: screenSize.height * 0.25,
+            width: screenSize.width  * .25  ,
             margin: const EdgeInsets.only(
               right: 22.0,
               top: 12.0,
@@ -697,7 +658,7 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         image: DecorationImage(
-          image: NetworkImage(course['course_image']),
+          image: AssetImage('placeholder_image.jpg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -716,9 +677,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Theme.of(context).primaryColor.withOpacity(0.8),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  course['name'],
-                  style: textTheme.headline3,
+                child: Container(
+                  width: 180,
+                  child: Text(
+                    course['name'],
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.headline3,
+                  ),
                 ),
               ),
             ),

@@ -9,7 +9,6 @@ class HomeScreenDefaultCubit extends Cubit<HomeScreenDefaultState> {
     print(DateTime.now().toString());
     final response = await EdwiselyApi.dio
         .get('college/dashboardData?from_date=2020-09-30 18:42:38&delta_days=10&to_date');
-
     if (response.data['message'] == 'Successfully fetched the data') {
       emit(
         HomeScreenDefaultFetched(

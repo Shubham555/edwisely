@@ -24,7 +24,6 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   signIn(String email, String password) async {
-    print('sign in ');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await EdwiselyApi.dio.post(
           'auth/loginUser',
@@ -34,6 +33,7 @@ class LoginCubit extends Cubit<LoginState> {
               'password': password,
             },
         ));
+    print(response.data);
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
         prefs.setString('login_key', response.data['token']);

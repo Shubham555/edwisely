@@ -134,13 +134,21 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
 
                         if (form.validate()) {
                           form.save();
-                          if (_vcStart != null && _vcStartTime != null && _vcEnd != null && _vcEndTime != null) {
+                          if (_vcStart != null &&
+                              _vcStartTime != null &&
+                              _vcEnd != null &&
+                              _vcEndTime != null) {
                             context.bloc<LiveClassCubit>().sendLiveClass(
                                 _title,
                                 _description,
-                                _vcStart.add(Duration(hours: _vcStartTime.hour, minutes: _vcStartTime.hour)).toString(),
+                                _vcStart
+                                    .add(Duration(
+                                        hours: _vcStartTime.hour, minutes: _vcStartTime.hour))
+                                    .toString(),
                                 students,
-                                _vcEnd.add(Duration(hours: _vcEndTime.hour, minutes: _vcEndTime.hour)).toString());
+                                _vcEnd
+                                    .add(Duration(hours: _vcEndTime.hour, minutes: _vcEndTime.hour))
+                                    .toString());
                           } else {
                             Toast.show('Please Double Check the Entries ', context);
                           }
@@ -215,106 +223,122 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                 ),
                                 //start and end time
                                 Text('Class Details'),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 12.0,
-                                    horizontal: 12.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    color: Colors.white,
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 0.5,
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
+                                StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      void Function(void Function()) setState) {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12.0,
+                                        horizontal: 12.0,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12.0),
+                                        color: Colors.white,
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 0.5,
+                                        ),
+                                      ),
+                                      child: Column(
                                         children: [
-                                          //start date picker
-                                          Text(
-                                            'Start Date :',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              //start date picker
+                                              Text(
+                                                'Start Date :',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              InkWell(
+                                                onTap: () async {
+                                                  _vcStart = await _pickStartDate();
+                                                  setState(() {});
+                                                },
+                                                child: Text(
+                                                  _vcStart == null
+                                                      ? 'Pick Date'
+                                                      : DateFormat('EEE d MMM yyyy')
+                                                          .format(_vcStart),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 18.0,
+                                                child: VerticalDivider(
+                                                  color: Theme.of(context).primaryColor,
+                                                  thickness: 2.0,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () async {
+                                                  _vcStartTime = await _pickStartTime();
+                                                  setState(() {});
+                                                },
+                                                child: Text(
+                                                  _vcStartTime == null
+                                                      ? 'Pick Time'
+                                                      : 'at ${_vcStartTime.format(context).toString()}',
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Spacer(),
-                                          InkWell(
-                                            onTap: () async {
-                                              _vcStart = await _pickStartDate();
-                                              setState(() {});
-                                            },
-                                            child: Text(
-                                              _vcStart == null ? 'Pick Date' : DateFormat('EEE d MMM yyyy').format(_vcStart),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 18.0,
-                                            child: VerticalDivider(
-                                              color: Theme.of(context).primaryColor,
-                                              thickness: 2.0,
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () async {
-                                              _vcStartTime = await _pickStartTime();
-                                              setState(() {});
-                                            },
-                                            child: Text(
-                                              _vcStartTime == null ? 'Pick Time' : 'at ${_vcStartTime.format(context).toString()}',
-                                            ),
+                                          //end time
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              //expiry date
+                                              Text(
+                                                'Expiry Date :',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              InkWell(
+                                                onTap: () async {
+                                                  if (_vcStart == null) {
+                                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                                        content:
+                                                            Text('Select Start Date First !')));
+                                                  } else {
+                                                    _vcEnd = await _pickEndDate();
+                                                    setState(() {});
+                                                  }
+                                                },
+                                                child: Text(
+                                                  _vcEnd == null
+                                                      ? 'Pick Date'
+                                                      : DateFormat('EEE d MMM yyyy').format(_vcEnd),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 18.0,
+                                                child: VerticalDivider(
+                                                  color: Theme.of(context).primaryColor,
+                                                  thickness: 2.0,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () async {
+                                                  _vcEndTime = await _pickEndTime();
+                                                  setState(() {});
+                                                },
+                                                child: Text(
+                                                  _vcEndTime == null
+                                                      ? 'Pick Time'
+                                                      : 'at ${_vcEndTime.format(context).toString()}',
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                      //end time
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          //expiry date
-                                          Text(
-                                            'Expiry Date :',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          InkWell(
-                                            onTap: () async {
-                                              if (_vcStart == null) {
-                                                _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Select Start Date First !')));
-                                              } else {
-                                                _vcEnd = await _pickEndDate();
-                                                setState(() {});
-                                              }
-                                            },
-                                            child: Text(
-                                              _vcEnd == null ? 'Pick Date' : DateFormat('EEE d MMM yyyy').format(_vcEnd),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 18.0,
-                                            child: VerticalDivider(
-                                              color: Theme.of(context).primaryColor,
-                                              thickness: 2.0,
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () async {
-                                              _vcEndTime = await _pickEndTime();
-                                              setState(() {});
-                                            },
-                                            child: Text(
-                                              _vcEndTime == null ? 'Pick Time' : 'at ${_vcEndTime.format(context).toString()}',
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 ),
                                 //spacing
                                 SizedBox(
@@ -326,7 +350,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                 ),
                                 Text('Class Select'),
                                 BlocBuilder(
-                                  //todo change
+                                  //  todo change
                                   cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                                   builder: (BuildContext context, state) {
                                     if (state is SendAssessmentSectionsFetched) {
@@ -353,12 +377,18 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                             return ListView.builder(
                                               shrinkWrap: true,
                                               itemCount: state.sectionEntity.data.length,
-                                              itemBuilder: (BuildContext context, int index) => Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                              itemBuilder: (BuildContext context, int index) =>
+                                                  Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    vertical: 8.0, horizontal: 16.0),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    enabledSectionId = state.sectionEntity.data[index].id;
-                                                    context.bloc<SelectStudentsCubit>().getStudentsInASection(state.sectionEntity.data[index].id, 1);
+                                                    enabledSectionId =
+                                                        state.sectionEntity.data[index].id;
+                                                    context
+                                                        .bloc<SelectStudentsCubit>()
+                                                        .getStudentsInASection(
+                                                            state.sectionEntity.data[index].id, 1);
                                                     setState(() {});
                                                   },
                                                   child: Column(
@@ -366,7 +396,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                     children: [
                                                       AnimatedDefaultTextStyle(
                                                         duration: Duration(milliseconds: 300),
-                                                        style: enabledSectionId == state.sectionEntity.data[index].id
+                                                        style: enabledSectionId ==
+                                                                state.sectionEntity.data[index].id
                                                             ? TextStyle(
                                                                 color: Colors.black,
                                                                 fontSize: 22.0,
@@ -386,7 +417,10 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                         duration: Duration(
                                                           milliseconds: 300,
                                                         ),
-                                                        width: enabledSectionId == state.sectionEntity.data[index].id ? 80.0 : 40.0,
+                                                        width: enabledSectionId ==
+                                                                state.sectionEntity.data[index].id
+                                                            ? 80.0
+                                                            : 40.0,
                                                         height: 3.0,
                                                         color: Theme.of(context).primaryColor,
                                                       ),
@@ -450,7 +484,10 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                 SizedBox(width: 8.0),
                                                 Text(
                                                   'Students',
-                                                  style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5
+                                                      .copyWith(color: Colors.white),
                                                 ),
                                                 Spacer(),
                                                 VerticalDivider(
@@ -510,7 +547,11 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                     horizontal: 22.0,
                                                   ),
                                                   decoration: BoxDecoration(
-                                                    color: index % 2 == 0 ? Colors.white : Theme.of(context).primaryColor.withOpacity(0.1),
+                                                    color: index % 2 == 0
+                                                        ? Colors.white
+                                                        : Theme.of(context)
+                                                            .primaryColor
+                                                            .withOpacity(0.1),
                                                     border: Border.all(
                                                       color: Colors.black,
                                                       width: 0.2,
@@ -519,9 +560,12 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                   child: Row(
                                                     children: [
                                                       CircleAvatar(
-                                                        backgroundColor: Theme.of(context).primaryColor,
+                                                        backgroundColor:
+                                                            Theme.of(context).primaryColor,
                                                         child: Text(
-                                                          state.studentsEntity.data[index].name.substring(0, 1).toUpperCase(),
+                                                          state.studentsEntity.data[index].name
+                                                              .substring(0, 1)
+                                                              .toUpperCase(),
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                           ),
@@ -533,7 +577,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                             state.studentsEntity.data[index].name,
                                                           ),
                                                           subtitle: Text(
-                                                            state.studentsEntity.data[index].roll_number,
+                                                            state.studentsEntity.data[index]
+                                                                .roll_number,
                                                           ),
                                                           value: students.contains(
                                                             state.studentsEntity.data[index].id,
@@ -541,10 +586,12 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                           onChanged: (flag) {
                                                             flag
                                                                 ? students.add(
-                                                                    state.studentsEntity.data[index].id,
+                                                                    state.studentsEntity.data[index]
+                                                                        .id,
                                                                   )
                                                                 : students.remove(
-                                                                    state.studentsEntity.data[index].id,
+                                                                    state.studentsEntity.data[index]
+                                                                        .id,
                                                                   );
                                                             setState(() {});
                                                           },
