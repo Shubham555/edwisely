@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
+import 'package:edwisely/util/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -23,7 +24,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
   final ScrollController _scrollController = ScrollController();
 
   final _courseBloc = CoursesBloc();
-
+  var pageProvider;
   bool _isCollapsed = false;
 
   @override
@@ -35,6 +36,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    pageProvider = Provider.of<SelectedPageProvider>(context, listen: false);
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -276,12 +279,25 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
             title: Text(data.name),
           );
         },
-        onSuggestionSelected: (data) => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => CourseDetailScreen(data.name, data.subject_semester_id, data.id),
-          ),
-        ),
+        // onSuggestionSelected: (data) => Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (BuildContext context) => CourseDetailScreen(data.name, data.subject_semester_id, data.id),
+        //   ),
+        // ),
+        onSuggestionSelected: (data) => MyRouter().navigateTo(pageProvider.navigatorKey, '/course-details-screen', {
+          'name': data.name,
+          'subject_semester_id': data.subject_semster_id,
+          'id': data.id,
+        }),
+        //  Navigator.pushNamed(
+        //   context,
+        //   '/course-details-screen',
+        //   arguments: {
+        //     'name': data.name,
+        //     'subject_semester_id': data.subject_semster_id,
+        //     'id': data.id,
+        //   },
       ),
     );
   }

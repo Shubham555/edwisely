@@ -1,4 +1,5 @@
 import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
+import 'package:edwisely/data/cubits/material_comment_cubit.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -186,20 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 0.5,
               ),
             ),
-            child: Column(
-              children: [
-                Text('Objective'),
-                Text('Subjective'),
-                Text('VC'),
-                // TODO: 10/4/2020 get some data to make class
-                // ListView.builder(
-                //   itemCount: state.homeScreenDefault.upcoming_events.objective_tests.length,
-                //   itemBuilder: (BuildContext context, int index) => ListTile(
-                //     title: state.homeScreenDefault.upcoming_events.objective_tests[index],
-                //   ),
-                // )
-              ],
-            ),
+            // child: state.map['upcoming_events']['objective_tests'] == '' ? ,
           );
         }
         if (state is HomeScreenDefaultFailed) {
@@ -242,63 +230,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _meetingActivity(dynamic activity) {
-    List<Comment> _comments = [
-      Comment(
-        id: "840",
-        comment: "how",
-        collegeAccount: null,
-        collegeAccountId: null,
-        createdAt: DateTime.now(),
-        student: {
-          "id": 34771,
-          "name": "Y S Rao",
-          "profile_pic": "https://edwisely-profile-v2.s3.amazonaws.com/profile/ED07/Snapchat-432973534220200316134325.jpg"
-        },
-        studentId: "34771",
-      ),
-      Comment(
-        id: "887",
-        comment: "Testing Comments on material comments",
-        collegeAccount: {
-          "first_name": "Raja",
-          "id": 1146,
-          "last_name": "Sekhar",
-          "profile_pic": "https://frndzzyassetsmigrated.s3.ap-south-1.amazonaws.com/frndzzyassetsmigrated/frndzzy_assets_s3/f951097b46d5b3a3.jpg"
-        },
-        collegeAccountId: "1146",
-        createdAt: DateTime.now(),
-        student: null,
-        studentId: null,
-      ),
-      Comment(
-        id: "841",
-        comment: "hii",
-        collegeAccount: null,
-        collegeAccountId: null,
-        createdAt: DateTime.now(),
-        student: {
-          "id": 34773,
-          "name": "Madan",
-          "profile_pic": "https://edwisely-profile-v2.s3.amazonaws.com/profile/ED007/ProfilePic20200316134325.jpg"
-        },
-        studentId: "34773",
-      ),
-      Comment(
-        id: "893",
-        comment: "eriugvberbgwugvbwiuiuvgerieruerbgviuer[bveriubverwiu[bvgr",
-        collegeAccount: {
-          "first_name": "Prakash Reddy",
-          "id": 1130,
-          "last_name": "Edwisely",
-          "profile_pic": "http://edwisely-academic-materials-v2.s3.amazonaws.com/profile/Prakash Reddy Edwisely/IMG_1516.HEIC"
-        },
-        collegeAccountId: "1130",
-        createdAt: DateTime.now(),
-        student: null,
-        studentId: null,
-      ),
-    ];
-
     return Container(
       width: screenSize.width * 0.24,
       margin: const EdgeInsets.symmetric(
@@ -404,61 +335,6 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.black,
             thickness: 2.0,
           ),
-          //comments
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: _comments.length,
-            itemBuilder: (ctx, index) => Align(
-              alignment: _comments[index].collegeAccountId == null ? Alignment.centerLeft : Alignment.centerRight,
-              child: Container(
-                height: screenSize.height * 0.07,
-                width: screenSize.width * 0.3,
-                margin: const EdgeInsets.symmetric(vertical: 4.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: _comments[index].collegeAccountId == null ? Color(0xFF7bed9f).withOpacity(0.5) : Color(0xFFff6b81).withOpacity(0.5),
-                ),
-                child: Stack(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(32.0),
-                              child: Image.network(
-                                _comments[index].collegeAccountId == null
-                                    ? _comments[index].student['profile_pic']
-                                    : _comments[index].collegeAccount['profile_pic'],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 8.0),
-                        SizedBox(
-                          width: screenSize.width * 0.25,
-                          child: Text(
-                            _comments[index].comment,
-                            maxLines: 2,
-                            softWrap: true,
-                            style: textTheme.headline5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      right: 4.0,
-                      bottom: 4.0,
-                      child: Text(_comments[index].createdAt.toString()),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
           //spacing
           SizedBox(height: 12.0),
           //enter comment
@@ -546,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   //test status
                   activity['doe'] == null
-                      ? Text('sdv')
+                      ? Container()
                       : DateTime.parse(activity['doe']).isBefore(DateTime.now())
                           ? _displayPieChart(activity['results'])
                           : Container()
@@ -658,6 +534,81 @@ class _HomeScreenState extends State<HomeScreen> {
               Text('${activity['comments_count']} Comments')
             ],
           ),
+          BlocBuilder(
+            cubit: context.bloc<CommentCubit>()..getSurveyComments(activity['id']),
+            // ignore: missing_return
+            builder: (BuildContext context, state) {
+              if (state is MaterialCommentsFetched) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.materialComment.data.length,
+                  itemBuilder: (ctx, index) => Align(
+                    alignment: state.materialComment.data[index].college_account_id == null
+                        ? Alignment.centerLeft
+                        : Alignment.centerRight,
+                    child: Container(
+                      height: screenSize.height * 0.07,
+                      width: screenSize.width * 0.3,
+                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: state.materialComment.data[index].college_account_id == null
+                            ? Color(0xFF7bed9f).withOpacity(0.5)
+                            : Color(0xFFff6b81).withOpacity(0.5),
+                      ),
+                      child: Stack(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AspectRatio(
+                                  aspectRatio: 1,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(32.0),
+                                    child: Image.network(
+                                      state.materialComment.data[index].college_account_id == null
+                                          ? state.materialComment.data[index].student.profile_pic
+                                          : state.materialComment.data[index].college_account
+                                              .profile_pic,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 8.0),
+                              SizedBox(
+                                width: screenSize.width * 0.25,
+                                child: Text(
+                                  state.materialComment.data[index].comment,
+                                  maxLines: 2,
+                                  softWrap: true,
+                                  style: textTheme.headline5,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                            right: 4.0,
+                            bottom: 4.0,
+                            child: Text(state.materialComment.data[index].created_at.toString()),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+              if (state is MaterialCommentFailed) {
+                return Text(' Could not fetch Comments');
+              }
+              if (state is MaterialCommentInitial) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          )
         ],
       ),
     );
@@ -844,62 +795,51 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _displayPieChart(dynamic results) {
-    return Container(
-      width: 50,
-      height: 50,
-      child: PieChart(
-        PieChartData(
-          startDegreeOffset: 180,
-          centerSpaceRadius: 10,
-          sections: [
-            PieChartSectionData(
-              value: double.parse(results['percentage_very_good'].toString()),
-              radius: 15,
-              title: 'Very Good',
-            ),
-            PieChartSectionData(
-              value: double.parse(results['percentage_below_average'].toString()),
-              radius: 15,
-              title: 'Below Average',
-            ),
-            PieChartSectionData(
-              value: double.parse(results['percentage_average'].toString()),
-              radius: 15,
-              title: 'Average',
-            ),
-            PieChartSectionData(
-              value: double.parse(results['percentage_good'].toString()),
-              radius: 15,
-              title: 'Good',
-            ),
-            PieChartSectionData(
-              value: double.parse(results['understanding_level'].toString()),
-              radius: 15,
-              title: 'Understanding Level',
-            ),
-          ],
+    if (results['percentage_very_good'] +
+            results['percentage_below_average'] +
+            results['percentage_average'] +
+            results['percentage_good'] +
+            results['understanding_level'] ==
+        100) {
+      return Container(
+        width: 50,
+        height: 50,
+        child: PieChart(
+          PieChartData(
+            startDegreeOffset: 180,
+            centerSpaceRadius: 10,
+            sections: [
+              PieChartSectionData(
+                value: double.parse(results['percentage_very_good'].toString()),
+                radius: 15,
+                title: 'Very Good',
+              ),
+              PieChartSectionData(
+                value: double.parse(results['percentage_below_average'].toString()),
+                radius: 15,
+                title: 'Below Average',
+              ),
+              PieChartSectionData(
+                value: double.parse(results['percentage_average'].toString()),
+                radius: 15,
+                title: 'Average',
+              ),
+              PieChartSectionData(
+                value: double.parse(results['percentage_good'].toString()),
+                radius: 15,
+                title: 'Good',
+              ),
+              PieChartSectionData(
+                value: double.parse(results['understanding_level'].toString()),
+                radius: 15,
+                title: 'Understanding Level',
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Container();
+    }
   }
-}
-
-class Comment {
-  final String id;
-  final String comment;
-  final Map<String, dynamic> collegeAccount;
-  final String collegeAccountId;
-  final DateTime createdAt;
-  final Map<String, dynamic> student;
-  final String studentId;
-
-  Comment({
-    @required this.id,
-    @required this.comment,
-    @required this.collegeAccount,
-    @required this.collegeAccountId,
-    @required this.createdAt,
-    @required this.student,
-    @required this.studentId,
-  });
 }

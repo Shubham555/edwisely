@@ -18,6 +18,7 @@ class TopicQuestionsCubit extends Cubit<TopicQuestionsState> {
       'questionnaire/getTopicsQuestions',
       queryParameters: {'topic_ids': topics.map((e) => "$e").join(','), 'sub_topic_ids': subTopics.map((e) => "$e").join(','), 'grand_topic_ids': ''},
     );
+    print(response.data);
     if (response.data['message'] == 'Successfully fetched the data') {
       emit(
         TopicQuestionsFetched(

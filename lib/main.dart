@@ -1,5 +1,6 @@
 import 'package:edwisely/data/cubits/get_units_cubit.dart';
 import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
+import 'package:edwisely/data/cubits/material_comment_cubit.dart';
 import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
 import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_screen.dart';
 import 'package:edwisely/util/router.dart';
@@ -153,6 +154,9 @@ class EdWisely extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => HomeScreenDefaultCubit(),
           ),
+          BlocProvider(
+            create: (BuildContext context) => CommentCubit(),
+          ),
         ],
         child: MaterialApp(
           title: 'Edwisely',
@@ -174,9 +178,9 @@ class EdWisely extends StatelessWidget {
   }
 }
 //todo add latex rendering in question bank and all where question is written or viewed
-//todo add filter by departments in add courses
 //todo password and confirm password for login
 // TODO: 10/5/2020 add courses department filter sahi krna hai
 // FIXME: 10/5/2020 add question blooms filter
 // FIXME: 10/5/2020 upload excel tab
 // TODO: 10/5/2020 comments and apis
+// TODO: 10/5/2020 make topics and sub topics as one
