@@ -1,4 +1,4 @@
-# edwisely
+# edwisely ![Web App](https://github.com/srthkpthk/edwisely/workflows/Web%20App/badge.svg?branch=master)
 
 A new Flutter project.
 
