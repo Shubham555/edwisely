@@ -186,20 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 0.5,
               ),
             ),
-            child: Column(
-              children: [
-                Text('Objective'),
-                Text('Subjective'),
-                Text('VC'),
-                // TODO: 10/4/2020 get some data to make class
-                // ListView.builder(
-                //   itemCount: state.homeScreenDefault.upcoming_events.objective_tests.length,
-                //   itemBuilder: (BuildContext context, int index) => ListTile(
-                //     title: state.homeScreenDefault.upcoming_events.objective_tests[index],
-                //   ),
-                // )
-              ],
-            ),
+            // child: state.map['upcoming_events']['objective_tests'] == '' ? ,
           );
         }
         if (state is HomeScreenDefaultFailed) {
@@ -511,7 +498,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   //test status
                   activity['doe'] == null
-                      ? Text('sdv')
+                      ? Container()
                       : DateTime.parse(activity['doe']).isBefore(DateTime.now())
                           ? _displayPieChart(activity['results'])
                           : Container()
@@ -809,43 +796,52 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _displayPieChart(dynamic results) {
-    return Container(
-      width: 50,
-      height: 50,
-      child: PieChart(
-        PieChartData(
-          startDegreeOffset: 180,
-          centerSpaceRadius: 10,
-          sections: [
-            PieChartSectionData(
-              value: double.parse(results['percentage_very_good'].toString()),
-              radius: 15,
-              title: 'Very Good',
-            ),
-            PieChartSectionData(
-              value: double.parse(results['percentage_below_average'].toString()),
-              radius: 15,
-              title: 'Below Average',
-            ),
-            PieChartSectionData(
-              value: double.parse(results['percentage_average'].toString()),
-              radius: 15,
-              title: 'Average',
-            ),
-            PieChartSectionData(
-              value: double.parse(results['percentage_good'].toString()),
-              radius: 15,
-              title: 'Good',
-            ),
-            PieChartSectionData(
-              value: double.parse(results['understanding_level'].toString()),
-              radius: 15,
-              title: 'Understanding Level',
-            ),
-          ],
+    if (results['percentage_very_good'] +
+            results['percentage_below_average'] +
+            results['percentage_average'] +
+            results['percentage_good'] +
+            results['understanding_level'] ==
+        100) {
+      return Container(
+        width: 50,
+        height: 50,
+        child: PieChart(
+          PieChartData(
+            startDegreeOffset: 180,
+            centerSpaceRadius: 10,
+            sections: [
+              PieChartSectionData(
+                value: double.parse(results['percentage_very_good'].toString()),
+                radius: 15,
+                title: 'Very Good',
+              ),
+              PieChartSectionData(
+                value: double.parse(results['percentage_below_average'].toString()),
+                radius: 15,
+                title: 'Below Average',
+              ),
+              PieChartSectionData(
+                value: double.parse(results['percentage_average'].toString()),
+                radius: 15,
+                title: 'Average',
+              ),
+              PieChartSectionData(
+                value: double.parse(results['percentage_good'].toString()),
+                radius: 15,
+                title: 'Good',
+              ),
+              PieChartSectionData(
+                value: double.parse(results['understanding_level'].toString()),
+                radius: 15,
+                title: 'Understanding Level',
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Container();
+    }
   }
 }
 
