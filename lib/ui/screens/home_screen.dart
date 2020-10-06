@@ -459,6 +459,41 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+          //spacing
+          SizedBox(height: 12.0),
+          //enter comment
+          Container(
+            height: screenSize.height * 0.07,
+            padding: const EdgeInsets.only(left: 12.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: Color(0xFFf5f6fa),
+            ),
+            child: Row(
+              children: [
+                Flexible(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Enter your comment',
+                      hintStyle: textTheme.headline6.copyWith(color: Colors.grey[400]),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12.0),
+                SizedBox(
+                  width: 64.0,
+                  child: FlatButton(
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.send,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
