@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:html/parser.dart';
 
 import '../../../../../data/blocs/questionBank/question_bank_bloc.dart';
 
@@ -24,7 +25,7 @@ class _CourseDetailsObjectivePartState extends State<CourseDetailsObjectivePart>
                   Text('Q. ${index + 1}  '),
                   Expanded(
                     child: Text(
-                      state.questionBankAllEntity.data.objective_questions[index].name,
+                     parse(state.questionBankAllEntity.data.objective_questions[index].name).body.text,
                     ),
                   ),
                 ],

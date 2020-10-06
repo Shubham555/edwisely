@@ -2,7 +2,7 @@ import 'package:edwisely/data/model/homeScreen/materialComment/student.dart';
 
 class Data {
 
-  Object college_account;
+  College college_account;
   Object college_account_id;
   String comment;
   String created_at;
@@ -11,7 +11,7 @@ class Data {
   int student_id;
 
 	Data.fromJsonMap(Map<String, dynamic> map): 
-		college_account = map["college_account"],
+		college_account = College.fromJsonMap(map["college_account"]),
 		college_account_id = map["college_account_id"],
 		comment = map["comment"],
 		created_at = map["created_at"],
