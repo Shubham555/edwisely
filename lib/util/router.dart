@@ -1,4 +1,5 @@
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
+import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -40,6 +41,15 @@ class MyRouter {
               map['assessmentId'],
             ),
             settings);
+      case '/course-details-screen':
+        final args = settings.arguments as Map<String, dynamic>;
+        return _getPageRoute(
+            CourseDetailScreen(
+              args['name'],
+              args['subject_semester_id'],
+              args['id'],
+            ),
+            settings);
     }
     // for (Path path in paths) {
     //   final regExpPattern = RegExp(path.pattern);
@@ -59,8 +69,9 @@ class MyRouter {
   Future<dynamic> navigateTo(
     GlobalKey<NavigatorState> navigatorKey,
     String routeName,
+    [Map<String, dynamic> arguments,]
   ) {
-    return navigatorKey.currentState.pushNamed(routeName);
+    return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
   }
 }
 

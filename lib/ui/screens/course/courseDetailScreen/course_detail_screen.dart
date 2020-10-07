@@ -67,9 +67,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                         ),
                         child: TabBar(
                           labelPadding: EdgeInsets.symmetric(horizontal: 36.0),
-                          indicatorColor: Colors.black,
+                          indicatorColor: Theme.of(context).primaryColor,
                           labelColor: Colors.black,
-                          indicatorPadding: const EdgeInsets.only(top: 8.0),
+                          indicatorPadding: const EdgeInsets.only(top: 4.0),
                           unselectedLabelColor: Colors.grey,
                           unselectedLabelStyle: Theme.of(context).textTheme.headline6,
                           labelStyle: Theme.of(context).textTheme.headline5.copyWith(
