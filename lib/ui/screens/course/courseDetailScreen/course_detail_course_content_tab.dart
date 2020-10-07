@@ -40,7 +40,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
 
   @override
   void initState() {
-    pageController = PageController(keepPage: false);
+    pageController = PageController();
     super.initState();
   }
 
@@ -870,6 +870,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
     );
   }
 
+// FIXME: 10/7/2020 error hai nhi ho rha
   _showDeckItems(BuildContext context) {
     showDialog(
       context: context,
@@ -881,11 +882,12 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
               controller: pageController,
               itemCount: state.deckItemsEntity.data.length,
               itemBuilder: (BuildContext context, int index) {
+                print('sdvs');
                 return FutureBuilder(
                   future: Dio().get(state.deckItemsEntity.data[0].url),
                   builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
                     if (snapshot.hasData) {
-                      var dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
+                      String dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
                       return Column(
                         children: [
                           Card(
@@ -893,6 +895,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: TeXView(
+                                renderingEngine: TeXViewRenderingEngine.mathjax(),
+                                loadingWidgetBuilder: (context) => CircularProgressIndicator(),
                                 child: TeXViewDocument(dd),
                               ),
                             ),

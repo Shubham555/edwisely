@@ -161,6 +161,11 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         ),
                                       ],
                                     ),
+                                    trailing: Row(
+                                      children: [
+                                        IconButton(icon: Icon(Icons.delete), onPressed: () => _questionFetchCubit)
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
