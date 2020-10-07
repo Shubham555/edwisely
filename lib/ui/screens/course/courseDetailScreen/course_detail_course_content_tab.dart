@@ -7,8 +7,10 @@ import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:toast/toast.dart';
 
+import '../../../../data/api/api.dart';
 import '../../../../data/cubits/add_faculty_content_cubit.dart';
 import '../../../../data/cubits/course_content_cubit.dart';
 import '../../../../data/cubits/get_course_decks_cubit.dart';
@@ -34,7 +36,13 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
   int questionDropDownValue = 1;
   String typeDropDownValue = 'All';
   int levelDropDownValue = -1;
-  PageController pageController = PageController();
+  PageController pageController;
+
+  @override
+  void initState() {
+    pageController = PageController(keepPage: false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -865,25 +873,71 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
   _showDeckItems(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => Dialog(
-        child: BlocBuilder(
-          cubit: context.bloc<DeckItemsCubit>(),
-          builder: (BuildContext context, state) {
-            if (state is DeckItemsFetched) {
-              return PageView.builder(
-                controller: pageController,
-                itemCount: state.deckItemsEntity.data.length,
-                itemBuilder: (BuildContext context, int index) => Card(
-                  child: Image.network(state.deckItemsEntity.data[index].url),
-                ),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
+      builder: (context) => BlocBuilder(
+        cubit: context.bloc<DeckItemsCubit>(),
+        builder: (BuildContext context, state) {
+          if (state is DeckItemsFetched) {
+            return PageView.builder(
+              controller: pageController,
+              itemCount: state.deckItemsEntity.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return FutureBuilder(
+                  future: Dio().get(state.deckItemsEntity.data[0].url),
+                  builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+                    if (snapshot.hasData) {
+                      var dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
+                      return Column(
+                        children: [
+                          Card(
+                            margin: EdgeInsets.all(150),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: TeXView(
+                                child: TeXViewDocument(dd),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RaisedButton.icon(
+                                onPressed: () {
+                                  return pageController.previousPage(
+                                      duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+                                },
+                                icon: Icon(Icons.chevron_left),
+                                label: Text('Previous'),
+                              ),
+                              RaisedButton.icon(
+                                onPressed: () => Navigator.pop(context),
+                                icon: Icon(Icons.close),
+                                label: Text('Close'),
+                              ),
+                              RaisedButton.icon(
+                                onPressed: () => pageController.nextPage(
+                                    duration: Duration(milliseconds: 500), curve: Curves.easeIn),
+                                icon: Icon(Icons.chevron_right),
+                                label: Text('Next'),
+                              ),
+                            ],
+                          )
+                        ],
+                      );
+                    } else {
+                      return Material(
+                        child: Text('Loading...'),
+                      );
+                    }
+                  },
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
