@@ -127,9 +127,5 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
   }
 
-  @override
-  void onTransition(Transition<QuestionBankObjectiveEvent, QuestionBankObjectiveState> transition) {
-    print(transition);
-    super.onTransition(transition);
-  }
+
 }

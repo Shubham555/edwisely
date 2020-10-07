@@ -2,7 +2,7 @@ import 'questions_options.dart';
 
 class Data {
   int id;
-  var name;
+  String name;
   var media;
   var bookmarked;
   var college_account_id;
