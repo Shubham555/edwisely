@@ -17,10 +17,10 @@ class MyRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        if (loginToken != null) {
+        // if (loginToken != null) {
           return _getPageRoute(HomeScreen(), settings);
-        }
-        return _getPageRoute(LoginScreen(), settings);
+        // }
+        // return _getPageRoute(LoginScreen(), settings);
         break;
       case '/all-courses':
         return _getPageRoute(CoursesLandingScreen(), settings);

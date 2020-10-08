@@ -50,15 +50,15 @@ main() {
 void _initializeVariables() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-  if (departmentId != null) {
-    departmentId = int.parse(sharedPreferences.getString('department_id'));
-    collegeId = int.parse(sharedPreferences.getString('college_id'));
-    loginToken = sharedPreferences.getString('login_token').toString();
-  }
-  // departmentId = 71;
-  // collegeId = 102;
-  // loginToken =
-  //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMTg5MDI3NiIsImV4cCI6IjE2MDMxODYyNzYifQ.myMJblQ-sLqMxlLREs2I4TqkHsECGnTJ6X_4eGFKa0Q';
+  // if (departmentId != null) {
+  //   departmentId = int.parse(sharedPreferences.getString('department_id'));
+  //   collegeId = int.parse(sharedPreferences.getString('college_id'));
+  //   loginToken = sharedPreferences.getString('login_token').toString();
+  // }
+  departmentId = 71;
+  collegeId = 102;
+  loginToken =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMTg5MDI3NiIsImV4cCI6IjE2MDMxODYyNzYifQ.myMJblQ-sLqMxlLREs2I4TqkHsECGnTJ6X_4eGFKa0Q';
 }
 
 class EdWisely extends StatelessWidget {
@@ -162,6 +162,7 @@ class EdWisely extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          sjksdjkhdf
           title: 'Edwisely',
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,

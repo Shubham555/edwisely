@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api.dart';
 
+import 'package:edwisely/main.dart';
+
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
 
@@ -25,18 +27,21 @@ class LoginCubit extends Cubit<LoginState> {
 
   signIn(String email, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await EdwiselyApi.dio.post(
-          'auth/loginUser',
-          data: FormData.fromMap(
-            {
-              'username': email,
-              'password': password,
-            },
+    final response = await EdwiselyApi.dio.post('auth/loginUser',
+        data: FormData.fromMap(
+          {
+            'username': email,
+            'password': password,
+          },
         ));
     print(response.data);
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
-        
+        departmentId = response.data['department_id'];
+        collegeId = response.data['college_id'];
+        loginToken = response.data['token'];
+        // loginToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
+        //     ".eyJ1c2VyX2lkIjoxMTMwLCJlbWFpbCI6InByYWthc2hAZWR3aXNlbHkuY29tIiwiaW5pIjoiMTYwMTg5MDI3NiIsImV4cCI6IjE2MDMxODYyNzYifQ.myMJblQ-sLqMxlLREs2I4TqkHsECGnTJ6X_4eGFKa0Q";
         prefs.setString('login_key', response.data['token']);
         prefs.setString(
           'department_id',
@@ -68,11 +73,11 @@ class LoginCubit extends Cubit<LoginState> {
 
   changePassword(String email, String password) async {
     final response = await EdwiselyApi.dio.post(
-          'user/updatePassword',
-          data: FormData.fromMap(
-            {'user_id': email, 'new_password': password},
-          ),
-        );
+      'user/updatePassword',
+      data: FormData.fromMap(
+        {'user_id': email, 'new_password': password},
+      ),
+    );
 
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Successfully updated password') {
