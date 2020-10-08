@@ -32,12 +32,12 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       final response = await EdwiselyApi.dio.get('getFacultyCourses');
       print(response.data);
       if (response.statusCode == 200) {
-        if (response.data['status'] != 200) {
-          SharedPreferences.getInstance().then((value) => value.setString('login_key', null));
-          yield LoginFailed();
-        } else {
+        // if (response.data['status'] != 200) {
+        //   SharedPreferences.getInstance().then((value) => value.setString('login_key', null));
+        //   yield LoginFailed();
+        // } else {
           yield CoursesFetched(CoursesEntity.fromJsonMap(response.data));
-        }
+        // }
       } else {
         CoursesFetchFailed();
       }

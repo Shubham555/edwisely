@@ -40,11 +40,11 @@ class LoginCubit extends Cubit<LoginState> {
         prefs.setString('login_key', response.data['token']);
         prefs.setString(
           'department_id',
-          response.data['department_id'],
+          response.data['department_id'].toString(),
         );
         prefs.setString(
           'college_id',
-          response.data['college_id'],
+          response.data['college_id'].toString(),
         );
         log('Values Saved');
         if (response.data['force_password_change'] == 1) {

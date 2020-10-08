@@ -1,7 +1,9 @@
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
+import 'package:edwisely/ui/screens/authorization/login_screen.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../ui/screens/assessment/assessmentLandingScreen/assessment_landing_screen.dart';
 import '../ui/screens/course/add_course_screen.dart';
@@ -9,11 +11,16 @@ import '../ui/screens/course/courses_landing_screen.dart';
 import '../ui/screens/create_vc.dart';
 import '../ui/screens/send_notification_screen.dart';
 
+import 'package:edwisely/main.dart';
+
 class MyRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _getPageRoute(HomeScreen(), settings);
+        if (loginToken != null) {
+          return _getPageRoute(HomeScreen(), settings);
+        }
+        return _getPageRoute(LoginScreen(), settings);
         break;
       case '/all-courses':
         return _getPageRoute(CoursesLandingScreen(), settings);
@@ -68,9 +75,9 @@ class MyRouter {
 
   Future<dynamic> navigateTo(
     GlobalKey<NavigatorState> navigatorKey,
-    String routeName,
-    [Map<String, dynamic> arguments,]
-  ) {
+    String routeName, [
+    Map<String, dynamic> arguments,
+  ]) {
     return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
   }
 }

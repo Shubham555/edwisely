@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return WillPopScope(
       onWillPop: () async{
-        Provider.of<SelectedPageProvider>(context, listen: false).changePage(0);
+        Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex();
         return true;
       },
       child: Scaffold(

@@ -38,84 +38,90 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
   Widget build(BuildContext context) {
     pageProvider = Provider.of<SelectedPageProvider>(context, listen: false);
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        body: Row(
-          children: [
-            NavigationDrawer(
-              isCollapsed: _isCollapsed,
-              key: context.watch<SelectedPageProvider>().navigatorKey,
-            ),
-            BlocListener(
-              cubit: _courseBloc,
-              listener: (BuildContext context, state) {
-                if (state is LoginFailed) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => EdwiselyLandingScreen(),
-                    ),
-                  );
-                }
-              },
-              child: Expanded(
-                child: Column(
-                  children: [
-                    BigAppBar(
-                      actions: null,
-                      titleText: 'Your Courses',
-                      bottomTab: null,
-                      appBarSize: MediaQuery.of(context).size.height / 3.5,
-                      appBarTitle: Text(
-                        'Edwisely',
-                        style: TextStyle(color: Colors.black),
+    return WillPopScope(
+      onWillPop: () async{
+        Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex();
+        return true;
+      },
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          body: Row(
+            children: [
+              NavigationDrawer(
+                isCollapsed: _isCollapsed,
+                key: context.watch<SelectedPageProvider>().navigatorKey,
+              ),
+              BlocListener(
+                cubit: _courseBloc,
+                listener: (BuildContext context, state) {
+                  if (state is LoginFailed) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => EdwiselyLandingScreen(),
                       ),
-                      flatButton: null,
-                      route: 'Home > All Courses',
-                    ).build(context),
-                    Center(
-                      child: BlocBuilder(
-                        cubit: _courseBloc
-                          ..add(
-                            GetCoursesByFaculty(),
-                          ),
-                        builder: (BuildContext context, state) {
-                          if (state is CoursesFetched) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 16.0,
-                                horizontal: MediaQuery.of(context).size.width * 0.17,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  _buildSearchCourseField(context, state),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  _buildCoursesGrid(context, state),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return Expanded(
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-                        },
+                    );
+                  }
+                },
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      BigAppBar(
+                        actions: null,
+                        titleText: 'Your Courses',
+                        bottomTab: null,
+                        appBarSize: MediaQuery.of(context).size.height / 3.5,
+                        appBarTitle: Text(
+                          'Edwisely',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        flatButton: null,
+                        route: 'Home > All Courses',
+                      ).build(context),
+                      Center(
+                        child: BlocBuilder(
+                          cubit: _courseBloc
+                            ..add(
+                              GetCoursesByFaculty(),
+                            ),
+                          builder: (BuildContext context, state) {
+                            if (state is CoursesFetched) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                  horizontal: MediaQuery.of(context).size.width * 0.17,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    _buildSearchCourseField(context, state),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    _buildCoursesGrid(context, state),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return Expanded(
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
