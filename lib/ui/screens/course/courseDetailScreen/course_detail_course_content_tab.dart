@@ -878,63 +878,77 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
         cubit: context.bloc<DeckItemsCubit>(),
         builder: (BuildContext context, state) {
           if (state is DeckItemsFetched) {
-            return PageView.builder(
-              controller: pageController,
-              itemCount: state.deckItemsEntity.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                print('sdvs');
-                return FutureBuilder(
-                  future: Dio().get(state.deckItemsEntity.data[0].url),
-                  builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
-                    if (snapshot.hasData) {
-                      String dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
-                      return Column(
-                        children: [
-                          Card(
-                            margin: EdgeInsets.all(150),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: TeXView(
-                                renderingEngine: TeXViewRenderingEngine.mathjax(),
-                                loadingWidgetBuilder: (context) => CircularProgressIndicator(),
-                                child: TeXViewDocument(dd),
+            return Column(
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    controller: pageController,
+                    itemCount: state.deckItemsEntity.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      print('sdvs');
+                      return FutureBuilder(
+                        future: Dio().get(state.deckItemsEntity.data[0].url),
+                        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+                          if (snapshot.hasData) {
+                            String dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
+                            return Card(
+                              margin: EdgeInsets.all(150),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: TeXView(
+                                  renderingEngine: TeXViewRenderingEngine.mathjax(),
+                                  loadingWidgetBuilder: (context) => CircularProgressIndicator(),
+                                  child: TeXViewDocument(dd),
+                                ),
                               ),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              RaisedButton.icon(
-                                onPressed: () {
-                                  return pageController.previousPage(
-                                      duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-                                },
-                                icon: Icon(Icons.chevron_left),
-                                label: Text('Previous'),
-                              ),
-                              RaisedButton.icon(
-                                onPressed: () => Navigator.pop(context),
-                                icon: Icon(Icons.close),
-                                label: Text('Close'),
-                              ),
-                              RaisedButton.icon(
-                                onPressed: () => pageController.nextPage(
-                                    duration: Duration(milliseconds: 500), curve: Curves.easeIn),
-                                icon: Icon(Icons.chevron_right),
-                                label: Text('Next'),
-                              ),
-                            ],
-                          )
-                        ],
+                            );
+                          } else {
+                            return Material(
+                              child: Text('Loading...'),
+                            );
+                          }
+                        },
                       );
-                    } else {
-                      return Material(
-                        child: Text('Loading...'),
-                      );
-                    }
-                  },
-                );
-              },
+                    },
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RaisedButton.icon(
+                        onPressed: () {
+                          return pageController.previousPage(
+                              duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+                        },
+                        icon: Icon(Icons.chevron_left),
+                        label: Text(
+                          'Previous',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      RaisedButton.icon(
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(Icons.close),
+                        label: Text(
+                          'Close',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      RaisedButton.icon(
+                        onPressed: () => pageController.nextPage(
+                            duration: Duration(milliseconds: 500), curve: Curves.easeIn),
+                        icon: Icon(Icons.chevron_right),
+                        label: Text(
+                          'Next',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             );
           } else {
             return Center(
