@@ -4,6 +4,7 @@ import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_ta
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
@@ -11,7 +12,6 @@ import '../../../../../data/blocs/questionBank/questionBankObjective/question_ba
 
 class QuestionBankObjectiveTab extends StatefulWidget {
   final int subjectId;
-
 
   QuestionBankObjectiveTab(this.subjectId);
 
@@ -298,7 +298,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                 shrinkWrap: true,
                                 itemCount: state.questionBankObjectiveEntity.data.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  print(state.questionBankObjectiveEntity.data[0].name);
                                   return Card(
                                     margin: EdgeInsets.all(
                                       10,
@@ -308,8 +307,11 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         children: [
                                           Text('Q. ${index + 1}  '),
                                           Expanded(
-                                            child: Text(
-                                              state.questionBankObjectiveEntity.data[index].name,
+                                            child: TeXView(
+                                              child: TeXViewDocument(
+                                                state.questionBankObjectiveEntity.data[index].name
+                                                  ..replaceAll("\$", ''),
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -411,7 +413,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
           },
         ),
       );
-      print(response.data);
       if (response.data['message'] == 'Successfully deleted the bookmark') {
         setState(
           () => isBookmarked = false,
@@ -433,8 +434,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
           },
         ),
       );
-      print(response.data);
-
       if (response.data['message'] == 'Successfully added the bookmark') {
         setState(
           () => isBookmarked = true,
