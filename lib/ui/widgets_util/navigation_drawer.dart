@@ -94,14 +94,14 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           InkWell(
             onTap: () {
               final pageProvider =
-                  Provider.of<SelectedPageProvider>(context, listen: false);
+              Provider.of<SelectedPageProvider>(context, listen: false);
               pageProvider.changePage(0);
-              MyRouter().navigateTo(pageProvider.navigatorKey, '/all-courses');
+              MyRouter().navigateTo(pageProvider.navigatorKey, '/');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'All Courses',
-              icon: Icons.import_contacts,
+              title: 'Home',
+              icon: Icons.home,
               myIndex: 0,
               currentIndex: _selectedPage,
               selectedColor: _selectedItemColor,
@@ -109,14 +109,15 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           InkWell(
             onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(1);
-              Navigator.of(context).pushNamed('/add-course');
+              final pageProvider =
+                  Provider.of<SelectedPageProvider>(context, listen: false);
+              pageProvider.changePage(1);
+              MyRouter().navigateTo(pageProvider.navigatorKey, '/all-courses');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Add Course',
-              icon: Icons.book,
+              title: 'All Courses',
+              icon: Icons.import_contacts,
               myIndex: 1,
               currentIndex: _selectedPage,
               selectedColor: _selectedItemColor,
@@ -126,12 +127,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             onTap: () {
               Provider.of<SelectedPageProvider>(context, listen: false)
                   .changePage(2);
-              Navigator.of(context).pushNamed('/send-assesment');
+              Navigator.of(context).pushNamed('/add-course');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Assesments',
-              icon: Icons.assessment,
+              title: 'Add Course',
+              icon: Icons.book,
               myIndex: 2,
               currentIndex: _selectedPage,
               selectedColor: _selectedItemColor,
@@ -141,12 +142,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             onTap: () {
               Provider.of<SelectedPageProvider>(context, listen: false)
                   .changePage(3);
-              Navigator.of(context).pushNamed('/create-live-class');
+              Navigator.of(context).pushNamed('/send-assesment');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Live Class',
-              icon: Icons.live_tv,
+              title: 'Assesments',
+              icon: Icons.assessment,
               myIndex: 3,
               currentIndex: _selectedPage,
               selectedColor: _selectedItemColor,
@@ -156,13 +157,28 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             onTap: () {
               Provider.of<SelectedPageProvider>(context, listen: false)
                   .changePage(4);
+              Navigator.of(context).pushNamed('/create-live-class');
+            },
+            child: SideDrawerItem(
+              isCollapsed: _isNavigationDrawerCollapsed,
+              title: 'Live Class',
+              icon: Icons.live_tv,
+              myIndex: 4,
+              currentIndex: _selectedPage,
+              selectedColor: _selectedItemColor,
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Provider.of<SelectedPageProvider>(context, listen: false)
+                  .changePage(5);
               Navigator.of(context).pushNamed('/send-notification');
             },
             child: SideDrawerItem(
               isCollapsed: _isNavigationDrawerCollapsed,
               title: 'Send Notification',
               icon: Icons.send_and_archive,
-              myIndex: 4,
+              myIndex: 5,
               currentIndex: _selectedPage,
               selectedColor: _selectedItemColor,
             ),

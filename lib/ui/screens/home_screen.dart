@@ -1,8 +1,10 @@
 import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
 import 'package:edwisely/data/cubits/material_comment_cubit.dart';
+import 'package:edwisely/data/provider/selected_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets_util/navigation_drawer.dart';
 
@@ -30,102 +32,110 @@ class _HomeScreenState extends State<HomeScreen> {
     screenSize = MediaQuery.of(context).size;
     textTheme = Theme.of(context).textTheme;
 
-    return Scaffold(
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          //side bar
-          NavigationDrawer(
-            isCollapsed: false,
-            isHome: false,
-          ),
-          //rest of the screen
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                //center part
-                SizedBox(
-                  width: screenSize.width * 0.6,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 22.0,
-                      horizontal: 36.0,
-                    ),
-                    child: BlocBuilder(
-                      cubit: homeScreenDefaultCubit,
-                      builder: (BuildContext context, state) {
-                        if (state is HomeScreenDefaultFetched) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //heading text
-                              Text(
-                                'Your Courses',
-                                style: textTheme.headline2,
-                              ),
-                              //list of courses
-                              _yourCoursesList(
-                                state.map['courses'],
-                              ),
-                              //spacing
-                              SizedBox(height: 18.0),
-                              //heading text
-                              Text(
-                                'Activity Wall',
-                                style: textTheme.headline2,
-                              ),
-                              //activityWall
-                              activityTabList(
-                                state.map['activity_tab'],
-                              ),
-                            ],
-                          );
-                        }
-                        if (state is HomeScreenDefaultFailed) {
-                          return Center(
-                            child: Text(state.error),
-                          );
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                //right part
-                SizedBox(
-                  width: screenSize.width * 0.22,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //heading text
-                      Text(
-                        'Upcoming',
-                        style: textTheme.headline2,
-                      ),
-                      _upcomingEventsList(),
-                      //spacing
-                      SizedBox(
-                        height: screenSize.height * 0.02,
-                      ),
-                      //heading text
-                      Text(
-                        'Peer Activity',
-                        style: textTheme.headline2,
-                      ),
-                      _peerActivityList(),
-                    ],
-                  ),
-                ),
-              ],
+    Provider.of<SelectedPageProvider>(context, listen: false).changePage(0);
+
+    return WillPopScope(
+      onWillPop: () async{
+        Provider.of<SelectedPageProvider>(context, listen: false).changePage(0);
+        return true;
+      },
+      child: Scaffold(
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            //side bar
+            NavigationDrawer(
+              isCollapsed: false,
+              isHome: false,
             ),
-          ),
-        ],
+            //rest of the screen
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //center part
+                  SizedBox(
+                    width: screenSize.width * 0.6,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 22.0,
+                        horizontal: 36.0,
+                      ),
+                      child: BlocBuilder(
+                        cubit: homeScreenDefaultCubit,
+                        builder: (BuildContext context, state) {
+                          if (state is HomeScreenDefaultFetched) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //heading text
+                                Text(
+                                  'Your Courses',
+                                  style: textTheme.headline2,
+                                ),
+                                //list of courses
+                                _yourCoursesList(
+                                  state.map['courses'],
+                                ),
+                                //spacing
+                                SizedBox(height: 18.0),
+                                //heading text
+                                Text(
+                                  'Activity Wall',
+                                  style: textTheme.headline2,
+                                ),
+                                //activityWall
+                                activityTabList(
+                                  state.map['activity_tab'],
+                                ),
+                              ],
+                            );
+                          }
+                          if (state is HomeScreenDefaultFailed) {
+                            return Center(
+                              child: Text(state.error),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  //right part
+                  SizedBox(
+                    width: screenSize.width * 0.22,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //heading text
+                        Text(
+                          'Upcoming',
+                          style: textTheme.headline2,
+                        ),
+                        _upcomingEventsList(),
+                        //spacing
+                        SizedBox(
+                          height: screenSize.height * 0.02,
+                        ),
+                        //heading text
+                        Text(
+                          'Peer Activity',
+                          style: textTheme.headline2,
+                        ),
+                        _peerActivityList(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -543,9 +553,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   shrinkWrap: true,
                   itemCount: state.materialComment.data.length,
                   itemBuilder: (ctx, index) => Align(
-                    alignment: state.materialComment.data[index].college_account_id == null
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
+                    alignment: state.materialComment.data[index].college_account_id == null ? Alignment.centerLeft : Alignment.centerRight,
                     child: Container(
                       height: screenSize.height * 0.07,
                       width: screenSize.width * 0.3,
@@ -569,8 +577,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Image.network(
                                       state.materialComment.data[index].college_account_id == null
                                           ? state.materialComment.data[index].student.profile_pic
-                                          : state.materialComment.data[index].college_account
-                                              .profile_pic,
+                                          : state.materialComment.data[index].college_account.profile_pic,
                                       fit: BoxFit.cover,
                                     ),
                                   ),

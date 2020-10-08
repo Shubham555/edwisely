@@ -39,7 +39,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
 
   @override
   void initState() {
-    pageController = PageController();
+    pageController = PageController(keepPage: false);
     super.initState();
   }
 
@@ -272,7 +272,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                   ),
                                                   child: Text(
                                                     state.courseDeckEntity.data[index].name.trim(),
-                                                    style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white,fontSize: 14.0),
+                                                    style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white, fontSize: 14.0),
                                                   ),
                                                 ),
                                               ),
@@ -907,18 +907,22 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
           if (state is DeckItemsFetched) {
             return Column(
               children: [
-                Expanded(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.9,
                   child: PageView.builder(
+                    key: GlobalKey(),
                     controller: pageController,
                     itemCount: state.deckItemsEntity.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      print('sdvs');
                       return FutureBuilder(
-                        future: Dio().get(state.deckItemsEntity.data[0].url),
+                        future: Dio().get(state.deckItemsEntity.data[index].url),
                         builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
                           if (snapshot.hasData) {
                             String dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
+                            print(dd);
                             return Card(
+                              key: UniqueKey(),
                               margin: EdgeInsets.all(150),
                               child: Padding(
                                 padding: const EdgeInsets.all(15),
@@ -945,11 +949,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       RaisedButton.icon(
-                        onPressed: () {
-                          return pageController.previousPage(
-                              duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-                        },
-                        icon: Icon(Icons.chevron_left),
+                        onPressed: () => pageController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn),
+                        icon: Icon(Icons.chevron_left, color: Colors.white),
                         label: Text(
                           'Previous',
                           style: TextStyle(color: Colors.white),
@@ -957,16 +958,15 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                       ),
                       RaisedButton.icon(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.close),
+                        icon: Icon(Icons.close, color: Colors.white),
                         label: Text(
                           'Close',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
                       RaisedButton.icon(
-                        onPressed: () => pageController.nextPage(
-                            duration: Duration(milliseconds: 500), curve: Curves.easeIn),
-                        icon: Icon(Icons.chevron_right),
+                        onPressed: () => pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn),
+                        icon: Icon(Icons.chevron_right, color: Colors.white),
                         label: Text(
                           'Next',
                           style: TextStyle(color: Colors.white),
