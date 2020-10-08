@@ -5,6 +5,7 @@ import 'package:edwisely/data/model/assessment/topicQuestionsEntity/data.dart';
 import 'package:edwisely/data/model/assessment/unitTopic/topic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:websafe_svg/websafe_svg.dart';
@@ -161,11 +162,11 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         ),
                                       ],
                                     ),
-                                    trailing: Row(
-                                      children: [
-                                        IconButton(icon: Icon(Icons.delete), onPressed: () => _questionFetchCubit)
-                                      ],
-                                    ),
+                                    // trailing: Row(
+                                    //   children: [
+                                    //     IconButton(icon: Icon(Icons.delete,size: 10,), onPressed: () => null)
+                                    //   ],
+                                    // ),
                                   ),
                                 ),
                               );
@@ -238,7 +239,11 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                       ),
                                                       child: CheckboxListTile(
                                                         activeColor: Theme.of(context).primaryColor,
-                                                        subtitle: Text(state.data[index].solution),
+                                                        subtitle: FlatButton(
+                                                          onPressed: () => _showDetailDialog(
+                                                              state.data[index], context),
+                                                          child: Text('View More'),
+                                                        ),
                                                         title: Row(
                                                           children: [
                                                             Text(
@@ -637,5 +642,40 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
     });
     // bloomsFilter = value;
     // context.bloc<TopicQuestionsCubit>().getBloomsQuestions(value, actualData);
+  }
+
+  _showDetailDialog(Data data, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TeXView(
+              child: TeXViewDocument(
+                data.name.replaceAll('\$', '\$\$'),
+              ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: data.questions_options.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  color: data.questions_options[index].is_answer == 0
+                      ? null
+                      : Colors.greenAccent.withOpacity(.5),
+                  child: ListTile(title: Text(data.questions_options[index].name)),
+                );
+              },
+            ),
+            RaisedButton.icon(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(Icons.close),
+              label: Text('Close'),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
