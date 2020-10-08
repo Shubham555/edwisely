@@ -468,6 +468,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _feedbackActivity(dynamic activity) {
+    TextEditingController controller = TextEditingController();
     return Container(
       height: screenSize.height * 0.2,
       margin: const EdgeInsets.symmetric(
@@ -534,6 +535,44 @@ class _HomeScreenState extends State<HomeScreen> {
               Text('${activity['comments_count']} Comments')
             ],
           ),
+          Container(
+            height: screenSize.height * 0.07,
+            padding: const EdgeInsets.only(left: 12.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: Color(0xFFf5f6fa),
+            ),
+            child: Row(
+              children: [
+                Flexible(
+                  child: TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your comment',
+                      hintStyle: textTheme.headline6.copyWith(color: Colors.grey[400]),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12.0),
+                SizedBox(
+                  width: 64.0,
+                  child: FlatButton(
+                    onPressed: () {
+                      context
+                          .bloc<CommentCubit>()
+                          .postSurveyComment(activity['id'], controller.text);
+                    },
+                    child: Icon(
+                      Icons.send,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
           BlocBuilder(
             cubit: context.bloc<CommentCubit>()..getSurveyComments(activity['id']),
             // ignore: missing_return
