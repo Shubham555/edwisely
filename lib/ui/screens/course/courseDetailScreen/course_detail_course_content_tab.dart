@@ -28,8 +28,7 @@ class CourseDetailCourseContentTab extends StatefulWidget {
   _CourseDetailCourseContentTabState createState() => _CourseDetailCourseContentTabState();
 }
 
-class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContentTab>
-    with SingleTickerProviderStateMixin {
+class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContentTab> with SingleTickerProviderStateMixin {
   int enabledUnitId;
   int questionDropDownValue = 1;
   String typeDropDownValue = 'All';
@@ -43,551 +42,592 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
       listener: (BuildContext context, state) {
         if (state is AddFacultyContentAdded) {
           Toast.show('Your Content Added', context);
-          context
-              .bloc<CourseContentCubit>()
-              .getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
+          context.bloc<CourseContentCubit>().getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
         }
         if (state is AddFacultyContentFailed) {
           Toast.show(state.error, context);
         }
       },
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          BlocBuilder(
-            cubit: context.bloc<UnitCubit>()
-              ..getUnitsOfACourse(
-                widget.semesterId,
-              ),
-            builder: (BuildContext context, state) {
-              if (state is CourseUnitFetched) {
-                context.bloc<CourseContentCubit>().getCourseContent(
-                      state.units.data[0].id,
-                      widget.semesterId,
-                    );
-                context.bloc<CourseDecksCubit>().getCourseDecks(
-                    // FIXME: 10/2/2020 change to state.units.data[0].id
-                    723);
-                enabledUnitId = state.units.data[0].id;
-                return Container(
-                  width: MediaQuery.of(context).size.width / 7,
-                  child: StatefulBuilder(
-                    builder: (BuildContext context, void Function(void Function()) setState) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.units.data.length,
-                        itemBuilder: (BuildContext context, int index) => ListTile(
-                          hoverColor: Colors.white,
-                          selected: enabledUnitId == state.units.data[index].id,
-                          title: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8.0,
-                              horizontal: 16.0,
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              state.units.data[index].name,
-                              style: enabledUnitId == state.units.data[index].id
-                                  ? TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 22.0,
-                                      fontWeight: FontWeight.bold,
-                                    )
-                                  : TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                            ),
-                          ),
-                          onTap: () {
-                            enabledUnitId = state.units.data[index].id;
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BlocBuilder(
+              cubit: context.bloc<UnitCubit>()
+                ..getUnitsOfACourse(
+                  widget.semesterId,
+                ),
+              builder: (BuildContext context, state) {
+                if (state is CourseUnitFetched) {
+                  context.bloc<CourseContentCubit>().getCourseContent(
+                        state.units.data[0].id,
+                        widget.semesterId,
+                      );
+                  context.bloc<CourseDecksCubit>().getCourseDecks(
+                      // FIXME: 10/2/2020 change to state.units.data[0].id
+                      723);
+                  enabledUnitId = state.units.data[0].id;
+                  return Container(
+                    width: MediaQuery.of(context).size.width * 0.1,
+                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: StatefulBuilder(
+                      builder: (BuildContext context, void Function(void Function()) setState) {
+                        return DropdownButton(
+                          value: enabledUnitId,
+                          underline: SizedBox.shrink(),
+                          isExpanded: true,
+                          items: state.units.data
+                              .map(
+                                (unit) => DropdownMenuItem(
+                                  value: unit.id,
+                                  child: Text(
+                                    '${unit.name}',
+                                    style: Theme.of(context).textTheme.headline5,
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            enabledUnitId = value;
                             print(enabledUnitId);
-                            setState(
-                              () {},
-                            );
+                            setState(() {});
                             context.bloc<CourseContentCubit>().getCourseContent(
-                                  state.units.data[index].id,
+                                  value,
                                   widget.semesterId,
                                 );
                           },
-                        ),
-                      );
-                    },
+                        );
+
+                        //   ListView.builder(
+                        //   shrinkWrap: true,
+                        //   itemCount: state.units.data.length,
+                        //   itemBuilder: (BuildContext context, int index) =>
+                        //       ListTile(
+                        //     hoverColor: Colors.white,
+                        //     selected: enabledUnitId == state.units.data[index].id,
+                        //     title: Container(
+                        //       padding: const EdgeInsets.symmetric(
+                        //         vertical: 8.0,
+                        //         horizontal: 16.0,
+                        //       ),
+                        //       alignment: Alignment.center,
+                        //       child: Text(
+                        //         state.units.data[index].name,
+                        //         style: enabledUnitId == state.units.data[index].id
+                        //             ? TextStyle(
+                        //                 color: Colors.black,
+                        //                 fontSize: 22.0,
+                        //                 fontWeight: FontWeight.bold,
+                        //               )
+                        //             : TextStyle(
+                        //                 color: Colors.grey,
+                        //                 fontSize: 20.0,
+                        //                 fontWeight: FontWeight.normal,
+                        //               ),
+                        //       ),
+                        //     ),
+                        //     onTap: () {
+                        //       enabledUnitId = state.units.data[index].id;
+                        //       print(enabledUnitId);
+                        //       setState(() {});
+                        //       context.bloc<CourseContentCubit>().getCourseContent(
+                        //             state.units.data[index].id,
+                        //             widget.semesterId,
+                        //           );
+                        //     },
+                        //   ),
+                        // );
+                      },
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(top: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18.0),
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.black,
                   ),
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                BlocBuilder(
-                  cubit: context.bloc<CourseDecksCubit>(),
-                  builder: (BuildContext context, state) {
-                    if (state is CourseDecksFetched) {
-                      return SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * (3.5 / 5),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Learning Snippets',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: MediaQuery.of(context).size.height / 50,
-                                      ),
-                                    ),
-                                    FlatButton(
-                                      hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(6),
-                                        side: BorderSide(
-                                          color: Color(0xFF1D2B64),
-                                        ),
-                                      ),
-                                      onPressed: () => null,
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Icon(
-                                            Icons.add,
-                                            color: Color(0xFF1D2B64),
-                                          ),
-                                          Text(
-                                            'Add Your Deck',
-                                            style: TextStyle(
-                                              color: Color(0xFF1D2B64),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * (3.5 / 5),
-                                height: 300,
-                                child: GridView.builder(
-                                  itemCount: state.courseDeckEntity.data.length,
-                                  itemBuilder: (BuildContext context, int index) => GestureDetector(
-                                    onTap: () {
-                                      context.bloc<DeckItemsCubit>().getDeckItems(
-                                            state.courseDeckEntity.data[index].id,
-                                          );
-                                      return _showDeckItems(context);
-                                    },
-                                    child: GridTile(
-                                      child: state.courseDeckEntity.data[index].image == ''
-                                          ? Center(
-                                              child: Icon(
-                                                Icons.book,
-                                                size: 60,
-                                              ),
-                                            )
-                                          : Image.network(
-                                              state.courseDeckEntity.data[index].image,
-                                              width: 150,
-                                              height: 200,
-                                            ),
-                                      footer: Container(
-                                        width: 150,
-                                        child: Text(
-                                          state.courseDeckEntity.data[index].name,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      BlocBuilder(
+                        cubit: context.bloc<CourseDecksCubit>(),
+                        builder: (BuildContext context, state) {
+                          if (state is CourseDecksFetched) {
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * (3.5 / 5),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Learning Snippets',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
+                                            fontSize: MediaQuery.of(context).size.height / 50,
                                           ),
                                         ),
-                                      ),
+                                        RaisedButton(
+                                          hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                          onPressed: () => null,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.add,
+                                                color: Colors.white,
+                                              ),
+                                              Text(
+                                                'Add Your Deck',
+                                                style: Theme.of(context).textTheme.button,
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisSpacing: 20,
-                                    crossAxisSpacing: 20,
-                                    crossAxisCount: 1,
-                                  ),
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                    if (state is CoursesDeckFetchFailed) {
-                      return Center(
-                        child: Text('There was some error'),
-                      );
-                    }
-                    if (state is CoursesDeckEmpty) {
-                      return Center(
-                        child: Text('No Decks were found for this unit'),
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Curated Content',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.height / 50,
-                      ),
-                    ),
-                    FlatButton(
-                      hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        side: BorderSide(
-                          color: Color(0xFF1D2B64),
-                        ),
-                      ),
-                      onPressed: () => _showDialog(context, CourseContentAddType.adding),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: Color(0xFF1D2B64),
-                          ),
-                          Text(
-                            'Add Your Content',
-                            style: TextStyle(
-                              color: Color(0xFF1D2B64),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: BlocBuilder(
-                    cubit: context.bloc<CourseContentCubit>(),
-                    builder: (BuildContext context, state) {
-                      if (state is CourseContentFetched) {
-                        return Expanded(
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Column(
-                                  children: [
-                                    StatefulBuilder(
-                                      builder: (BuildContext context, StateSetter setState) {
-                                        return Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Type'),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Container(
-                                                  // width: MediaQuery.of(context).size.width * 0.05,
-                                                  padding: const EdgeInsets.symmetric(
-                                                    horizontal: 12.0,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(4.0),
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  child: DropdownButton(
-                                                    underline: SizedBox.shrink(),
-                                                    items: [
-                                                      DropdownMenuItem(
-                                                        child: Text('All'),
-                                                        value: 'All',
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('Documents'),
-                                                        value: 'DOCS',
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('Videos'),
-                                                        value: 'MP4',
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('PPT'),
-                                                        value: 'PPT',
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('Other Links'),
-                                                        value: 'URL',
-                                                      ),
-                                                    ],
-                                                    onChanged: (value) => context
-                                                        .bloc<CourseContentCubit>()
-                                                        .getDocumentWiseData(
-                                                          value,
-                                                          state.backup,
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * (3.5 / 5),
+                                    height: 300,
+                                    child: ListView.builder(
+                                      padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                                      itemCount: state.courseDeckEntity.data.length,
+                                      itemBuilder: (BuildContext context, int index) => GestureDetector(
+                                        onTap: () {
+                                          context.bloc<DeckItemsCubit>().getDeckItems(
+                                                state.courseDeckEntity.data[index].id,
+                                              );
+                                          return _showDeckItems(context);
+                                        },
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width * 0.1,
+                                          margin: const EdgeInsets.only(left: 12.0, top: 12.0),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(12.0),
+                                          ),
+                                          child: Stack(
+                                            fit: StackFit.expand,
+                                            children: [
+                                              Positioned(
+                                                top: 0,
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: state.courseDeckEntity.data[index].image == ''
+                                                    ? Center(
+                                                        child: Icon(
+                                                          Icons.book,
+                                                          size: 60,
                                                         ),
-                                                    value: typeDropDownValue,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              width: 30,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Level'),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Container(
-                                                  // width: MediaQuery.of(context).size.width * 0.05,
-                                                  padding: const EdgeInsets.symmetric(
-                                                    horizontal: 12.0,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(
-                                                      4.0,
-                                                    ),
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                  child: DropdownButton(
-                                                    underline: SizedBox.shrink(),
-                                                    items: [
-                                                      DropdownMenuItem(
-                                                        child: Text('All'),
-                                                        value: -1,
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('Easy'),
-                                                        value: 1,
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('Medium'),
-                                                        value: 2,
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('Hard'),
-                                                        value: 3,
-                                                      ),
-                                                    ],
-                                                    onChanged: (value) => context
-                                                        .bloc<CourseContentCubit>()
-                                                        .getLevelWiseData(
-                                                          value,
-                                                          state.backup,
+                                                      )
+                                                    : ClipRRect(
+                                                        borderRadius: BorderRadius.circular(12.0),
+                                                        child: Image.network(
+                                                          state.courseDeckEntity.data[index].image,
+                                                          fit: BoxFit.cover,
                                                         ),
-                                                    value: levelDropDownValue,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              width: 30,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Questions'),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                Container(
-                                                  // width: MediaQuery.of(context).size.width * 0.05,
-                                                  padding: const EdgeInsets.symmetric(
-                                                    horizontal: 12.0,
-                                                  ),
+                                                      ),
+                                              ),
+                                              Positioned(
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: Container(
+                                                  height: MediaQuery.of(context).size.height * 0.07,
+                                                  padding: const EdgeInsets.all(12.0),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(
-                                                      4.0,
-                                                    ),
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                    ),
+                                                    borderRadius: BorderRadius.circular(12.0),
+                                                    color: Theme.of(context).primaryColor.withOpacity(0.8),
                                                   ),
-                                                  child: DropdownButton(
-                                                    underline: SizedBox.shrink(),
-                                                    items: [
-                                                      DropdownMenuItem(
-                                                        child: Text('All Questions'),
-                                                        value: 1,
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('Bookmarked'),
-                                                        value: 2,
-                                                      ),
-                                                      DropdownMenuItem(
-                                                        child: Text('Your Content'),
-                                                        value: 3,
-                                                      ),
-                                                    ],
-                                                    onChanged: (value) {
-                                                      setState(() => questionDropDownValue = value);
-
-                                                      switch (value) {
-                                                        case 1:
-                                                          context
-                                                              .bloc<CourseContentCubit>()
-                                                              .getCourseContent(
-                                                                  enabledUnitId, widget.semesterId);
-                                                          break;
-                                                        case 2:
-                                                          context
-                                                              .bloc<CourseContentCubit>()
-                                                              .getFacultyBookmarkedCourseContent(
-                                                                  enabledUnitId, widget.semesterId);
-                                                          break;
-                                                        case 3:
-                                                          context
-                                                              .bloc<CourseContentCubit>()
-                                                              .getFacultyAddedCourseContent(
-                                                                  enabledUnitId, widget.semesterId);
-                                                          break;
-                                                      }
-                                                    },
-                                                    value: questionDropDownValue,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                    SizedBox(height: 22.0),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: state.data.length,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        String level = '';
-                                        switch (state.data[index].level) {
-                                          case -1:
-                                            level = 'N/A';
-                                            break;
-                                          case 1:
-                                            level = 'Easy';
-                                            break;
-                                          case 2:
-                                            level = 'Medium';
-                                            break;
-                                          case 3:
-                                            level = 'Hard';
-                                            break;
-                                        }
-                                        return ListTile(
-                                            leading: Icon(Icons.android),
-                                            title: Row(
-                                              children: [
-                                                Container(
-                                                  width: MediaQuery.of(context).size.width / 7,
                                                   child: Text(
-                                                    state.data[index].title ?? '',
-                                                    overflow: TextOverflow.ellipsis,
+                                                    state.courseDeckEntity.data[index].name.trim(),
+                                                    style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white,fontSize: 14.0),
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: 30,
-                                                ),
-                                                state.data[index].level == -1 ||
-                                                        state.data[index].level == null
-                                                    ? Container()
-                                                    : Text('Level - $level '),
-                                                SizedBox(
-                                                  width: 30,
-                                                ),
-                                                state.data[index].readtime == 0 ||
-                                                        state.data[index].readtime == null
-                                                    ? Container()
-                                                    : Text(
-                                                        'ReadingTime - ${state.data[index].readtime}'),
-                                              ],
-                                            ),
-                                            subtitle: Text(
-                                              'Source - ${state.data[index].source ?? ''}',
-                                            ),
-                                            trailing: PopupMenuButton(
-                                              onSelected: (string) {
-                                                switch (string) {
-                                                  case 'Bookmark':
-                                                    _bookmark(state.data[index]);
-                                                    break;
-                                                  case 'Delete':
-                                                    _delete(state.data[index]);
-                                                    break;
-                                                  case 'Edit':
-                                                    _showDialog(
-                                                        context, CourseContentAddType.editing,
-                                                        data: state.data[index]);
-                                                  // case 'Change Type':
-                                                  //   _changeType(state.data[index]);
-                                                  //   break;
-                                                }
-                                              },
-                                              itemBuilder: (context) {
-                                                return [
-                                                  'Edit',
-                                                  'Bookmark',
-                                                  'Delete',
-                                                ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
-                                                    .map(
-                                                      (e) => PopupMenuItem(
-                                                        child: Text(e),
-                                                        value: e,
-                                                      ),
-                                                    )
-                                                    .toList();
-                                              },
-                                            ));
-                                      },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        // GridTile(
+                                        //   child: state.courseDeckEntity.data[index].image == ''
+                                        //       ? Center(
+                                        //           child: Icon(
+                                        //             Icons.book,
+                                        //             size: 60,
+                                        //           ),
+                                        //         )
+                                        //       : Image.network(
+                                        //           state.courseDeckEntity.data[index].image,
+                                        //           width: 150,
+                                        //           height: 200,
+                                        //         ),
+                                        //   footer: Container(
+                                        //     width: 150,
+                                        //     child: Text(
+                                        //       state.courseDeckEntity.data[index].name,
+                                        //       style: TextStyle(
+                                        //         fontWeight: FontWeight.bold,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ),
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
                                     ),
-                                  ],
-                                ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }
+                          if (state is CoursesDeckFetchFailed) {
+                            return Center(
+                              child: Text('There was some error'),
+                            );
+                          }
+                          if (state is CoursesDeckEmpty) {
+                            return Center(
+                              child: Text('No Decks were found for this unit'),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Curated Content',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: MediaQuery.of(context).size.height / 50,
                               ),
                             ),
-                          ),
-                        );
-                      }
-                      if (state is CourseContentFailed) {
-                        return Center(
-                          child: Text(state.error),
-                        );
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
+                            RaisedButton(
+                              hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                              onPressed: () => _showDialog(context, CourseContentAddType.adding),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    'Add Your Content',
+                                    style: Theme.of(context).textTheme.button,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      BlocBuilder(
+                        cubit: context.bloc<CourseContentCubit>(),
+                        builder: (BuildContext context, state) {
+                          if (state is CourseContentFetched) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: Column(
+                                children: [
+                                  StatefulBuilder(
+                                    builder: (BuildContext context, StateSetter setState) {
+                                      return Row(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Type'),
+                                              SizedBox(
+                                                height: 8.0,
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                child: DropdownButton(
+                                                  underline: SizedBox.shrink(),
+                                                  items: [
+                                                    DropdownMenuItem(
+                                                      child: Text('All'),
+                                                      value: 'All',
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Documents'),
+                                                      value: 'DOCS',
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Videos'),
+                                                      value: 'MP4',
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('PPT'),
+                                                      value: 'PPT',
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Other Links'),
+                                                      value: 'URL',
+                                                    ),
+                                                  ],
+                                                  onChanged: (value) => context.bloc<CourseContentCubit>().getDocumentWiseData(
+                                                        value,
+                                                        state.backup,
+                                                      ),
+                                                  value: typeDropDownValue,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 30,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Level'),
+                                              SizedBox(
+                                                height: 8.0,
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                child: DropdownButton(
+                                                  underline: SizedBox.shrink(),
+                                                  items: [
+                                                    DropdownMenuItem(
+                                                      child: Text('All'),
+                                                      value: -1,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Easy'),
+                                                      value: 1,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Medium'),
+                                                      value: 2,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Hard'),
+                                                      value: 3,
+                                                    ),
+                                                  ],
+                                                  onChanged: (value) => context.bloc<CourseContentCubit>().getLevelWiseData(
+                                                        value,
+                                                        state.backup,
+                                                      ),
+                                                  value: levelDropDownValue,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 30,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Questions'),
+                                              SizedBox(
+                                                height: 8.0,
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                child: DropdownButton(
+                                                  underline: SizedBox.shrink(),
+                                                  items: [
+                                                    DropdownMenuItem(
+                                                      child: Text('All Questions'),
+                                                      value: 1,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Bookmarked'),
+                                                      value: 2,
+                                                    ),
+                                                    DropdownMenuItem(
+                                                      child: Text('Your Content'),
+                                                      value: 3,
+                                                    ),
+                                                  ],
+                                                  onChanged: (value) {
+                                                    setState(() => questionDropDownValue = value);
+
+                                                    switch (value) {
+                                                      case 1:
+                                                        context.bloc<CourseContentCubit>().getCourseContent(enabledUnitId, widget.semesterId);
+                                                        break;
+                                                      case 2:
+                                                        context
+                                                            .bloc<CourseContentCubit>()
+                                                            .getFacultyBookmarkedCourseContent(enabledUnitId, widget.semesterId);
+                                                        break;
+                                                      case 3:
+                                                        context
+                                                            .bloc<CourseContentCubit>()
+                                                            .getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
+                                                        break;
+                                                    }
+                                                  },
+                                                  value: questionDropDownValue,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(height: 22.0),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.data.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      String level = '';
+                                      switch (state.data[index].level) {
+                                        case -1:
+                                          level = 'N/A';
+                                          break;
+                                        case 1:
+                                          level = 'Easy';
+                                          break;
+                                        case 2:
+                                          level = 'Medium';
+                                          break;
+                                        case 3:
+                                          level = 'Hard';
+                                          break;
+                                      }
+                                      return ListTile(
+                                          leading: Icon(Icons.android),
+                                          // leading: state.data[index].,
+                                          title: Row(
+                                            children: [
+                                              Container(
+                                                width: MediaQuery.of(context).size.width / 7,
+                                                child: Text(
+                                                  state.data[index].title ?? '',
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 30,
+                                              ),
+                                              state.data[index].level == -1 || state.data[index].level == null
+                                                  ? Container()
+                                                  : Text('Level - $level '),
+                                              SizedBox(
+                                                width: 30,
+                                              ),
+                                              state.data[index].readtime == 0 || state.data[index].readtime == null
+                                                  ? Container()
+                                                  : Text('ReadingTime - ${state.data[index].readtime}'),
+                                            ],
+                                          ),
+                                          subtitle: Text(
+                                            'Source - ${state.data[index].source ?? ''}',
+                                          ),
+                                          trailing: PopupMenuButton(
+                                            onSelected: (string) {
+                                              switch (string) {
+                                                case 'Bookmark':
+                                                  _bookmark(state.data[index]);
+                                                  break;
+                                                case 'Delete':
+                                                  _delete(state.data[index]);
+                                                  break;
+                                                case 'Edit':
+                                                  _showDialog(context, CourseContentAddType.editing, data: state.data[index]);
+                                                // case 'Change Type':
+                                                //   _changeType(state.data[index]);
+                                                //   break;
+                                              }
+                                            },
+                                            itemBuilder: (context) {
+                                              return [
+                                                'Edit',
+                                                'Bookmark',
+                                                'Delete',
+                                              ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                  .map(
+                                                    (e) => PopupMenuItem(
+                                                      child: Text(e),
+                                                      value: e,
+                                                    ),
+                                                  )
+                                                  .toList();
+                                            },
+                                          ));
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                          if (state is CourseContentFailed) {
+                            return Center(
+                              child: Text(state.error),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      )
+                    ],
                   ),
-                )
-              ],
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -798,29 +838,16 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                       children: [
                         RaisedButton.icon(
                           onPressed: () {
-                            if (typeDropDownValue.isEmpty ||
-                                file.path.isEmpty ||
-                                titleController.text.isEmpty ||
-                                topic.isEmpty) {
+                            if (typeDropDownValue.isEmpty || file.path.isEmpty || titleController.text.isEmpty || topic.isEmpty) {
                               Toast.show('Please Check contents once', context);
                             } else {
                               if (isAdding) {
                                 BlocProvider.of<AddFacultyContentCubit>(context).addFacultyContent(
-                                    enabledUnitId,
-                                    topic,
-                                    1,
-                                    titleController.text,
-                                    file,
-                                    isPublic ? 'public' : 'private',
-                                    'externalUrl');
+                                    enabledUnitId, topic, 1, titleController.text, file, isPublic ? 'public' : 'private', 'externalUrl');
                               } else {
-                                BlocProvider.of<AddFacultyContentCubit>(context)
-                                    .updateFacultyContent(
-                                        int.parse(data.topic_id),
-                                        int.parse(data.type),
-                                        data.material_id,
-                                        titleController.text,
-                                        attachments: file);
+                                BlocProvider.of<AddFacultyContentCubit>(context).updateFacultyContent(
+                                    int.parse(data.topic_id), int.parse(data.type), data.material_id, titleController.text,
+                                    attachments: file);
                               }
                             }
                             Navigator.pop(context);

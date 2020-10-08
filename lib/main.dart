@@ -47,6 +47,13 @@ main() {
   runApp(EdWisely());
 }
 
+class Test extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
 void _initializeVariables() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   // departmentId = sharedPreferences.getString('department_id');
