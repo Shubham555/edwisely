@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   //center part
                   SizedBox(
-                    width: screenSize.width * 0.6,
+                    width: screenSize.width * 0.58,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 22.0,
@@ -107,28 +107,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   //right part
-                  SizedBox(
-                    width: screenSize.width * 0.22,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //heading text
-                        Text(
-                          'Upcoming',
-                          style: textTheme.headline2,
-                        ),
-                        _upcomingEventsList(),
-                        //spacing
-                        SizedBox(
-                          height: screenSize.height * 0.02,
-                        ),
-                        //heading text
-                        Text(
-                          'Peer Activity',
-                          style: textTheme.headline2,
-                        ),
-                        _peerActivityList(),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical : 22.0,horizontal: 42.0),
+                    child: SizedBox(
+                      width: screenSize.width * 0.22,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //heading text
+                          Text(
+                            'Upcoming',
+                            style: textTheme.headline2,
+                          ),
+                          _upcomingEventsList(),
+                          //spacing
+                          SizedBox(
+                            height: screenSize.height * 0.02,
+                          ),
+                          //heading text
+                          Text(
+                            'Peer Activity',
+                            style: textTheme.headline2,
+                          ),
+                          _peerActivityList(),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -154,10 +157,12 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         color: Colors.white,
-        border: Border.all(
-          color: Colors.black,
-          width: 0.5,
-        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 6.0,
+          ),
+        ],
       ),
       child: ListView.builder(
         itemCount: _peerActivity.length,
@@ -192,10 +197,12 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.0),
               color: Colors.white,
-              border: Border.all(
-                color: Colors.black,
-                width: 0.5,
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 6.0,
+                ),
+              ],
             ),
             // child: state.map['upcoming_events']['objective_tests'] == '' ? ,
           );
@@ -661,7 +668,186 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _notificationActivity(dynamic activity) {
-    return SizedBox.shrink();
+    TextEditingController controller = TextEditingController();
+    return Container(
+      height: screenSize.height * 0.2,
+      margin: const EdgeInsets.symmetric(
+        vertical: 12.0,
+        horizontal: 22.0,
+      ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 12.0,
+        horizontal: 22.0,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 6.0,
+          )
+        ],
+      ),
+      child: Column(
+        children: [
+          _activityTitle(
+            activity['title'],
+            Color(0xFF508AE0),
+            activity['followers'],
+            activity['start_time'],
+          ),
+          //center
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 22.0,
+                horizontal: 32.0,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //description
+                  SizedBox(
+                    width: screenSize.width * 0.2,
+                    child: Text(activity['description']),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          //footer
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              //sendTo
+              Image.asset('assets/icons/sendTo.png'),
+              SizedBox(width: 6.0),
+              //send count
+              Text('${activity['sent_to']} Send To'),
+              //spacing
+              SizedBox(width: screenSize.width * 0.05),
+              //comments
+              Image.asset('assets/icons/comments.png'),
+              SizedBox(width: 6.0),
+              //send count
+              Text('${activity['comments_count']} Comments')
+            ],
+          ),
+          Container(
+            height: screenSize.height * 0.07,
+            padding: const EdgeInsets.only(left: 12.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: Color(0xFFf5f6fa),
+            ),
+            child: Row(
+              children: [
+                Flexible(
+                  child: TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your comment',
+                      hintStyle: textTheme.headline6.copyWith(color: Colors.grey[400]),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12.0),
+                SizedBox(
+                  width: 64.0,
+                  child: FlatButton(
+                    onPressed: () {
+                      context
+                          .bloc<CommentCubit>()
+                          .postSurveyComment(activity['id'], controller.text);
+                    },
+                    child: Icon(
+                      Icons.send,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          BlocBuilder(
+            cubit: context.bloc<CommentCubit>()..getSurveyComments(activity['id']),
+            // ignore: missing_return
+            builder: (BuildContext context, state) {
+              if (state is MaterialCommentsFetched) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.materialComment.data.length,
+                  itemBuilder: (ctx, index) => Align(
+                    alignment: state.materialComment.data[index].college_account_id == null ? Alignment.centerLeft : Alignment.centerRight,
+                    child: Container(
+                      height: screenSize.height * 0.07,
+                      width: screenSize.width * 0.3,
+                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: state.materialComment.data[index].college_account_id == null
+                            ? Color(0xFF7bed9f).withOpacity(0.5)
+                            : Color(0xFFff6b81).withOpacity(0.5),
+                      ),
+                      child: Stack(
+                        children: [
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AspectRatio(
+                                  aspectRatio: 1,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(32.0),
+                                    child: Image.network(
+                                      state.materialComment.data[index].college_account_id == null
+                                          ? state.materialComment.data[index].student.profile_pic
+                                          : state.materialComment.data[index].college_account.profile_pic,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 8.0),
+                              SizedBox(
+                                width: screenSize.width * 0.25,
+                                child: Text(
+                                  state.materialComment.data[index].comment,
+                                  maxLines: 2,
+                                  softWrap: true,
+                                  style: textTheme.headline5,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                            right: 4.0,
+                            bottom: 4.0,
+                            child: Text(state.materialComment.data[index].created_at.toString()),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+              if (state is MaterialCommentFailed) {
+                return Text(' Could not fetch Comments');
+              }
+              if (state is MaterialCommentInitial) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          )
+        ],
+      ),
+    );
   }
 
   Widget _activityTitle(

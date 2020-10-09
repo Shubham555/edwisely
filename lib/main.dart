@@ -162,7 +162,6 @@ class EdWisely extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          sjksdjkhdf
           title: 'Edwisely',
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,

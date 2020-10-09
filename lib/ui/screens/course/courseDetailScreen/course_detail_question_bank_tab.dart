@@ -15,13 +15,10 @@ class CourseDetailQuestionBankTab extends StatefulWidget {
   CourseDetailQuestionBankTab(this.subjectId);
 
   @override
-  _CourseDetailQuestionBankTabState createState() =>
-      _CourseDetailQuestionBankTabState();
+  _CourseDetailQuestionBankTabState createState() => _CourseDetailQuestionBankTabState();
 }
 
-class _CourseDetailQuestionBankTabState
-    extends State<CourseDetailQuestionBankTab>
-    with SingleTickerProviderStateMixin {
+class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTab> with SingleTickerProviderStateMixin {
   TabController _tabController;
   int unitSelected;
 
@@ -45,8 +42,7 @@ class _CourseDetailQuestionBankTabState
           Container(
             width: MediaQuery.of(context).size.width / 10,
             child: BlocBuilder(
-              cubit: context.bloc<UnitCubit>()
-                ..getUnitsOfACourse(widget.subjectId),
+              cubit: context.bloc<UnitCubit>()..getUnitsOfACourse(widget.subjectId),
               builder: (BuildContext context, state) {
                 if (state is CourseUnitFetched) {
                   _tabController.index == 0
@@ -90,67 +86,144 @@ class _CourseDetailQuestionBankTabState
                   int enabledUnitId = state.units.data[0].id;
 
                   return StatefulBuilder(
-                    builder: (BuildContext context,
-                        void Function(void Function()) setState) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.units.data.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            ListTile(
-                          hoverColor: Colors.white,
-                          selected: enabledUnitId == state.units.data[index].id,
-                          title: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 8.0,
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              state.units.data[index].name,
-                              style: enabledUnitId == state.units.data[index].id
-                                  ? TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 22.0,
-                                      fontWeight: FontWeight.bold,
-                                    )
-                                  : TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.normal,
+                    builder: (BuildContext context, void Function(void Function()) setState) {
+                      return Container(
+                        margin: const EdgeInsets.only(right: 22.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.0),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 0.5,
+                          ),
+                        ),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.units.data.length,
+                          itemBuilder: (BuildContext context, int index) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                            child: InkWell(
+                              onTap: () {
+                                enabledUnitId = state.units.data[index].id;
+                                setState(
+                                  () {},
+                                );
+                                switch (_tabController.index) {
+                                  case 0:
+                                    context.bloc<QuestionBankBloc>().add(
+                                          GetUnitQuestions(
+                                            widget.subjectId,
+                                            state.units.data[0].id,
+                                          ),
+                                        );
+                                    break;
+                                  case 1:
+                                    context.bloc<QuestionBankObjectiveBloc>().add(
+                                          GetUnitObjectiveQuestions(
+                                            widget.subjectId,
+                                            state.units.data[0].id,
+                                          ),
+                                        );
+                                    break;
+                                  case 2:
+                                    context.bloc<QuestionBankSubjectiveBloc>().add(
+                                          GetUnitSubjectiveQuestions(
+                                            widget.subjectId,
+                                            state.units.data[0].id,
+                                          ),
+                                        );
+                                    break;
+                                }
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AnimatedDefaultTextStyle(
+                                    duration: Duration(milliseconds: 300),
+                                    style: enabledUnitId == state.units.data[index].id
+                                        ? TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 22.0,
+                                            fontWeight: FontWeight.bold,
+                                          )
+                                        : TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                    child: Text(
+                                      state.units.data[index].name,
                                     ),
+                                  ),
+                                  SizedBox(height: 2.0),
+                                  AnimatedContainer(
+                                    duration: Duration(
+                                      milliseconds: 300,
+                                    ),
+                                    width: enabledUnitId == state.units.data[index].id ? 80.0 : 40.0,
+                                    height: 3.0,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          onTap: () {
-                            enabledUnitId = state.units.data[index].id;
-                            setState(
-                              () {},
-                            );
-                            switch (_tabController.index) {
-                              case 0:
-                                context.bloc<QuestionBankBloc>().add(
-                                      GetUnitQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
-                                break;
-                              case 1:
-                                context.bloc<QuestionBankObjectiveBloc>().add(
-                                      GetUnitObjectiveQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
-                                break;
-                              case 2:
-                                context.bloc<QuestionBankSubjectiveBloc>().add(
-                                      GetUnitSubjectiveQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
-                                break;
-                            }
-                          },
+                          //     ListTile(
+                          //   hoverColor: Colors.white,
+                          //   selected: enabledUnitId == state.units.data[index].id,
+                          //   title: Container(
+                          //     padding: const EdgeInsets.symmetric(
+                          //       vertical: 8.0,
+                          //     ),
+                          //     alignment: Alignment.center,
+                          //     child: Text(
+                          //       state.units.data[index].name,
+                          //       style: enabledUnitId == state.units.data[index].id
+                          //           ? TextStyle(
+                          //               color: Colors.black,
+                          //               fontSize: 22.0,
+                          //               fontWeight: FontWeight.bold,
+                          //             )
+                          //           : TextStyle(
+                          //               color: Colors.grey,
+                          //               fontSize: 20.0,
+                          //               fontWeight: FontWeight.normal,
+                          //             ),
+                          //     ),
+                          //   ),
+                          //   onTap: () {
+                          //     enabledUnitId = state.units.data[index].id;
+                          //     setState(
+                          //       () {},
+                          //     );
+                          //     switch (_tabController.index) {
+                          //       case 0:
+                          //         context.bloc<QuestionBankBloc>().add(
+                          //               GetUnitQuestions(
+                          //                 widget.subjectId,
+                          //                 state.units.data[0].id,
+                          //               ),
+                          //             );
+                          //         break;
+                          //       case 1:
+                          //         context.bloc<QuestionBankObjectiveBloc>().add(
+                          //               GetUnitObjectiveQuestions(
+                          //                 widget.subjectId,
+                          //                 state.units.data[0].id,
+                          //               ),
+                          //             );
+                          //         break;
+                          //       case 2:
+                          //         context.bloc<QuestionBankSubjectiveBloc>().add(
+                          //               GetUnitSubjectiveQuestions(
+                          //                 widget.subjectId,
+                          //                 state.units.data[0].id,
+                          //               ),
+                          //             );
+                          //         break;
+                          //     }
+                          //   },
+                          // ),
                         ),
                       );
                     },
@@ -169,7 +242,7 @@ class _CourseDetailQuestionBankTabState
               children: [
                 TabBar(
                   labelPadding: EdgeInsets.symmetric(horizontal: 36.0),
-                  indicatorColor: Colors.black,
+                  indicatorColor: Theme.of(context).primaryColor,
                   labelColor: Colors.black,
                   indicatorPadding: const EdgeInsets.only(top: 8.0),
                   unselectedLabelColor: Colors.grey,

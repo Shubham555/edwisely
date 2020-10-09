@@ -55,13 +55,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                       Container(
                                         width: MediaQuery.of(context).size.width * 0.07,
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 0.0,
-                                          horizontal: 12.0,
-                                        ),
+                                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(4.0),
-                                          border: Border.all(color: Colors.black),
+                                          borderRadius: BorderRadius.circular(12.0),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
                                         ),
                                         child: DropdownButton(
                                             underline: SizedBox.shrink(),
@@ -122,13 +122,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                       Container(
                                         width: MediaQuery.of(context).size.width * 0.07,
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 0.0,
-                                          horizontal: 12.0,
-                                        ),
+                                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(4.0),
-                                          border: Border.all(color: Colors.black),
+                                          borderRadius: BorderRadius.circular(12.0),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
                                         ),
                                         child: DropdownButton(
                                           underline: SizedBox.shrink(),
@@ -169,13 +169,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                       Container(
                                         width: MediaQuery.of(context).size.width * 0.1,
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0,
-                                          horizontal: 12.0,
-                                        ),
+                                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(4.0),
-                                          border: Border.all(color: Colors.black),
+                                          borderRadius: BorderRadius.circular(12.0),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
                                         ),
                                         child: DropdownButton(
                                           underline: SizedBox.shrink(),
@@ -239,43 +239,50 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                 ],
                               ),
                             ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Subjective Questions',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.height / 50,
-                                  ),
+                            Container(
+                              padding: const EdgeInsets.all(18.0),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(18.0),
+                                  topRight: Radius.circular(18.0),
                                 ),
-                                FlatButton(
-                                  hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6),
-                                    side: BorderSide(
-                                      color: Color(0xFF1D2B64),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Subjective Questions',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: MediaQuery.of(context).size.height / 50,
                                     ),
                                   ),
-                                  onPressed: () => null,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.add,
-                                        color: Color(0xFF1D2B64),
-                                      ),
-                                      Text(
-                                        'Add Your Questions',
-                                        style: TextStyle(
-                                          color: Color(0xFF1D2B64),
+                                  RaisedButton(
+                                    hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    onPressed: () => null,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.add,
+                                          color: Colors.white,
                                         ),
-                                      )
-                                    ],
+                                        Text(
+                                          'Add Your Questions',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             BlocBuilder(
                               cubit: context.bloc<QuestionBankSubjectiveBloc>(),
@@ -284,9 +291,15 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                   return ListView.builder(
                                       shrinkWrap: true,
                                       itemCount: state.questionBankSubjectiveEntity.data.length,
-                                      itemBuilder: (BuildContext context, int index) => Card(
-                                            margin: EdgeInsets.all(
-                                              10,
+                                      itemBuilder: (BuildContext context, int index) => Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 0.5,
+                                                ),
+                                              ),
                                             ),
                                             child: ListTile(
                                               title: Row(
@@ -332,7 +345,9 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                       },
                                                     )
                                                   : IconButton(
-                                                      icon: Icon(state.questionBankSubjectiveEntity.data[index].bookmarked == 1 ? Icons.bookmark : Icons.bookmark_border),
+                                                      icon: Icon(state.questionBankSubjectiveEntity.data[index].bookmarked == 1
+                                                          ? Icons.bookmark
+                                                          : Icons.bookmark_border),
                                                       onPressed: () => _bookmark(
                                                         state.questionBankSubjectiveEntity.data[index],
                                                       ),

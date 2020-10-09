@@ -55,13 +55,13 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width * 0.07,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 0.0,
-                                      horizontal: 12.0,
-                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      border: Border.all(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     child: DropdownButton(
                                         underline: SizedBox.shrink(),
@@ -123,13 +123,13 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width * 0.07,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 0.0,
-                                      horizontal: 12.0,
-                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      border: Border.all(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     child: DropdownButton(
                                       underline: SizedBox.shrink(),
@@ -170,13 +170,13 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width * 0.1,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 0.0,
-                                      horizontal: 12.0,
-                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      border: Border.all(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: Colors.white,
+                                      border: Border.all(
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     child: DropdownButton(
                                       underline: SizedBox.shrink(),
@@ -240,55 +240,65 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                             ],
                           ),
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Objective Questions',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: MediaQuery.of(context).size.height / 50,
-                              ),
+                        Container(
+                          padding: const EdgeInsets.all(18.0),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(18.0),
+                              topRight: Radius.circular(18.0),
                             ),
-                            FlatButton(
-                              hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                                side: BorderSide(
-                                  color: Color(0xFF1D2B64),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Objective Questions',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MediaQuery.of(context).size.height / 50,
                                 ),
                               ),
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) => TypeQuestionTab(
-                                    'Add New Objective Question',
-                                    '',
-                                    widget.subjectId,
-                                    QuestionType.Objective,
-                                    1234567890,
-                                    true,
-                                  ),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.add,
+                              RaisedButton(
+                                hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                  side: BorderSide(
                                     color: Color(0xFF1D2B64),
                                   ),
-                                  Text(
-                                    'Add Your Questions',
-                                    style: TextStyle(
-                                      color: Color(0xFF1D2B64),
+                                ),
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) => TypeQuestionTab(
+                                      'Add New Objective Question',
+                                      '',
+                                      widget.subjectId,
+                                      QuestionType.Objective,
+                                      1234567890,
+                                      true,
                                     ),
-                                  )
-                                ],
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      'Add Your Questions',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         BlocBuilder(
                           cubit: context.bloc<QuestionBankObjectiveBloc>(),
@@ -298,73 +308,82 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                 shrinkWrap: true,
                                 itemCount: state.questionBankObjectiveEntity.data.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Card(
-                                    margin: EdgeInsets.all(
-                                      10,
+                                  return Container(
+                                    height: MediaQuery.of(context).size.height * 0.1,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 0.5,
+                                        ),
+                                      ),
                                     ),
-                                    child: ListTile(
-                                      title: Row(
-                                        children: [
-                                          Text('Q. ${index + 1}  '),
-                                          Expanded(
-                                            child: TeXView(
-                                              child: TeXViewDocument(
-                                                state.questionBankObjectiveEntity.data[index].name
-                                                  ..replaceAll("\$", ''),
+                                    child: AbsorbPointer(
+                                      child: ListTile(
+                                        title: Row(
+                                          children: [
+                                            Text('Q. ${index + 1}  '),
+                                            Flexible(
+                                              child: TeXView(
+                                                child: TeXViewDocument(
+                                                  state.questionBankObjectiveEntity.data[index].name
+                                                    ..replaceAll("\$", ''),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      subtitle: Text(
-                                        'Level ${state.questionBankObjectiveEntity.data[index].blooms_level}',
-                                      ),
-                                      trailing: questionsDropDownValue == 3
-                                          ? PopupMenuButton(
-                                              onSelected: (string) {
-                                                switch (string) {
-                                                  case 'Bookmark':
-                                                    _bookmark(state
-                                                        .questionBankObjectiveEntity.data[index]);
-                                                    break;
-                                                  case 'Change type to Public':
-                                                    _changeType(
-                                                        state.questionBankObjectiveEntity
-                                                            .data[index].id,
-                                                        'public');
-                                                    break;
-                                                  case 'Change type to Private':
-                                                    _changeType(
-                                                        state.questionBankObjectiveEntity
-                                                            .data[index].id,
-                                                        'private');
-                                                    break;
-                                                }
-                                              },
-                                              itemBuilder: (context) {
-                                                return [
-                                                  'Bookmark',
-                                                  'Change type to ${state.questionBankObjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
-                                                ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
-                                                    .map(
-                                                      (e) => PopupMenuItem(
-                                                        child: Text(e),
-                                                        value: e,
-                                                      ),
-                                                    )
-                                                    .toList();
-                                              },
-                                            )
-                                          : IconButton(
-                                              icon: Icon(state.questionBankObjectiveEntity
-                                                          .data[index].bookmarked ==
-                                                      1
-                                                  ? Icons.bookmark
-                                                  : Icons.bookmark_border),
-                                              onPressed: () => _bookmark(
-                                                state.questionBankObjectiveEntity.data[index],
+                                          ],
+                                        ),
+                                        subtitle: Text(
+                                          'Level ${state.questionBankObjectiveEntity.data[index].blooms_level}',
+                                        ),
+                                        trailing: questionsDropDownValue == 3
+                                            ? PopupMenuButton(
+                                                onSelected: (string) {
+                                                  switch (string) {
+                                                    case 'Bookmark':
+                                                      _bookmark(state
+                                                          .questionBankObjectiveEntity.data[index]);
+                                                      break;
+                                                    case 'Change type to Public':
+                                                      _changeType(
+                                                          state.questionBankObjectiveEntity
+                                                              .data[index].id,
+                                                          'public');
+                                                      break;
+                                                    case 'Change type to Private':
+                                                      _changeType(
+                                                          state.questionBankObjectiveEntity
+                                                              .data[index].id,
+                                                          'private');
+                                                      break;
+                                                  }
+                                                },
+                                                itemBuilder: (context) {
+                                                  return [
+                                                    'Bookmark',
+                                                    'Change type to ${state.questionBankObjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
+                                                  ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                      .map(
+                                                        (e) => PopupMenuItem(
+                                                          child: Text(e),
+                                                          value: e,
+                                                        ),
+                                                      )
+                                                      .toList();
+                                                },
+                                              )
+                                            : IconButton(
+                                                icon: Icon(state.questionBankObjectiveEntity
+                                                            .data[index].bookmarked ==
+                                                        1
+                                                    ? Icons.bookmark
+                                                    : Icons.bookmark_border),
+                                                onPressed: () => _bookmark(
+                                                  state.questionBankObjectiveEntity.data[index],
+                                                ),
                                               ),
-                                            ),
+                                      ),
                                     ),
                                   );
                                 },
