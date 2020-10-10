@@ -45,13 +45,15 @@ String loginToken;
 main() {
   _initializeVariables();
   runApp(EdWisely());
+
 }
 
 void _initializeVariables() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     departmentId = int.parse(sharedPreferences.getString('department_id'));
     collegeId = int.parse(sharedPreferences.getString('college_id'));
-    loginToken = sharedPreferences.getString('login_token').toString();
+    loginToken = sharedPreferences.getString('login_key').toString();
+  print(' Shared{Prefs Se Login Token $loginToken');
 
   // departmentId = 71;
   // collegeId = 102;
