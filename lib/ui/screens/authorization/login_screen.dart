@@ -221,7 +221,7 @@ class LoginScreen extends StatelessWidget {
                                         {'email': forgotController.text},
                                       ),
                                     );
-                                    print(response.data);
+
                                     if (response.data['message'] ==
                                         'Successfully updated password') {
                                       Navigator.pop(context);

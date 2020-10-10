@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:chips_choice/chips_choice.dart';
+import 'package:edwisely/data/cubits/question_add_cubit.dart';
 import 'package:edwisely/data/model/assessment/assessmentQuestions/data.dart' as assesmentData;
 import 'package:edwisely/ui/widgets_util/my_checkbox.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
@@ -78,8 +79,10 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   bool _showHint = false;
   bool _showSoltuion = false;
 
+  int _currentQuestionId;
+
   Future getImage() async {
-    print('Picking Image');
+    
     final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
     _question = pickedFile.toBase64();
 
@@ -89,7 +92,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   }
 
   Future getOptionImage(int opt) async {
-    print('Picking Image');
+    
     final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
 
     setState(() {
@@ -238,7 +241,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                             ],
                           ),
                           child: StatefulBuilder(
-                            builder: (BuildContext context, void Function(void Function()) setState) {
+                            builder: (BuildContext context, void Function(void Function()) innerSetState) {
                               return BlocBuilder(
                                 cubit: _questionFetchCubit
                                   ..getQuestionsToAnAssessment(
@@ -254,10 +257,22 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       },
                                     );
                                     return StatefulBuilder(
-                                      builder: (BuildContext context, void Function(void Function()) setState) {
+                                      builder: (BuildContext context, void Function(void Function()) innerSetState2) {
                                         return ListView.builder(
+                                          shrinkWrap: true,
                                           itemCount: state.assessmentQuestionsEntity.data.length,
                                           itemBuilder: (BuildContext context, int index) => ListTile(
+                                            onTap: () {
+                                              _currentQuestionId = state.assessmentQuestionsEntity.data[index].id;
+                                              _questionController.text = state.assessmentQuestionsEntity.data[index].name;
+                                              _option1Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[0].name;
+                                              _option2Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[1].name;
+                                              _option3Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[2].name;
+                                              _option4Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[3].name;
+                                              _hintController.text = state.assessmentQuestionsEntity.data[index].hint;
+                                              _solutionController.text = state.assessmentQuestionsEntity.data[index].solution;
+                                              setState(() {});
+                                            },
                                             leading: Text('Q ${index + 1}'),
                                             title: Text(
                                               state.assessmentQuestionsEntity.data[index].name,
@@ -312,7 +327,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                     children: [
                                       Container(
                                         margin: EdgeInsets.all(12),
-                                        padding: const EdgeInsets.only(top: 14.0,bottom: 14.0),
+                                        padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
                                         height: height * 0.17,
                                         decoration: BoxDecoration(
                                           color: Colors.grey[200],
@@ -326,7 +341,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                 controller: _questionController,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                  fontSize: 32.0,
+                                                  fontSize: 28.0,
                                                 ),
                                                 decoration: InputDecoration(
                                                   hintText: "Click to start typing your question",
@@ -710,7 +725,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                 RaisedButton.icon(
                                   color: Theme.of(context).primaryColor,
                                   onPressed: () {
-                                    print(questions);
+                                    
                                     if (widget._questionType == QuestionType.Objective) {
                                       context.bloc<AddQuestionCubit>().addQuestion(
                                           _questionController.text,
@@ -743,7 +758,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       Future.delayed(
                                           Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
                                     } else {
-                                      print('Subjective');
+                                      
                                     }
                                   },
                                   icon: Icon(
@@ -781,7 +796,6 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text("Tag Topics"),
-                                          //todo change
                                           BlocBuilder(
                                             cubit: context.bloc<TopicCubit>()..getTopics(45),
                                             builder: (BuildContext context, state) {
@@ -836,6 +850,32 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   child: Text(
                                     'Add Solution',
                                     style: Theme.of(context).textTheme.button,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 12.0,
+                                ),
+                                Visibility(
+                                  visible: _currentQuestionId != null,
+                                  child: RaisedButton(
+                                    onPressed: () {
+                                      questions.removeWhere((element) => element == _currentQuestionId);
+                                      _questionController.text = "";
+                                      _option1Controller.text = "";
+                                      _option2Controller.text = "";
+                                      _option3Controller.text = "";
+                                      _option4Controller.text = "";
+                                      _hintController.text = "";
+                                      _solutionController.text = "";
+                                      context.bloc<QuestionAddCubit>().deleteQuestion(widget._assessmentId, questions);
+                                      context.bloc<QuestionsCubit>().getQuestionsToAnAssessment(widget._assessmentId);
+                                      _currentQuestionId = null;
+                                      setState(() {});
+                                    },
+                                    child: Text(
+                                      'Delete',
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
                                   ),
                                 ),
                               ],

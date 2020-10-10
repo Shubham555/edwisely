@@ -19,7 +19,7 @@ class QuestionsCubit extends Cubit<QuestionsState> {
           'Authorization': 'Bearer $loginToken',
         })
     );
-    print('Questions ${response.data}');
+
 
     if (response.statusCode == 200) {
       if (response.data['data'].toString().isNotEmpty) {

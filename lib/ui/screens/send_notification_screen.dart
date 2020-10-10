@@ -250,7 +250,6 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                     ),
                                     Text('Class Select'),
                                     BlocBuilder(
-                                      //todo change
                                       cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                                       builder: (BuildContext context, state) {
                                         if (state is SendAssessmentSectionsFetched) {

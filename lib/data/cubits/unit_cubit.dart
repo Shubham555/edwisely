@@ -14,7 +14,7 @@ class UnitCubit extends Cubit<UnitState> {
         headers: {
           'Authorization': 'Bearer $loginToken',//kr le tu me aya 10 min me
         }));
-    print('Units ${response.data}');
+
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No data to fetch') {
         emit(

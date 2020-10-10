@@ -72,9 +72,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                         state.units.data[0].id,
                         widget.semesterId,
                       );
-                  context.bloc<CourseDecksCubit>().getCourseDecks(
-                      // FIXME: 10/2/2020 change to state.units.data[0].id
-                      723);
+                  context.bloc<CourseDecksCubit>().getCourseDecks(state.units.data[0].id);
                   enabledUnitId = state.units.data[0].id;
                   return Container(
                     width: MediaQuery.of(context).size.width * 0.1,
@@ -105,7 +103,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                               .toList(),
                           onChanged: (value) {
                             enabledUnitId = value;
-                            print(enabledUnitId);
+
                             setState(() {});
                             context.bloc<CourseContentCubit>().getCourseContent(
                                   value,
@@ -144,7 +142,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                         //     ),
                         //     onTap: () {
                         //       enabledUnitId = state.units.data[index].id;
-                        //       print(enabledUnitId);
+                        //
                         //       setState(() {});
                         //       context.bloc<CourseContentCubit>().getCourseContent(
                         //             state.units.data[index].id,
@@ -197,23 +195,23 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                             fontSize: MediaQuery.of(context).size.height / 50,
                                           ),
                                         ),
-                                        RaisedButton(
-                                          hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                                          onPressed: () => null,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(
-                                                Icons.add,
-                                                color: Colors.white,
-                                              ),
-                                              Text(
-                                                'Add Your Deck',
-                                                style: Theme.of(context).textTheme.button,
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                        // RaisedButton(
+                                        //   hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                        //   onPressed: () => null,
+                                        //   child: Row(
+                                        //     mainAxisSize: MainAxisSize.min,
+                                        //     children: [
+                                        //       Icon(
+                                        //         Icons.add,
+                                        //         color: Colors.white,
+                                        //       ),
+                                        //       Text(
+                                        //         'Add Your Deck',
+                                        //         style: Theme.of(context).textTheme.button,
+                                        //       )
+                                        //     ],
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                   ),
@@ -553,7 +551,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                           break;
                                       }
                                       return ListTile(
-                                          leading: Icon(Icons.android),
+                                          leading: Text(state.data[index].type),
                                           // leading: state.data[index].,
                                           title: Row(
                                             children: [
@@ -653,7 +651,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
           },
         ),
       );
-      print(response.data);
+
       if (response.data['message'] == 'Successfully deleted the bookmark') {
         setState(
           () => isBookmarked = false,
@@ -671,7 +669,6 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
           },
         ),
       );
-      print(response.data);
 
       if (response.data['message'] == 'Successfully added the bookmark') {
         setState(
@@ -693,7 +690,6 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
     if (response.data['message'] == 'Successfully deleted the files.') {
       setState(() {});
     } else {
-      print(response.data);
       Toast.show('Cannot delete the item . PLease try again', context);
     }
   }
@@ -840,7 +836,6 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                         },
                       ),
                     ),
-                    // FIXME: 9/27/2020
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -897,9 +892,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
     );
   }
 
-// FIXME: 10/7/2020 error hai nhi ho rha
   _showDeckItems(BuildContext context) {
-
     showDialog(
       context: context,
       builder: (context) => BlocBuilder(
@@ -921,7 +914,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                           builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
                             if (snapshot.hasData) {
                               String dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
-                              print(dd);
+
                               return Card(
                                 margin: EdgeInsets.all(150),
                                 child: SingleChildScrollView(
@@ -937,7 +930,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                         ),
                                       ),
                                       Text(
-                                        'Pages: $index / ${state.deckItemsEntity.data.length}',
+                                        'Pages: ${index + 1}/ ${state.deckItemsEntity.data.length}',
                                         style: Theme.of(context).textTheme.headline5,
                                       ),
                                       SizedBox(

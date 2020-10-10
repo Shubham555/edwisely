@@ -29,14 +29,14 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   ) async* {
     var currentStrate = state;
     if (event is GetCoursesByFaculty) {
-      print(loginToken);
+
       final response = await EdwiselyApi.dio.get('getFacultyCourses',
           options: Options(
             headers: {
               'Authorization': 'Bearer $loginToken',
             },
           ));
-      print('Courses Bloc ${response.data}');
+
       if (response.statusCode == 200) {
         // if (response.data['status'] != 200) {
         //   SharedPreferences.getInstance().then((value) => value.setString('login_key', null));

@@ -40,7 +40,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
               cubit: context.bloc<ObjectiveBloc>(),
               listener: (BuildContext context, state) {
                 if (state is ObjectiveAssessmentCreated) {
-                  print(state.assessmentId);
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -200,7 +200,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                                   choiceLayout: S2ChoiceLayout.wrap,
                                   onChange: (state) => setState(() {
                                     selectedCouerse = state.value;
-                                    print(selectedCouerse);
+
                                   }),
                                   tileBuilder: (context, state) => S2Tile.fromState(
                                     state,

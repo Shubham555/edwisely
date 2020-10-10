@@ -355,7 +355,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                             },
                                                           ),
                                                         );
-                                                        print(response.data);
+
                                                         if (response.data['message'] == 'Successfully deleted the bookmark') {
                                                           setState(
                                                             () => isBookmarked = false,
@@ -377,7 +377,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                             },
                                                           ),
                                                         );
-                                                        print(response.data);
+
 
                                                         if (response.data['message'] == 'Successfully added the bookmark') {
                                                           setState(
@@ -571,7 +571,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                         },
                                                       ),
                                                     );
-                                                    print(response.data);
+
                                                     if (response.data['message'] == 'Successfully deleted the bookmark') {
                                                       setState(
                                                         () => isBookmarked = false,
@@ -593,7 +593,7 @@ class _QuestionBankAllTabState extends State<QuestionBankAllTab> {
                                                         },
                                                       ),
                                                     );
-                                                    print(response.data);
+
 
                                                     if (response.data['message'] == 'Successfully added the bookmark') {
                                                       setState(

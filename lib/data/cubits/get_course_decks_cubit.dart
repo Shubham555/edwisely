@@ -14,7 +14,7 @@ class CourseDecksCubit extends Cubit<GetCourseDecksState> {
         headers: {
           'Authorization': 'Bearer $loginToken',
         }));
-    print(response.data);
+
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No data to fetch') {
         emit(

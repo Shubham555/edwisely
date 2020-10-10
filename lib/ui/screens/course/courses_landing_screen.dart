@@ -153,16 +153,21 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
 
   Widget _courseCard(BuildContext context, int index, CoursesFetched state) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => CourseDetailScreen(
-            state.coursesEntity.data[index].name,
-            state.coursesEntity.data[index].subject_semester_id,
-            state.coursesEntity.data[index].id,
-          ),
-        ),
-      ),
+      // onTap: () => Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (BuildContext context) => CourseDetailScreen(
+      //       state.coursesEntity.data[index].name,
+      //       state.coursesEntity.data[index].subject_semester_id,
+      //       state.coursesEntity.data[index].id,dfdf
+      //     ),
+      //   ),
+      // ),
+      onTap: () => MyRouter().navigateTo(pageProvider.navigatorKey, '/course-details-screen', {
+        'name': state.coursesEntity.data[index].name,
+        'subject_semester_id': state.coursesEntity.data[index].subject_semester_id,
+        'id': state.coursesEntity.data[index].id,
+      }),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
@@ -231,7 +236,6 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                   //               fontSize: 16,
                   //             ),
                   //           ),
-                  //           // FIXME: 9/27/2020 fix this IconButton
                   //           IconButton(
                   //               padding: EdgeInsets.zero,
                   //               icon: Icon(
@@ -285,17 +289,17 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
             title: Text(data.name),
           );
         },
-        // onSuggestionSelected: (data) => Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (BuildContext context) => CourseDetailScreen(data.name, data.subject_semester_id, data.id),
-        //   ),
-        // ),
-        onSuggestionSelected: (data) => MyRouter().navigateTo(pageProvider.navigatorKey, '/course-details-screen', {
-          'name': data.name,
-          'subject_semester_id': data.subject_semster_id,
-          'id': data.id,
-        }),
+        onSuggestionSelected: (data) => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => CourseDetailScreen(data.name, data.subject_semester_id, data.id),
+          ),
+        ),
+        // onSuggestionSelected: (data) => MyRouter().navigateTo(pageProvider.navigatorKey, '/course-details-screen', {
+        //   'name': data.name,
+        //   'subject_semester_id': data.subject_semster_id,
+        //   'id': data.id,
+        // }),
         //  Navigator.pushNamed(
         //   context,
         //   '/course-details-screen',
@@ -336,9 +340,9 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
         },
       ),
     );
-    print(response.data);
+
     if (response.data['message'] == 'Successfully deleted the data') {
-      print('sdv');
+
       _courseBloc.add(
         GetCoursesByFaculty(),
       );

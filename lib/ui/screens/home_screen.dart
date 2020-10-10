@@ -211,6 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 state.map['upcoming_events']['objective_tests'] == ''
                     ? Text('There are no objective test!')
                     : ListView.builder(
+                        shrinkWrap: true,
                         itemCount: List<NotifiacationHomeScreenEntity>.from(
                             state.map['upcoming_events']['objective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
                         itemBuilder: (BuildContext context, int index) {
@@ -218,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               state.map['upcoming_events']['objective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
                           return ListTile(
                             title: Text(data[index].title),
-                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai 
+                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
                           );
                         },
                       ),
@@ -226,32 +227,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 state.map['upcoming_events']['subjective_tests'] == ''
                     ? Text('There are no objective test!')
                     : ListView.builder(
-                  itemCount: List<NotifiacationHomeScreenEntity>.from(
-                      state.map['upcoming_events']['subjective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var data = List<NotifiacationHomeScreenEntity>.from(
-                        state.map['upcoming_events']['subjective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
-                    return ListTile(
-                      title: Text(data[index].title),
-                      // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai 
-                    );
-                  },
-                ),
+                        shrinkWrap: true,
+                        itemCount: List<NotifiacationHomeScreenEntity>.from(
+                            state.map['upcoming_events']['subjective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
+                        itemBuilder: (BuildContext context, int index) {
+                          var data = List<NotifiacationHomeScreenEntity>.from(
+                              state.map['upcoming_events']['subjective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
+                          return ListTile(
+                            title: Text(data[index].title),
+                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
+                          );
+                        },
+                      ),
                 // for video conference
                 state.map['upcoming_events']['vc'] == ''
                     ? Text('There are no objective test!')
                     : ListView.builder(
-                  itemCount: List<NotifiacationHomeScreenEntity>.from(
-                      state.map['upcoming_events']['vc'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var data = List<NotifiacationHomeScreenEntity>.from(
-                        state.map['upcoming_events']['vc'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
-                    return ListTile(
-                      title: Text(data[index].title),
-                      // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai 
-                    );
-                  },
-                ),
+                        shrinkWrap: true,
+                        itemCount: List<NotifiacationHomeScreenEntity>.from(
+                            state.map['upcoming_events']['vc'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
+                        itemBuilder: (BuildContext context, int index) {
+                          var data = List<NotifiacationHomeScreenEntity>.from(
+                              state.map['upcoming_events']['vc'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
+                          return ListTile(
+                            title: Text(data[index].title),
+                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
+                          );
+                        },
+                      ),
               ],
             ),
           );
@@ -270,6 +273,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget activityTabList(dynamic activityTab) {
+    print('${activityTab}');
+
     return Expanded(
       child: ListView.builder(
         scrollDirection: Axis.vertical,
@@ -288,6 +293,8 @@ class _HomeScreenState extends State<HomeScreen> {
             case 'VideoConference':
               return _meetingActivity(activityTab[index]);
               break;
+            case 'Material':
+              return _testActivity(activityTab[index]);
           }
           return SizedBox.shrink();
         },

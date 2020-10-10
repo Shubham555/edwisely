@@ -14,8 +14,8 @@ class DeckItemsCubit extends Cubit<DeckItemsState> {
         headers: {
           'Authorization': 'Bearer $loginToken',
         }));
-    print('deck items');
-    print(response.data);
+
+
     if (response.data['message'] == 'Successfully fetched the data') {
       emit(
         DeckItemsFetched(

@@ -24,7 +24,7 @@ class TopicQuestionsCubit extends Cubit<TopicQuestionsState> {
           'Authorization': 'Bearer $loginToken',
         })
     );
-    print(response.data);
+
     if (response.data['message'] == 'Successfully fetched the data') {
       emit(
         TopicQuestionsFetched(

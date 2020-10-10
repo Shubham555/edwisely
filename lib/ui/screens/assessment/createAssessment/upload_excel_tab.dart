@@ -53,7 +53,6 @@ class _UploadExcelTabState extends State<UploadExcelTab> {
   }
 
   _selectFile(BuildContext context) async {
-    //todo get excel files extensions
     _excelFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any, fileExtension: '.xlsx, .xls');
     if (_excelFile.fileName.contains('xlsx') || _excelFile.fileName.contains('xls')) {
       Scaffold.of(context).showSnackBar(

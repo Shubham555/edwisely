@@ -11,13 +11,11 @@ class HomeScreenDefaultCubit extends Cubit<HomeScreenDefaultState> {
 
   getHomeScreenContent() async {
     final response = await EdwiselyApi.dio.get(
-      // FIXME: 10/6/2020 change to ${DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now())}
-      // ye krdio production release pr
-        'college/dashboardData?from_date=2020-09-30 18:42:38&delta_days=10&to_date', options: Options(
+        'college/dashboardData?from_date=${DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now())}&delta_days=10&to_date', options: Options(
         headers: {
           'Authorization': 'Bearer $loginToken',
         }));
-    print(response.data['upcoming_events']);
+
     if (response.data['message'] == 'Successfully fetched the data') {
       emit(
         HomeScreenDefaultFetched(

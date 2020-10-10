@@ -23,7 +23,6 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                         await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
-                          //todo change for production date
                           firstDate: DateTime.now().subtract(
                             Duration(days: 100),
                           ),
@@ -161,8 +160,7 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                       state.questionsEntity.data[index].description,
                       state.questionsEntity.data[index].questions_count
                           .toString(),
-                      //todo add subject name thru api
-                      '',
+                      '',//for subject name
                       state.questionsEntity.data[index].doe,
                       state.questionsEntity.data[index].start_time,
                       state.questionsEntity.data[index].subject_id,

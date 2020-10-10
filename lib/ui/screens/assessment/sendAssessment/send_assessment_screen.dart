@@ -585,7 +585,6 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                       ),
                     ),
                     // BlocBuilder(
-                    //   //todo change
                     //   cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                     //   builder: (BuildContext context, state) {
                     //     if (state is SendAssessmentSectionsFetched) {

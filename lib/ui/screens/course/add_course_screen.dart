@@ -174,7 +174,6 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                                         setState(() {
                                                           selectedDropDown = value;
                                                         });
-                                                        // FIXME: 9/29/2020 need to fix this
                                                         // context.bloc<CoursesBloc>().add(SortCourses(value, coursesFilter));
                                                       },
                                                     ),
@@ -436,9 +435,9 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                       children: [
                         RaisedButton.icon(
                           onPressed: () {
-                            print('department : $branch');
-                            print('sections : $sections');
-                            print('subject : ${data.id}');
+
+
+
                             if (branch == null || sections.isEmpty) {
                               Toast.show('Please select at least one section and one department', context, duration: 4);
                             }

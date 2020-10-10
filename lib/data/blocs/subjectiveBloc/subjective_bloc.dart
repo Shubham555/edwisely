@@ -67,7 +67,7 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
           'Authorization': 'Bearer $loginToken',
         })
           );
-      print(response.data);
+
       if (response.data.toString().contains('Successfully created the test')) {
         yield SubjectiveAssessmentCreated(response.data['test_id']);
       } else {

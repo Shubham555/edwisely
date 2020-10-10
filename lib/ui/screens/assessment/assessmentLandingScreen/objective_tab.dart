@@ -7,6 +7,8 @@ import '../../../../data/blocs/objectiveBloc/objective_bloc.dart';
 import '../../../widgets_util/assessment_tile.dart';
 
 class ObjectiveTab extends StatelessWidget {
+  var selectedOption;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
@@ -15,8 +17,7 @@ class ObjectiveTab extends StatelessWidget {
         if (state is ObjectiveEmpty) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content:
-                  Text('There were no assessments related to that subject'),
+              content: Text('There were no assessments related to that subject'),
             ),
           );
         }
@@ -26,31 +27,38 @@ class ObjectiveTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlocBuilder(
-              cubit: context.bloc<CoursesBloc>(),
-              builder: (BuildContext context, state) {
-                if (state is CoursesListFetched) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: DropdownButton(
-                      underline: Container(),
-                      hint: Text('Filter by Subjects'),
-                      items: state.subjects,
-                      onChanged: (value) => value == 1234567890
-                          ? context.bloc<ObjectiveBloc>().add(
-                                GetObjectiveTests(),
-                              )
-                          : context.bloc<ObjectiveBloc>().add(
-                                GetObjectiveTestsBYSubjectId(
-                                  value,
-                                ),
-                              ),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              },
+            StatefulBuilder(
+              builder: (ctx, setState) => BlocBuilder(
+                cubit: context.bloc<CoursesBloc>(),
+                builder: (BuildContext context, state) {
+                  if (state is CoursesListFetched) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: DropdownButton(
+                        value: selectedOption,
+                        underline: Container(),
+                        hint: Text('Filter by Subjects'),
+                        items: state.subjects,
+                        onChanged: (value) {
+                          value == 1234567890
+                              ? context.bloc<ObjectiveBloc>().add(
+                                    GetObjectiveTests(),
+                                  )
+                              : context.bloc<ObjectiveBloc>().add(
+                                    GetObjectiveTestsBYSubjectId(
+                                      value,
+                                    ),
+                                  );
+                          selectedOption = value;
+                          setState(() {});
+                        },
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             ),
             Expanded(
               child: BlocBuilder(
@@ -97,14 +105,11 @@ class ObjectiveTab extends StatelessWidget {
                           state.questionsEntity.data[index].id,
                           state.questionsEntity.data[index].name,
                           state.questionsEntity.data[index].description,
-                          state.questionsEntity.data[index].questions_count
-                              .toString(),
+                          state.questionsEntity.data[index].questions_count.toString(),
                           state.questionsEntity.data[index].doe,
                           state.questionsEntity.data[index].start_time,
-                          //todo add subject name thru api
-                          ''
-                            ,                      state.questionsEntity.data[index].subject_id,
-
+                          '',//for subject name
+                          state.questionsEntity.data[index].subject_id,
                         );
                       },
                     );

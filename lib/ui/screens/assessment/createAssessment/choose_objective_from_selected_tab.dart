@@ -52,7 +52,6 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
 
   @override
   Widget build(BuildContext context) {
-    print('subject id in choose_objectivefromselected ${widget._subjectId}');
     List<int> topics = [];
     List<int> subTopics = [];
     int unitId;
@@ -160,38 +159,38 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         ),
                                       ],
                                     ),
-                                    trailing: Row(
-                                      children: [
-                                        IconButton(
-                                            icon: Icon(
-                                              Icons.delete,
-                                              size: 10,
-                                            ),
-                                            onPressed: () => null),
-                                        Visibility(
-                                          visible: state.assessmentQuestionsEntity.data[index].college_account_id == collegeId,
-                                          child: IconButton(
-                                            icon: Icon(
-                                              Icons.edit,
-                                              size: 10,
-                                            ),
-                                            onPressed: () => Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (ctx) => TypeQuestionTab(
-                                                  widget._title,
-                                                  widget._description,
-                                                  widget._subjectId,
-                                                  QuestionType.Objective,
-                                                  widget._assessmentId,
-                                                  false,
-                                                  data : state.assessmentQuestionsEntity.data[index],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // trailing: Row(
+                                    //   children: [
+                                    //     IconButton(
+                                    //         icon: Icon(
+                                    //           Icons.delete,
+                                    //           size: 10,
+                                    //         ),
+                                    //         onPressed: () => null),
+                                    //     Visibility(
+                                    //       visible: state.assessmentQuestionsEntity.data[index].college_account_id == collegeId,
+                                    //       child: IconButton(
+                                    //         icon: Icon(
+                                    //           Icons.edit,
+                                    //           size: 10,
+                                    //         ),
+                                    //         onPressed: () => Navigator.of(context).push(
+                                    //           MaterialPageRoute(
+                                    //             builder: (ctx) => TypeQuestionTab(
+                                    //               widget._title,
+                                    //               widget._description,
+                                    //               widget._subjectId,
+                                    //               QuestionType.Objective,
+                                    //               widget._assessmentId,
+                                    //               false,
+                                    //               data : state.assessmentQuestionsEntity.data[index],
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ),
                                 ),
                               );
@@ -243,6 +242,10 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                   shrinkWrap: true,
                                                   itemCount: state.data.length,
                                                   itemBuilder: (BuildContext context, int index) {
+                                                    var answer;
+                                                    state.data[index].questions_options.forEach((options) {
+                                                      if (options.is_answer == 1) answer = options.name;
+                                                    });
                                                     return Container(
                                                       padding: const EdgeInsets.symmetric(
                                                         vertical: 8.0,
@@ -265,7 +268,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                           children: [
                                                             //correct Answer
                                                             Text(
-                                                              'Answer : ${state.data[index].solution.trim()}',
+                                                              'Answer : $answer',
                                                               overflow: TextOverflow.ellipsis,
                                                             ),
                                                             FlatButton(
@@ -504,7 +507,8 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                           builder: (BuildContext context, StateSetter setState) {
                                             return Column(
                                               children: [
-                                                SizedBox(//baaki ka check krle tab tak boi
+                                                SizedBox(
+                                                  //baaki ka check krle tab tak boi
                                                   width: 250,
                                                   child: SmartSelect.multiple(
                                                     title: 'Topics',
@@ -625,7 +629,6 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
   }
 
   void onBloomChanged(int value, List<Data> actualData) {
-    // FIXME: 10/5/2020 setState
     setState(() {
       bloomsFilter = value;
       context.bloc<TopicQuestionsCubit>().getBloomsQuestions(value, actualData);

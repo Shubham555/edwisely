@@ -398,7 +398,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
           },
         ),
       );
-      print(response.data);
+
       if (response.data['message'] == 'Successfully deleted the bookmark') {
         setState(
           () => isBookmarked = false,
@@ -420,7 +420,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
           },
         ),
       );
-      print(response.data);
+
 
       if (response.data['message'] == 'Successfully added the bookmark') {
         setState(

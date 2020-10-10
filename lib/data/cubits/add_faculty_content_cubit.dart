@@ -39,7 +39,7 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
     'Authorization': 'Bearer $loginToken',
     })
     );
-    print(response.data);
+
     if (response.data['message'] == 'Successfully updated the course details') {
       emit(
         AddFacultyContentAdded(),

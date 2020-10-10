@@ -25,7 +25,7 @@ class AddCourseCubit extends Cubit<AddCourseState> {
     'Authorization': 'Bearer $loginToken',
     })
         );
-    print(response.data);
+
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Successfully updated the course details') {
         emit(

@@ -37,7 +37,7 @@ class LoginCubit extends Cubit<LoginState> {
             headers: {
               'Authorization': 'Bearer $loginToken',
             }),);
-    print(response.data);
+
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
         departmentId = response.data['university_degree_department_id'];

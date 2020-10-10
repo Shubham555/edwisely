@@ -67,7 +67,7 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
       'Authorization': 'Bearer $loginToken',
       })
           );
-      print(response.data);
+
       if (response.data.toString().contains('Successfully created the test')) {
         yield ObjectiveAssessmentCreated(response.data['test_id']);
       } else {

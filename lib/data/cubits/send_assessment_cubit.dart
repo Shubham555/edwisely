@@ -14,12 +14,12 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
   SendAssessmentCubit() : super(SendAssessmentInitial());
 
   getSections(int universityDepartmentId) async {
-    print('Department Id :  $departmentId');
+
     final sectionResponse = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId', options: Options(
         headers: {
           'Authorization': 'Bearer $loginToken',
         }));
-    print(' SendAssessment Cubit  ${sectionResponse.data}');
+
     if (sectionResponse.statusCode == 200) {
       emit(
         SendAssessmentSectionsFetched(

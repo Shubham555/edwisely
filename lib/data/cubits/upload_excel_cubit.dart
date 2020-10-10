@@ -25,7 +25,7 @@ class UploadExcelCubit extends Cubit<UploadExcelState> {
           'Authorization': 'Bearer $loginToken',
         })
         );
-    print(response.data);
+
   }
 }
 

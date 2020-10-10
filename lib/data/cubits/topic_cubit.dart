@@ -16,7 +16,7 @@ class TopicCubit extends Cubit<TopicState> {
           'Authorization': 'Bearer $loginToken',
         })
     );
-    print('Topics ${response.data}');
+
 
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No topics to fetch') {

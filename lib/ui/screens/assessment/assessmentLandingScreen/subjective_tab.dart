@@ -99,8 +99,7 @@ class SubjectiveTab extends StatelessWidget {
                           state.questionsEntity.data[index].questions_count.toString(),
                           state.questionsEntity.data[index].doe,
                           state.questionsEntity.data[index].start_time,
-                          //todo add subject name thru api
-                          '',
+                          '',//for subject name
                           state.questionsEntity.data[index].subject_id,
                         );
                       },
