@@ -1,8 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/model/assessment/unitTopic/UnitTOpicEntity.dart';
 import 'package:edwisely/data/model/assessment/unitTopic/topic.dart';
 import 'package:meta/meta.dart';
+
+import '../../main.dart';
 
 class UnitTopicCubit extends Cubit<UnitTopicState> {
   UnitTopicCubit() : super(UnitTopicInitial());
@@ -13,7 +16,10 @@ class UnitTopicCubit extends Cubit<UnitTopicState> {
     );
     final response = await EdwiselyApi.dio.get(
       'questionnaire/getUnitTopics',
-      queryParameters: {'unit_ids': unitId},
+      queryParameters: {'unit_ids': unitId}, options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
     if (response.data['message'] == 'Successfully fetched the data') {
       if (response.data['data'].toString() != '[]') {

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edwisely/main.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -22,9 +23,15 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
   ) async* {
     var currentState = state;
     if (event is GetUnitQuestions) {
-      final response = await EdwiselyApi.dio.get('questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
+      final response = await EdwiselyApi.dio.get('questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
 
-      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$departmentId');
+      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$departmentId', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
         List<DropdownMenuItem> dropDownItems = [];
         dropDownItems.add(
@@ -58,7 +65,10 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetUnitQuestionsByLevel) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi.dio.get('questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}');
+      final response = await EdwiselyApi.dio.get('questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -74,7 +84,10 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetUnitQuestionsByTopic) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi.dio.get('questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}');
+      final response = await EdwiselyApi.dio.get('questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -90,7 +103,10 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetQuestionsByBookmark) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi.dio.get('getBookmarkedQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi.dio.get('getBookmarkedQuestions?unit_id=${event.unitId}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -106,7 +122,10 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetYourQuestions) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi.dio.get('questions/getFacultyAddedQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi.dio.get('questions/getFacultyAddedQuestions?unit_id=${event.unitId}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -120,11 +139,5 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
           );
       }
     }
-  }
-
-  @override
-  void onTransition(Transition<QuestionBankEvent, QuestionBankState> transition) {
-    print(transition);
-    super.onTransition(transition);
   }
 }

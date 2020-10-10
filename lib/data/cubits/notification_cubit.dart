@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
@@ -32,7 +33,10 @@ class NotificationCubit extends Cubit<NotificationState> {
             filename: file.fileName,
           ),
         },
-      ),
+      ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
     if (response.data['message'] == 'Successfully created the notification') {
       emit(

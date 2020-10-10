@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 
 class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
@@ -15,7 +16,7 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
     String name,
     FilePickerCross attachments,
     String displayType,
-    String externalUrl,
+    String externalUrl,//ik sec 10 lele
   ) async {
     final response = await EdwiselyApi.dio.post(
       'addFacultyContent',
@@ -32,7 +33,11 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
           'display_type': displayType,
           'external_url': externalUrl
         },
-      ),
+      )
+        , options: Options(
+    headers: {
+    'Authorization': 'Bearer $loginToken',
+    })
     );
     print(response.data);
     if (response.data['message'] == 'Successfully updated the course details') {
@@ -68,7 +73,10 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
             filename: attachments.fileName,
           ),
         },
-      ),
+      ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
     if (response.data['message'] == 'Successfully updated the course details') {
       emit(

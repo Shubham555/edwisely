@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import '../../../main.dart';
 import '../../api/api.dart';
 import '../../model/assessment/assessmentEntity/AssessmentsEntity.dart';
 
@@ -20,7 +21,10 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     ObjectiveEvent event,
   ) async* {
     if (event is GetObjectiveTests) {
-      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests');
+      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (assessmentResponse.statusCode == 200) {
         yield ObjectiveSuccess(
           AssessmentsEntity.fromJsonMap(assessmentResponse.data),
@@ -31,7 +35,10 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     }
     if (event is GetObjectiveTestsBYSubjectId) {
       yield ObjectiveInitial();
-      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectWiseObjectiveTests?subject_id=${event.subjectId}');
+      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectWiseObjectiveTests?subject_id=${event.subjectId}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (assessmentResponse.statusCode == 200) {
         if (assessmentResponse.data['message'] == 'No tests to fetch') {
           yield ObjectiveEmpty();
@@ -55,6 +62,10 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
                 'subject_id': event._subjectId,
               },
             ),
+           options: Options(
+      headers: {
+      'Authorization': 'Bearer $loginToken',
+      })
           );
       print(response.data);
       if (response.data.toString().contains('Successfully created the test')) {

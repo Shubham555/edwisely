@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -13,8 +14,12 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
   SendAssessmentCubit() : super(SendAssessmentInitial());
 
   getSections(int universityDepartmentId) async {
-    final sectionResponse = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId');
-    print(sectionResponse.data);
+    print('Department Id :  $departmentId');
+    final sectionResponse = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
+    print(' SendAssessment Cubit  ${sectionResponse.data}');
     if (sectionResponse.statusCode == 200) {
       emit(
         SendAssessmentSectionsFetched(
@@ -39,7 +44,10 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
       'questionnaireWeb/editObjectiveTest',
       data: FormData.fromMap(
         {'name': name, 'description': description, 'doe': doe, 'timelimit': timeLimit, 'students': jsonEncode(students), 'test_id': testId, 'starttime': startTime},
-      ),
+      ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
     if (response.data['message'] == 'Successfully updated the questions') {
       emit(

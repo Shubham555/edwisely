@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 
 class UploadExcelCubit extends Cubit<UploadExcelState> {
@@ -10,7 +11,7 @@ class UploadExcelCubit extends Cubit<UploadExcelState> {
 
   uploadExcel(FilePickerCross file) async {
     final response = await EdwiselyApi.dio.post(
-          'question2naireWeb/uploadObjectiveQuestions',
+          'questionnaireWeb/uploadObjectiveQuestions',
           data: FormData.fromMap(
             {
               'files': MultipartFile.fromBytes(file.toUint8List(), filename: file.fileName),
@@ -19,7 +20,10 @@ class UploadExcelCubit extends Cubit<UploadExcelState> {
                 {'id': 13780, 'type': 'sdvsd'},
               ]
             },
-          ),
+          ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
         );
     print(response.data);
   }

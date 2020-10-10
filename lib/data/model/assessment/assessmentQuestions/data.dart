@@ -18,6 +18,7 @@ class Data {
   String type_name;
   String type_code;
   List<Questions_options> questions_options;
+  String hint;
 
 	Data.fromJsonMap(Map<String, dynamic> map): 
 		id = map["id"],
@@ -25,6 +26,7 @@ class Data {
 		media = map["media"],
 		bookmarked = map["bookmarked"],
 		college_account_id = map["college_account_id"],
+	  hint = map["hint"],
 		question_type = map["question_type"],
 		question_img = map["question_img"],
 		math_type = map["math_type"],

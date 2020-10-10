@@ -251,10 +251,12 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                 InkWell(
                                                   onTap: () async {
                                                     _vcStart = await _pickStartDate();
+                                                    _vcStartTime = await _pickStartTime();
                                                     setState(() {});
                                                   },
                                                   child: Text(
                                                     _vcStart == null ? 'Pick Date' : DateFormat('EEE d MMM yyyy').format(_vcStart),
+                                                    style: Theme.of(context).textTheme.headline5,
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -271,6 +273,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                   },
                                                   child: Text(
                                                     _vcStartTime == null ? 'Pick Time' : 'at ${_vcStartTime.format(context).toString()}',
+                                                    style: Theme.of(context).textTheme.headline5,
                                                   ),
                                                 ),
                                               ],
@@ -294,11 +297,13 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Select Start Date First !')));
                                                     } else {
                                                       _vcEnd = await _pickEndDate();
+                                                      _vcEndTime = await _pickEndTime();
                                                       setState(() {});
                                                     }
                                                   },
                                                   child: Text(
                                                     _vcEnd == null ? 'Pick Date' : DateFormat('EEE d MMM yyyy').format(_vcEnd),
+                                                    style: Theme.of(context).textTheme.headline5,
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -315,6 +320,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                   },
                                                   child: Text(
                                                     _vcEndTime == null ? 'Pick Time' : 'at ${_vcEndTime.format(context).toString()}',
+                                                    style: Theme.of(context).textTheme.headline5,
                                                   ),
                                                 ),
                                               ],

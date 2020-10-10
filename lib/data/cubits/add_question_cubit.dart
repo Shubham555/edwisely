@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 
 class AddQuestionCubit extends Cubit<AddQuestionState> {
@@ -59,7 +60,11 @@ class AddQuestionCubit extends Cubit<AddQuestionState> {
           'hint': hint,
           'solution': solution
         },
-      ),
+      )
+        , options: Options(
+    headers: {
+    'Authorization': 'Bearer $loginToken',
+    })
     );
     if (response.data['message'] == 'Successfully updated the questions') {
       if (isFromQuestionBank) {

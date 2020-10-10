@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,7 +84,7 @@ class LoginScreen extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => CoursesLandingScreen(),
+                builder: (BuildContext context) => HomeScreen(),
               ),
             );
           }

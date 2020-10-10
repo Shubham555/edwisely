@@ -25,7 +25,7 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
   @override
   void initState() {
     _tabController = TabController(
-      length: 3,
+      length: 2,
       vsync: this,
     );
     super.initState();
@@ -253,11 +253,11 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                   isScrollable: true,
                   controller: _tabController,
                   tabs: [
-                    Tab(
-                      child: Text(
-                        'All',
-                      ),
-                    ),
+                    // Tab(
+                    //   child: Text(
+                    //     'All',
+                    //   ),
+                    // ),
                     Tab(
                       child: Text(
                         'Objective',
@@ -274,13 +274,13 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      BlocProvider.value(
-                        value: context.bloc<QuestionBankBloc>(),
-                        child: QuestionBankAllTab(
-                          widget.subjectId,
-                          _tabController,
-                        ),
-                      ),
+                      // BlocProvider.value(
+                      //   value: context.bloc<QuestionBankBloc>(),
+                      //   child: QuestionBankAllTab(
+                      //     widget.subjectId,
+                      //     _tabController,
+                      //   ),
+                      // ),
                       BlocProvider.value(
                         value: context.bloc<QuestionBankBloc>(),
                         child: QuestionBankObjectiveTab(

@@ -16,25 +16,28 @@ class MyCheckbox extends StatefulWidget {
 class _MyCheckboxState extends State<MyCheckbox> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 35.0,
-      width: 35.0,
-      child: InkWell(
-        onTap: widget.onChanged,
-        child: Container(
-          // decoration: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(4.0),
-          //   border: Border.all(
-          //     color: Colors.white,
-          //     width: 2.0,
-          //   ),
-          // ),
-          child: widget.value
-              ? Icon(
-                  Icons.done,
-                  color: Colors.white,
-                )
-              : SizedBox.shrink(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal : 28.0,vertical: 32.0),
+      child: SizedBox(
+        height: 35.0,
+        width: 35.0,
+        child: InkWell(
+          onTap: widget.onChanged,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              border: Border.all(
+                color: Colors.white,
+                width: 2.0,
+              ),
+            ),
+            child: widget.value
+                ? Icon(
+                    Icons.done,
+                    color: Colors.white,
+                  )
+                : SizedBox.shrink(),
+          ),
         ),
       ),
     );

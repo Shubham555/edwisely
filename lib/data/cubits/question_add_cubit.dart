@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 
 class QuestionAddCubit extends Cubit<QuestionAddState> {
@@ -14,7 +15,10 @@ class QuestionAddCubit extends Cubit<QuestionAddState> {
     print(questions);
 
     final response = await EdwiselyApi.dio.post(
-      'questionnaireWeb/editObjectiveTestQuestions',
+      'questionnaireWeb/editObjectiveTestQuestions', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        }),
       data: FormData.fromMap(
         {
           'test_id': assessmentId,

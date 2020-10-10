@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 
 class LiveClassCubit extends Cubit<LiveClassState> {
@@ -26,9 +27,11 @@ class LiveClassCubit extends Cubit<LiveClassState> {
           'end_time': endTime,
           'students': jsonEncode(students),
         },
-      ),
+      ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
-    print(response.data);
     if (response.data['message'] == 'Successfully created the video conference') {
       emit(
         LiveClassSent(),

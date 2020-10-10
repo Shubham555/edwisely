@@ -899,83 +899,101 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
 
 // FIXME: 10/7/2020 error hai nhi ho rha
   _showDeckItems(BuildContext context) {
+
     showDialog(
       context: context,
       builder: (context) => BlocBuilder(
         cubit: context.bloc<DeckItemsCubit>(),
         builder: (BuildContext context, state) {
           if (state is DeckItemsFetched) {
-            return Column(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.9,
-                  child: PageView.builder(
-                    key: GlobalKey(),
-                    controller: pageController,
-                    itemCount: state.deckItemsEntity.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return FutureBuilder(
-                        future: Dio().get(state.deckItemsEntity.data[index].url),
-                        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
-                          if (snapshot.hasData) {
-                            String dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
-                            print(dd);
-                            return Card(
-                              key: UniqueKey(),
-                              margin: EdgeInsets.all(150),
-                              child: Padding(
-                                padding: const EdgeInsets.all(15),
-                                child: TeXView(
-                                  renderingEngine: TeXViewRenderingEngine.mathjax(),
-                                  loadingWidgetBuilder: (context) => CircularProgressIndicator(),
-                                  child: TeXViewDocument(dd),
+            return StatefulBuilder(
+              builder: (context, setState) => Column(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.35,
+                    height: MediaQuery.of(context).size.height * 0.9,
+                    child: PageView.builder(
+                      controller: pageController,
+                      itemCount: state.deckItemsEntity.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return FutureBuilder(
+                          future: Dio().get(state.deckItemsEntity.data[index].url),
+                          builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+                            if (snapshot.hasData) {
+                              String dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
+                              print(dd);
+                              return Card(
+                                margin: EdgeInsets.all(150),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: TeXView(
+                                          renderingEngine: TeXViewRenderingEngine.mathjax(),
+                                          loadingWidgetBuilder: (context) => CircularProgressIndicator(),
+                                          child: TeXViewDocument(dd),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Pages: $index / ${state.deckItemsEntity.data.length}',
+                                        style: Theme.of(context).textTheme.headline5,
+                                      ),
+                                      SizedBox(
+                                        height: 4.0,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          } else {
-                            return Material(
-                              child: Text('Loading...'),
-                            );
-                          }
-                        },
-                      );
-                    },
+                              );
+                            } else {
+                              return Material(
+                                child: Text('Loading...'),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RaisedButton.icon(
-                        onPressed: () => pageController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn),
-                        icon: Icon(Icons.chevron_left, color: Colors.white),
-                        label: Text(
-                          'Previous',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RaisedButton.icon(
+                            onPressed: () => pageController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn),
+                            icon: Icon(Icons.chevron_left, color: Colors.white),
+                            label: Text(
+                              'Previous',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          RaisedButton.icon(
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(Icons.close, color: Colors.white),
+                            label: Text(
+                              'Close',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          RaisedButton.icon(
+                            onPressed: () => pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn),
+                            icon: Icon(Icons.chevron_right, color: Colors.white),
+                            label: Text(
+                              'Next',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
                       ),
-                      RaisedButton.icon(
-                        onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.close, color: Colors.white),
-                        label: Text(
-                          'Close',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      RaisedButton.icon(
-                        onPressed: () => pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn),
-                        icon: Icon(Icons.chevron_right, color: Colors.white),
-                        label: Text(
-                          'Next',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                    ),
+                  )
+                ],
+              ),
             );
           } else {
             return Center(

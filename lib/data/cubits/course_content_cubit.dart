@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 import '../model/course/courseContent/CourseContentEntity.dart';
 import '../model/course/courseContent/learning_content.dart';
@@ -12,7 +14,10 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi.dio.get('getCourseContent?unit_id=$unitId&subject_semester_id=$semesterId');
+    final response = await EdwiselyApi.dio.get('getCourseContent?unit_id=$unitId&subject_semester_id=$semesterId', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
     if (response.data['message'] == 'Successfully updated the course details') {
       List<Learning_content> data = [];
       CourseContentEntity d = CourseContentEntity.fromJsonMap(
@@ -40,7 +45,10 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi.dio.get('getFacultyAddedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId');
+    final response = await EdwiselyApi.dio.get('getFacultyAddedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
     if (response.data['message'] == 'Successfully updated the course details') {
       List<Learning_content> data = List<Learning_content>.from(response.data["data"].map((it) => Learning_content.fromJsonMap(it)));
       emit(
@@ -62,7 +70,10 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi.dio.get('getFacultyBookmarkedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId');
+    final response = await EdwiselyApi.dio.get('getFacultyBookmarkedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
     if (response.data['message'] == 'Successfully updated the course details') {
       List<Learning_content> data = [];
       CourseContentEntity d = CourseContentEntity.fromJsonMap(

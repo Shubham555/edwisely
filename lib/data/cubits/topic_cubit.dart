@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edwisely/main.dart';
 import 'package:meta/meta.dart';
 
@@ -10,8 +11,13 @@ class TopicCubit extends Cubit<TopicState> {
 
   getTopics(int subjectId) async {
     final response = await EdwiselyApi.dio.get(
-      'questionnaireWeb/getSubjectTopics?subject_id=$subjectId&university_degree_department_id=$departmentId',
+      'questionnaireWeb/getSubjectTopics?subject_id=$subjectId&university_degree_department_id=$departmentId', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
+    print('Topics ${response.data}');
+
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No topics to fetch') {
         emit(

@@ -170,7 +170,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                               children: [
                                 Visibility(
                                   child: Container(
-                                    width: 250,
+                                    width: MediaQuery.of(context).size.width * 0.1,
                                     height: 150,
                                     margin: const EdgeInsets.only(right: 22.0),
                                     decoration: BoxDecoration(
@@ -230,7 +230,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                   ).then((value) => _questionFetchCubit
                                       .getQuestionsToAnAssessment(widget._assessmentId)),
                                   child: Container(
-                                    width: 250,
+                                    width: MediaQuery.of(context).size.width * 0.1,
                                     height: 150,
                                     margin: const EdgeInsets.only(right: 22.0),
                                     decoration: BoxDecoration(
@@ -264,7 +264,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                 ),
                                 Visibility(
                                   child: Container(
-                                    width: 250,
+                                    width: MediaQuery.of(context).size.width * 0.1,
                                     height: 150,
                                     margin: const EdgeInsets.only(right: 22.0),
                                     decoration: BoxDecoration(

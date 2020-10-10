@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
+import '../../../main.dart';
 import '../../api/api.dart';
 import '../../model/assessment/assessmentEntity/AssessmentsEntity.dart';
 
@@ -20,7 +21,10 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
     SubjectiveEvent event,
   ) async* {
     if (event is GetSubjectiveTests) {
-      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectiveTests');
+      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectiveTests', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
 
       if (assessmentResponse.statusCode == 200) {
         yield SubjectiveSuccess(
@@ -32,7 +36,10 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
     }
     if (event is GetSubjectiveTestsBYSubjectId) {
       yield SubjectiveInitial();
-      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectWiseSubjectiveTests?subject_id=${event.subjectId}');
+      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectWiseSubjectiveTests?subject_id=${event.subjectId}', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
       if (assessmentResponse.statusCode == 200) {
         if (assessmentResponse.data['message'] == 'No tests to fetch') {
           yield SubjectiveEmpty();
@@ -55,7 +62,10 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
                 'description': event._description,
                 'subject_id': event._subjectId,
               },
-            ),
+            ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
           );
       print(response.data);
       if (response.data.toString().contains('Successfully created the test')) {

@@ -33,11 +33,14 @@ class LoginCubit extends Cubit<LoginState> {
             'username': email,
             'password': password,
           },
-        ));
+        ), options: Options(
+            headers: {
+              'Authorization': 'Bearer $loginToken',
+            }),);
     print(response.data);
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
-        departmentId = response.data['department_id'];
+        departmentId = response.data['university_degree_department_id'];
         collegeId = response.data['college_id'];
         loginToken = response.data['token'];
         // loginToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
@@ -76,7 +79,10 @@ class LoginCubit extends Cubit<LoginState> {
       'user/updatePassword',
       data: FormData.fromMap(
         {'user_id': email, 'new_password': password},
-      ),
+      ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
 
     if (response.statusCode == 200) {

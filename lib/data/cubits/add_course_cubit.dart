@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 
 class AddCourseCubit extends Cubit<AddCourseState> {
@@ -18,7 +19,11 @@ class AddCourseCubit extends Cubit<AddCourseState> {
           'addFacultyCourseSections',
           data: FormData.fromMap(
             {'subject_id': subjectId, 'subject_semester_id': subjectSemesterId, 'sections': jsonEncode(sections)},
-          ),
+          )
+        , options: Options(
+    headers: {
+    'Authorization': 'Bearer $loginToken',
+    })
         );
     print(response.data);
     if (response.statusCode == 200) {

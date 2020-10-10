@@ -37,7 +37,24 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     _isNavigationDrawerCollapsed = widget.isCollapsed;
     if (widget.isHome) {
       _selectedItemColor = EdwiselyTheme.PRIMARY_COLOR;
-    } 
+    }
+
+    Future.delayed(Duration(milliseconds: 100)).then((value) {
+      final size = MediaQuery.of(context).size;
+      if (size.width < 1366) {
+        _isNavigationDrawerCollapsed = true;
+      }
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant NavigationDrawer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final size = MediaQuery.of(context).size;
+    if (size.width < 1366) {
+      _isNavigationDrawerCollapsed = true;
+    }
   }
 
   @override
@@ -46,14 +63,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     textTheme = Theme.of(context).textTheme;
     _selectedPage = Provider.of<SelectedPageProvider>(context).selectedPage;
 
-    if (screenSize.width < 1000) {
-      _sidebarWidth = _isNavigationDrawerCollapsed
-          ? screenSize.width * 0.1
-          : screenSize.width * 0.28;
+    if (screenSize.width < 1366) {
+      _sidebarWidth = _isNavigationDrawerCollapsed ? screenSize.width * 0.1 : screenSize.width * 0.28;
     } else {
-      _sidebarWidth = _isNavigationDrawerCollapsed
-          ? screenSize.width * 0.06
-          : screenSize.width * 0.15;
+      _sidebarWidth = _isNavigationDrawerCollapsed ? screenSize.width * 0.06 : screenSize.width * 0.15;
     }
 
     return AnimatedContainer(
@@ -66,9 +79,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         horizontal: 18.0,
       ),
       decoration: BoxDecoration(
-        color: widget.isHome
-            ? EdwiselyTheme.BACKGROUND_COLOR
-            : EdwiselyTheme.NAV_BAR_COLOR,
+        color: widget.isHome ? EdwiselyTheme.BACKGROUND_COLOR : EdwiselyTheme.NAV_BAR_COLOR,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,8 +104,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           //list of options
           InkWell(
             onTap: () {
-              final pageProvider =
-              Provider.of<SelectedPageProvider>(context, listen: false);
+              final pageProvider = Provider.of<SelectedPageProvider>(context, listen: false);
               pageProvider.changePage(0);
               MyRouter().navigateTo(pageProvider.navigatorKey, '/');
             },
@@ -109,8 +119,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           InkWell(
             onTap: () {
-              final pageProvider =
-                  Provider.of<SelectedPageProvider>(context, listen: false);
+              final pageProvider = Provider.of<SelectedPageProvider>(context, listen: false);
               pageProvider.changePage(1);
               MyRouter().navigateTo(pageProvider.navigatorKey, '/all-courses');
             },
@@ -125,8 +134,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           InkWell(
             onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(2);
+              Provider.of<SelectedPageProvider>(context, listen: false).changePage(2);
               Navigator.of(context).pushNamed('/add-course');
             },
             child: SideDrawerItem(
@@ -140,8 +148,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           InkWell(
             onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(3);
+              Provider.of<SelectedPageProvider>(context, listen: false).changePage(3);
               Navigator.of(context).pushNamed('/send-assesment');
             },
             child: SideDrawerItem(
@@ -155,8 +162,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           InkWell(
             onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(4);
+              Provider.of<SelectedPageProvider>(context, listen: false).changePage(4);
               Navigator.of(context).pushNamed('/create-live-class');
             },
             child: SideDrawerItem(
@@ -170,8 +176,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           InkWell(
             onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .changePage(5);
+              Provider.of<SelectedPageProvider>(context, listen: false).changePage(5);
               Navigator.of(context).pushNamed('/send-notification');
             },
             child: SideDrawerItem(
@@ -189,8 +194,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               : Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: InkWell(
-                    onTap: () => setState(() => _isNavigationDrawerCollapsed =
-                        !_isNavigationDrawerCollapsed),
+                    onTap: () => setState(() => _isNavigationDrawerCollapsed = !_isNavigationDrawerCollapsed),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -202,15 +206,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                           child: _isNavigationDrawerCollapsed
                               ? SizedBox.shrink()
                               : Text(
-                                  _isNavigationDrawerCollapsed
-                                      ? 'Expand'
-                                      : 'Collapse',
+                                  _isNavigationDrawerCollapsed ? 'Expand' : 'Collapse',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .button
-                                      .copyWith(color: Colors.white),
+                                  style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
                                 ),
                         ),
                         _isNavigationDrawerCollapsed
@@ -219,9 +218,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                                 width: 12.0,
                               ),
                         Icon(
-                          _isNavigationDrawerCollapsed
-                              ? Icons.arrow_forward_ios
-                              : Icons.arrow_back_ios,
+                          _isNavigationDrawerCollapsed ? Icons.arrow_forward_ios : Icons.arrow_back_ios,
                           color: Colors.white,
                         ),
                       ],

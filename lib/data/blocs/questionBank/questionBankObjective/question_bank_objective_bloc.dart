@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:edwisely/main.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -22,8 +24,15 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     var currentState = state;
 
     if (event is GetUnitObjectiveQuestions) {
-      final response = await EdwiselyApi.dio.get('questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}');
-      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=71');
+      final response = await EdwiselyApi.dio.get('questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
+      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event
+          .subjectId}&university_degree_department_id=$departmentId', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
         List<DropdownMenuItem> dropDownItems = [];
         dropDownItems.add(
@@ -57,7 +66,10 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetUnitObjectiveQuestionsByLevel) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get('questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}');
+      final response = await EdwiselyApi.dio.get('questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         QuestionBankObjectiveEntity questionBankObjectiveEntity = QuestionBankObjectiveEntity.fromJsonMap(
           response.data,
@@ -79,7 +91,10 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetUnitObjectiveQuestionsByTopic) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get('questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}');
+      final response = await EdwiselyApi.dio.get('questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
@@ -95,7 +110,10 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetObjectiveQuestionsByBookmark) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get('getBookmarkedQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi.dio.get('getBookmarkedQuestions?unit_id=${event.unitId}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
@@ -111,7 +129,10 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetYourObjectiveQuestions) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get('questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}');
+      final response = await EdwiselyApi.dio.get('questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}', options: Options(
+          headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);

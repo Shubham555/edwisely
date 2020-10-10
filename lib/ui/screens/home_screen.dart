@@ -1,5 +1,6 @@
 import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
 import 'package:edwisely/data/cubits/material_comment_cubit.dart';
+import 'package:edwisely/data/model/NotifiacationHomeScreenEntity.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Provider.of<SelectedPageProvider>(context, listen: false).changePage(0);
 
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex();
         return true;
       },
@@ -108,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   //right part
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical : 22.0,horizontal: 42.0),
+                    padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 42.0),
                     child: SizedBox(
                       width: screenSize.width * 0.22,
                       child: Column(
@@ -204,7 +205,55 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            // child: state.map['upcoming_events']['objective_tests'] == '' ? ,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                state.map['upcoming_events']['objective_tests'] == ''
+                    ? Text('There are no objective test!')
+                    : ListView.builder(
+                        itemCount: List<NotifiacationHomeScreenEntity>.from(
+                            state.map['upcoming_events']['objective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
+                        itemBuilder: (BuildContext context, int index) {
+                          var data = List<NotifiacationHomeScreenEntity>.from(
+                              state.map['upcoming_events']['objective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
+                          return ListTile(
+                            title: Text(data[index].title),
+                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai 
+                          );
+                        },
+                      ),
+                //for Suvbjective
+                state.map['upcoming_events']['subjective_tests'] == ''
+                    ? Text('There are no objective test!')
+                    : ListView.builder(
+                  itemCount: List<NotifiacationHomeScreenEntity>.from(
+                      state.map['upcoming_events']['subjective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var data = List<NotifiacationHomeScreenEntity>.from(
+                        state.map['upcoming_events']['subjective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
+                    return ListTile(
+                      title: Text(data[index].title),
+                      // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai 
+                    );
+                  },
+                ),
+                // for video conference
+                state.map['upcoming_events']['vc'] == ''
+                    ? Text('There are no objective test!')
+                    : ListView.builder(
+                  itemCount: List<NotifiacationHomeScreenEntity>.from(
+                      state.map['upcoming_events']['vc'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var data = List<NotifiacationHomeScreenEntity>.from(
+                        state.map['upcoming_events']['vc'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
+                    return ListTile(
+                      title: Text(data[index].title),
+                      // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai 
+                    );
+                  },
+                ),
+              ],
+            ),
           );
         }
         if (state is HomeScreenDefaultFailed) {
@@ -346,46 +395,6 @@ class _HomeScreenState extends State<HomeScreen> {
               //send count
               Text('${activity['comments_count']} Comments'),
             ],
-          ),
-          //divider
-          Divider(
-            color: Colors.black,
-            thickness: 2.0,
-          ),
-          //spacing
-          SizedBox(height: 12.0),
-          //enter comment
-          Container(
-            height: screenSize.height * 0.07,
-            padding: const EdgeInsets.only(left: 12.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: Color(0xFFf5f6fa),
-            ),
-            child: Row(
-              children: [
-                Flexible(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Enter your comment',
-                      hintStyle: textTheme.headline6.copyWith(color: Colors.grey[400]),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 12.0),
-                SizedBox(
-                  width: 64.0,
-                  child: FlatButton(
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.send,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ],
       ),
@@ -576,9 +585,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 64.0,
                   child: FlatButton(
                     onPressed: () {
-                      context
-                          .bloc<CommentCubit>()
-                          .postSurveyComment(activity['id'], controller.text);
+                      context.bloc<CommentCubit>().postSurveyComment(activity['id'], controller.text);
                     },
                     child: Icon(
                       Icons.send,
@@ -759,9 +766,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 64.0,
                   child: FlatButton(
                     onPressed: () {
-                      context
-                          .bloc<CommentCubit>()
-                          .postSurveyComment(activity['id'], controller.text);
+                      context.bloc<CommentCubit>().postSurveyComment(activity['id'], controller.text);
                     },
                     child: Icon(
                       Icons.send,

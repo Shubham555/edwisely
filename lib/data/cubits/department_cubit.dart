@@ -14,7 +14,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       'common/getCollegeDepartment',
       data: FormData.fromMap(
         {'college_id': collegeId},
-      ),
+      ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
     if (response.data['message'] == true) {
       emit(

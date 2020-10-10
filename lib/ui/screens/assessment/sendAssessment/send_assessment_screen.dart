@@ -62,7 +62,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
         }
       },
       child: WillPopScope(
-        onWillPop: () async{
+        onWillPop: () async {
           Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex();
           return true;
         },
@@ -157,12 +157,15 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            void Function(void Function()) setState) {
+                                        builder: (BuildContext context, void Function(void Function()) setState) {
                                           return Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
-                                              Text('Start Date :     '),
+                                              Text(
+                                                'Start Date :     ',
+                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                              ),
+                                              Spacer(),
                                               InkWell(
                                                 onTap: () async {
                                                   _testStart = await showDatePicker(
@@ -174,9 +177,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                       lastDate: DateTime.now().add(
                                                         Duration(days: 100),
                                                       )).whenComplete(() async {
-                                                    _testStartTime = await showTimePicker(
-                                                        context: context,
-                                                        initialTime: TimeOfDay.now());
+                                                    _testStartTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
                                                   }).catchError(() {
                                                     _testStart = null;
                                                     _testStartTime = null;
@@ -184,10 +185,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                   setState(() {});
                                                 },
                                                 child: Text(
-                                                  _testStart == null
-                                                      ? 'Pick Start Date  '
-                                                      : DateFormat('EEE d MMM yyyy')
-                                                          .format(_testStart),
+                                                  _testStart == null ? 'Pick Start Date  ' : DateFormat('EEE d MMM yyyy').format(_testStart),
+                                                  style: Theme.of(context).textTheme.headline5,
                                                 ),
                                               ),
                                               SizedBox(
@@ -198,21 +197,23 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                 ),
                                               ),
                                               Text(
-                                                _testStartTime == null
-                                                    ? 'Pick Start Time'
-                                                    : 'at ${_testStartTime.format(context).toString()}',
+                                                _testStartTime == null ? 'Pick Start Time' : 'at ${_testStartTime.format(context).toString()}',
+                                                style: Theme.of(context).textTheme.headline5,
                                               ),
                                             ],
                                           );
                                         },
                                       ),
                                       StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            void Function(void Function()) setState) {
+                                        builder: (BuildContext context, void Function(void Function()) setState) {
                                           return Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
-                                              Text('Expiry Date :   '),
+                                              Text(
+                                                'Expiry Date :   ',
+                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                              ),
+                                              Spacer(),
                                               InkWell(
                                                 onTap: () async {
                                                   if (_testStart == null || _testStartTime == null) {
@@ -231,9 +232,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                         lastDate: DateTime.now().add(
                                                           Duration(days: 100),
                                                         )).whenComplete(() async {
-                                                      _testExpiryTime = await showTimePicker(
-                                                          context: context,
-                                                          initialTime: _testStartTime);
+                                                      _testExpiryTime = await showTimePicker(context: context, initialTime: _testStartTime);
                                                     }).catchError(() {
                                                       _testExpiry = null;
                                                       _testExpiryTime = null;
@@ -243,10 +242,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                   setState(() {});
                                                 },
                                                 child: Text(
-                                                  _testExpiry == null
-                                                      ? 'Pick Expiry Date'
-                                                      : DateFormat('EEE d MMM yyyy')
-                                                          .format(_testExpiry),
+                                                  _testExpiry == null ? 'Pick Expiry Date' : DateFormat('EEE d MMM yyyy').format(_testExpiry),
+                                                  style: Theme.of(context).textTheme.headline5,
                                                 ),
                                               ),
                                               SizedBox(
@@ -257,21 +254,23 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                 ),
                                               ),
                                               Text(
-                                                _testExpiryTime == null
-                                                    ? 'Pick Expiry Time'
-                                                    : 'at ${_testExpiryTime.format(context).toString()}',
+                                                _testExpiryTime == null ? 'Pick Expiry Time' : 'at ${_testExpiryTime.format(context).toString()}',
+                                                style: Theme.of(context).textTheme.headline5,
                                               ),
                                             ],
                                           );
                                         },
                                       ),
                                       StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            void Function(void Function()) setState) {
+                                        builder: (BuildContext context, void Function(void Function()) setState) {
                                           return Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
-                                              Text('Duration:         '),
+                                              Text(
+                                                'Duration:         ',
+                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                              ),
+                                              Spacer(),
                                               InkWell(
                                                 onTap: () async {
                                                   _testDuration = await showDurationPicker(
@@ -281,9 +280,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                   setState(() {});
                                                 },
                                                 child: Text(
-                                                  _testDuration == null
-                                                      ? 'Pick Duration'
-                                                      : '${_testDuration.inMinutes.toString()} Minutes',
+                                                  _testDuration == null ? 'Pick Duration' : '${_testDuration.inMinutes.toString()} Minutes',
+                                                  style: Theme.of(context).textTheme.headline5,
                                                 ),
                                               )
                                             ],
@@ -336,12 +334,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                 ),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    enabledSectionId =
-                                                        state.sectionEntity.data[index].id;
-                                                    context
-                                                        .bloc<SelectStudentsCubit>()
-                                                        .getStudentsInASection(
-                                                            state.sectionEntity.data[index].id, 1);
+                                                    enabledSectionId = state.sectionEntity.data[index].id;
+                                                    context.bloc<SelectStudentsCubit>().getStudentsInASection(state.sectionEntity.data[index].id, 1);
                                                     setState(() {});
                                                   },
                                                   child: Column(
@@ -349,8 +343,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                     children: [
                                                       AnimatedDefaultTextStyle(
                                                         duration: Duration(milliseconds: 300),
-                                                        style: enabledSectionId ==
-                                                                state.sectionEntity.data[index].id
+                                                        style: enabledSectionId == state.sectionEntity.data[index].id
                                                             ? TextStyle(
                                                                 color: Colors.black,
                                                                 fontSize: 22.0,
@@ -370,10 +363,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                         duration: Duration(
                                                           milliseconds: 300,
                                                         ),
-                                                        width: enabledSectionId ==
-                                                                state.sectionEntity.data[index].id
-                                                            ? 80.0
-                                                            : 40.0,
+                                                        width: enabledSectionId == state.sectionEntity.data[index].id ? 80.0 : 40.0,
                                                         height: 3.0,
                                                         color: Theme.of(context).primaryColor,
                                                       ),
@@ -482,10 +472,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                   SizedBox(width: 8.0),
                                                   Text(
                                                     'Students',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline5
-                                                        .copyWith(color: Colors.white),
+                                                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
                                                   ),
                                                   Spacer(),
                                                   VerticalDivider(
@@ -506,15 +493,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                     value: selectAll,
                                                     onChanged: (flag) {
                                                       flag
-                                                          ? context
-                                                              .bloc<StudentsCountCubit>()
-                                                              .addAllStudents(
-                                                                  state.studentsEntity.data, students)
-                                                          : context
-                                                              .bloc<StudentsCountCubit>()
-                                                              .removeAllStudents(
-                                                                  state.studentsEntity.data,
-                                                                  students);
+                                                          ? context.bloc<StudentsCountCubit>().addAllStudents(state.studentsEntity.data, students)
+                                                          : context.bloc<StudentsCountCubit>().removeAllStudents(state.studentsEntity.data, students);
                                                       setState(() {
                                                         selectAll = flag;
                                                       });
@@ -541,11 +521,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                       horizontal: 22.0,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: index % 2 == 0
-                                                          ? Colors.white
-                                                          : Theme.of(context)
-                                                              .primaryColor
-                                                              .withOpacity(0.1),
+                                                      color: index % 2 == 0 ? Colors.white : Theme.of(context).primaryColor.withOpacity(0.1),
                                                       border: Border.all(
                                                         color: Colors.black,
                                                         width: 0.2,
@@ -554,12 +530,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                     child: Row(
                                                       children: [
                                                         CircleAvatar(
-                                                          backgroundColor:
-                                                              Theme.of(context).primaryColor,
+                                                          backgroundColor: Theme.of(context).primaryColor,
                                                           child: Text(
-                                                            state.studentsEntity.data[index].name
-                                                                .substring(0, 1)
-                                                                .toUpperCase(),
+                                                            state.studentsEntity.data[index].name.substring(0, 1).toUpperCase(),
                                                             style: TextStyle(
                                                               color: Colors.white,
                                                             ),
@@ -567,14 +540,12 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                         ),
                                                         Flexible(
                                                           child: CheckboxListTile(
-                                                            activeColor:
-                                                                Theme.of(context).primaryColor,
+                                                            activeColor: Theme.of(context).primaryColor,
                                                             title: Text(
                                                               state.studentsEntity.data[index].name,
                                                             ),
                                                             subtitle: Text(
-                                                              state.studentsEntity.data[index]
-                                                                  .roll_number,
+                                                              state.studentsEntity.data[index].roll_number,
                                                             ),
                                                             value: students.contains(
                                                               state.studentsEntity.data[index].id,
@@ -583,16 +554,10 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                               flag
                                                                   ? context
                                                                       .bloc<StudentsCountCubit>()
-                                                                      .addStudent(
-                                                                          state.studentsEntity
-                                                                              .data[index].id,
-                                                                          students)
+                                                                      .addStudent(state.studentsEntity.data[index].id, students)
                                                                   : context
                                                                       .bloc<StudentsCountCubit>()
-                                                                      .removeStudent(
-                                                                          state.studentsEntity
-                                                                              .data[index].id,
-                                                                          students);
+                                                                      .removeStudent(state.studentsEntity.data[index].id, students);
                                                               setState(() {});
                                                             },
                                                           ),

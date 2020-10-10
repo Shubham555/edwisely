@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:chips_choice/chips_choice.dart';
+import 'package:edwisely/data/model/assessment/assessmentQuestions/data.dart' as assesmentData;
 import 'package:edwisely/ui/widgets_util/my_checkbox.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,21 +27,14 @@ class TypeQuestionTab extends StatefulWidget {
   final QuestionType _questionType;
   final int _assessmentId;
   final bool isFromQuestionBank;
-
+  assesmentData.Data data;
   TypedObjectiveQuestionProvider newQues;
 
   int _bloomValue = 1;
   int quesCounter = 0;
   bool option5Selected = false;
 
-  TypeQuestionTab(
-    this._title,
-    this._description,
-    this._subjectId,
-    this._questionType,
-    this._assessmentId,
-    this.isFromQuestionBank,
-  );
+  TypeQuestionTab(this._title, this._description, this._subjectId, this._questionType, this._assessmentId, this.isFromQuestionBank, {this.data});
 
   @override
   _TypeQuestionTabState createState() => _TypeQuestionTabState();
@@ -132,6 +126,17 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
     _option3Node = FocusNode();
     _option4Node = FocusNode();
     _option5Node = FocusNode();
+
+    //initialze data
+    if (widget.data != null) {
+      _questionController.text = widget.data.name;
+      _option1Controller.text = widget.data.questions_options[0].name;
+      _option2Controller.text = widget.data.questions_options[1].name;
+      _option3Controller.text = widget.data.questions_options[2].name;
+      _option4Controller.text = widget.data.questions_options[3].name;
+      _hintController.text = widget.data.hint;
+      _solutionController.text = widget.data.solution;
+    }
   }
 
   @override
@@ -233,8 +238,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                             ],
                           ),
                           child: StatefulBuilder(
-                            builder:
-                                (BuildContext context, void Function(void Function()) setState) {
+                            builder: (BuildContext context, void Function(void Function()) setState) {
                               return BlocBuilder(
                                 cubit: _questionFetchCubit
                                   ..getQuestionsToAnAssessment(
@@ -250,24 +254,15 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       },
                                     );
                                     return StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          void Function(void Function()) setState) {
+                                      builder: (BuildContext context, void Function(void Function()) setState) {
                                         return ListView.builder(
                                           itemCount: state.assessmentQuestionsEntity.data.length,
-                                          itemBuilder: (BuildContext context, int index) => Card(
-                                            child: ListTile(
-                                              title: Row(
-                                                children: [
-                                                  Text('Q ${index + 1}   '),
-                                                  Expanded(
-                                                    child: Text(
-                                                      state.assessmentQuestionsEntity.data[index]
-                                                          .name,
-                                                      // overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                          itemBuilder: (BuildContext context, int index) => ListTile(
+                                            leading: Text('Q ${index + 1}'),
+                                            title: Text(
+                                              state.assessmentQuestionsEntity.data[index].name,
+                                              maxLines: 3,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         );
@@ -317,85 +312,92 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                     children: [
                                       Container(
                                         margin: EdgeInsets.all(12),
-                                        padding: const EdgeInsets.only(top: 14.0),
+                                        padding: const EdgeInsets.only(top: 14.0,bottom: 14.0),
                                         height: height * 0.17,
                                         decoration: BoxDecoration(
                                           color: Colors.grey[200],
                                           borderRadius: BorderRadius.circular(18.0),
                                         ),
-                                        child: TextField(
-                                          maxLines: 4,
-                                          controller: _questionController,
-                                          textAlign: TextAlign.center,
-                                          decoration: InputDecoration(
-                                            hintText: "Click to start typing your question",
-                                            hintStyle:
-                                                Theme.of(context).textTheme.headline1.copyWith(
-                                                      fontWeight: FontWeight.w400,
-                                                      color: Colors.grey,
-                                                    ),
-                                            border: InputBorder.none,
-                                            fillColor: Colors.grey[200],
-                                            filled: true,
-                                          ),
-                                        ),
-                                      ),
-                                      _questionImage == null
-                                          ? Center(
-                                              child: Container(
-                                                height: height * 0.17,
-                                                width: width,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(18.0),
-                                                  color: Colors.grey[100],
+                                        child: Row(
+                                          children: [
+                                            Flexible(
+                                              child: TextField(
+                                                maxLines: 4,
+                                                controller: _questionController,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 32.0,
                                                 ),
-                                                margin: const EdgeInsets.all(12.0),
-                                                child: FlatButton(
-                                                  onPressed: getImage,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(vertical: 18.0),
+                                                decoration: InputDecoration(
+                                                  hintText: "Click to start typing your question",
+                                                  hintStyle: Theme.of(context).textTheme.headline1.copyWith(
+                                                        fontWeight: FontWeight.w400,
+                                                        color: Colors.grey,
+                                                      ),
+                                                  border: InputBorder.none,
+                                                  fillColor: Colors.grey[200],
+                                                  filled: true,
+                                                ),
+                                              ),
+                                            ),
+                                            _questionImage == null
+                                                ? Center(
+                                                    child: Container(
+                                                      height: height * 0.15,
+                                                      width: width * 0.15,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(18.0),
+                                                        color: Colors.grey[100],
+                                                      ),
+                                                      margin: const EdgeInsets.all(12.0),
+                                                      child: FlatButton(
+                                                        onPressed: getImage,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical: 18.0),
+                                                          child: Row(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Image.asset(
+                                                                'assets/icons/upload_image.png',
+                                                                height: height * 0.04,
+                                                              ),
+                                                              SizedBox(width: 48.0),
+                                                              Text('Upload Image'),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Center(
                                                     child: Row(
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        Image.asset(
-                                                          'assets/icons/upload_image.png',
-                                                          height: height * 0.05,
+                                                        Image.memory(
+                                                          base64Decode(_question),
+                                                          height: height * 0.15,
+                                                          width: height * 0.15,
+                                                          fit: BoxFit.contain,
                                                         ),
-                                                        SizedBox(width: 48.0),
-                                                        Text('Upload Image'),
+                                                        SizedBox(
+                                                          width: 18.0,
+                                                        ),
+                                                        FlatButton.icon(
+                                                          color: Colors.grey[200],
+                                                          onPressed: getImage,
+                                                          icon: Icon(
+                                                            Icons.edit,
+                                                          ),
+                                                          label: Text('Edit'),
+                                                        )
                                                       ],
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                            )
-                                          : Center(
-                                              child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Image.memory(
-                                                    base64Decode(_question),
-                                                    height: height * 0.2,
-                                                    width: height * 0.2,
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 18.0,
-                                                  ),
-                                                  FlatButton.icon(
-                                                    color: Colors.grey[200],
-                                                    onPressed: getImage,
-                                                    icon: Icon(
-                                                      Icons.edit,
-                                                    ),
-                                                    label: Text('Edit'),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
+                                          ],
+                                        ),
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                                         child: Row(
@@ -490,10 +492,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   myValue: 0,
                                                   groupValue: _correctAnswer,
                                                   myFocusNode: _option1Node,
-                                                  onChanged: (int value) =>
-                                                      setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(
-                                                      () => _option1Controller.text = value),
+                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                  onTap: (String value) => setState(() => _option1Controller.text = value),
                                                   optionImagePicker: () => getOptionImage(1),
                                                   image: _option1,
                                                   color: Color(0xFFC04DD8),
@@ -508,10 +508,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   myValue: 1,
                                                   groupValue: _correctAnswer,
                                                   myFocusNode: _option2Node,
-                                                  onChanged: (int value) =>
-                                                      setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(
-                                                      () => _option2Controller.text = value),
+                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                  onTap: (String value) => setState(() => _option2Controller.text = value),
                                                   optionImagePicker: () => getOptionImage(2),
                                                   image: _option2,
                                                   color: Color(0xFF4FB277),
@@ -533,10 +531,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   myValue: 2,
                                                   groupValue: _correctAnswer,
                                                   myFocusNode: _option3Node,
-                                                  onChanged: (int value) =>
-                                                      setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(
-                                                      () => _option3Controller.text = value),
+                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                  onTap: (String value) => setState(() => _option3Controller.text = value),
                                                   optionImagePicker: () => getOptionImage(3),
                                                   image: _option3,
                                                   color: Color(0xFF508AE0),
@@ -551,10 +547,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   myValue: 3,
                                                   groupValue: _correctAnswer,
                                                   myFocusNode: _option4Node,
-                                                  onChanged: (int value) =>
-                                                      setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(
-                                                      () => _option4Controller.text = value),
+                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                  onTap: (String value) => setState(() => _option4Controller.text = value),
                                                   optionImagePicker: () => getOptionImage(4),
                                                   image: _option4,
                                                   color: Color(0xFF4ED8DA),
@@ -573,10 +567,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                 myValue: 4,
                                                 groupValue: _correctAnswer,
                                                 myFocusNode: _option3Node,
-                                                onChanged: (int value) =>
-                                                    setState(() => _correctAnswer = value),
-                                                onTap: (String value) =>
-                                                    setState(() => _option3Controller.text = value),
+                                                onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                onTap: (String value) => setState(() => _option3Controller.text = value),
                                                 optionImagePicker: () => getOptionImage(3),
                                                 image: _option5,
                                                 color: Color(0xFFff6b6b),
@@ -584,13 +576,11 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                               ),
                                             )
                                           : InkWell(
-                                              onTap: () =>
-                                                  setState(() => widget.option5Selected = true),
+                                              onTap: () => setState(() => widget.option5Selected = true),
                                               child: Container(
                                                 // height: height * 0.118,
                                                 width: width * 0.12,
-                                                margin: const EdgeInsets.symmetric(
-                                                    horizontal: 14.0, vertical: 4.0),
+                                                margin: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4.0),
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(8.0),
                                                   color: Color(0xFFff6b6b),
@@ -751,9 +741,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                           false);
 
                                       Future.delayed(
-                                          Duration(seconds: 1),
-                                          () => _questionFetchCubit
-                                              .getQuestionsToAnAssessment(widget._assessmentId));
+                                          Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
                                     } else {
                                       print('Subjective');
                                     }
@@ -771,8 +759,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   height: 12.0,
                                 ),
                                 StatefulBuilder(
-                                  builder: (BuildContext context,
-                                      void Function(void Function()) setState) {
+                                  builder: (BuildContext context, void Function(void Function()) setState) {
                                     return Container(
                                       padding: EdgeInsets.symmetric(
                                         vertical: height * 0.02,
@@ -806,8 +793,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                     isWrapped: true,
                                                     options: ChipsChoiceOption.listFrom(
                                                       source: state.topicEntity.data,
-                                                      value: (i, Data v) =>
-                                                          {'id': v.id, 'type': v.type},
+                                                      value: (i, Data v) => {'id': v.id, 'type': v.type},
                                                       label: (i, Data v) => v.name,
                                                     ),
                                                     onChanged: (val) {
@@ -914,7 +900,7 @@ class OptionField extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 35.0,
+            width: 85.0,
             margin: const EdgeInsets.only(right: 12.0),
             height: MediaQuery.of(context).size.height * 0.1,
             decoration: BoxDecoration(
@@ -944,6 +930,7 @@ class OptionField extends StatelessWidget {
           image.length == 0
               ? SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
+                  width: 55.0,
                   child: FlatButton(
                     color: color,
                     padding: const EdgeInsets.symmetric(
@@ -952,6 +939,7 @@ class OptionField extends StatelessWidget {
                     onPressed: optionImagePicker,
                     child: Icon(
                       Icons.image,
+                      size: 22.0,
                       color: Colors.white,
                     ),
                   ),
@@ -968,10 +956,11 @@ class OptionField extends StatelessWidget {
                       fit: BoxFit.contain,
                     ),
                     SizedBox(
-                      width: 18.0,
+                      width: 12.0,
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
+                      width: 55.0,
                       child: FlatButton(
                         color: color,
                         padding: const EdgeInsets.symmetric(
@@ -980,6 +969,7 @@ class OptionField extends StatelessWidget {
                         onPressed: optionImagePicker,
                         child: Icon(
                           Icons.edit,
+                          size: 22.0,
                           color: Colors.white,
                         ),
                       ),
@@ -1063,8 +1053,7 @@ class LeftPane extends StatelessWidget {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.4,
-            child: ListView.builder(
-                itemCount: quesCount, itemBuilder: (context, index) => _buildlist(index)),
+            child: ListView.builder(itemCount: quesCount, itemBuilder: (context, index) => _buildlist(index)),
           ),
           FlatButton(
             onPressed: null,

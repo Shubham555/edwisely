@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edwisely/data/model/course/getAllCourses/data.dart';
 import 'package:edwisely/main.dart';
 import 'package:flutter/material.dart';
@@ -28,15 +29,20 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   ) async* {
     var currentStrate = state;
     if (event is GetCoursesByFaculty) {
-    print(loginToken);
-      final response = await EdwiselyApi.dio.get('getFacultyCourses');
+      print(loginToken);
+      final response = await EdwiselyApi.dio.get('getFacultyCourses',
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $loginToken',
+            },
+          ));
       print('Courses Bloc ${response.data}');
       if (response.statusCode == 200) {
         // if (response.data['status'] != 200) {
         //   SharedPreferences.getInstance().then((value) => value.setString('login_key', null));
         //   yield LoginFailed();
         // } else {
-          yield CoursesFetched(CoursesEntity.fromJsonMap(response.data));
+        yield CoursesFetched(CoursesEntity.fromJsonMap(response.data));
         // }
       } else {
         CoursesFetchFailed();
@@ -68,7 +74,10 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetSectionsAndGetCoursesList) {
-      final response = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId');
+      final response = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId',
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses');
       if (response.statusCode == 200 && subjectResponse.statusCode == 200) {
         List<DropdownMenuItem> subjects = [];
@@ -97,7 +106,10 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetSections) {
-      final response = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId');
+      final response = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId',
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         yield SectionsFetched(
           SectionEntity.fromJsonMap(response.data),
@@ -107,7 +119,10 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetCourse) {
-      final response = await EdwiselyApi.dio.get('getCourseDetails?subject_semester_id=${event.subjectSemesterId}');
+      final response = await EdwiselyApi.dio.get('getCourseDetails?subject_semester_id=${event.subjectSemesterId}',
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         yield CourseAboutDetailsFetched(
           CourseEntity.fromJsonMap(response.data),
@@ -117,7 +132,10 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetCourseSyllabus) {
-      final response = await EdwiselyApi.dio.get('getCourseSyllabus?subject_semester_id=${event.subjectSemesterId}');
+      final response = await EdwiselyApi.dio.get('getCourseSyllabus?subject_semester_id=${event.subjectSemesterId}',
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (response.statusCode == 200) {
         yield CourseSyllabusFetched(
           SyllabusEntity.fromJsonMap(response.data),
@@ -127,8 +145,14 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetAllCourses) {
-      final courses = await EdwiselyApi.dio.get('getCourses');
-      final courseDep = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=71');
+      final courses = await EdwiselyApi.dio.get('getCourses',
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
+      final courseDep = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=71',
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (courses.statusCode == 200 && courseDep.statusCode == 200) {
         yield AllCoursesFetched(GetAllCoursesEntity.fromJsonMap(courses.data), SectionEntity.fromJsonMap(courseDep.data));
       } else {

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../../main.dart';
@@ -9,8 +10,11 @@ class UnitCubit extends Cubit<UnitState> {
   UnitCubit() : super(UnitInitial());
 
   getUnitsOfACourse(int subjectSemesterId) async {
-    final response = await EdwiselyApi.dio.get('getCourseSyllabus?subject_semester_id=$subjectSemesterId');
-    print(response.data);
+    final response = await EdwiselyApi.dio.get('getCourseSyllabus?subject_semester_id=$subjectSemesterId', options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',//kr le tu me aya 10 min me
+        }));
+    print('Units ${response.data}');
     if (response.statusCode == 200) {
       if (response.data['message'] != 'No data to fetch') {
         emit(

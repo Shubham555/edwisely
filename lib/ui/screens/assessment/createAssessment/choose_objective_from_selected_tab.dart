@@ -3,6 +3,8 @@ import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
 import 'package:edwisely/data/cubits/unit_topic_cubit.dart';
 import 'package:edwisely/data/model/assessment/topicQuestionsEntity/data.dart';
 import 'package:edwisely/data/model/assessment/unitTopic/topic.dart';
+import 'package:edwisely/main.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
@@ -158,11 +160,38 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         ),
                                       ],
                                     ),
-                                    // trailing: Row(
-                                    //   children: [
-                                    //     IconButton(icon: Icon(Icons.delete,size: 10,), onPressed: () => null)
-                                    //   ],
-                                    // ),
+                                    trailing: Row(
+                                      children: [
+                                        IconButton(
+                                            icon: Icon(
+                                              Icons.delete,
+                                              size: 10,
+                                            ),
+                                            onPressed: () => null),
+                                        Visibility(
+                                          visible: state.assessmentQuestionsEntity.data[index].college_account_id == collegeId,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.edit,
+                                              size: 10,
+                                            ),
+                                            onPressed: () => Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (ctx) => TypeQuestionTab(
+                                                  widget._title,
+                                                  widget._description,
+                                                  widget._subjectId,
+                                                  QuestionType.Objective,
+                                                  widget._assessmentId,
+                                                  false,
+                                                  data : state.assessmentQuestionsEntity.data[index],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
@@ -475,22 +504,25 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                           builder: (BuildContext context, StateSetter setState) {
                                             return Column(
                                               children: [
-                                                SmartSelect.multiple(
-                                                  title: 'Topics',
-                                                  value: topics,
-                                                  onChange: (state) {
-                                                    setState(() => topics = state.value);
-                                                    context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
-                                                  },
-                                                  modalType: S2ModalType.popupDialog,
-                                                  choiceItems: S2Choice.listFrom(
-                                                    source: state.topics,
-                                                    value: (index, Topic item) => item.topic_id,
-                                                    title: (index, Topic item) => item.topic_name,
-                                                    group: (index, Topic item) => item.topic_code,
+                                                SizedBox(//baaki ka check krle tab tak boi
+                                                  width: 250,
+                                                  child: SmartSelect.multiple(
+                                                    title: 'Topics',
+                                                    value: topics,
+                                                    onChange: (state) {
+                                                      setState(() => topics = state.value);
+                                                      context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                                    },
+                                                    modalType: S2ModalType.popupDialog,
+                                                    choiceItems: S2Choice.listFrom(
+                                                      source: state.topics,
+                                                      value: (index, Topic item) => item.topic_id,
+                                                      title: (index, Topic item) => item.topic_name,
+                                                      group: (index, Topic item) => item.topic_code,
+                                                    ),
+                                                    choiceType: S2ChoiceType.chips,
+                                                    modalConfirm: true,
                                                   ),
-                                                  choiceType: S2ChoiceType.chips,
-                                                  modalConfirm: true,
                                                 ),
                                                 SmartSelect.multiple(
                                                   title: 'Sub Topics',

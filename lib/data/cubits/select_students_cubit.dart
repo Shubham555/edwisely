@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
+import '../../main.dart';
 import '../api/api.dart';
 import '../model/assessment/studentsSection/StudentsEntity.dart';
 
@@ -19,7 +20,10 @@ class SelectStudentsCubit extends Cubit<SelectStudentsState> {
           'college_department_section_id': sectionId,
           'year': year,
         },
-      ),
+      ), options: Options(
+        headers: {
+          'Authorization': 'Bearer $loginToken',
+        })
     );
     if (response.statusCode == 200) {
       emit(
