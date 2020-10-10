@@ -20,7 +20,7 @@ jobs:
           git config --global user.email saxenashubham248@gmail.com
           git config --global user.name Shubham Saxena
           git status
-          git remote add origin https://${{secrets.access_token}}@github.com/Shubham555/edwisely.git
+          git remote add origin https://${{secrets.commit_secret}}@github.com/Shubham555/edwisely.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
