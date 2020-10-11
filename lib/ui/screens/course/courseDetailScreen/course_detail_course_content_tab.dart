@@ -536,6 +536,7 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                     itemCount: state.data.length,
                                     itemBuilder: (BuildContext context, int index) {
                                       String level = '';
+                                      String fileType = '';
                                       switch (state.data[index].level) {
                                         case -1:
                                           level = 'N/A';
@@ -550,8 +551,32 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                           level = 'Hard';
                                           break;
                                       }
+
+                                      switch (state.data[index].type) {
+                                        case 'DOCS':
+                                          fileType = 'assets/icons/filesTypes/pdf.png';
+                                          break;
+                                        case 'PPT':
+                                          fileType = 'assets/icons/filesTypes/ppt.png';
+                                          break;
+                                        case 'MP4':
+                                          fileType = 'assets/icons/filesTypes/mp4.png';
+                                          break;
+                                        case 'url':
+                                          fileType = 'assets/icons/filesTypes/html.png';
+                                          break;
+                                      }
                                       return ListTile(
-                                          leading: Text(state.data[index].type),
+                                          leading: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Image.asset(
+                                              fileType,
+                                              // height: 24.0,
+                                              // width: 24.0,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                          // Text(state.data[index].type),
                                           // leading: state.data[index].,
                                           title: Row(
                                             children: [
