@@ -29,8 +29,16 @@ class SubjectiveTab extends StatelessWidget {
               cubit: context.bloc<CoursesBloc>(),
               builder: (BuildContext context, state) {
                 if (state is CoursesListFetched) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
+                  return Container(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                    margin: const EdgeInsets.symmetric(vertical: 12.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1.0,
+                      ),
+                    ),
                     child: DropdownButton(
                       underline: Container(),
                       hint: Text('Filter by Subjects'),
@@ -88,7 +96,7 @@ class SubjectiveTab extends StatelessWidget {
                         crossAxisCount: 2,
                         crossAxisSpacing: 32.0,
                         mainAxisSpacing: 32.0,
-                        childAspectRatio: 3 / 1,
+                        childAspectRatio: 3 / 1.1,
                       ),
                       itemCount: state.questionsEntity.data.length,
                       itemBuilder: (BuildContext context, int index) {

@@ -41,7 +41,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
         body: Row(
           children: [
             NavigationDrawer(
-              isCollapsed: false,
+              isCollapsed: screenSize.width <= 1366 ? true : false,
               key: context.watch<SelectedPageProvider>().navigatorKey,
             ),
             BlocListener(

@@ -13,8 +13,18 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+          margin: const EdgeInsets.symmetric(vertical: 12.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4.0),
+            border: Border.all(
+              color: Colors.grey,
+              width: 1.0,
+            ),
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
                 icon: Icon(Icons.calendar_today_outlined),

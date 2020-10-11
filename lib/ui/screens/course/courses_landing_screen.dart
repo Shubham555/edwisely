@@ -37,7 +37,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
   @override
   Widget build(BuildContext context) {
     pageProvider = Provider.of<SelectedPageProvider>(context, listen: false);
-
+    _isCollapsed = MediaQuery.of(context).size.width <= 1366 ? true : false;
     return WillPopScope(
       onWillPop: () async{
         Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex();

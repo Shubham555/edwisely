@@ -307,7 +307,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                               shrinkWrap: true,
                               itemCount: state.questionBankObjectiveEntity.data.length,
                               itemBuilder: (BuildContext context, int index) {
-                                print(state.questionBankObjectiveEntity.data[index].name);
+
                                 return Container(
                                   height: MediaQuery.of(context).size.height * 0.1,
                                   decoration: BoxDecoration(

@@ -113,7 +113,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
           child: Row(
             children: [
               NavigationDrawer(
-                isCollapsed: false,
+                isCollapsed: screenSize.width <= 1366 ? true : false,
                 key: context.watch<SelectedPageProvider>().navigatorKey,
               ),
               Expanded(

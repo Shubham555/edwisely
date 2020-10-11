@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             //side bar
             NavigationDrawer(
-              isCollapsed: false,
+              isCollapsed: screenSize.width <= 1366 ? true : false,
               isHome: false,
             ),
             //rest of the screen
@@ -273,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget activityTabList(dynamic activityTab) {
-    print('${activityTab}');
+
 
     return Expanded(
       child: ListView.builder(

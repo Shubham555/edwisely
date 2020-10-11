@@ -64,7 +64,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
               child: Row(
                 children: [
                   NavigationDrawer(
-                    isCollapsed: false,
+                    isCollapsed: MediaQuery.of(context).size.width <= 1366 ? true : false,
                     key: context.watch<SelectedPageProvider>().navigatorKey,
                   ),
                   Expanded(

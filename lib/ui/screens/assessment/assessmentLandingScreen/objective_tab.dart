@@ -48,7 +48,7 @@ class ObjectiveTab extends StatelessWidget {
                         hint: Text('Filter by Subjects'),
                         items: state.subjects,
                         onChanged: (value) {
-                          print('value value calue ${value.keys.first}');
+
                           value.keys.first == 1234567890
                               ? context.bloc<ObjectiveBloc>().add(
                                     GetObjectiveTests(),
@@ -106,7 +106,7 @@ class ObjectiveTab extends StatelessWidget {
                         crossAxisCount: 2,
                         crossAxisSpacing: 32.0,
                         mainAxisSpacing: 32.0,
-                        childAspectRatio: 3 / 1,
+                        childAspectRatio: 3 / 1.1,
                       ),
                       itemCount: state.questionsEntity.data.length,
                       itemBuilder: (BuildContext context, int index) {
