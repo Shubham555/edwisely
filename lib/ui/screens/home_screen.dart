@@ -524,6 +524,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Column(
         children: [
+          //yahan indices ka error aarha hai
           _activityTitle(
             activity['title'],
             Color(0xFF4FB277),
@@ -914,10 +915,12 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CircleAvatar(
                 radius: 25.0,
                 backgroundColor: color,
-                child: Text(
-                  followers[0]['faculty_name'].substring(0, 1).toUpperCase(),
-                  style: textTheme.headline3,
-                ),
+                child: followers.toString() == '[]'
+                    ? Container()
+                    : Text(
+                        followers[0]['faculty_name'].substring(0, 1).toUpperCase(),
+                        style: textTheme.headline3,
+                      ),
               ),
             ),
           ],

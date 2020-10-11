@@ -506,20 +506,29 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         return StatefulBuilder(
                                           builder: (BuildContext context, StateSetter setState) {
                                             return Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
+                                                SizedBox(height: 12.0),
+                                                Text(
+                                                  'Selected Topics',
+                                                  style: Theme.of(context).textTheme.headline6.copyWith(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
                                                 SizedBox(
-                                                  //baaki ka check krle tab tak boi
-                                                  width: 250,
                                                   child: SmartSelect.multiple(
-                                                    title: 'Topics',
-                                                    value: topics,
+                                                    title: 'Topic:',
+                                                    value: topics + subTopics,
                                                     onChange: (state) {
-                                                      setState(() => topics = state.value);
+                                                      setState(() {
+                                                        topics = state.value;
+                                                        subTopics = state.value;
+                                                      });
                                                       context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
                                                     },
                                                     modalType: S2ModalType.popupDialog,
                                                     choiceItems: S2Choice.listFrom(
-                                                      source: state.topics,
+                                                      source: state.topics + state.subTopics,
                                                       value: (index, Topic item) => item.topic_id,
                                                       title: (index, Topic item) => item.topic_name,
                                                       group: (index, Topic item) => item.topic_code,
@@ -528,23 +537,23 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                     modalConfirm: true,
                                                   ),
                                                 ),
-                                                SmartSelect.multiple(
-                                                  title: 'Sub Topics',
-                                                  value: subTopics,
-                                                  onChange: (state) {
-                                                    setState(() => subTopics = state.value);
-                                                    context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
-                                                  },
-                                                  modalType: S2ModalType.popupDialog,
-                                                  choiceItems: S2Choice.listFrom(
-                                                    source: state.subTopics,
-                                                    value: (index, Topic item) => item.topic_id,
-                                                    title: (index, Topic item) => item.topic_name,
-                                                    group: (index, Topic item) => item.topic_code,
-                                                  ),
-                                                  choiceType: S2ChoiceType.chips,
-                                                  modalConfirm: true,
-                                                ),
+                                                // SmartSelect.multiple(
+                                                //   title: 'Sub Topics',
+                                                //   value: subTopics,
+                                                //   onChange: (state) {
+                                                //     setState(() => subTopics = state.value);
+                                                //     context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                                //   },
+                                                //   modalType: S2ModalType.popupDialog,
+                                                //   choiceItems: S2Choice.listFrom(
+                                                //     source: state.subTopics,
+                                                //     value: (index, Topic item) => item.topic_id,
+                                                //     title: (index, Topic item) => item.topic_name,
+                                                //     group: (index, Topic item) => item.topic_code,
+                                                //   ),
+                                                //   choiceType: S2ChoiceType.chips,
+                                                //   modalConfirm: true,
+                                                // ),
                                               ],
                                             );
                                           },

@@ -179,7 +179,12 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                           children: [
                                             Row(
                                               children: [
-                                                Text('Priority'),
+                                                Text(
+                                                  'Priority',
+                                                  style: Theme.of(context).textTheme.headline6.copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                ),
                                                 SizedBox(width: 34.0),
                                                 Switch(
                                                   onChanged: (bool value) => setState(
@@ -189,10 +194,15 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                 ),
                                               ],
                                             ),
-                                            //is comment anonymouse wiget
+                                            //is comment anonymous widget
                                             Row(
                                               children: [
-                                                Text('Comments \nAnonymous'),
+                                                Text(
+                                                  'Comments \nAnonymous',
+                                                  style: Theme.of(context).textTheme.headline6.copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                ),
                                                 Switch(
                                                   onChanged: (bool value) => setState(
                                                     () => _isCommentAnonymous = value,
@@ -248,7 +258,10 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                     SizedBox(
                                       height: screenSize.height * 0.02,
                                     ),
-                                    Text('Class Select'),
+                                    Text('Class Select',
+                                        style: Theme.of(context).textTheme.headline6.copyWith(
+                                              color: Colors.black,
+                                            )),
                                     BlocBuilder(
                                       cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                                       builder: (BuildContext context, state) {

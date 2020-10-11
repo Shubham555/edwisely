@@ -55,7 +55,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         subjects.add(
           DropdownMenuItem(
             child: Text('All'),
-            value: 1234567890,
+            value: {1234567890 : 'All'},
           ),
         );
         CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
@@ -63,7 +63,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             subjects.add(
               DropdownMenuItem(
                 child: Text(element.name),
-                value: element.id,
+                value: {element.id : element.name},
               ),
             );
           },
@@ -84,7 +84,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         subjects.add(
           DropdownMenuItem(
             child: Text('All'),
-            value: 1234567890,
+            value: {1234567890 : 'All'},
           ),
         );
         CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
@@ -92,7 +92,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             subjects.add(
               DropdownMenuItem(
                 child: Text(element.name),
-                value: element.id,
+                value: {element.id : element.name},
               ),
             );
           },

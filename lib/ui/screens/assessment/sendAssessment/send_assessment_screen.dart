@@ -138,7 +138,12 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Test Details'),
+                                Text(
+                                  'Test Details',
+                                  style: Theme.of(context).textTheme.headline6.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
                                 Container(
                                   width: MediaQuery.of(context).size.width * 0.25,
                                   padding: const EdgeInsets.symmetric(
@@ -292,7 +297,12 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                   ),
                                 ),
                                 SizedBox(height: 12.0),
-                                Text('Class Select'),
+                                Text(
+                                  'Class Select',
+                                  style: Theme.of(context).textTheme.headline6.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
                                 BlocBuilder(
                                   cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                                   builder: (BuildContext context, state) {
@@ -381,7 +391,12 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                     );
                                   },
                                 ),
-                                Text('Total Students Selected'),
+                                Text(
+                                  'Total Students Selected',
+                                  style: Theme.of(context).textTheme.headline6.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
                                 Container(
                                   width: MediaQuery.of(context).size.width * 0.25,
                                   padding: const EdgeInsets.symmetric(

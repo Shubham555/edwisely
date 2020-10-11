@@ -1,5 +1,7 @@
+import 'package:edwisely/ui/screens/authorization/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './side_drawer_item.dart';
 import '../../data/provider/selected_page.dart';
@@ -225,6 +227,33 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                     ),
                   ),
                 ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 12.0,
+              ),
+              child: RaisedButton(
+                onPressed: () async{
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                  prefs.clear();
+
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => LoginScreen()));
+
+                },
+                child: _isNavigationDrawerCollapsed
+                    ? Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      )
+                    : Text(
+                        'Logout',
+                        style: textTheme.button,
+                      ),
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -72,6 +72,10 @@ class AssessmentTile extends StatelessWidget {
                         description,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
+                      Text(
+                        'Subject: $subjectName',
+                        style: Theme.of(context).textTheme.headline5.copyWith(fontSize: 14.0),
+                      ),
                     ],
                   ),
                   //spacing

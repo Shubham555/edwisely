@@ -7,7 +7,7 @@ import '../../../../data/blocs/objectiveBloc/objective_bloc.dart';
 import '../../../widgets_util/assessment_tile.dart';
 
 class ObjectiveTab extends StatelessWidget {
-  var selectedOption;
+  Map<int, String> dropDownValue;
 
   @override
   Widget build(BuildContext context) {
@@ -32,30 +32,39 @@ class ObjectiveTab extends StatelessWidget {
                 cubit: context.bloc<CoursesBloc>(),
                 builder: (BuildContext context, state) {
                   if (state is CoursesListFetched) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                      margin: const EdgeInsets.symmetric(vertical: 12.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4.0),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
+                      ),
                       child: DropdownButton(
-                        value: selectedOption,
+                        value: dropDownValue,
                         underline: Container(),
                         hint: Text('Filter by Subjects'),
                         items: state.subjects,
                         onChanged: (value) {
-                          value == 1234567890
+                          print('value value calue ${value.keys.first}');
+                          value.keys.first == 1234567890
                               ? context.bloc<ObjectiveBloc>().add(
                                     GetObjectiveTests(),
                                   )
                               : context.bloc<ObjectiveBloc>().add(
                                     GetObjectiveTestsBYSubjectId(
-                                      value,
+                                      value.keys.first,
                                     ),
                                   );
-                          selectedOption = value;
+                          dropDownValue = value;
                           setState(() {});
                         },
                       ),
                     );
                   } else {
-                    return Container();
+                    return Text('Loading...');
                   }
                 },
               ),
@@ -108,7 +117,7 @@ class ObjectiveTab extends StatelessWidget {
                           state.questionsEntity.data[index].questions_count.toString(),
                           state.questionsEntity.data[index].doe,
                           state.questionsEntity.data[index].start_time,
-                          '',//for subject name
+                          dropDownValue == null ? 'All' : dropDownValue.values.first,
                           state.questionsEntity.data[index].subject_id,
                         );
                       },
@@ -123,3 +132,4 @@ class ObjectiveTab extends StatelessWidget {
     );
   }
 }
+// TODO: 11-10-2020 assessment tile m edit krdio subject name ke liye yup

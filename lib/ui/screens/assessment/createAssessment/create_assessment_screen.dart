@@ -136,7 +136,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 16.0,
-                        horizontal: MediaQuery.of(context).size.width * 0.17,
+                        horizontal: MediaQuery.of(context).size.width * 0.27,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,12 +146,12 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
                           _buildTextFieldWidget('Description', 200, _descriptionController),
-                          Text(
-                            'Choose Subject',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: MediaQuery.of(context).size.width / 50),
-                          ),
+                          // Text(
+                          //   'Choose Subject',
+                          //   style: TextStyle(
+                          //       fontWeight: FontWeight.bold,
+                          //       fontSize: MediaQuery.of(context).size.width / 50),
+                          // ),
                           BlocBuilder(
                             cubit: context.bloc<CoursesBloc>()
                               ..add(

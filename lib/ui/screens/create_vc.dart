@@ -218,7 +218,12 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                     height: screenSize.height * 0.03,
                                   ),
                                   //start and end time
-                                  Text('Class Details'),
+                                  Text(
+                                    'Class Details',
+                                    style: Theme.of(context).textTheme.headline6.copyWith(
+                                          color: Colors.black,
+                                        ),
+                                  ),
                                   StatefulBuilder(
                                     builder: (BuildContext context, void Function(void Function()) setState) {
                                       return Container(
@@ -338,7 +343,12 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                   SizedBox(
                                     height: screenSize.height * 0.03,
                                   ),
-                                  Text('Class Select'),
+                                  Text(
+                                    'Class Select',
+                                    style: Theme.of(context).textTheme.headline6.copyWith(
+                                          color: Colors.black,
+                                        ),
+                                  ),
                                   BlocBuilder(
                                     cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
                                     builder: (BuildContext context, state) {

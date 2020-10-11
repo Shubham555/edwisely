@@ -82,7 +82,6 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   int _currentQuestionId;
 
   Future getImage() async {
-    
     final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
     _question = pickedFile.toBase64();
 
@@ -92,7 +91,6 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   }
 
   Future getOptionImage(int opt) async {
-    
     final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
 
     setState(() {
@@ -225,6 +223,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width / 6,
+                          height: MediaQuery.of(context).size.height * 0.8,
                           margin: const EdgeInsets.only(
                             top: 12.0,
                             left: 12.0,
@@ -261,23 +260,34 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                         return ListView.builder(
                                           shrinkWrap: true,
                                           itemCount: state.assessmentQuestionsEntity.data.length,
-                                          itemBuilder: (BuildContext context, int index) => ListTile(
-                                            onTap: () {
-                                              _currentQuestionId = state.assessmentQuestionsEntity.data[index].id;
-                                              _questionController.text = state.assessmentQuestionsEntity.data[index].name;
-                                              _option1Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[0].name;
-                                              _option2Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[1].name;
-                                              _option3Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[2].name;
-                                              _option4Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[3].name;
-                                              _hintController.text = state.assessmentQuestionsEntity.data[index].hint;
-                                              _solutionController.text = state.assessmentQuestionsEntity.data[index].solution;
-                                              setState(() {});
-                                            },
-                                            leading: Text('Q ${index + 1}'),
-                                            title: Text(
-                                              state.assessmentQuestionsEntity.data[index].name,
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
+                                          itemBuilder: (BuildContext context, int index) => Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(12.0),
+                                              child: ListTile(
+                                                tileColor: Colors.grey[200],
+                                                onTap: () {
+                                                  _currentQuestionId = state.assessmentQuestionsEntity.data[index].id;
+                                                  _questionController.text = state.assessmentQuestionsEntity.data[index].name;
+                                                  _option1Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[0].name;
+                                                  _option2Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[1].name;
+                                                  _option3Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[2].name;
+                                                  _option4Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[3].name;
+                                                  _hintController.text = state.assessmentQuestionsEntity.data[index].hint;
+                                                  _solutionController.text = state.assessmentQuestionsEntity.data[index].solution;
+                                                  setState(() {});
+                                                },
+                                                leading: Text(
+                                                  'Q ${index + 1}',
+                                                  style: Theme.of(context).textTheme.headline6,
+                                                ),
+                                                title: Text(
+                                                  state.assessmentQuestionsEntity.data[index].name,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 3,
+                                                  style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 14.0),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         );
@@ -722,54 +732,6 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                     ),
                                   ],
                                 ),
-                                RaisedButton.icon(
-                                  color: Theme.of(context).primaryColor,
-                                  onPressed: () {
-                                    
-                                    if (widget._questionType == QuestionType.Objective) {
-                                      context.bloc<AddQuestionCubit>().addQuestion(
-                                          _questionController.text,
-                                          topics,
-                                          [
-                                            _option1Controller.text,
-                                            _option2Controller.text,
-                                            _option3Controller.text,
-                                            _option4Controller.text,
-                                            _option5Controller.text,
-                                          ],
-                                          widget._bloomValue,
-                                          difficultylevel,
-                                          _sourceController.text,
-                                          isPublic ? 'public' : 'private',
-                                          1,
-                                          _correctAnswer,
-                                          _option1Image,
-                                          _option2Image,
-                                          _option3Image,
-                                          _option4Image,
-                                          _option5Image,
-                                          _questionImage,
-                                          widget._assessmentId,
-                                          questions,
-                                          _hintController.text,
-                                          _solutionController.text,
-                                          false);
-
-                                      Future.delayed(
-                                          Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
-                                    } else {
-                                      
-                                    }
-                                  },
-                                  icon: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  ),
-                                  label: Text(
-                                    "Add",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
                                 SizedBox(
                                   height: 12.0,
                                 ),
@@ -876,6 +838,47 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       'Delete',
                                       style: Theme.of(context).textTheme.button,
                                     ),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  color: Theme.of(context).primaryColor,
+                                  onPressed: () {
+                                    if (widget._questionType == QuestionType.Objective) {
+                                      context.bloc<AddQuestionCubit>().addQuestion(
+                                          _questionController.text,
+                                          topics,
+                                          [
+                                            _option1Controller.text,
+                                            _option2Controller.text,
+                                            _option3Controller.text,
+                                            _option4Controller.text,
+                                            _option5Controller.text,
+                                          ],
+                                          widget._bloomValue,
+                                          difficultylevel,
+                                          _sourceController.text,
+                                          isPublic ? 'public' : 'private',
+                                          1,
+                                          _correctAnswer,
+                                          _option1Image,
+                                          _option2Image,
+                                          _option3Image,
+                                          _option4Image,
+                                          _option5Image,
+                                          _questionImage,
+                                          widget._assessmentId,
+                                          questions,
+                                          _hintController.text,
+                                          _solutionController.text,
+                                          false);
+
+                                      Future.delayed(
+                                          Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                    } else {}
+                                  },
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ],
