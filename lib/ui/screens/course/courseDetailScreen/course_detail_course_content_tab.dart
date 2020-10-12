@@ -17,6 +17,7 @@ import '../../../../data/cubits/get_course_decks_cubit.dart';
 import '../../../../data/cubits/topic_cubit.dart';
 import '../../../../data/cubits/unit_cubit.dart';
 import '../../../../data/model/questionBank/topicEntity/data.dart';
+import '../../../../main.dart';
 import '../../../widgets_util/text_input.dart';
 
 //doing this page
@@ -27,10 +28,13 @@ class CourseDetailCourseContentTab extends StatefulWidget {
   CourseDetailCourseContentTab(this.semesterId, this.subjectId);
 
   @override
-  _CourseDetailCourseContentTabState createState() => _CourseDetailCourseContentTabState();
+  _CourseDetailCourseContentTabState createState() =>
+      _CourseDetailCourseContentTabState();
 }
 
-class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContentTab> with SingleTickerProviderStateMixin {
+class _CourseDetailCourseContentTabState
+    extends State<CourseDetailCourseContentTab>
+    with SingleTickerProviderStateMixin {
   int enabledUnitId;
   int questionDropDownValue = 1;
   String typeDropDownValue = 'All';
@@ -50,7 +54,9 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
       listener: (BuildContext context, state) {
         if (state is AddFacultyContentAdded) {
           Toast.show('Your Content Added', context);
-          context.bloc<CourseContentCubit>().getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
+          context
+              .bloc<CourseContentCubit>()
+              .getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
         }
         if (state is AddFacultyContentFailed) {
           Toast.show(state.error, context);
@@ -72,11 +78,14 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                         state.units.data[0].id,
                         widget.semesterId,
                       );
-                  context.bloc<CourseDecksCubit>().getCourseDecks(state.units.data[0].id);
+                  context
+                      .bloc<CourseDecksCubit>()
+                      .getCourseDecks(state.units.data[0].id);
                   enabledUnitId = state.units.data[0].id;
                   return Container(
                     width: MediaQuery.of(context).size.width * 0.1,
-                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 12.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                       color: Colors.white,
@@ -85,7 +94,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                       ),
                     ),
                     child: StatefulBuilder(
-                      builder: (BuildContext context, void Function(void Function()) setState) {
+                      builder: (BuildContext context,
+                          void Function(void Function()) setState) {
                         return DropdownButton(
                           value: enabledUnitId,
                           underline: SizedBox.shrink(),
@@ -96,7 +106,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                   value: unit.id,
                                   child: Text(
                                     '${unit.name}',
-                                    style: Theme.of(context).textTheme.headline5,
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
                                   ),
                                 ),
                               )
@@ -183,16 +194,21 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width * (3.5 / 5),
+                                    width: MediaQuery.of(context).size.width *
+                                        (3.5 / 5),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           'Learning Snippets',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: MediaQuery.of(context).size.height / 50,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                50,
                                           ),
                                         ),
                                         // RaisedButton(
@@ -216,23 +232,36 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                     ),
                                   ),
                                   Container(
-                                    width: MediaQuery.of(context).size.width * (3.5 / 5),
+                                    width: MediaQuery.of(context).size.width *
+                                        (3.5 / 5),
                                     height: 300,
                                     child: ListView.builder(
-                                      padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                                      itemCount: state.courseDeckEntity.data.length,
-                                      itemBuilder: (BuildContext context, int index) => GestureDetector(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 22.0),
+                                      itemCount:
+                                          state.courseDeckEntity.data.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) =>
+                                              GestureDetector(
                                         onTap: () {
-                                          context.bloc<DeckItemsCubit>().getDeckItems(
-                                                state.courseDeckEntity.data[index].id,
+                                          context
+                                              .bloc<DeckItemsCubit>()
+                                              .getDeckItems(
+                                                state.courseDeckEntity
+                                                    .data[index].id,
                                               );
                                           return _showDeckItems(context);
                                         },
                                         child: Container(
-                                          width: MediaQuery.of(context).size.width * 0.1,
-                                          margin: const EdgeInsets.only(left: 12.0, top: 12.0),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.1,
+                                          margin: const EdgeInsets.only(
+                                              left: 12.0, top: 12.0),
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(12.0),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
                                           ),
                                           child: Stack(
                                             fit: StackFit.expand,
@@ -242,7 +271,11 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                 bottom: 0,
                                                 left: 0,
                                                 right: 0,
-                                                child: state.courseDeckEntity.data[index].image == ''
+                                                child: state
+                                                            .courseDeckEntity
+                                                            .data[index]
+                                                            .image ==
+                                                        ''
                                                     ? Center(
                                                         child: Icon(
                                                           Icons.book,
@@ -250,9 +283,14 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                         ),
                                                       )
                                                     : ClipRRect(
-                                                        borderRadius: BorderRadius.circular(12.0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12.0),
                                                         child: Image.network(
-                                                          state.courseDeckEntity.data[index].image,
+                                                          state
+                                                              .courseDeckEntity
+                                                              .data[index]
+                                                              .image,
                                                           fit: BoxFit.cover,
                                                         ),
                                                       ),
@@ -262,15 +300,30 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                 left: 0,
                                                 right: 0,
                                                 child: Container(
-                                                  height: MediaQuery.of(context).size.height * 0.07,
-                                                  padding: const EdgeInsets.all(12.0),
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.07,
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(12.0),
-                                                    color: Theme.of(context).primaryColor.withOpacity(0.8),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0),
+                                                    color: Theme.of(context)
+                                                        .primaryColor
+                                                        .withOpacity(0.8),
                                                   ),
                                                   child: Text(
-                                                    state.courseDeckEntity.data[index].name.trim(),
-                                                    style: Theme.of(context).textTheme.headline6.copyWith(color: Colors.white, fontSize: 14.0),
+                                                    state.courseDeckEntity
+                                                        .data[index].name
+                                                        .trim(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline6
+                                                        .copyWith(
+                                                            color: Colors.white,
+                                                            fontSize: 14.0),
                                                   ),
                                                 ),
                                               ),
@@ -335,12 +388,14 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                               'Curated Content',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: MediaQuery.of(context).size.height / 50,
+                                fontSize:
+                                    MediaQuery.of(context).size.height / 50,
                               ),
                             ),
                             RaisedButton(
                               hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                              onPressed: () => _showDialog(context, CourseContentAddType.adding),
+                              onPressed: () => _showDialog(
+                                  context, CourseContentAddType.adding),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -367,20 +422,27 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                               child: Column(
                                 children: [
                                   StatefulBuilder(
-                                    builder: (BuildContext context, StateSetter setState) {
+                                    builder: (BuildContext context,
+                                        StateSetter setState) {
                                       return Row(
                                         children: [
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text('Type'),
                                               SizedBox(
                                                 height: 8.0,
                                               ),
                                               Container(
-                                                padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 4.0,
+                                                        horizontal: 12.0),
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
                                                   color: Colors.white,
                                                   border: Border.all(
                                                     color: Colors.black,
@@ -406,11 +468,15 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                       value: 'PPT',
                                                     ),
                                                     DropdownMenuItem(
-                                                      child: Text('Other Links'),
+                                                      child:
+                                                          Text('Other Links'),
                                                       value: 'URL',
                                                     ),
                                                   ],
-                                                  onChanged: (value) => context.bloc<CourseContentCubit>().getDocumentWiseData(
+                                                  onChanged: (value) => context
+                                                      .bloc<
+                                                          CourseContentCubit>()
+                                                      .getDocumentWiseData(
                                                         value,
                                                         state.backup,
                                                       ),
@@ -423,16 +489,22 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                             width: 30,
                                           ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text('Level'),
                                               SizedBox(
                                                 height: 8.0,
                                               ),
                                               Container(
-                                                padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 4.0,
+                                                        horizontal: 12.0),
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
                                                   color: Colors.white,
                                                   border: Border.all(
                                                     color: Colors.black,
@@ -458,7 +530,10 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                       value: 3,
                                                     ),
                                                   ],
-                                                  onChanged: (value) => context.bloc<CourseContentCubit>().getLevelWiseData(
+                                                  onChanged: (value) => context
+                                                      .bloc<
+                                                          CourseContentCubit>()
+                                                      .getLevelWiseData(
                                                         value,
                                                         state.backup,
                                                       ),
@@ -471,16 +546,22 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                             width: 30,
                                           ),
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text('Questions'),
                                               SizedBox(
                                                 height: 8.0,
                                               ),
                                               Container(
-                                                padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 4.0,
+                                                        horizontal: 12.0),
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(12.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
                                                   color: Colors.white,
                                                   border: Border.all(
                                                     color: Colors.black,
@@ -490,7 +571,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                   underline: SizedBox.shrink(),
                                                   items: [
                                                     DropdownMenuItem(
-                                                      child: Text('All Questions'),
+                                                      child:
+                                                          Text('All Questions'),
                                                       value: 1,
                                                     ),
                                                     DropdownMenuItem(
@@ -498,26 +580,43 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                       value: 2,
                                                     ),
                                                     DropdownMenuItem(
-                                                      child: Text('Your Content'),
+                                                      child:
+                                                          Text('Your Content'),
                                                       value: 3,
                                                     ),
                                                   ],
                                                   onChanged: (value) {
-                                                    setState(() => questionDropDownValue = value);
+                                                    setState(() =>
+                                                        questionDropDownValue =
+                                                            value);
 
                                                     switch (value) {
                                                       case 1:
-                                                        context.bloc<CourseContentCubit>().getCourseContent(enabledUnitId, widget.semesterId);
+                                                        context
+                                                            .bloc<
+                                                                CourseContentCubit>()
+                                                            .getCourseContent(
+                                                                enabledUnitId,
+                                                                widget
+                                                                    .semesterId);
                                                         break;
                                                       case 2:
                                                         context
-                                                            .bloc<CourseContentCubit>()
-                                                            .getFacultyBookmarkedCourseContent(enabledUnitId, widget.semesterId);
+                                                            .bloc<
+                                                                CourseContentCubit>()
+                                                            .getFacultyBookmarkedCourseContent(
+                                                                enabledUnitId,
+                                                                widget
+                                                                    .semesterId);
                                                         break;
                                                       case 3:
                                                         context
-                                                            .bloc<CourseContentCubit>()
-                                                            .getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
+                                                            .bloc<
+                                                                CourseContentCubit>()
+                                                            .getFacultyAddedCourseContent(
+                                                                enabledUnitId,
+                                                                widget
+                                                                    .semesterId);
                                                         break;
                                                     }
                                                   },
@@ -534,7 +633,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                   ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.data.length,
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       String level = '';
                                       String fileType = '';
                                       switch (state.data[index].level) {
@@ -554,19 +654,37 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
 
                                       switch (state.data[index].type) {
                                         case 'DOCS':
-                                          fileType = 'assets/icons/filesTypes/pdf.png';
+                                          fileType =
+                                              'assets/icons/filesTypes/pdf.png';
                                           break;
                                         case 'PPT':
-                                          fileType = 'assets/icons/filesTypes/ppt.png';
+                                          fileType =
+                                              'assets/icons/filesTypes/ppt.png';
                                           break;
                                         case 'MP4':
-                                          fileType = 'assets/icons/filesTypes/mp4.png';
+                                          fileType =
+                                              'assets/icons/filesTypes/mp4.png';
                                           break;
                                         case 'url':
-                                          fileType = 'assets/icons/filesTypes/html.png';
+                                          fileType =
+                                              'assets/icons/filesTypes/html.png';
                                           break;
                                       }
                                       return ListTile(
+                                          onTap: () async {
+                                            print(state.data[index].file_url);
+                                            var response =
+                                                await EdwiselyApi.dio.get(
+                                              state.data[index].file_url,
+                                              options: Options(
+                                                headers: {
+                                                  'Authorization':
+                                                      'Bearer $loginToken',
+                                                },
+                                              ),
+                                            );
+                                            print(response.data);
+                                          },
                                           leading: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Image.asset(
@@ -581,24 +699,34 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                           title: Row(
                                             children: [
                                               Container(
-                                                width: MediaQuery.of(context).size.width / 7,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    7,
                                                 child: Text(
                                                   state.data[index].title ?? '',
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                               SizedBox(
                                                 width: 30,
                                               ),
-                                              state.data[index].level == -1 || state.data[index].level == null
+                                              state.data[index].level == -1 ||
+                                                      state.data[index].level ==
+                                                          null
                                                   ? Container()
                                                   : Text('Level - $level '),
                                               SizedBox(
                                                 width: 30,
                                               ),
-                                              state.data[index].readtime == 0 || state.data[index].readtime == null
+                                              state.data[index].readtime == 0 ||
+                                                      state.data[index]
+                                                              .readtime ==
+                                                          null
                                                   ? Container()
-                                                  : Text('ReadingTime - ${state.data[index].readtime}'),
+                                                  : Text(
+                                                      'ReadingTime - ${state.data[index].readtime}'),
                                             ],
                                           ),
                                           subtitle: Text(
@@ -614,7 +742,11 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                                   _delete(state.data[index]);
                                                   break;
                                                 case 'Edit':
-                                                  _showDialog(context, CourseContentAddType.editing, data: state.data[index]);
+                                                  _showDialog(
+                                                      context,
+                                                      CourseContentAddType
+                                                          .editing,
+                                                      data: state.data[index]);
                                                 // case 'Change Type':
                                                 //   _changeType(state.data[index]);
                                                 //   break;
@@ -719,7 +851,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
     }
   }
 
-  _showDialog(BuildContext context, CourseContentAddType adding, {Learning_content data}) {
+  _showDialog(BuildContext context, CourseContentAddType adding,
+      {Learning_content data}) {
     bool isAdding = adding == CourseContentAddType.adding;
     showDialog(
       context: context,
@@ -819,7 +952,8 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                     ),
                     SizedBox(height: 32.0),
                     BlocBuilder(
-                      cubit: context.bloc<TopicCubit>()..getTopics(widget.subjectId),
+                      cubit: context.bloc<TopicCubit>()
+                        ..getTopics(widget.subjectId),
                       builder: (BuildContext context, state) {
                         if (state is TopicFetched) {
                           return ChipsChoice<String>.single(
@@ -866,16 +1000,30 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                       children: [
                         RaisedButton.icon(
                           onPressed: () {
-                            if (typeDropDownValue.isEmpty || file.path.isEmpty || titleController.text.isEmpty || topic.isEmpty) {
+                            if (typeDropDownValue.isEmpty ||
+                                file.path.isEmpty ||
+                                titleController.text.isEmpty ||
+                                topic.isEmpty) {
                               Toast.show('Please Check contents once', context);
                             } else {
                               if (isAdding) {
-                                BlocProvider.of<AddFacultyContentCubit>(context).addFacultyContent(
-                                    enabledUnitId, topic, 1, titleController.text, file, isPublic ? 'public' : 'private', 'externalUrl');
+                                BlocProvider.of<AddFacultyContentCubit>(context)
+                                    .addFacultyContent(
+                                        enabledUnitId,
+                                        topic,
+                                        1,
+                                        titleController.text,
+                                        file,
+                                        isPublic ? 'public' : 'private',
+                                        'externalUrl');
                               } else {
-                                BlocProvider.of<AddFacultyContentCubit>(context).updateFacultyContent(
-                                    int.parse(data.topic_id), int.parse(data.type), data.material_id, titleController.text,
-                                    attachments: file);
+                                BlocProvider.of<AddFacultyContentCubit>(context)
+                                    .updateFacultyContent(
+                                        int.parse(data.topic_id),
+                                        int.parse(data.type),
+                                        data.material_id,
+                                        titleController.text,
+                                        attachments: file);
                               }
                             }
                             Navigator.pop(context);
@@ -935,10 +1083,14 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                       itemCount: state.deckItemsEntity.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return FutureBuilder(
-                          future: Dio().get(state.deckItemsEntity.data[index].url),
-                          builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+                          future:
+                              Dio().get(state.deckItemsEntity.data[index].url),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Response> snapshot) {
                             if (snapshot.hasData) {
-                              String dd = snapshot.data.data.toString().replaceAll('\$', '\$\$');
+                              String dd = snapshot.data.data
+                                  .toString()
+                                  .replaceAll('\$', '\$\$');
 
                               return Card(
                                 margin: EdgeInsets.all(150),
@@ -949,14 +1101,18 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                                       Padding(
                                         padding: const EdgeInsets.all(15),
                                         child: TeXView(
-                                          renderingEngine: TeXViewRenderingEngine.mathjax(),
-                                          loadingWidgetBuilder: (context) => CircularProgressIndicator(),
+                                          renderingEngine:
+                                              TeXViewRenderingEngine.mathjax(),
+                                          loadingWidgetBuilder: (context) =>
+                                              CircularProgressIndicator(),
                                           child: TeXViewDocument(dd),
                                         ),
                                       ),
                                       Text(
                                         'Pages: ${index + 1}/ ${state.deckItemsEntity.data.length}',
-                                        style: Theme.of(context).textTheme.headline5,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5,
                                       ),
                                       SizedBox(
                                         height: 4.0,
@@ -983,7 +1139,9 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RaisedButton.icon(
-                            onPressed: () => pageController.previousPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn),
+                            onPressed: () => pageController.previousPage(
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.easeIn),
                             icon: Icon(Icons.chevron_left, color: Colors.white),
                             label: Text(
                               'Previous',
@@ -999,8 +1157,11 @@ class _CourseDetailCourseContentTabState extends State<CourseDetailCourseContent
                             ),
                           ),
                           RaisedButton.icon(
-                            onPressed: () => pageController.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn),
-                            icon: Icon(Icons.chevron_right, color: Colors.white),
+                            onPressed: () => pageController.nextPage(
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.easeIn),
+                            icon:
+                                Icon(Icons.chevron_right, color: Colors.white),
                             label: Text(
                               'Next',
                               style: TextStyle(color: Colors.white),
