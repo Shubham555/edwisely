@@ -16,7 +16,8 @@ class QuestionBankObjectiveTab extends StatefulWidget {
   QuestionBankObjectiveTab(this.subjectId);
 
   @override
-  _QuestionBankObjectiveTabState createState() => _QuestionBankObjectiveTabState();
+  _QuestionBankObjectiveTabState createState() =>
+      _QuestionBankObjectiveTabState();
 }
 
 class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
@@ -31,6 +32,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
       cubit: context.bloc<QuestionBankObjectiveBloc>(),
       builder: (BuildContext context, state) {
         if (state is UnitObjectiveQuestionsFetched) {
+          print(state.questionBankObjectiveEntity.data.toString());
           return Row(
             children: [
               Expanded(
@@ -53,8 +55,10 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   width: 10,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.07,
-                                  padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.07,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 12.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12.0),
                                     color: Colors.white,
@@ -95,13 +99,19 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           },
                                         );
                                         value == -1
-                                            ? context.bloc<QuestionBankObjectiveBloc>().add(
+                                            ? context
+                                                .bloc<
+                                                    QuestionBankObjectiveBloc>()
+                                                .add(
                                                   GetUnitObjectiveQuestions(
                                                     widget.subjectId,
                                                     state.unitId,
                                                   ),
                                                 )
-                                            : context.bloc<QuestionBankObjectiveBloc>().add(
+                                            : context
+                                                .bloc<
+                                                    QuestionBankObjectiveBloc>()
+                                                .add(
                                                   GetUnitObjectiveQuestionsByLevel(
                                                     value,
                                                     state.unitId,
@@ -121,8 +131,10 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   width: 10,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.07,
-                                  padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.07,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 12.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12.0),
                                     color: Colors.white,
@@ -142,13 +154,17 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         },
                                       );
                                       value == 1234567890
-                                          ? context.bloc<QuestionBankObjectiveBloc>().add(
+                                          ? context
+                                              .bloc<QuestionBankObjectiveBloc>()
+                                              .add(
                                                 GetUnitObjectiveQuestions(
                                                   widget.subjectId,
                                                   state.unitId,
                                                 ),
                                               )
-                                          : context.bloc<QuestionBankObjectiveBloc>().add(
+                                          : context
+                                              .bloc<QuestionBankObjectiveBloc>()
+                                              .add(
                                                 GetUnitObjectiveQuestionsByTopic(
                                                   value,
                                                   state.unitId,
@@ -168,8 +184,10 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                   width: 10,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0, horizontal: 12.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12.0),
                                     color: Colors.white,
@@ -204,7 +222,10 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                       switch (value) {
                                         case 1:
                                           {
-                                            context.bloc<QuestionBankObjectiveBloc>().add(
+                                            context
+                                                .bloc<
+                                                    QuestionBankObjectiveBloc>()
+                                                .add(
                                                   GetUnitObjectiveQuestions(
                                                     widget.subjectId,
                                                     state.unitId,
@@ -214,7 +235,10 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           break;
                                         case 2:
                                           {
-                                            context.bloc<QuestionBankObjectiveBloc>().add(
+                                            context
+                                                .bloc<
+                                                    QuestionBankObjectiveBloc>()
+                                                .add(
                                                   GetObjectiveQuestionsByBookmark(
                                                     state.unitId,
                                                   ),
@@ -223,7 +247,10 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           break;
                                         case 3:
                                           {
-                                            context.bloc<QuestionBankObjectiveBloc>().add(
+                                            context
+                                                .bloc<
+                                                    QuestionBankObjectiveBloc>()
+                                                .add(
                                                   GetYourObjectiveQuestions(
                                                     state.unitId,
                                                   ),
@@ -242,7 +269,8 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                       Container(
                         padding: const EdgeInsets.all(18.0),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor.withOpacity(0.1),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.1),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(18.0),
                             topRight: Radius.circular(18.0),
@@ -256,7 +284,8 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                               'Objective Questions',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: MediaQuery.of(context).size.height / 50,
+                                fontSize:
+                                    MediaQuery.of(context).size.height / 50,
                               ),
                             ),
                             RaisedButton(
@@ -270,7 +299,8 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                               onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (BuildContext context) => TypeQuestionTab(
+                                  builder: (BuildContext context) =>
+                                      TypeQuestionTab(
                                     'Add New Objective Question',
                                     '',
                                     widget.subjectId,
@@ -305,11 +335,12 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                           if (state is UnitObjectiveQuestionsFetched) {
                             return ListView.builder(
                               shrinkWrap: true,
-                              itemCount: state.questionBankObjectiveEntity.data.length,
+                              itemCount:
+                                  state.questionBankObjectiveEntity.data.length,
                               itemBuilder: (BuildContext context, int index) {
-
                                 return Container(
-                                  height: MediaQuery.of(context).size.height * 0.1,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     border: Border(
@@ -327,11 +358,15 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           Flexible(
                                             child: TeXView(
                                               child: TeXViewDocument(
-                                                state.questionBankObjectiveEntity.data[index].name
+                                                state
+                                                    .questionBankObjectiveEntity
+                                                    .data[index]
+                                                    .name
                                                   ..replaceAll("\$", ''),
                                               ),
                                             ),
                                           ),
+                                          // Text(state.questionBankObjectiveEntity.data[index].name)
                                         ],
                                       ),
                                       subtitle: Text(
@@ -343,18 +378,23 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                                 switch (string) {
                                                   case 'Bookmark':
                                                     _bookmark(state
-                                                        .questionBankObjectiveEntity.data[index]);
+                                                        .questionBankObjectiveEntity
+                                                        .data[index]);
                                                     break;
                                                   case 'Change type to Public':
                                                     _changeType(
-                                                        state.questionBankObjectiveEntity
-                                                            .data[index].id,
+                                                        state
+                                                            .questionBankObjectiveEntity
+                                                            .data[index]
+                                                            .id,
                                                         'public');
                                                     break;
                                                   case 'Change type to Private':
                                                     _changeType(
-                                                        state.questionBankObjectiveEntity
-                                                            .data[index].id,
+                                                        state
+                                                            .questionBankObjectiveEntity
+                                                            .data[index]
+                                                            .id,
                                                         'private');
                                                     break;
                                                 }
@@ -374,13 +414,17 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                               },
                                             )
                                           : IconButton(
-                                              icon: Icon(state.questionBankObjectiveEntity
-                                                          .data[index].bookmarked ==
+                                              icon: Icon(state
+                                                          .questionBankObjectiveEntity
+                                                          .data[index]
+                                                          .bookmarked ==
                                                       1
                                                   ? Icons.bookmark
                                                   : Icons.bookmark_border),
                                               onPressed: () => _bookmark(
-                                                state.questionBankObjectiveEntity.data[index],
+                                                state
+                                                    .questionBankObjectiveEntity
+                                                    .data[index],
                                               ),
                                             ),
                                     ),
@@ -393,7 +437,8 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                             return Center(
                               child: Text(
                                 'No Questions',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 30),
                               ),
                             );
                           } else {

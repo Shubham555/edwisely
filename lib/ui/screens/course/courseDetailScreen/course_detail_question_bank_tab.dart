@@ -6,7 +6,6 @@ import '../../../../data/blocs/questionBank/questionBankSubjective/question_bank
 import '../../../../data/blocs/questionBank/question_bank_bloc.dart';
 import '../../../../data/cubits/unit_cubit.dart';
 import 'courseDetailQuestionBankTab/course_details_subjective_tab.dart';
-import 'courseDetailQuestionBankTab/question_bank_all_tab.dart';
 import 'courseDetailQuestionBankTab/question_bank_objective_tab.dart';
 
 class CourseDetailQuestionBankTab extends StatefulWidget {
@@ -15,10 +14,13 @@ class CourseDetailQuestionBankTab extends StatefulWidget {
   CourseDetailQuestionBankTab(this.subjectId);
 
   @override
-  _CourseDetailQuestionBankTabState createState() => _CourseDetailQuestionBankTabState();
+  _CourseDetailQuestionBankTabState createState() =>
+      _CourseDetailQuestionBankTabState();
 }
 
-class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTab> with SingleTickerProviderStateMixin {
+class _CourseDetailQuestionBankTabState
+    extends State<CourseDetailQuestionBankTab>
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   int unitSelected;
 
@@ -42,12 +44,13 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
           Container(
             width: MediaQuery.of(context).size.width / 10,
             child: BlocBuilder(
-              cubit: context.bloc<UnitCubit>()..getUnitsOfACourse(widget.subjectId),
+              cubit: context.bloc<UnitCubit>()
+                ..getUnitsOfACourse(widget.subjectId),
               builder: (BuildContext context, state) {
                 if (state is CourseUnitFetched) {
                   _tabController.index == 0
-                      ? context.bloc<QuestionBankBloc>().add(
-                            GetUnitQuestions(
+                      ? context.bloc<QuestionBankObjectiveBloc>().add(
+                            GetUnitObjectiveQuestions(
                               widget.subjectId,
                               state.units.data[0].id,
                             ),
@@ -56,23 +59,15 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                   _tabController.addListener(
                     () {
                       switch (_tabController.index) {
-                        case 0:
-                          context.bloc<QuestionBankBloc>().add(
-                                GetUnitQuestions(
-                                  widget.subjectId,
-                                  state.units.data[0].id,
-                                ),
-                              );
-                          break;
+                        // case 0:
+                        //   context.bloc<QuestionBankObjectiveBloc>().add(
+                        //         GetUnitObjectiveQuestions(
+                        //           widget.subjectId,
+                        //           state.units.data[0].id,
+                        //         ),
+                        //       );
+                        //   break;
                         case 1:
-                          context.bloc<QuestionBankObjectiveBloc>().add(
-                                GetUnitObjectiveQuestions(
-                                  widget.subjectId,
-                                  state.units.data[0].id,
-                                ),
-                              );
-                          break;
-                        case 2:
                           context.bloc<QuestionBankSubjectiveBloc>().add(
                                 GetUnitSubjectiveQuestions(
                                   widget.subjectId,
@@ -86,7 +81,8 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                   int enabledUnitId = state.units.data[0].id;
 
                   return StatefulBuilder(
-                    builder: (BuildContext context, void Function(void Function()) setState) {
+                    builder: (BuildContext context,
+                        void Function(void Function()) setState) {
                       return Container(
                         margin: const EdgeInsets.only(right: 22.0),
                         decoration: BoxDecoration(
@@ -100,8 +96,10 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.units.data.length,
-                          itemBuilder: (BuildContext context, int index) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          itemBuilder: (BuildContext context, int index) =>
+                              Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 16.0),
                             child: InkWell(
                               onTap: () {
                                 enabledUnitId = state.units.data[index].id;
@@ -118,7 +116,9 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                                         );
                                     break;
                                   case 1:
-                                    context.bloc<QuestionBankObjectiveBloc>().add(
+                                    context
+                                        .bloc<QuestionBankObjectiveBloc>()
+                                        .add(
                                           GetUnitObjectiveQuestions(
                                             widget.subjectId,
                                             state.units.data[0].id,
@@ -126,7 +126,9 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                                         );
                                     break;
                                   case 2:
-                                    context.bloc<QuestionBankSubjectiveBloc>().add(
+                                    context
+                                        .bloc<QuestionBankSubjectiveBloc>()
+                                        .add(
                                           GetUnitSubjectiveQuestions(
                                             widget.subjectId,
                                             state.units.data[0].id,
@@ -140,7 +142,8 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                                 children: [
                                   AnimatedDefaultTextStyle(
                                     duration: Duration(milliseconds: 300),
-                                    style: enabledUnitId == state.units.data[index].id
+                                    style: enabledUnitId ==
+                                            state.units.data[index].id
                                         ? TextStyle(
                                             color: Colors.black,
                                             fontSize: 22.0,
@@ -160,7 +163,10 @@ class _CourseDetailQuestionBankTabState extends State<CourseDetailQuestionBankTa
                                     duration: Duration(
                                       milliseconds: 300,
                                     ),
-                                    width: enabledUnitId == state.units.data[index].id ? 80.0 : 40.0,
+                                    width: enabledUnitId ==
+                                            state.units.data[index].id
+                                        ? 80.0
+                                        : 40.0,
                                     height: 3.0,
                                     color: Theme.of(context).primaryColor,
                                   ),

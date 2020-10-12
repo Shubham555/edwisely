@@ -14,7 +14,8 @@ part 'question_bank_objective_event.dart';
 
 part 'question_bank_objective_state.dart';
 
-class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, QuestionBankObjectiveState> {
+class QuestionBankObjectiveBloc
+    extends Bloc<QuestionBankObjectiveEvent, QuestionBankObjectiveState> {
   QuestionBankObjectiveBloc() : super(QuestionBankObjectiveInitial());
 
   @override
@@ -24,13 +25,14 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     var currentState = state;
 
     if (event is GetUnitObjectiveQuestions) {
-      final response = await EdwiselyApi.dio.get('questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}', options: Options(
-          headers: {
+      final response = await EdwiselyApi.dio.get(
+          'questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
-      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event
-          .subjectId}&university_degree_department_id=$departmentId', options: Options(
-          headers: {
+      final topicsResponse = await EdwiselyApi.dio.get(
+          'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$departmentId',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
@@ -42,7 +44,8 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
           ),
         );
         if (topicsResponse.data['message'] != 'No topics to fetch') {
-          TopicEntity topicEntity = TopicEntity.fromJsonMap(topicsResponse.data);
+          TopicEntity topicEntity =
+              TopicEntity.fromJsonMap(topicsResponse.data);
           dropDownItems.addAll(
             topicEntity.data.map(
               (e) => DropdownMenuItem(
@@ -66,12 +69,14 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
     }
     if (event is GetUnitObjectiveQuestionsByLevel) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get('questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}', options: Options(
-          headers: {
+      final response = await EdwiselyApi.dio.get(
+          'questions/getLevelWiseObjectiveQuestions?unit_id=${event.unitId}&level=${event.level}',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200) {
-        QuestionBankObjectiveEntity questionBankObjectiveEntity = QuestionBankObjectiveEntity.fromJsonMap(
+        QuestionBankObjectiveEntity questionBankObjectiveEntity =
+            QuestionBankObjectiveEntity.fromJsonMap(
           response.data,
         );
         if (questionBankObjectiveEntity == null) {
@@ -85,14 +90,17 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
               response.data,
             ),
             event.unitId,
-            currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
+            currentState is UnitObjectiveQuestionsFetched
+                ? currentState.dropDownList
+                : null,
           );
       }
     }
     if (event is GetUnitObjectiveQuestionsByTopic) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get('questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}', options: Options(
-          headers: {
+      final response = await EdwiselyApi.dio.get(
+          'questions/getTopicWiseObjectiveQuestions?unit_id=${event.unitId}&topic_id=${event.topic}',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200) {
@@ -104,16 +112,19 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
               response.data,
             ),
             event.unitId,
-            currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
+            currentState is UnitObjectiveQuestionsFetched
+                ? currentState.dropDownList
+                : null,
           );
       }
     }
     if (event is GetObjectiveQuestionsByBookmark) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get('getBookmarkedQuestions?unit_id=${event.unitId}', options: Options(
-          headers: {
-            'Authorization': 'Bearer $loginToken',
-          }));
+      final response = await EdwiselyApi.dio
+          .get('getBookmarkedQuestions?unit_id=${event.unitId}',
+              options: Options(headers: {
+                'Authorization': 'Bearer $loginToken',
+              }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
@@ -123,14 +134,17 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
               response.data,
             ),
             event.unitId,
-            currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
+            currentState is UnitObjectiveQuestionsFetched
+                ? currentState.dropDownList
+                : null,
           );
       }
     }
     if (event is GetYourObjectiveQuestions) {
       yield QuestionBankObjectiveInitial();
-      final response = await EdwiselyApi.dio.get('questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}', options: Options(
-          headers: {
+      final response = await EdwiselyApi.dio.get(
+          'questions/getFacultyAddedObjectiveQuestions?unit_id=${event.unitId}',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200) {
@@ -142,11 +156,11 @@ class QuestionBankObjectiveBloc extends Bloc<QuestionBankObjectiveEvent, Questio
               response.data,
             ),
             event.unitId,
-            currentState is UnitObjectiveQuestionsFetched ? currentState.dropDownList : null,
+            currentState is UnitObjectiveQuestionsFetched
+                ? currentState.dropDownList
+                : null,
           );
       }
     }
   }
-
-
 }
