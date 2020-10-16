@@ -23,6 +23,7 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
 
   @override
   PreferredSizeWidget build(BuildContext context) {
+    final _screenSize = MediaQuery.of(context).size;
     return PreferredSize(
       preferredSize: Size.fromHeight(appBarSize),
       child: Column(
@@ -49,10 +50,18 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        titleText,
-                        style: Theme.of(context).textTheme.headline1,
+                      Container(
+                        alignment: Alignment.topLeft,
+                        width: _screenSize.width * 0.4,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            titleText,
+                            style: Theme.of(context).textTheme.headline1,
+                          ),
+                        ),
                       ),
                       Container(
                         height: 6.0,
@@ -80,11 +89,20 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
                       //     fontWeight: FontWeight.w400,
                       //   ),
                       // ),
-                      Text(
-                        route,
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Theme.of(context).primaryColor,
-                            ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        height: _screenSize.height * 0.03,
+                        width: _screenSize.width * 0.2,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            route,
+                            style:
+                                Theme.of(context).textTheme.bodyText1.copyWith(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

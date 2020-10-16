@@ -158,7 +158,7 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                     crossAxisCount: 2,
                     crossAxisSpacing: 32.0,
                     mainAxisSpacing: 32.0,
-                    childAspectRatio: 3 / 1,
+                    childAspectRatio: 3 / 1.2, // TODO: Check data formatting
                   ),
                   padding: EdgeInsets.all(10),
                   shrinkWrap: true,
@@ -170,11 +170,10 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                       state.questionsEntity.data[index].description,
                       state.questionsEntity.data[index].questions_count
                           .toString(),
-                      '',//for subject name
+                      '', //for subject name
                       state.questionsEntity.data[index].doe,
                       state.questionsEntity.data[index].start_time,
                       state.questionsEntity.data[index].subject_id,
-
                     );
                   },
                 );
