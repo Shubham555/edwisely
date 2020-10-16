@@ -40,7 +40,6 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
               cubit: context.bloc<ObjectiveBloc>(),
               listener: (BuildContext context, state) {
                 if (state is ObjectiveAssessmentCreated) {
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -57,7 +56,8 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is ObjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Creation of Assessment Failed. PLease try again'),
+                      content: Text(
+                          'Creation of Assessment Failed. PLease try again'),
                     ),
                   );
                 }
@@ -83,7 +83,8 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                 if (state is SubjectiveFailed) {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Creation of Assessment Failed. Please try again'),
+                      content: Text(
+                          'Creation of Assessment Failed. Please try again'),
                     ),
                   );
                 }
@@ -108,7 +109,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                       bottomTab: null,
                       appBarSize: MediaQuery.of(context).size.height / 3,
                       appBarTitle: Text(
-                        'Create Assesment',
+                        'Create Assessment',
                       ),
                       flatButton: RaisedButton(
                         padding: const EdgeInsets.symmetric(
@@ -141,11 +142,13 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildTextFieldWidget('Add Title', 80, _titleController),
+                          _buildTextFieldWidget(
+                              'Add Title', 80, _titleController),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.05,
                           ),
-                          _buildTextFieldWidget('Description', 200, _descriptionController),
+                          _buildTextFieldWidget(
+                              'Description', 200, _descriptionController),
                           // Text(
                           //   'Choose Subject',
                           //   style: TextStyle(
@@ -169,12 +172,14 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text('There is some server error please retry'),
+                                    Text(
+                                        'There is some server error please retry'),
                                     RaisedButton(
                                       color: Color(0xFF1D2B64).withOpacity(.3),
-                                      onPressed: () => context.bloc<CoursesBloc>().add(
-                                            GetCoursesByFaculty(),
-                                          ),
+                                      onPressed: () =>
+                                          context.bloc<CoursesBloc>().add(
+                                                GetCoursesByFaculty(),
+                                              ),
                                       child: Text('Retry'),
                                     )
                                   ],
@@ -200,9 +205,9 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                                   choiceLayout: S2ChoiceLayout.wrap,
                                   onChange: (state) => setState(() {
                                     selectedCouerse = state.value;
-
                                   }),
-                                  tileBuilder: (context, state) => S2Tile.fromState(
+                                  tileBuilder: (context, state) =>
+                                      S2Tile.fromState(
                                     state,
                                     isTwoLine: true,
                                     leading: Container(
