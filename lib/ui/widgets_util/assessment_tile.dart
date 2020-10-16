@@ -33,7 +33,11 @@ class AssessmentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDateVisible = startTime != null && doe != null && startTime.isNotEmpty && doe.isNotEmpty;
+    final _screenSize = MediaQuery.of(context).size;
+    bool isDateVisible = startTime != null &&
+        doe != null &&
+        startTime.isNotEmpty &&
+        doe.isNotEmpty;
     // int st = DateTime.parse(startTime).month;
     //
     // DateFormat formatter = DateFormat('hh : mm');
@@ -61,25 +65,44 @@ class AssessmentTile extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline5
-                            .copyWith(fontWeight: FontWeight.bold),
+                      Container(
+                        height: _screenSize.height * 0.035,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
-                      Text(
-                        description,
-                        style: Theme.of(context).textTheme.bodyText1,
+                      Container(
+                        height: _screenSize.height * 0.025,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            description,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ),
                       ),
-                      Text(
-                        'Subject: $subjectName',
-                        style: Theme.of(context).textTheme.headline5.copyWith(fontSize: 14.0),
+                      Container(
+                        height: _screenSize.height * 0.0225,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            'Subject: $subjectName',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(fontSize: 14.0),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  //spacing
-                  Spacer(),
                   //date and sections
                   Column(
                     children: [
@@ -117,7 +140,10 @@ class AssessmentTile extends StatelessWidget {
                                       startTime,
                                     ).month,
                                   ),
-                                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
                                         color: Colors.black,
                                       ),
                                 ),
@@ -126,7 +152,10 @@ class AssessmentTile extends StatelessWidget {
                                   DateTime.parse(
                                     startTime,
                                   ).day.toString(),
-                                  style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
                                         color: Colors.black,
                                       ),
                                 ),
@@ -141,7 +170,7 @@ class AssessmentTile extends StatelessWidget {
           ),
           //bottom Part
           Container(
-            height: 48.0,
+            height: _screenSize.height * 0.05,
             color: EdwiselyTheme.CARD_COLOR,
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
@@ -156,8 +185,10 @@ class AssessmentTile extends StatelessWidget {
                 SizedBox(width: 4.0),
                 Text(
                   '$noOfQuestions',
-                  style:
-                      Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
                 //spacing
                 Spacer(),
@@ -204,14 +235,15 @@ class AssessmentTile extends StatelessWidget {
                 isDateVisible
                     ? SizedBox.shrink()
                     : SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.07,
+                        width: MediaQuery.of(context).size.width * 0.06,
                         child: RaisedButton(
                           onPressed: () {
                             if (int.parse(noOfQuestions) == 0) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (BuildContext context) => AddQuestionsScreen(
+                                  builder: (BuildContext context) =>
+                                      AddQuestionsScreen(
                                     title,
                                     description,
                                     subjectId,
@@ -224,7 +256,8 @@ class AssessmentTile extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (BuildContext context) => SendAssessmentScreen(
+                                  builder: (BuildContext context) =>
+                                      SendAssessmentScreen(
                                     assessmentId,
                                     title,
                                     description,
@@ -236,7 +269,7 @@ class AssessmentTile extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                           elevation: 2.0,
                           child: Text(
-                            int.parse(noOfQuestions) == 0 ? 'Add Questions' : 'Send',
+                            int.parse(noOfQuestions) == 0 ? 'Add' : 'Send',
                             maxLines: 1,
                             style: Theme.of(context).textTheme.button.copyWith(
                                   color: Colors.white,

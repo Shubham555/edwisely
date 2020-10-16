@@ -15,7 +15,8 @@ class SubjectiveTab extends StatelessWidget {
         if (state is SubjectiveEmpty) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content: Text('There were no assessments related to that subject'),
+              content:
+                  Text('There were no assessments related to that subject'),
             ),
           );
         }
@@ -30,7 +31,8 @@ class SubjectiveTab extends StatelessWidget {
               builder: (BuildContext context, state) {
                 if (state is CoursesListFetched) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                     margin: const EdgeInsets.symmetric(vertical: 12.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
@@ -96,7 +98,7 @@ class SubjectiveTab extends StatelessWidget {
                         crossAxisCount: 2,
                         crossAxisSpacing: 32.0,
                         mainAxisSpacing: 32.0,
-                        childAspectRatio: 3 / 1.1,
+                        childAspectRatio: 3 / 1.2,
                       ),
                       itemCount: state.questionsEntity.data.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -104,10 +106,11 @@ class SubjectiveTab extends StatelessWidget {
                           state.questionsEntity.data[index].id,
                           state.questionsEntity.data[index].name,
                           state.questionsEntity.data[index].description,
-                          state.questionsEntity.data[index].questions_count.toString(),
+                          state.questionsEntity.data[index].questions_count
+                              .toString(),
                           state.questionsEntity.data[index].doe,
                           state.questionsEntity.data[index].start_time,
-                          '',//for subject name
+                          '', //for subject name
                           state.questionsEntity.data[index].subject_id,
                         );
                       },

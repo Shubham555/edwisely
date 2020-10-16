@@ -17,7 +17,8 @@ class ObjectiveTab extends StatelessWidget {
         if (state is ObjectiveEmpty) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              content: Text('There were no assessments related to that subject'),
+              content:
+                  Text('There were no assessments related to that subject'),
             ),
           );
         }
@@ -33,7 +34,8 @@ class ObjectiveTab extends StatelessWidget {
                 builder: (BuildContext context, state) {
                   if (state is CoursesListFetched) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4.0, horizontal: 8.0),
                       margin: const EdgeInsets.symmetric(vertical: 12.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
@@ -48,7 +50,6 @@ class ObjectiveTab extends StatelessWidget {
                         hint: Text('Filter by Subjects'),
                         items: state.subjects,
                         onChanged: (value) {
-
                           value.keys.first == 1234567890
                               ? context.bloc<ObjectiveBloc>().add(
                                     GetObjectiveTests(),
@@ -106,7 +107,7 @@ class ObjectiveTab extends StatelessWidget {
                         crossAxisCount: 2,
                         crossAxisSpacing: 32.0,
                         mainAxisSpacing: 32.0,
-                        childAspectRatio: 3 / 1.1,
+                        childAspectRatio: 3 / 1.2,
                       ),
                       itemCount: state.questionsEntity.data.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -114,10 +115,13 @@ class ObjectiveTab extends StatelessWidget {
                           state.questionsEntity.data[index].id,
                           state.questionsEntity.data[index].name,
                           state.questionsEntity.data[index].description,
-                          state.questionsEntity.data[index].questions_count.toString(),
+                          state.questionsEntity.data[index].questions_count
+                              .toString(),
                           state.questionsEntity.data[index].doe,
                           state.questionsEntity.data[index].start_time,
-                          dropDownValue == null ? 'All' : dropDownValue.values.first,
+                          dropDownValue == null
+                              ? 'All'
+                              : dropDownValue.values.first,
                           state.questionsEntity.data[index].subject_id,
                         );
                       },
