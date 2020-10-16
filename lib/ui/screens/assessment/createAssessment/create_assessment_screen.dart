@@ -132,7 +132,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                           ],
                         ),
                       ),
-                      route: 'Home > Assesments > Create Assesment',
+                      route: 'Home > Assesments > Create Assessment',
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
