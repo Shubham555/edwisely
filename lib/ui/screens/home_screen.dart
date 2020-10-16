@@ -1017,7 +1017,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.arrow_back_ios,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {}, // TODO: Function missing
               ),
             ),
           ),
@@ -1038,7 +1038,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.arrow_forward_ios,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {}, // TODO: Function missing
               ),
             ),
           ),
@@ -1082,7 +1082,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text(
                     course['name'],
                     overflow: TextOverflow.ellipsis,
-                    style: textTheme.headline3,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ),

@@ -22,9 +22,9 @@ class SideDrawerItem extends StatelessWidget {
     bool isSelected = currentIndex == myIndex;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          // vertical: 18.0,
-          ),
+      padding: EdgeInsets.symmetric(
+        vertical: MediaQuery.of(context).size.height * 0.02,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment:
@@ -49,16 +49,20 @@ class SideDrawerItem extends StatelessWidget {
             width: isCollapsed ? 0 : null,
             child: isCollapsed
                 ? SizedBox.shrink()
-                : Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: isSelected
-                          ? selectedColor != null
-                              ? selectedColor
-                              : Colors.white
-                          : Colors.grey,
+                : FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      title,
+                      // maxLines: 1,
+                      // overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: isSelected
+                            ? selectedColor != null
+                                ? selectedColor
+                                : Colors.white
+                            : Colors.grey,
+                      ),
                     ),
                   ),
           ),

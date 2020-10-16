@@ -9,7 +9,13 @@ import '../../../data/cubits/login_cubit.dart';
 import '../../widgets_util/text_input.dart';
 import '../course/courses_landing_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  bool _obscure = true; // Variable to determine password visibility
+  // TODO: Keep text persistent while toggling password visibility
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -31,7 +37,8 @@ class LoginScreen extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (context) {
-                  TextEditingController newPasswordController = TextEditingController();
+                  TextEditingController newPasswordController =
+                      TextEditingController();
                   return Card(
                     margin: EdgeInsets.all(250),
                     child: Padding(
@@ -44,6 +51,7 @@ class LoginScreen extends StatelessWidget {
                             style: TextStyle(fontSize: 28),
                           ),
                           TextInput(
+                            obscureText: true,
                             label: 'Password',
                             hint: 'Enter new password',
                             inputType: TextInputType.visiblePassword,
@@ -57,14 +65,14 @@ class LoginScreen extends StatelessWidget {
                             width: screenSize.width * 0.4,
                             child: RaisedButton(
                               onPressed: () {
-                                context
-                                    .bloc<LoginCubit>()
-                                    .changePassword(state.email, newPasswordController.text);
+                                context.bloc<LoginCubit>().changePassword(
+                                    state.email, newPasswordController.text);
                               },
                               color: Theme.of(context).primaryColor,
-                              shape:
-                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                              padding: const EdgeInsets.symmetric(vertical: 12.0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0)),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 12.0),
                               child: Text(
                                 'Set Password',
                                 style: textTheme.headline6.copyWith(
@@ -168,12 +176,21 @@ class LoginScreen extends StatelessWidget {
           //password text input
           TextInput(
             isWhite: true,
+            obscureText: widget._obscure,
             label: 'Password',
             hint: 'Enter your password',
             inputType: TextInputType.visiblePassword,
-            suffix: Icon(
-              Icons.remove_red_eye,
-              color: Colors.black,
+            suffix: FlatButton(
+              onPressed: () {
+                setState(() {
+                  // Function to toggle password visibility
+                  widget._obscure = !widget._obscure;
+                });
+              },
+              child: Icon(
+                Icons.remove_red_eye,
+                color: Colors.black,
+              ),
             ),
             controller: passwordController,
           ),
@@ -186,7 +203,8 @@ class LoginScreen extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      TextEditingController forgotController = TextEditingController();
+                      TextEditingController forgotController =
+                          TextEditingController();
                       return Card(
                         margin: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height / 3.5,
@@ -230,7 +248,8 @@ class LoginScreen extends StatelessWidget {
                                   color: Theme.of(context).primaryColor,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8.0)),
-                                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12.0),
                                   child: Text(
                                     'Send Password',
                                     style: textTheme.headline6.copyWith(
@@ -271,7 +290,8 @@ class LoginScreen extends StatelessWidget {
                     );
               },
               color: Theme.of(context).primaryColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)),
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Text(
                 'Login',
@@ -288,7 +308,8 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLeftPart(Size screenSize, TextTheme textTheme, BuildContext context) {
+  Widget _buildLeftPart(
+      Size screenSize, TextTheme textTheme, BuildContext context) {
     return Container(
       width: screenSize.width * 0.7,
       height: screenSize.height,

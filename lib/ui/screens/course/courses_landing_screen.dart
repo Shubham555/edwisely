@@ -39,8 +39,9 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
     pageProvider = Provider.of<SelectedPageProvider>(context, listen: false);
     _isCollapsed = MediaQuery.of(context).size.width <= 1366 ? true : false;
     return WillPopScope(
-      onWillPop: () async{
-        Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex();
+      onWillPop: () async {
+        Provider.of<SelectedPageProvider>(context, listen: false)
+            .setPreviousIndex();
         return true;
       },
       child: GestureDetector(
@@ -59,7 +60,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => EdwiselyLandingScreen(),
+                        builder: (BuildContext context) =>
+                            EdwiselyLandingScreen(),
                       ),
                     );
                   }
@@ -89,8 +91,9 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                             if (state is CoursesFetched) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(
-                                  vertical: 16.0,
-                                  horizontal: MediaQuery.of(context).size.width * 0.17,
+                                  vertical: 12.0,
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.17,
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +144,9 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
               mainAxisSpacing: 35,
               crossAxisSpacing: 35,
               crossAxisCount: 3,
-              childAspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height / 1.9,
+              childAspectRatio: MediaQuery.of(context).size.width /
+                  MediaQuery.of(context).size.height /
+                  1.9,
             ),
             itemCount: state.coursesEntity.data.length,
             itemBuilder: (context, index) => _courseCard(context, index, state),
@@ -163,9 +168,11 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
       //     ),
       //   ),
       // ),
-      onTap: () => MyRouter().navigateTo(pageProvider.navigatorKey, '/course-details-screen', {
+      onTap: () => MyRouter()
+          .navigateTo(pageProvider.navigatorKey, '/course-details-screen', {
         'name': state.coursesEntity.data[index].name,
-        'subject_semester_id': state.coursesEntity.data[index].subject_semester_id,
+        'subject_semester_id':
+            state.coursesEntity.data[index].subject_semester_id,
         'id': state.coursesEntity.data[index].id,
       }),
       child: Card(
@@ -184,7 +191,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                 child: state.coursesEntity.data[index].course_image == ''
                     ? Image.asset(
                         'placeholder_image.jpg',
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         height: MediaQuery.of(context).size.height / 4,
                         width: MediaQuery.of(context).size.width / 4,
                       )
@@ -200,14 +207,17 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 6,
-                    child: Text(
-                      state.coursesEntity.data[index].name,
-                      softWrap: true,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        state.coursesEntity.data[index].name,
+                        softWrap: true,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
@@ -262,7 +272,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
 
   Widget _buildSearchCourseField(BuildContext context, state) {
     return Container(
-      width: MediaQuery.of(context).size.width / 5,
+      alignment: Alignment.centerLeft,
+      width: MediaQuery.of(context).size.width / 6,
       child: TypeAheadField(
         suggestionsCallback: (pttrn) async {
           List<Data> courses = List();
@@ -292,7 +303,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
         onSuggestionSelected: (data) => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => CourseDetailScreen(data.name, data.subject_semester_id, data.id),
+            builder: (BuildContext context) => CourseDetailScreen(
+                data.name, data.subject_semester_id, data.id),
           ),
         ),
         // onSuggestionSelected: (data) => MyRouter().navigateTo(pageProvider.navigatorKey, '/course-details-screen', {
@@ -319,7 +331,8 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
         title: Text('Confirm Delete Section ?'),
         actions: [
           FlatButton(
-            onPressed: () => _deleteSectionFromAFacultyBackend(facultySectionId),
+            onPressed: () =>
+                _deleteSectionFromAFacultyBackend(facultySectionId),
             child: Text('Yes'),
           ),
           FlatButton(
@@ -342,7 +355,6 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
     );
 
     if (response.data['message'] == 'Successfully deleted the data') {
-
       _courseBloc.add(
         GetCoursesByFaculty(),
       );

@@ -121,7 +121,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           //list of options
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 InkWell(
                   onTap: () {
@@ -211,7 +211,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   },
                   child: SideDrawerItem(
                     isCollapsed: _isNavigationDrawerCollapsed,
-                    title: 'Send Notification',
+                    title: 'Notify',
                     icon: Icons.send_and_archive,
                     myIndex: 5,
                     currentIndex: _selectedPage,
