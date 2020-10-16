@@ -181,7 +181,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   },
                   child: SideDrawerItem(
                     isCollapsed: _isNavigationDrawerCollapsed,
-                    title: 'Assesments',
+                    title: 'Assessments',
                     icon: Icons.assessment,
                     myIndex: 3,
                     currentIndex: _selectedPage,
