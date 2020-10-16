@@ -23,12 +23,12 @@ class SideDrawerItem extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: 18.0,
-        horizontal: 18.0,
-      ),
+          // vertical: 18.0,
+          ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment:
+            isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           Icon(
             icon,

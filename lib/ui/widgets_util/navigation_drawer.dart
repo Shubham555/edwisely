@@ -66,12 +66,17 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     _selectedPage = Provider.of<SelectedPageProvider>(context).selectedPage;
 
     if (screenSize.width < 1366) {
-      _sidebarWidth = _isNavigationDrawerCollapsed ? screenSize.width * 0.1 : screenSize.width * 0.28;
+      _sidebarWidth = _isNavigationDrawerCollapsed
+          ? screenSize.width * 0.1
+          : screenSize.width * 0.28;
     } else {
-      _sidebarWidth = _isNavigationDrawerCollapsed ? screenSize.width * 0.06 : screenSize.width * 0.15;
+      _sidebarWidth = _isNavigationDrawerCollapsed
+          ? screenSize.width * 0.06
+          : screenSize.width * 0.15;
     }
 
     return AnimatedContainer(
+      alignment: Alignment.center,
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOutBack,
       width: _sidebarWidth,
@@ -81,21 +86,31 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         horizontal: 18.0,
       ),
       decoration: BoxDecoration(
-        color: widget.isHome ? EdwiselyTheme.BACKGROUND_COLOR : EdwiselyTheme.NAV_BAR_COLOR,
+        color: widget.isHome
+            ? EdwiselyTheme.BACKGROUND_COLOR
+            : EdwiselyTheme.NAV_BAR_COLOR,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           //logo here
           Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 0),
+            padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+            // child: Image.asset(
+            //   _isNavigationDrawerCollapsed
+            //       ? 'assets/logo/small_logo.png'
+            //       : widget.isHome
+            //           ? 'assets/logo/big_logo_black.png'
+            //           : 'assets/logo/big_logo.png',
+            //   fit: BoxFit.contain,
+            // ),
             child: Image.asset(
               _isNavigationDrawerCollapsed
                   ? 'assets/logo/small_logo.png'
                   : widget.isHome
                       ? 'assets/logo/big_logo_black.png'
                       : 'assets/logo/big_logo.png',
-              fit: BoxFit.contain,
+              fit: BoxFit.scaleDown,
             ),
           ),
           //seperator
@@ -104,99 +119,117 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             child: Divider(),
           ),
           //list of options
-          InkWell(
-            onTap: () {
-              final pageProvider = Provider.of<SelectedPageProvider>(context, listen: false);
-              pageProvider.changePage(0);
-              MyRouter().navigateTo(pageProvider.navigatorKey, '/');
-            },
-            child: SideDrawerItem(
-              isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Home',
-              icon: Icons.home,
-              myIndex: 0,
-              currentIndex: _selectedPage,
-              selectedColor: _selectedItemColor,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  onTap: () {
+                    final pageProvider = Provider.of<SelectedPageProvider>(
+                        context,
+                        listen: false);
+                    pageProvider.changePage(0);
+                    MyRouter().navigateTo(pageProvider.navigatorKey, '/');
+                  },
+                  child: SideDrawerItem(
+                    isCollapsed: _isNavigationDrawerCollapsed,
+                    title: 'Home',
+                    icon: Icons.home,
+                    myIndex: 0,
+                    currentIndex: _selectedPage,
+                    selectedColor: _selectedItemColor,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    final pageProvider = Provider.of<SelectedPageProvider>(
+                        context,
+                        listen: false);
+                    pageProvider.changePage(1);
+                    MyRouter()
+                        .navigateTo(pageProvider.navigatorKey, '/all-courses');
+                  },
+                  child: SideDrawerItem(
+                    isCollapsed: _isNavigationDrawerCollapsed,
+                    title: 'All Courses',
+                    icon: Icons.import_contacts,
+                    myIndex: 1,
+                    currentIndex: _selectedPage,
+                    selectedColor: _selectedItemColor,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Provider.of<SelectedPageProvider>(context, listen: false)
+                        .changePage(2);
+                    Navigator.of(context).pushNamed('/add-course');
+                  },
+                  child: SideDrawerItem(
+                    isCollapsed: _isNavigationDrawerCollapsed,
+                    title: 'Add Course',
+                    icon: Icons.book,
+                    myIndex: 2,
+                    currentIndex: _selectedPage,
+                    selectedColor: _selectedItemColor,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Provider.of<SelectedPageProvider>(context, listen: false)
+                        .changePage(3);
+                    Navigator.of(context).pushNamed('/send-assesment');
+                  },
+                  child: SideDrawerItem(
+                    isCollapsed: _isNavigationDrawerCollapsed,
+                    title: 'Assesments',
+                    icon: Icons.assessment,
+                    myIndex: 3,
+                    currentIndex: _selectedPage,
+                    selectedColor: _selectedItemColor,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Provider.of<SelectedPageProvider>(context, listen: false)
+                        .changePage(4);
+                    Navigator.of(context).pushNamed('/create-live-class');
+                  },
+                  child: SideDrawerItem(
+                    isCollapsed: _isNavigationDrawerCollapsed,
+                    title: 'Live Class',
+                    icon: Icons.live_tv,
+                    myIndex: 4,
+                    currentIndex: _selectedPage,
+                    selectedColor: _selectedItemColor,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Provider.of<SelectedPageProvider>(context, listen: false)
+                        .changePage(5);
+                    Navigator.of(context).pushNamed('/send-notification');
+                  },
+                  child: SideDrawerItem(
+                    isCollapsed: _isNavigationDrawerCollapsed,
+                    title: 'Send Notification',
+                    icon: Icons.send_and_archive,
+                    myIndex: 5,
+                    currentIndex: _selectedPage,
+                    selectedColor: _selectedItemColor,
+                  ),
+                ),
+              ],
             ),
           ),
-          InkWell(
-            onTap: () {
-              final pageProvider = Provider.of<SelectedPageProvider>(context, listen: false);
-              pageProvider.changePage(1);
-              MyRouter().navigateTo(pageProvider.navigatorKey, '/all-courses');
-            },
-            child: SideDrawerItem(
-              isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'All Courses',
-              icon: Icons.import_contacts,
-              myIndex: 1,
-              currentIndex: _selectedPage,
-              selectedColor: _selectedItemColor,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false).changePage(2);
-              Navigator.of(context).pushNamed('/add-course');
-            },
-            child: SideDrawerItem(
-              isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Add Course',
-              icon: Icons.book,
-              myIndex: 2,
-              currentIndex: _selectedPage,
-              selectedColor: _selectedItemColor,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false).changePage(3);
-              Navigator.of(context).pushNamed('/send-assesment');
-            },
-            child: SideDrawerItem(
-              isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Assesments',
-              icon: Icons.assessment,
-              myIndex: 3,
-              currentIndex: _selectedPage,
-              selectedColor: _selectedItemColor,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false).changePage(4);
-              Navigator.of(context).pushNamed('/create-live-class');
-            },
-            child: SideDrawerItem(
-              isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Live Class',
-              icon: Icons.live_tv,
-              myIndex: 4,
-              currentIndex: _selectedPage,
-              selectedColor: _selectedItemColor,
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Provider.of<SelectedPageProvider>(context, listen: false).changePage(5);
-              Navigator.of(context).pushNamed('/send-notification');
-            },
-            child: SideDrawerItem(
-              isCollapsed: _isNavigationDrawerCollapsed,
-              title: 'Send Notification',
-              icon: Icons.send_and_archive,
-              myIndex: 5,
-              currentIndex: _selectedPage,
-              selectedColor: _selectedItemColor,
-            ),
-          ),
-          Spacer(),
+          Container(height: screenSize.height * 0.12),
+          // Spacer(),
           widget.isHome
               ? SizedBox.shrink()
               : Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: InkWell(
-                    onTap: () => setState(() => _isNavigationDrawerCollapsed = !_isNavigationDrawerCollapsed),
+                    onTap: () => setState(() => _isNavigationDrawerCollapsed =
+                        !_isNavigationDrawerCollapsed),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -208,10 +241,15 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                           child: _isNavigationDrawerCollapsed
                               ? SizedBox.shrink()
                               : Text(
-                                  _isNavigationDrawerCollapsed ? 'Expand' : 'Collapse',
+                                  _isNavigationDrawerCollapsed
+                                      ? 'Expand'
+                                      : 'Collapse',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .button
+                                      .copyWith(color: Colors.white),
                                 ),
                         ),
                         _isNavigationDrawerCollapsed
@@ -220,7 +258,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                                 width: 12.0,
                               ),
                         Icon(
-                          _isNavigationDrawerCollapsed ? Icons.arrow_forward_ios : Icons.arrow_back_ios,
+                          _isNavigationDrawerCollapsed
+                              ? Icons.arrow_forward_ios
+                              : Icons.arrow_back_ios,
                           color: Colors.white,
                         ),
                       ],
@@ -230,22 +270,24 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 12.0,
+                vertical: 0.0,
+                horizontal: 0.0,
               ),
               child: RaisedButton(
-                onPressed: () async{
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                onPressed: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
 
                   prefs.clear();
 
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => LoginScreen()));
-
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (ctx) => LoginScreen()));
                 },
                 child: _isNavigationDrawerCollapsed
                     ? Icon(
                         Icons.logout,
                         color: Colors.white,
+                        size: screenSize.height * 0.0225,
                       )
                     : Text(
                         'Logout',
