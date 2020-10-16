@@ -78,7 +78,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     return AnimatedContainer(
       alignment: Alignment.center,
       duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOutBack,
+      curve: Curves.linear,
       width: _sidebarWidth,
       height: screenSize.height,
       padding: const EdgeInsets.symmetric(
@@ -235,8 +235,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeIn,
+                          duration: Duration(milliseconds: 400),
+                          curve: Curves.fastOutSlowIn,
                           width: _isNavigationDrawerCollapsed ? 0 : null,
                           child: _isNavigationDrawerCollapsed
                               ? SizedBox.shrink()
