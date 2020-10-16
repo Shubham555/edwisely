@@ -311,12 +311,12 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                             style: enabledSectionId == state.sectionEntity.data[index].id
                                                                 ? TextStyle(
                                                                     color: Colors.black,
-                                                                    fontSize: 22.0,
+                                                                    fontSize: 16.0,
                                                                     fontWeight: FontWeight.bold,
                                                                   )
                                                                 : TextStyle(
                                                                     color: Colors.grey,
-                                                                    fontSize: 20.0,
+                                                                    fontSize: 14.0,
                                                                     fontWeight: FontWeight.normal,
                                                                   ),
                                                             child: Text(

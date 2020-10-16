@@ -87,7 +87,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex();
+        Provider.of<SelectedPageProvider>(context, listen: false)
+            .setPreviousIndex();
         return true;
       },
       child: Scaffold(
@@ -138,15 +139,27 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
 
                           if (form.validate()) {
                             form.save();
-                            if (_vcStart != null && _vcStartTime != null && _vcEnd != null && _vcEndTime != null) {
+                            if (_vcStart != null &&
+                                _vcStartTime != null &&
+                                _vcEnd != null &&
+                                _vcEndTime != null) {
                               context.bloc<LiveClassCubit>().sendLiveClass(
                                   _title,
                                   _description,
-                                  _vcStart.add(Duration(hours: _vcStartTime.hour, minutes: _vcStartTime.hour)).toString(),
+                                  _vcStart
+                                      .add(Duration(
+                                          hours: _vcStartTime.hour,
+                                          minutes: _vcStartTime.hour))
+                                      .toString(),
                                   students,
-                                  _vcEnd.add(Duration(hours: _vcEndTime.hour, minutes: _vcEndTime.hour)).toString());
+                                  _vcEnd
+                                      .add(Duration(
+                                          hours: _vcEndTime.hour,
+                                          minutes: _vcEndTime.hour))
+                                      .toString());
                             } else {
-                              Toast.show('Please Double Check the Entries ', context);
+                              Toast.show(
+                                  'Please Double Check the Entries ', context);
                             }
                           }
                         },
@@ -187,7 +200,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                     hint: 'Enter your title here',
                                     inputType: TextInputType.text,
                                     autofocus: true,
-                                    onSaved: (String value) => _title = value.trim(),
+                                    onSaved: (String value) =>
+                                        _title = value.trim(),
                                     validator: (String value) {
                                       if (value.trim().length == 0) {
                                         return 'This field cannot be empty!';
@@ -205,7 +219,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                     hint: 'Enter the description here',
                                     inputType: TextInputType.multiline,
                                     maxLines: 4,
-                                    onSaved: (String value) => _description = value.trim(),
+                                    onSaved: (String value) =>
+                                        _description = value.trim(),
                                     validator: (String value) {
                                       if (value.trim().length == 0) {
                                         return 'This field cannot be empty!';
@@ -220,19 +235,25 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                   //start and end time
                                   Text(
                                     'Class Details',
-                                    style: Theme.of(context).textTheme.headline6.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .copyWith(
                                           color: Colors.black,
                                         ),
                                   ),
                                   StatefulBuilder(
-                                    builder: (BuildContext context, void Function(void Function()) setState) {
+                                    builder: (BuildContext context,
+                                        void Function(void Function())
+                                            setState) {
                                       return Container(
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 12.0,
                                           horizontal: 12.0,
                                         ),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(12.0),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
                                           color: Colors.white,
                                           border: Border.all(
                                             color: Colors.black,
@@ -242,7 +263,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                         child: Column(
                                           children: [
                                             Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 //start date picker
@@ -255,37 +277,52 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                 Spacer(),
                                                 InkWell(
                                                   onTap: () async {
-                                                    _vcStart = await _pickStartDate();
-                                                    _vcStartTime = await _pickStartTime();
+                                                    _vcStart =
+                                                        await _pickStartDate();
+                                                    _vcStartTime =
+                                                        await _pickStartTime();
                                                     setState(() {});
                                                   },
                                                   child: Text(
-                                                    _vcStart == null ? 'Pick Date' : DateFormat('EEE d MMM yyyy').format(_vcStart),
-                                                    style: Theme.of(context).textTheme.headline5,
+                                                    _vcStart == null
+                                                        ? 'Pick Date'
+                                                        : DateFormat(
+                                                                'EEE d MMM yyyy')
+                                                            .format(_vcStart),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5,
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: 18.0,
                                                   child: VerticalDivider(
-                                                    color: Theme.of(context).primaryColor,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
                                                     thickness: 2.0,
                                                   ),
                                                 ),
                                                 InkWell(
                                                   onTap: () async {
-                                                    _vcStartTime = await _pickStartTime();
+                                                    _vcStartTime =
+                                                        await _pickStartTime();
                                                     setState(() {});
                                                   },
                                                   child: Text(
-                                                    _vcStartTime == null ? 'Pick Time' : 'at ${_vcStartTime.format(context).toString()}',
-                                                    style: Theme.of(context).textTheme.headline5,
+                                                    _vcStartTime == null
+                                                        ? 'Pick Time'
+                                                        : 'at ${_vcStartTime.format(context).toString()}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5,
                                                   ),
                                                 ),
                                               ],
                                             ),
                                             //end time
                                             Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 //expiry date
@@ -299,33 +336,50 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                 InkWell(
                                                   onTap: () async {
                                                     if (_vcStart == null) {
-                                                      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Select Start Date First !')));
+                                                      _scaffoldKey.currentState
+                                                          .showSnackBar(SnackBar(
+                                                              content: Text(
+                                                                  'Select Start Date First !')));
                                                     } else {
-                                                      _vcEnd = await _pickEndDate();
-                                                      _vcEndTime = await _pickEndTime();
+                                                      _vcEnd =
+                                                          await _pickEndDate();
+                                                      _vcEndTime =
+                                                          await _pickEndTime();
                                                       setState(() {});
                                                     }
                                                   },
                                                   child: Text(
-                                                    _vcEnd == null ? 'Pick Date' : DateFormat('EEE d MMM yyyy').format(_vcEnd),
-                                                    style: Theme.of(context).textTheme.headline5,
+                                                    _vcEnd == null
+                                                        ? 'Pick Date'
+                                                        : DateFormat(
+                                                                'EEE d MMM yyyy')
+                                                            .format(_vcEnd),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5,
                                                   ),
                                                 ),
                                                 SizedBox(
                                                   height: 18.0,
                                                   child: VerticalDivider(
-                                                    color: Theme.of(context).primaryColor,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
                                                     thickness: 2.0,
                                                   ),
                                                 ),
                                                 InkWell(
                                                   onTap: () async {
-                                                    _vcEndTime = await _pickEndTime();
+                                                    _vcEndTime =
+                                                        await _pickEndTime();
                                                     setState(() {});
                                                   },
                                                   child: Text(
-                                                    _vcEndTime == null ? 'Pick Time' : 'at ${_vcEndTime.format(context).toString()}',
-                                                    style: Theme.of(context).textTheme.headline5,
+                                                    _vcEndTime == null
+                                                        ? 'Pick Time'
+                                                        : 'at ${_vcEndTime.format(context).toString()}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5,
                                                   ),
                                                 ),
                                               ],
@@ -340,29 +394,38 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                     height: screenSize.height * 0.03,
                                   ),
                                   //spacing
-                                  SizedBox(
-                                    height: screenSize.height * 0.03,
-                                  ),
                                   Text(
                                     'Class Select',
-                                    style: Theme.of(context).textTheme.headline6.copyWith(
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .copyWith(
                                           color: Colors.black,
                                         ),
                                   ),
                                   BlocBuilder(
-                                    cubit: context.bloc<SendAssessmentCubit>()..getSections(71),
+                                    cubit: context.bloc<SendAssessmentCubit>()
+                                      ..getSections(71),
                                     builder: (BuildContext context, state) {
-                                      if (state is SendAssessmentSectionsFetched) {
-                                        context.bloc<SelectStudentsCubit>().getStudentsInASection(
+                                      if (state
+                                          is SendAssessmentSectionsFetched) {
+                                        context
+                                            .bloc<SelectStudentsCubit>()
+                                            .getStudentsInASection(
                                               state.sectionEntity.data[0].id,
                                               1,
                                             );
-                                        int enabledSectionId = state.sectionEntity.data[0].id;
+                                        int enabledSectionId =
+                                            state.sectionEntity.data[0].id;
                                         return Container(
-                                          width: MediaQuery.of(context).size.width * 0.3,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius: BorderRadius.circular(12.0),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
                                             border: Border.all(
                                               color: Colors.black,
                                               width: 0.5,
@@ -371,39 +434,76 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                           child: StatefulBuilder(
                                             builder: (
                                               BuildContext context,
-                                              void Function(void Function()) setState,
+                                              void Function(void Function())
+                                                  setState,
                                             ) {
                                               return ListView.builder(
                                                 shrinkWrap: true,
-                                                itemCount: state.sectionEntity.data.length,
-                                                itemBuilder: (BuildContext context, int index) => Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                                itemCount: state
+                                                    .sectionEntity.data.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                            int index) =>
+                                                        Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 16.0),
                                                   child: InkWell(
                                                     onTap: () {
-                                                      enabledSectionId = state.sectionEntity.data[index].id;
+                                                      enabledSectionId = state
+                                                          .sectionEntity
+                                                          .data[index]
+                                                          .id;
                                                       context
-                                                          .bloc<SelectStudentsCubit>()
-                                                          .getStudentsInASection(state.sectionEntity.data[index].id, 1);
+                                                          .bloc<
+                                                              SelectStudentsCubit>()
+                                                          .getStudentsInASection(
+                                                              state
+                                                                  .sectionEntity
+                                                                  .data[index]
+                                                                  .id,
+                                                              1);
                                                       setState(() {});
                                                     },
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         AnimatedDefaultTextStyle(
-                                                          duration: Duration(milliseconds: 300),
-                                                          style: enabledSectionId == state.sectionEntity.data[index].id
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  300),
+                                                          style: enabledSectionId ==
+                                                                  state
+                                                                      .sectionEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .id
                                                               ? TextStyle(
-                                                                  color: Colors.black,
-                                                                  fontSize: 22.0,
-                                                                  fontWeight: FontWeight.bold,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
                                                                 )
                                                               : TextStyle(
-                                                                  color: Colors.grey,
-                                                                  fontSize: 20.0,
-                                                                  fontWeight: FontWeight.normal,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize:
+                                                                      14.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
                                                                 ),
                                                           child: Text(
-                                                            state.sectionEntity.data[index].name,
+                                                            state
+                                                                .sectionEntity
+                                                                .data[index]
+                                                                .name,
                                                           ),
                                                         ),
                                                         SizedBox(height: 2.0),
@@ -411,9 +511,18 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                           duration: Duration(
                                                             milliseconds: 300,
                                                           ),
-                                                          width: enabledSectionId == state.sectionEntity.data[index].id ? 80.0 : 40.0,
+                                                          width: enabledSectionId ==
+                                                                  state
+                                                                      .sectionEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .id
+                                                              ? 80.0
+                                                              : 40.0,
                                                           height: 3.0,
-                                                          color: Theme.of(context).primaryColor,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
                                                         ),
                                                       ],
                                                     ),
@@ -445,10 +554,15 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                         margin: const EdgeInsets.symmetric(
                                           horizontal: 32.0,
                                         ),
-                                        height: MediaQuery.of(context).size.height * 0.73,
-                                        width: MediaQuery.of(context).size.width / 8,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.73,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                8,
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(12.0),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
                                             color: Colors.white,
                                             border: Border.all(
                                               color: Colors.black,
@@ -457,25 +571,38 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                         child: Column(
                                           children: [
                                             Container(
-                                              height: MediaQuery.of(context).size.height * 0.07,
-                                              padding: const EdgeInsets.symmetric(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.07,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 vertical: 16.0,
                                                 horizontal: 22.0,
                                               ),
                                               decoration: BoxDecoration(
-                                                color: Theme.of(context).primaryColor,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                                 borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(12.0),
-                                                  topRight: Radius.circular(12.0),
+                                                  topLeft:
+                                                      Radius.circular(12.0),
+                                                  topRight:
+                                                      Radius.circular(12.0),
                                                 ),
                                               ),
                                               child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   SizedBox(width: 8.0),
                                                   Text(
                                                     'Students',
-                                                    style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.white),
                                                   ),
                                                   Spacer(),
                                                   VerticalDivider(
@@ -495,14 +622,18 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                     value: selectAll,
                                                     onChanged: (flag) {
                                                       flag
-                                                          ? state.studentsEntity.data.forEach(
+                                                          ? state.studentsEntity
+                                                              .data
+                                                              .forEach(
                                                               (element) {
                                                                 students.add(
                                                                   element.id,
                                                                 );
                                                               },
                                                             )
-                                                          : state.studentsEntity.data.forEach(
+                                                          : state.studentsEntity
+                                                              .data
+                                                              .forEach(
                                                               (element) {
                                                                 students.remove(
                                                                   element.id,
@@ -518,24 +649,35 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                               ),
                                             ),
                                             SizedBox(
-                                              height: MediaQuery.of(context).size.height * 0.65,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.65,
                                               child: Scrollbar(
                                                 controller: _scrollController,
                                                 isAlwaysShown: true,
                                                 child: ListView.builder(
                                                   controller: _scrollController,
                                                   shrinkWrap: true,
-                                                  itemCount: state.studentsEntity.data.length,
+                                                  itemCount: state
+                                                      .studentsEntity
+                                                      .data
+                                                      .length,
                                                   itemBuilder: (
                                                     BuildContext context,
                                                     int index,
                                                   ) =>
                                                       Container(
-                                                    padding: const EdgeInsets.symmetric(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
                                                       horizontal: 22.0,
                                                     ),
                                                     decoration: BoxDecoration(
-                                                      color: index % 2 == 0 ? Colors.white : Theme.of(context).primaryColor.withOpacity(0.1),
+                                                      color: index % 2 == 0
+                                                          ? Colors.white
+                                                          : Theme.of(context)
+                                                              .primaryColor
+                                                              .withOpacity(0.1),
                                                       border: Border.all(
                                                         color: Colors.black,
                                                         width: 0.2,
@@ -544,32 +686,61 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                     child: Row(
                                                       children: [
                                                         CircleAvatar(
-                                                          backgroundColor: Theme.of(context).primaryColor,
+                                                          backgroundColor:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
                                                           child: Text(
-                                                            state.studentsEntity.data[index].name.substring(0, 1).toUpperCase(),
+                                                            state
+                                                                .studentsEntity
+                                                                .data[index]
+                                                                .name
+                                                                .substring(0, 1)
+                                                                .toUpperCase(),
                                                             style: TextStyle(
-                                                              color: Colors.white,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                           ),
                                                         ),
                                                         Flexible(
-                                                          child: CheckboxListTile(
+                                                          child:
+                                                              CheckboxListTile(
                                                             title: Text(
-                                                              state.studentsEntity.data[index].name,
+                                                              state
+                                                                  .studentsEntity
+                                                                  .data[index]
+                                                                  .name,
                                                             ),
                                                             subtitle: Text(
-                                                              state.studentsEntity.data[index].roll_number,
+                                                              state
+                                                                  .studentsEntity
+                                                                  .data[index]
+                                                                  .roll_number,
                                                             ),
-                                                            value: students.contains(
-                                                              state.studentsEntity.data[index].id,
+                                                            value: students
+                                                                .contains(
+                                                              state
+                                                                  .studentsEntity
+                                                                  .data[index]
+                                                                  .id,
                                                             ),
                                                             onChanged: (flag) {
                                                               flag
-                                                                  ? students.add(
-                                                                      state.studentsEntity.data[index].id,
+                                                                  ? students
+                                                                      .add(
+                                                                      state
+                                                                          .studentsEntity
+                                                                          .data[
+                                                                              index]
+                                                                          .id,
                                                                     )
-                                                                  : students.remove(
-                                                                      state.studentsEntity.data[index].id,
+                                                                  : students
+                                                                      .remove(
+                                                                      state
+                                                                          .studentsEntity
+                                                                          .data[
+                                                                              index]
+                                                                          .id,
                                                                     );
                                                               setState(() {});
                                                             },
