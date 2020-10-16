@@ -55,7 +55,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                   ),
-                  route: 'Home > My Assesments',
+                  route: 'Home > My Assessments',
                   flatButton: RaisedButton(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8.0,
@@ -77,7 +77,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                         ),
                         SizedBox(width: 8.0),
                         Text(
-                          'Create Assesment',
+                          'Create Assessment',
                           style: Theme.of(context).textTheme.button,
                         ),
                       ],
