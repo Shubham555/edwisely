@@ -343,9 +343,15 @@ class _LoginScreenState extends State<LoginScreen> {
           Positioned(
             bottom: 48.0,
             left: 48.0,
-            child: Text(
-              'Transforming India\nEngineering Institutes into\nAI-Powered Learning Campuses',
-              style: textTheme.headline1.copyWith(color: Colors.white),
+            child: Container(
+              width: screenSize.width * 0.6,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Transforming Indian\nEngineering Institutes into\nAI-Powered Learning Campuses',
+                  style: textTheme.headline1.copyWith(color: Colors.white),
+                ),
+              ),
             ),
           ),
         ],
