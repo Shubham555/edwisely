@@ -19,6 +19,7 @@ import '../../../../data/cubits/unit_cubit.dart';
 import '../../../../data/model/questionBank/topicEntity/data.dart';
 import '../../../../main.dart';
 import '../../../widgets_util/text_input.dart';
+import 'package:universal_html/html.dart' as html;
 
 //doing this page
 class CourseDetailCourseContentTab extends StatefulWidget {
@@ -368,9 +369,10 @@ class _CourseDetailCourseContentTabState
                             );
                           }
                           if (state is CoursesDeckEmpty) {
-                            return Center(
-                              child: Text('No Decks were found for this unit'),
-                            );
+                            return Container();
+                            //   Center(
+                            //   child: Text('No Decks were found for this unit'),
+                            // );
                           } else {
                             return Center(
                               child: CircularProgressIndicator(),
@@ -672,18 +674,9 @@ class _CourseDetailCourseContentTabState
                                       }
                                       return ListTile(
                                           onTap: () async {
-                                            print(state.data[index].file_url);
-                                            var response =
-                                                await EdwiselyApi.dio.get(
-                                              state.data[index].file_url,
-                                              options: Options(
-                                                headers: {
-                                                  'Authorization':
-                                                      'Bearer $loginToken',
-                                                },
-                                              ),
-                                            );
-                                            print(response.data);
+                                            html.window.open(
+                                                state.data[index].file_url,
+                                                state.data[index].title);
                                           },
                                           leading: Padding(
                                             padding: const EdgeInsets.all(8.0),

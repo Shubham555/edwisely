@@ -118,11 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          //heading text
-                          Text(
-                            'Upcoming',
-                            style: textTheme.headline2,
-                          ),
+                          //heading text,
                           _upcomingEventsList(),
                           //spacing
                           SizedBox(
@@ -187,95 +183,100 @@ class _HomeScreenState extends State<HomeScreen> {
       cubit: homeScreenDefaultCubit,
       builder: (BuildContext context, state) {
         if (state is HomeScreenDefaultFetched) {
-          return Container(
-            height: screenSize.height * 0.25,
-            width: screenSize.width * .25,
-            margin: const EdgeInsets.only(
-              right: 22.0,
-              top: 12.0,
-            ),
-            padding: const EdgeInsets.symmetric(
-              vertical: 12.0,
-              horizontal: 18.0,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.0),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 6.0,
+          return Column(
+            children: [
+              Text(
+                'Upcoming',
+                style: textTheme.headline2,
+              ),
+              Container(
+                height: screenSize.height * 0.25,
+                width: screenSize.width * .25,
+                margin: const EdgeInsets.only(
+                  right: 22.0,
+                  top: 12.0,
                 ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                state.map['upcoming_events']['objective_tests'] == ''
-                    ? Text('There are no objective test!')
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: List<NotifiacationHomeScreenEntity>.from(
-                            state.map['upcoming_events']['objective_tests'].map(
-                                (it) =>
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12.0,
+                  horizontal: 18.0,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 6.0,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    state.map['upcoming_events']['objective_tests'] == ''
+                        ? Text('There are no objective test!')
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: List<NotifiacationHomeScreenEntity>.from(
+                                state.map['upcoming_events']['objective_tests'].map(
+                                    (it) =>
+                                        NotifiacationHomeScreenEntity.fromJsonMap(
+                                            it))).length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = List<NotifiacationHomeScreenEntity>.from(
+                                  state.map['upcoming_events']['objective_tests']
+                                      .map((it) =>
+                                          NotifiacationHomeScreenEntity.fromJsonMap(
+                                              it)));
+                              return ListTile(
+                                title: Text(data[index].title),
+                              );
+                            },
+                          ),
+                    //for Suvbjective
+                    state.map['upcoming_events']['subjective_tests'] == ''
+                        ? Text('There are no objective test!')
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: List<NotifiacationHomeScreenEntity>.from(
+                                state.map['upcoming_events']['subjective_tests']
+                                    .map((it) =>
+                                        NotifiacationHomeScreenEntity.fromJsonMap(
+                                            it))).length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = List<NotifiacationHomeScreenEntity>.from(
+                                  state.map['upcoming_events']['subjective_tests']
+                                      .map((it) =>
+                                          NotifiacationHomeScreenEntity.fromJsonMap(
+                                              it)));
+                              return ListTile(
+                                title: Text(data[index].title),
+                              );
+                            },
+                          ),
+                    // for video conference
+                    state.map['upcoming_events']['vc'] == ''
+                        ? Text('There are no objective test!')
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: List<NotifiacationHomeScreenEntity>.from(
+                                state.map['upcoming_events']['vc'].map((it) =>
                                     NotifiacationHomeScreenEntity.fromJsonMap(
                                         it))).length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = List<NotifiacationHomeScreenEntity>.from(
-                              state.map['upcoming_events']['objective_tests']
-                                  .map((it) =>
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = List<NotifiacationHomeScreenEntity>.from(
+                                  state.map['upcoming_events']['vc'].map((it) =>
                                       NotifiacationHomeScreenEntity.fromJsonMap(
                                           it)));
-                          return ListTile(
-                            title: Text(data[index].title),
-                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
-                          );
-                        },
-                      ),
-                //for Suvbjective
-                state.map['upcoming_events']['subjective_tests'] == ''
-                    ? Text('There are no objective test!')
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: List<NotifiacationHomeScreenEntity>.from(
-                            state.map['upcoming_events']['subjective_tests']
-                                .map((it) =>
-                                    NotifiacationHomeScreenEntity.fromJsonMap(
-                                        it))).length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = List<NotifiacationHomeScreenEntity>.from(
-                              state.map['upcoming_events']['subjective_tests']
-                                  .map((it) =>
-                                      NotifiacationHomeScreenEntity.fromJsonMap(
-                                          it)));
-                          return ListTile(
-                            title: Text(data[index].title),
-                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
-                          );
-                        },
-                      ),
-                // for video conference
-                state.map['upcoming_events']['vc'] == ''
-                    ? Text('There are no objective test!')
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: List<NotifiacationHomeScreenEntity>.from(
-                            state.map['upcoming_events']['vc'].map((it) =>
-                                NotifiacationHomeScreenEntity.fromJsonMap(
-                                    it))).length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = List<NotifiacationHomeScreenEntity>.from(
-                              state.map['upcoming_events']['vc'].map((it) =>
-                                  NotifiacationHomeScreenEntity.fromJsonMap(
-                                      it)));
-                          return ListTile(
-                            title: Text(data[index].title),
-                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
-                          );
-                        },
-                      ),
-              ],
-            ),
+                              return ListTile(
+                                title: Text(data[index].title),
+                              );
+                            },
+                          ),
+                  ],
+                ),
+              ),
+            ],
           );
         }
         if (state is HomeScreenDefaultFailed) {

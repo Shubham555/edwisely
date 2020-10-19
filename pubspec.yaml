@@ -31,7 +31,9 @@ dependencies:
   fl_chart: ^0.11.1
   websafe_svg: ^1.1.4
   html: ^0.14.0+4
+  universal_html: ^1.2.3
   flutter_tex: ^3.6.7
+  pdf: ^1.11.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
