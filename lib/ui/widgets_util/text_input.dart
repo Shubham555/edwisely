@@ -84,7 +84,8 @@ class TextInput extends StatelessWidget {
                   enabled: enabled,
                   decoration: InputDecoration(
                     hintText: hint,
-                    hintStyle: textTheme.headline6.copyWith(color: Colors.grey[400]),
+                    hintStyle:
+                        textTheme.headline6.copyWith(color: Colors.grey[400]),
                     errorStyle: TextStyle(
                       color: Color(0xFFFF3F34),
                       fontWeight: FontWeight.w500,

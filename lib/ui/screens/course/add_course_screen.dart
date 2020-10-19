@@ -17,6 +17,7 @@ import '../../../data/model/course/sectionEntity/data.dart' as sectionDta;
 import '../../../data/provider/selected_page.dart';
 import '../../widgets_util/big_app_bar.dart';
 import '../../widgets_util/navigation_drawer.dart';
+import '../this_way_up.dart';
 
 class AddCourseScreen extends StatefulWidget {
   @override
@@ -29,294 +30,324 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Provider.of<SelectedPageProvider>(context, listen: false)
-            .setPreviousIndex();
-        return true;
-      },
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          body: Center(
-            child: BlocListener(
-              cubit: context.bloc<AddCourseCubit>(),
-              listener: (BuildContext context, state) {
-                if (state is CourseAdded) {
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('Course Added Successfully')));
-                  Future.delayed(
-                    Duration(seconds: 2),
-                    () {
-                      // Navigator.pop(context);
-                      // Navigator.pop(context);
-                      // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
+    return oneWay(context)
+        ? ThisWayUp()
+        : WillPopScope(
+            onWillPop: () async {
+              Provider.of<SelectedPageProvider>(context, listen: false)
+                  .setPreviousIndex();
+              return true;
+            },
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Scaffold(
+                body: Center(
+                  child: BlocListener(
+                    cubit: context.bloc<AddCourseCubit>(),
+                    listener: (BuildContext context, state) {
+                      if (state is CourseAdded) {
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Course Added Successfully')));
+                        Future.delayed(
+                          Duration(seconds: 2),
+                          () {
+                            // Navigator.pop(context);
+                            // Navigator.pop(context);
+                            // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
+                          },
+                        );
+                      }
+                      if (state is CoursesError) {
+                        Scaffold.of(context)
+                            .showSnackBar(SnackBar(content: Text(state.error)));
+                        Future.delayed(Duration(seconds: 2), () {
+                          // Navigator.pop(context);
+                          // Navigator.pop(context);
+                          // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
+                        });
+                      }
                     },
-                  );
-                }
-                if (state is CoursesError) {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text(state.error)));
-                  Future.delayed(Duration(seconds: 2), () {
-                    // Navigator.pop(context);
-                    // Navigator.pop(context);
-                    // Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex ();
-                  });
-                }
-              },
-              child: Row(
-                children: [
-                  NavigationDrawer(
-                    isCollapsed: MediaQuery.of(context).size.width <= 1366
-                        ? true
-                        : false,
-                    key: context.watch<SelectedPageProvider>().navigatorKey,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        BigAppBar(
-                          actions: null,
-                          titleText: 'Add Courses',
-                          //5 minute dedo a raha hioon Ha sarkar
-                          bottomTab: null,
-                          appBarSize: MediaQuery.of(context).size.height / 3.5,
-                          appBarTitle: Text('Edwisely'),
-                          flatButton: null,
-                          route: 'Home > All Courses > Add Courses',
-                        ).build(context),
-                        BlocBuilder(
-                          cubit: context.bloc<CoursesBloc>()
-                            ..add(
-                              GetAllCourses(),
-                            ),
-                          builder: (BuildContext context, outerState) {
-                            if (outerState is AllCoursesFetched) {
-                              if (coursesFilter == null) {
-                                coursesFilter = outerState.getAllCoursesEntity;
-                                coursesFilter.data = List.unmodifiable(
-                                    outerState.getAllCoursesEntity.data);
-                              }
-                              return Expanded(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 16.0,
-                                        horizontal:
-                                            MediaQuery.of(context).size.width *
-                                                0.17,
-                                      ),
-                                      child: Row(
+                        NavigationDrawer(
+                          isCollapsed: MediaQuery.of(context).size.width <= 1366
+                              ? true
+                              : false,
+                          key: context
+                              .watch<SelectedPageProvider>()
+                              .navigatorKey,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BigAppBar(
+                                actions: null,
+                                titleText: 'Add Courses',
+                                //5 minute dedo a raha hioon Ha sarkar
+                                bottomTab: null,
+                                appBarSize:
+                                    MediaQuery.of(context).size.height / 3.5,
+                                appBarTitle: Text('Edwisely'),
+                                flatButton: null,
+                                route: 'Home > All Courses > Add Courses',
+                              ).build(context),
+                              BlocBuilder(
+                                cubit: context.bloc<CoursesBloc>()
+                                  ..add(
+                                    GetAllCourses(),
+                                  ),
+                                builder: (BuildContext context, outerState) {
+                                  if (outerState is AllCoursesFetched) {
+                                    if (coursesFilter == null) {
+                                      coursesFilter =
+                                          outerState.getAllCoursesEntity;
+                                      coursesFilter.data = List.unmodifiable(
+                                          outerState.getAllCoursesEntity.data);
+                                    }
+                                    return Expanded(
+                                      child: Column(
                                         children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                5,
-                                            child: TypeAheadField(
-                                              textFieldConfiguration:
-                                                  TextFieldConfiguration(
-                                                style:
-                                                    DefaultTextStyle.of(context)
-                                                        .style
-                                                        .copyWith(
-                                                          fontStyle:
-                                                              FontStyle.normal,
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 16.0,
+                                              horizontal: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.17,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      5,
+                                                  child: TypeAheadField(
+                                                    textFieldConfiguration:
+                                                        TextFieldConfiguration(
+                                                      style: DefaultTextStyle
+                                                              .of(context)
+                                                          .style
+                                                          .copyWith(
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                          ),
+                                                      decoration: InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(),
+                                                          hintText:
+                                                              'Search Courses'),
+                                                    ),
+                                                    suggestionsCallback:
+                                                        (searchString) async {
+                                                      List<Data> courses =
+                                                          List();
+                                                      courses.addAll(outerState
+                                                          .getAllCoursesEntity
+                                                          .data);
+                                                      courses.retainWhere(
+                                                        (element) => element
+                                                            .name
+                                                            .toLowerCase()
+                                                            .contains(
+                                                              searchString
+                                                                  .toLowerCase(),
+                                                            ),
+                                                      );
+                                                      return courses;
+                                                    },
+                                                    itemBuilder:
+                                                        (context, Data data) {
+                                                      return ListTile(
+                                                        title: Text(data.name),
+                                                      );
+                                                    },
+                                                    onSuggestionSelected:
+                                                        (data) =>
+                                                            Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            _showDialog(
+                                                          context,
+                                                          data,
+                                                          data.departments,
+                                                          outerState
+                                                              .sectionEntity,
                                                         ),
-                                                decoration: InputDecoration(
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                    hintText: 'Search Courses'),
-                                              ),
-                                              suggestionsCallback:
-                                                  (searchString) async {
-                                                List<Data> courses = List();
-                                                courses.addAll(outerState
-                                                    .getAllCoursesEntity.data);
-                                                courses.retainWhere(
-                                                  (element) => element.name
-                                                      .toLowerCase()
-                                                      .contains(
-                                                        searchString
-                                                            .toLowerCase(),
                                                       ),
-                                                );
-                                                return courses;
-                                              },
-                                              itemBuilder:
-                                                  (context, Data data) {
-                                                return ListTile(
-                                                  title: Text(data.name),
-                                                );
-                                              },
-                                              onSuggestionSelected: (data) =>
-                                                  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          _showDialog(
-                                                    context,
-                                                    data,
-                                                    data.departments,
-                                                    outerState.sectionEntity,
+                                                    ),
                                                   ),
                                                 ),
+                                                SizedBox(width: 32.0),
+                                                BlocBuilder(
+                                                  cubit: context
+                                                      .bloc<DepartmentCubit>()
+                                                        ..getDepartments(),
+                                                  builder:
+                                                      (BuildContext context,
+                                                          state) {
+                                                    if (state
+                                                        is DepartmentFetched) {
+                                                      // selectedDropDown = state.departmentEntity.data[0].department_id;
+                                                      return StatefulBuilder(
+                                                        builder: (BuildContext
+                                                                    context,
+                                                                StateSetter
+                                                                    setState) =>
+                                                            Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                            vertical: 6.0,
+                                                            horizontal: 16.0,
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        4.0),
+                                                            border: Border.all(
+                                                              color:
+                                                                  Colors.grey,
+                                                            ),
+                                                          ),
+                                                          child: DropdownButton(
+                                                            value:
+                                                                selectedDropDown,
+                                                            hint: Text(
+                                                              'Select Department',
+                                                            ),
+                                                            underline: SizedBox
+                                                                .shrink(),
+                                                            items:
+                                                                List.generate(
+                                                              state
+                                                                  .departmentEntity
+                                                                  .data
+                                                                  .length,
+                                                              (index) =>
+                                                                  DropdownMenuItem(
+                                                                child: Text(
+                                                                  state
+                                                                      .departmentEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .department,
+                                                                ),
+                                                                value: state
+                                                                    .departmentEntity
+                                                                    .data[index]
+                                                                    .department_id,
+                                                              ),
+                                                            ),
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                selectedDropDown =
+                                                                    value;
+                                                              });
+                                                              // context.bloc<CoursesBloc>().add(SortCourses(value, coursesFilter));
+                                                            },
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      return Center(
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      );
+                                                    }
+                                                  },
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: 16.0,
+                                                horizontal:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.17,
+                                              ),
+                                              child: GridView.builder(
+                                                gridDelegate:
+                                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                                  mainAxisSpacing: 35,
+                                                  crossAxisSpacing: 35,
+                                                  crossAxisCount: 3,
+                                                  childAspectRatio:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .height /
+                                                          2.8,
+                                                ),
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return Card(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                        6,
+                                                      ),
+                                                    ),
+                                                    elevation: 6,
+                                                    child: _buildCourseTile(
+                                                        index,
+                                                        context,
+                                                        outerState
+                                                            .getAllCoursesEntity
+                                                            .data,
+                                                        outerState),
+                                                  );
+                                                },
+                                                itemCount: outerState
+                                                    .getAllCoursesEntity
+                                                    .data
+                                                    .length,
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: 32.0),
-                                          BlocBuilder(
-                                            cubit:
-                                                context.bloc<DepartmentCubit>()
-                                                  ..getDepartments(),
-                                            builder:
-                                                (BuildContext context, state) {
-                                              if (state is DepartmentFetched) {
-                                                // selectedDropDown = state.departmentEntity.data[0].department_id;
-                                                return StatefulBuilder(
-                                                  builder:
-                                                      (BuildContext context,
-                                                              StateSetter
-                                                                  setState) =>
-                                                          Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      vertical: 6.0,
-                                                      horizontal: 16.0,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4.0),
-                                                      border: Border.all(
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                    child: DropdownButton(
-                                                      value: selectedDropDown,
-                                                      hint: Text(
-                                                        'Select Department',
-                                                      ),
-                                                      underline:
-                                                          SizedBox.shrink(),
-                                                      items: List.generate(
-                                                        state.departmentEntity
-                                                            .data.length,
-                                                        (index) =>
-                                                            DropdownMenuItem(
-                                                          child: Text(
-                                                            state
-                                                                .departmentEntity
-                                                                .data[index]
-                                                                .department,
-                                                          ),
-                                                          value: state
-                                                              .departmentEntity
-                                                              .data[index]
-                                                              .department_id,
-                                                        ),
-                                                      ),
-                                                      onChanged: (value) {
-                                                        setState(() {
-                                                          selectedDropDown =
-                                                              value;
-                                                        });
-                                                        // context.bloc<CoursesBloc>().add(SortCourses(value, coursesFilter));
-                                                      },
-                                                    ),
-                                                  ),
-                                                );
-                                              } else {
-                                                return Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                );
-                                              }
-                                            },
-                                          )
                                         ],
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 16.0,
-                                          horizontal: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.17,
-                                        ),
-                                        child: GridView.builder(
-                                          gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
-                                            mainAxisSpacing: 35,
-                                            crossAxisSpacing: 35,
-                                            crossAxisCount: 3,
-                                            childAspectRatio:
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    2.8,
-                                          ),
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                  6,
-                                                ),
-                                              ),
-                                              elevation: 6,
-                                              child: _buildCourseTile(
-                                                  index,
-                                                  context,
-                                                  outerState
-                                                      .getAllCoursesEntity.data,
-                                                  outerState),
-                                            );
-                                          },
-                                          itemCount: outerState
-                                              .getAllCoursesEntity.data.length,
-                                        ),
+                                    );
+                                  }
+                                  if (outerState is CourseAdded) {
+                                    return Column(
+                                      children: [
+                                        CircularProgressIndicator(),
+                                        Text('Course Added '),
+                                      ],
+                                    );
+                                  } else {
+                                    return Expanded(
+                                      child: Center(
+                                        child: CircularProgressIndicator(),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                            if (outerState is CourseAdded) {
-                              return Column(
-                                children: [
-                                  CircularProgressIndicator(),
-                                  Text('Course Added '),
-                                ],
-                              );
-                            } else {
-                              return Expanded(
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            }
-                          },
-                        )
+                                    );
+                                  }
+                                },
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 
   Widget _buildCourseTile(

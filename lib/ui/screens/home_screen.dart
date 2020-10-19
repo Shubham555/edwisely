@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:edwisely/ui/screens/this_way_up.dart';
 
 import '../widgets_util/navigation_drawer.dart';
 
@@ -36,120 +37,123 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Provider.of<SelectedPageProvider>(context, listen: false).changePage(0);
 
-    return WillPopScope(
-      onWillPop: () async {
-        Provider.of<SelectedPageProvider>(context, listen: false)
-            .setPreviousIndex();
-        return true;
-      },
-      child: Scaffold(
-        body: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            //side bar
-            NavigationDrawer(
-              isCollapsed: screenSize.width <= 1366 ? true : false,
-              isHome: false,
-            ),
-            //rest of the screen
-            Expanded(
-              child: Row(
+    return oneWay(context)
+        ? ThisWayUp()
+        : WillPopScope(
+            onWillPop: () async {
+              Provider.of<SelectedPageProvider>(context, listen: false)
+                  .setPreviousIndex();
+              return true;
+            },
+            child: Scaffold(
+              body: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  //center part
-                  SizedBox(
-                    width: screenSize.width * 0.54,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 22.0,
-                        horizontal: 36.0,
-                      ),
-                      child: BlocBuilder(
-                        cubit: homeScreenDefaultCubit,
-                        builder: (BuildContext context, state) {
-                          if (state is HomeScreenDefaultFetched) {
-                            return Column(
+                  //side bar
+                  NavigationDrawer(
+                    isCollapsed: screenSize.width <= 1366 ? true : false,
+                    isHome: false,
+                  ),
+                  //rest of the screen
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //center part
+                        SizedBox(
+                          width: screenSize.width * 0.54,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 22.0,
+                              horizontal: 36.0,
+                            ),
+                            child: BlocBuilder(
+                              cubit: homeScreenDefaultCubit,
+                              builder: (BuildContext context, state) {
+                                if (state is HomeScreenDefaultFetched) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      //heading text
+                                      Text(
+                                        'Your Courses',
+                                        style: textTheme.headline2,
+                                      ),
+                                      //list of courses
+                                      _yourCoursesList(
+                                        state.map['courses'],
+                                      ),
+                                      //spacing
+                                      SizedBox(height: 18.0),
+                                      //heading text
+                                      Text(
+                                        'Activity Wall',
+                                        style: textTheme.headline2,
+                                      ),
+                                      //activityWall
+                                      activityTabList(
+                                        state.map['activity_tab'],
+                                      ),
+                                    ],
+                                  );
+                                }
+                                if (state is HomeScreenDefaultFailed) {
+                                  return Center(
+                                    child: Text(state.error),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                        //right part
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 22.0, horizontal: 42.0),
+                          child: SizedBox(
+                            width: screenSize.width * 0.22,
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 //heading text
                                 Text(
-                                  'Your Courses',
+                                  'Upcoming',
                                   style: textTheme.headline2,
                                 ),
-                                //list of courses
-                                _yourCoursesList(
-                                  state.map['courses'],
-                                ),
+                                _upcomingEventsList(),
                                 //spacing
-                                SizedBox(height: 18.0),
+                                SizedBox(
+                                  height: screenSize.height * 0.02,
+                                ),
                                 //heading text
                                 Text(
-                                  'Activity Wall',
+                                  'Peer Activity',
                                   style: textTheme.headline2,
                                 ),
-                                //activityWall
-                                activityTabList(
-                                  state.map['activity_tab'],
-                                ),
+                                _peerActivityList(),
                               ],
-                            );
-                          }
-                          if (state is HomeScreenDefaultFailed) {
-                            return Center(
-                              child: Text(state.error),
-                            );
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                  //right part
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 22.0, horizontal: 42.0),
-                    child: SizedBox(
-                      width: screenSize.width * 0.22,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //heading text
-                          Text(
-                            'Upcoming',
-                            style: textTheme.headline2,
+                            ),
                           ),
-                          _upcomingEventsList(),
-                          //spacing
-                          SizedBox(
-                            height: screenSize.height * 0.02,
-                          ),
-                          //heading text
-                          Text(
-                            'Peer Activity',
-                            style: textTheme.headline2,
-                          ),
-                          _peerActivityList(),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   Widget _peerActivityList() {
     return Container(
-      height: screenSize.height * 0.25,
+      height: screenSize.height * 0.375,
       margin: const EdgeInsets.only(
         right: 22.0,
         top: 12.0,
@@ -188,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context, state) {
         if (state is HomeScreenDefaultFetched) {
           return Container(
-            height: screenSize.height * 0.25,
+            height: screenSize.height * 0.375,
             width: screenSize.width * .25,
             margin: const EdgeInsets.only(
               right: 22.0,
