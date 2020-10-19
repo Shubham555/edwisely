@@ -6,7 +6,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:edwisely/ui/screens/this_way_up.dart';
 
 import '../widgets_util/navigation_drawer.dart';
 
@@ -37,123 +36,116 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Provider.of<SelectedPageProvider>(context, listen: false).changePage(0);
 
-    return oneWay(context)
-        ? ThisWayUp()
-        : WillPopScope(
-            onWillPop: () async {
-              Provider.of<SelectedPageProvider>(context, listen: false)
-                  .setPreviousIndex();
-              return true;
-            },
-            child: Scaffold(
-              body: Row(
+    return WillPopScope(
+      onWillPop: () async {
+        Provider.of<SelectedPageProvider>(context, listen: false)
+            .setPreviousIndex();
+        return true;
+      },
+      child: Scaffold(
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            //side bar
+            NavigationDrawer(
+              isCollapsed: screenSize.width <= 1366 ? true : false,
+              isHome: false,
+            ),
+            //rest of the screen
+            Expanded(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  //side bar
-                  NavigationDrawer(
-                    isCollapsed: screenSize.width <= 1366 ? true : false,
-                    isHome: false,
-                  ),
-                  //rest of the screen
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        //center part
-                        SizedBox(
-                          width: screenSize.width * 0.54,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 22.0,
-                              horizontal: 36.0,
-                            ),
-                            child: BlocBuilder(
-                              cubit: homeScreenDefaultCubit,
-                              builder: (BuildContext context, state) {
-                                if (state is HomeScreenDefaultFetched) {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      //heading text
-                                      Text(
-                                        'Your Courses',
-                                        style: textTheme.headline2,
-                                      ),
-                                      //list of courses
-                                      _yourCoursesList(
-                                        state.map['courses'],
-                                      ),
-                                      //spacing
-                                      SizedBox(height: 18.0),
-                                      //heading text
-                                      Text(
-                                        'Activity Wall',
-                                        style: textTheme.headline2,
-                                      ),
-                                      //activityWall
-                                      activityTabList(
-                                        state.map['activity_tab'],
-                                      ),
-                                    ],
-                                  );
-                                }
-                                if (state is HomeScreenDefaultFailed) {
-                                  return Center(
-                                    child: Text(state.error),
-                                  );
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                        //right part
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 22.0, horizontal: 42.0),
-                          child: SizedBox(
-                            width: screenSize.width * 0.22,
-                            child: Column(
+                  //center part
+                  SizedBox(
+                    width: screenSize.width * 0.54,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 22.0,
+                        horizontal: 36.0,
+                      ),
+                      child: BlocBuilder(
+                        cubit: homeScreenDefaultCubit,
+                        builder: (BuildContext context, state) {
+                          if (state is HomeScreenDefaultFetched) {
+                            return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 //heading text
                                 Text(
-                                  'Upcoming',
+                                  'Your Courses',
                                   style: textTheme.headline2,
                                 ),
-                                _upcomingEventsList(),
-                                //spacing
-                                SizedBox(
-                                  height: screenSize.height * 0.02,
+                                //list of courses
+                                _yourCoursesList(
+                                  state.map['courses'],
                                 ),
+                                //spacing
+                                SizedBox(height: 18.0),
                                 //heading text
                                 Text(
-                                  'Peer Activity',
+                                  'Activity Wall',
                                   style: textTheme.headline2,
                                 ),
-                                _peerActivityList(),
+                                //activityWall
+                                activityTabList(
+                                  state.map['activity_tab'],
+                                ),
                               ],
-                            ),
+                            );
+                          }
+                          if (state is HomeScreenDefaultFailed) {
+                            return Center(
+                              child: Text(state.error),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  //right part
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 22.0, horizontal: 42.0),
+                    child: SizedBox(
+                      width: screenSize.width * 0.22,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //heading text,
+                          _upcomingEventsList(),
+                          //spacing
+                          SizedBox(
+                            height: screenSize.height * 0.02,
                           ),
-                        ),
-                      ],
+                          //heading text
+                          Text(
+                            'Peer Activity',
+                            style: textTheme.headline2,
+                          ),
+                          _peerActivityList(),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          );
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _peerActivityList() {
     return Container(
-      height: screenSize.height * 0.375,
+      height: screenSize.height * 0.25,
       margin: const EdgeInsets.only(
         right: 22.0,
         top: 12.0,
@@ -191,95 +183,100 @@ class _HomeScreenState extends State<HomeScreen> {
       cubit: homeScreenDefaultCubit,
       builder: (BuildContext context, state) {
         if (state is HomeScreenDefaultFetched) {
-          return Container(
-            height: screenSize.height * 0.375,
-            width: screenSize.width * .25,
-            margin: const EdgeInsets.only(
-              right: 22.0,
-              top: 12.0,
-            ),
-            padding: const EdgeInsets.symmetric(
-              vertical: 12.0,
-              horizontal: 18.0,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.0),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 6.0,
+          return Column(
+            children: [
+              Text(
+                'Upcoming',
+                style: textTheme.headline2,
+              ),
+              Container(
+                height: screenSize.height * 0.25,
+                width: screenSize.width * .25,
+                margin: const EdgeInsets.only(
+                  right: 22.0,
+                  top: 12.0,
                 ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                state.map['upcoming_events']['objective_tests'] == ''
-                    ? Text('There are no objective test!')
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: List<NotifiacationHomeScreenEntity>.from(
-                            state.map['upcoming_events']['objective_tests'].map(
-                                (it) =>
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12.0,
+                  horizontal: 18.0,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 6.0,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    state.map['upcoming_events']['objective_tests'] == ''
+                        ? Text('There are no objective test!')
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: List<NotifiacationHomeScreenEntity>.from(
+                                state.map['upcoming_events']['objective_tests']
+                                    .map((it) => NotifiacationHomeScreenEntity
+                                        .fromJsonMap(it))).length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var data =
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']['objective_tests']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it)));
+                              return ListTile(
+                                title: Text(data[index].title),
+                              );
+                            },
+                          ),
+                    //for Suvbjective
+                    state.map['upcoming_events']['subjective_tests'] == ''
+                        ? Text('There are no objective test!')
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: List<NotifiacationHomeScreenEntity>.from(
+                                state.map['upcoming_events']['subjective_tests']
+                                    .map((it) => NotifiacationHomeScreenEntity
+                                        .fromJsonMap(it))).length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var data =
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']
+                                          ['subjective_tests']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it)));
+                              return ListTile(
+                                title: Text(data[index].title),
+                              );
+                            },
+                          ),
+                    // for video conference
+                    state.map['upcoming_events']['vc'] == ''
+                        ? Text('There are no objective test!')
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: List<NotifiacationHomeScreenEntity>.from(
+                                state.map['upcoming_events']['vc'].map((it) =>
                                     NotifiacationHomeScreenEntity.fromJsonMap(
                                         it))).length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = List<NotifiacationHomeScreenEntity>.from(
-                              state.map['upcoming_events']['objective_tests']
-                                  .map((it) =>
-                                      NotifiacationHomeScreenEntity.fromJsonMap(
-                                          it)));
-                          return ListTile(
-                            title: Text(data[index].title),
-                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
-                          );
-                        },
-                      ),
-                //for Suvbjective
-                state.map['upcoming_events']['subjective_tests'] == ''
-                    ? Text('There are no objective test!')
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: List<NotifiacationHomeScreenEntity>.from(
-                            state.map['upcoming_events']['subjective_tests']
-                                .map((it) =>
-                                    NotifiacationHomeScreenEntity.fromJsonMap(
-                                        it))).length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = List<NotifiacationHomeScreenEntity>.from(
-                              state.map['upcoming_events']['subjective_tests']
-                                  .map((it) =>
-                                      NotifiacationHomeScreenEntity.fromJsonMap(
-                                          it)));
-                          return ListTile(
-                            title: Text(data[index].title),
-                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
-                          );
-                        },
-                      ),
-                // for video conference
-                state.map['upcoming_events']['vc'] == ''
-                    ? Text('There are no objective test!')
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: List<NotifiacationHomeScreenEntity>.from(
-                            state.map['upcoming_events']['vc'].map((it) =>
-                                NotifiacationHomeScreenEntity.fromJsonMap(
-                                    it))).length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = List<NotifiacationHomeScreenEntity>.from(
-                              state.map['upcoming_events']['vc'].map((it) =>
-                                  NotifiacationHomeScreenEntity.fromJsonMap(
-                                      it)));
-                          return ListTile(
-                            title: Text(data[index].title),
-                            // TODO: 09-10-2020 yahan dekhlio kya kya dikhana hai
-                          );
-                        },
-                      ),
-              ],
-            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              var data =
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']['vc']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it)));
+                              return ListTile(
+                                title: Text(data[index].title),
+                              );
+                            },
+                          ),
+                  ],
+                ),
+              ),
+            ],
           );
         }
         if (state is HomeScreenDefaultFailed) {
