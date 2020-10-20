@@ -156,7 +156,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                           ),
                                           //spacing
                                           SizedBox(
-                                            height: screenSize.height * 0.02,
+                                            height: screenSize.height * 0.01,
                                           ),
                                           //description
                                           TextInput(
@@ -175,7 +175,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                           ),
                                           //spacing
                                           SizedBox(
-                                            height: screenSize.height * 0.02,
+                                            height: screenSize.height * 0.01,
                                           ),
                                           //priority toggle button
                                           //is comment anonymous checkbox
@@ -294,7 +294,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                           ),
                                           //spacing
                                           SizedBox(
-                                            height: screenSize.height * 0.02,
+                                            height: screenSize.height * 0.01,
                                           ),
                                           Text('Class Select',
                                               style: Theme.of(context)
@@ -521,16 +521,12 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                             CrossAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          SizedBox(width: 8.0),
                                                           Text(
                                                             'Students',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline5
-                                                                .copyWith(
-                                                                    color: Colors
-                                                                        .white),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
                                                           ),
                                                           Spacer(),
                                                           VerticalDivider(

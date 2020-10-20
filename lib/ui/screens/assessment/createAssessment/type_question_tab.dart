@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:chips_choice/chips_choice.dart';
 import 'package:edwisely/data/cubits/question_add_cubit.dart';
-import 'package:edwisely/data/model/assessment/assessmentQuestions/data.dart' as assesmentData;
+import 'package:edwisely/data/model/assessment/assessmentQuestions/data.dart'
+    as assesmentData;
 import 'package:edwisely/ui/widgets_util/my_checkbox.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +36,9 @@ class TypeQuestionTab extends StatefulWidget {
   int quesCounter = 0;
   bool option5Selected = false;
 
-  TypeQuestionTab(this._title, this._description, this._subjectId, this._questionType, this._assessmentId, this.isFromQuestionBank, {this.data});
+  TypeQuestionTab(this._title, this._description, this._subjectId,
+      this._questionType, this._assessmentId, this.isFromQuestionBank,
+      {this.data});
 
   @override
   _TypeQuestionTabState createState() => _TypeQuestionTabState();
@@ -82,7 +85,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   int _currentQuestionId;
 
   Future getImage() async {
-    final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
+    final pickedFile =
+        await FilePickerCross.importFromStorage(type: FileTypeCross.any);
     _question = pickedFile.toBase64();
 
     setState(() {
@@ -91,7 +95,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   }
 
   Future getOptionImage(int opt) async {
-    final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
+    final pickedFile =
+        await FilePickerCross.importFromStorage(type: FileTypeCross.any);
 
     setState(() {
       switch (opt) {
@@ -240,7 +245,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                             ],
                           ),
                           child: StatefulBuilder(
-                            builder: (BuildContext context, void Function(void Function()) innerSetState) {
+                            builder: (BuildContext context,
+                                void Function(void Function()) innerSetState) {
                               return BlocBuilder(
                                 cubit: _questionFetchCubit
                                   ..getQuestionsToAnAssessment(
@@ -248,7 +254,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   ),
                                 builder: (BuildContext context, state) {
                                   if (state is QuestionsToAnAssessmentFetched) {
-                                    state.assessmentQuestionsEntity.data.forEach(
+                                    state.assessmentQuestionsEntity.data
+                                        .forEach(
                                       (element) {
                                         questions.add(
                                           element.id,
@@ -256,36 +263,82 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       },
                                     );
                                     return StatefulBuilder(
-                                      builder: (BuildContext context, void Function(void Function()) innerSetState2) {
+                                      builder: (BuildContext context,
+                                          void Function(void Function())
+                                              innerSetState2) {
                                         return ListView.builder(
                                           shrinkWrap: true,
-                                          itemCount: state.assessmentQuestionsEntity.data.length,
-                                          itemBuilder: (BuildContext context, int index) => Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                                          itemCount: state
+                                              .assessmentQuestionsEntity
+                                              .data
+                                              .length,
+                                          itemBuilder: (BuildContext context,
+                                                  int index) =>
+                                              Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 4.0),
                                             child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(12.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
                                               child: ListTile(
                                                 tileColor: Colors.grey[200],
                                                 onTap: () {
-                                                  _currentQuestionId = state.assessmentQuestionsEntity.data[index].id;
-                                                  _questionController.text = state.assessmentQuestionsEntity.data[index].name;
-                                                  _option1Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[0].name;
-                                                  _option2Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[1].name;
-                                                  _option3Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[2].name;
-                                                  _option4Controller.text = state.assessmentQuestionsEntity.data[index].questions_options[3].name;
-                                                  _hintController.text = state.assessmentQuestionsEntity.data[index].hint;
-                                                  _solutionController.text = state.assessmentQuestionsEntity.data[index].solution;
+                                                  _currentQuestionId = state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .id;
+                                                  _questionController.text = state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .name;
+                                                  _option1Controller.text = state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .questions_options[0]
+                                                      .name;
+                                                  _option2Controller.text = state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .questions_options[1]
+                                                      .name;
+                                                  _option3Controller.text = state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .questions_options[2]
+                                                      .name;
+                                                  _option4Controller.text = state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .questions_options[3]
+                                                      .name;
+                                                  _hintController.text = state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .hint;
+                                                  _solutionController.text = state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .solution;
                                                   setState(() {});
                                                 },
                                                 leading: Text(
                                                   'Q ${index + 1}',
-                                                  style: Theme.of(context).textTheme.headline6,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6,
                                                 ),
                                                 title: Text(
-                                                  state.assessmentQuestionsEntity.data[index].name,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .name,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   maxLines: 3,
-                                                  style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 14.0),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6
+                                                      .copyWith(fontSize: 14.0),
                                                 ),
                                               ),
                                             ),
@@ -296,7 +349,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   }
                                   if (state is QuestionsToAnAssessmentEmpty) {
                                     return Center(
-                                      child: Text('Add Questions to this Assessment'),
+                                      child: Text(
+                                          'Add Questions to this Assessment'),
                                     );
                                   } else {
                                     return Center(
@@ -309,7 +363,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                           ),
                         ),
                         StatefulBuilder(
-                          builder: (BuildContext context, void Function(void Function()) setState) {
+                          builder: (BuildContext context,
+                              void Function(void Function()) setState) {
                             return Expanded(
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
@@ -333,15 +388,18 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                 child: SingleChildScrollView(
                                   physics: BouncingScrollPhysics(),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin: EdgeInsets.all(12),
-                                        padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 14.0, bottom: 14.0),
                                         height: height * 0.17,
                                         decoration: BoxDecoration(
                                           color: Colors.grey[200],
-                                          borderRadius: BorderRadius.circular(18.0),
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
                                         ),
                                         child: Row(
                                           children: [
@@ -351,14 +409,15 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                 controller: _questionController,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                  fontSize: 28.0,
+                                                  fontSize: 24.0,
                                                 ),
                                                 decoration: InputDecoration(
-                                                  hintText: "Click to start typing your question",
-                                                  hintStyle: Theme.of(context).textTheme.headline1.copyWith(
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Colors.grey,
-                                                      ),
+                                                  hintText:
+                                                      "Click to start typing your question",
+                                                  hintStyle: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.grey,
+                                                  ),
                                                   border: InputBorder.none,
                                                   fillColor: Colors.grey[200],
                                                   filled: true,
@@ -371,24 +430,50 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                       height: height * 0.15,
                                                       width: width * 0.15,
                                                       decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(18.0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(18.0),
                                                         color: Colors.grey[100],
                                                       ),
-                                                      margin: const EdgeInsets.all(12.0),
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              12.0),
                                                       child: FlatButton(
                                                         onPressed: getImage,
                                                         child: Padding(
-                                                          padding: const EdgeInsets.symmetric(vertical: 18.0),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical:
+                                                                      18.0),
                                                           child: Row(
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
                                                             children: [
-                                                              Image.asset(
-                                                                'assets/icons/upload_image.png',
-                                                                height: height * 0.04,
+                                                              Padding(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    horizontal:
+                                                                        8.0),
+                                                                child:
+                                                                    Image.asset(
+                                                                  'assets/icons/upload_image.png',
+                                                                  height:
+                                                                      height *
+                                                                          0.03,
+                                                                ),
                                                               ),
-                                                              SizedBox(width: 48.0),
-                                                              Text('Upload Image'),
+                                                              Text(
+                                                                  'Upload Image',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                  )),
                                                             ],
                                                           ),
                                                         ),
@@ -397,11 +482,16 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   )
                                                 : Center(
                                                     child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: [
                                                         Image.memory(
-                                                          base64Decode(_question),
+                                                          base64Decode(
+                                                              _question),
                                                           height: height * 0.15,
                                                           width: height * 0.15,
                                                           fit: BoxFit.contain,
@@ -410,7 +500,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                           width: 18.0,
                                                         ),
                                                         FlatButton.icon(
-                                                          color: Colors.grey[200],
+                                                          color:
+                                                              Colors.grey[200],
                                                           onPressed: getImage,
                                                           icon: Icon(
                                                             Icons.edit,
@@ -424,9 +515,11 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               children: [
@@ -446,7 +539,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                         value: 1,
                                                       ),
                                                       DropdownMenuItem(
-                                                        child: Text('Understand'),
+                                                        child:
+                                                            Text('Understand'),
                                                         value: 2,
                                                       ),
                                                       DropdownMenuItem(
@@ -460,7 +554,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                     ],
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        widget._bloomValue = value;
+                                                        widget._bloomValue =
+                                                            value;
                                                       });
                                                     }),
                                               ],
@@ -517,9 +612,16 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   myValue: 0,
                                                   groupValue: _correctAnswer,
                                                   myFocusNode: _option1Node,
-                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(() => _option1Controller.text = value),
-                                                  optionImagePicker: () => getOptionImage(1),
+                                                  onChanged: (int value) =>
+                                                      setState(() =>
+                                                          _correctAnswer =
+                                                              value),
+                                                  onTap: (String value) =>
+                                                      setState(() =>
+                                                          _option1Controller
+                                                              .text = value),
+                                                  optionImagePicker: () =>
+                                                      getOptionImage(1),
                                                   image: _option1,
                                                   color: Color(0xFFC04DD8),
                                                   label: 'Enter Option',
@@ -533,9 +635,16 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   myValue: 1,
                                                   groupValue: _correctAnswer,
                                                   myFocusNode: _option2Node,
-                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(() => _option2Controller.text = value),
-                                                  optionImagePicker: () => getOptionImage(2),
+                                                  onChanged: (int value) =>
+                                                      setState(() =>
+                                                          _correctAnswer =
+                                                              value),
+                                                  onTap: (String value) =>
+                                                      setState(() =>
+                                                          _option2Controller
+                                                              .text = value),
+                                                  optionImagePicker: () =>
+                                                      getOptionImage(2),
                                                   image: _option2,
                                                   color: Color(0xFF4FB277),
                                                   label: 'Enter Option',
@@ -556,12 +665,20 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   myValue: 2,
                                                   groupValue: _correctAnswer,
                                                   myFocusNode: _option3Node,
-                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(() => _option3Controller.text = value),
-                                                  optionImagePicker: () => getOptionImage(3),
+                                                  onChanged: (int value) =>
+                                                      setState(() =>
+                                                          _correctAnswer =
+                                                              value),
+                                                  onTap: (String value) =>
+                                                      setState(() =>
+                                                          _option3Controller
+                                                              .text = value),
+                                                  optionImagePicker: () =>
+                                                      getOptionImage(3),
                                                   image: _option3,
                                                   color: Color(0xFF508AE0),
-                                                  label: 'Enter Option(Optional)',
+                                                  label:
+                                                      'Enter Option(Optional)',
                                                 ),
                                               ),
                                             ),
@@ -572,12 +689,20 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                   myValue: 3,
                                                   groupValue: _correctAnswer,
                                                   myFocusNode: _option4Node,
-                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(() => _option4Controller.text = value),
-                                                  optionImagePicker: () => getOptionImage(4),
+                                                  onChanged: (int value) =>
+                                                      setState(() =>
+                                                          _correctAnswer =
+                                                              value),
+                                                  onTap: (String value) =>
+                                                      setState(() =>
+                                                          _option4Controller
+                                                              .text = value),
+                                                  optionImagePicker: () =>
+                                                      getOptionImage(4),
                                                   image: _option4,
                                                   color: Color(0xFF4ED8DA),
-                                                  label: 'Enter Option(Optional)',
+                                                  label:
+                                                      'Enter Option(Optional)',
                                                 ),
                                               ),
                                             ),
@@ -592,41 +717,62 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                 myValue: 4,
                                                 groupValue: _correctAnswer,
                                                 myFocusNode: _option3Node,
-                                                onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                onTap: (String value) => setState(() => _option3Controller.text = value),
-                                                optionImagePicker: () => getOptionImage(3),
+                                                onChanged: (int value) =>
+                                                    setState(() =>
+                                                        _correctAnswer = value),
+                                                onTap: (String value) =>
+                                                    setState(() =>
+                                                        _option3Controller
+                                                            .text = value),
+                                                optionImagePicker: () =>
+                                                    getOptionImage(3),
                                                 image: _option5,
                                                 color: Color(0xFFff6b6b),
                                                 label: 'Enter Option(Optional)',
                                               ),
                                             )
                                           : InkWell(
-                                              onTap: () => setState(() => widget.option5Selected = true),
+                                              onTap: () => setState(() => widget
+                                                  .option5Selected = true),
                                               child: Container(
                                                 // height: height * 0.118,
                                                 width: width * 0.12,
-                                                margin: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4.0),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 14.0,
+                                                        vertical: 4.0),
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(8.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
                                                   color: Color(0xFFff6b6b),
                                                 ),
-                                                padding: const EdgeInsets.symmetric(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
                                                   vertical: 12.0,
-                                                  horizontal: 22.0,
                                                 ),
                                                 alignment: Alignment.center,
                                                 child: Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
-                                                    Icon(
-                                                      Icons.add,
-                                                      color: Colors.white,
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 8.0),
+                                                      child: Icon(
+                                                        Icons.add,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
-                                                    SizedBox(width: 16.0),
                                                     Text(
                                                       'Add Option',
-                                                      style: TextStyle(color: Colors.white),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -634,12 +780,14 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                             ),
                                       _showHint
                                           ? Padding(
-                                              padding: const EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 vertical: 12.0,
                                                 horizontal: 14.0,
                                               ),
                                               child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(12.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
                                                 child: TextField(
                                                   maxLines: 2,
                                                   controller: _hintController,
@@ -656,15 +804,18 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                           : SizedBox.shrink(),
                                       _showSoltuion
                                           ? Padding(
-                                              padding: const EdgeInsets.symmetric(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                 vertical: 12.0,
                                                 horizontal: 14.0,
                                               ),
                                               child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(12.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
                                                 child: TextField(
                                                   maxLines: 2,
-                                                  controller: _solutionController,
+                                                  controller:
+                                                      _solutionController,
                                                   textAlign: TextAlign.center,
                                                   decoration: InputDecoration(
                                                     hintText: "Solution",
@@ -680,10 +831,12 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                         height: 12.0,
                                       ),
                                       Container(
-                                        margin: const EdgeInsets.symmetric(horizontal: 14.0),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 14.0),
                                         decoration: BoxDecoration(
                                           color: Colors.grey[200],
-                                          borderRadius: BorderRadius.circular(12.0),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
                                         ),
                                         child: TextField(
                                           maxLines: 1,
@@ -709,7 +862,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                         SizedBox(
                           width: width * 0.13,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 12.0, right: 22.0),
+                            padding:
+                                const EdgeInsets.only(top: 12.0, right: 22.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
@@ -721,7 +875,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                     ),
                                     Switch(
                                       value: isPublic,
-                                      activeColor: Theme.of(context).primaryColor,
+                                      activeColor:
+                                          Theme.of(context).primaryColor,
                                       onChanged: (flag) {
                                         setState(
                                           () {
@@ -736,7 +891,8 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   height: 12.0,
                                 ),
                                 StatefulBuilder(
-                                  builder: (BuildContext context, void Function(void Function()) setState) {
+                                  builder: (BuildContext context,
+                                      void Function(void Function()) setState) {
                                     return Container(
                                       padding: EdgeInsets.symmetric(
                                         vertical: height * 0.02,
@@ -744,33 +900,47 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       ),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12.0),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.2),
+                                            color:
+                                                Colors.black.withOpacity(0.2),
                                             blurRadius: 6.0,
                                           ),
                                         ],
                                       ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text("Tag Topics"),
                                           BlocBuilder(
-                                            cubit: context.bloc<TopicCubit>()..getTopics(45),
-                                            builder: (BuildContext context, state) {
+                                            cubit: context.bloc<TopicCubit>()
+                                              ..getTopics(45),
+                                            builder:
+                                                (BuildContext context, state) {
                                               if (state is TopicFetched) {
                                                 return Container(
                                                   width: 200,
-                                                  child: ChipsChoice<Map<String, dynamic>>.multiple(
+                                                  child: ChipsChoice<
+                                                      Map<String,
+                                                          dynamic>>.multiple(
                                                     value: topics,
                                                     isWrapped: true,
-                                                    options: ChipsChoiceOption.listFrom(
-                                                      source: state.topicEntity.data,
-                                                      value: (i, Data v) => {'id': v.id, 'type': v.type},
-                                                      label: (i, Data v) => v.name,
+                                                    options: ChipsChoiceOption
+                                                        .listFrom(
+                                                      source: state
+                                                          .topicEntity.data,
+                                                      value: (i, Data v) => {
+                                                        'id': v.id,
+                                                        'type': v.type
+                                                      },
+                                                      label: (i, Data v) =>
+                                                          v.name,
                                                     ),
                                                     onChanged: (val) {
                                                       setState(
@@ -781,10 +951,11 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                 );
                                               }
                                               if (state is TopicEmpty) {
-                                                return Text('No topcis to Tag');
+                                                return Text('No topics to Tag');
                                               } else {
                                                 return Center(
-                                                  child: CircularProgressIndicator(),
+                                                  child:
+                                                      CircularProgressIndicator(),
                                                 );
                                               }
                                             },
@@ -795,33 +966,36 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   },
                                 ),
                                 SizedBox(
-                                  height: 12.0,
+                                  height: 8.0,
                                 ),
                                 RaisedButton(
-                                  onPressed: () => setState(() => _showHint = true),
+                                  onPressed: () =>
+                                      setState(() => _showHint = true),
                                   child: Text(
                                     'Add Hint',
                                     style: Theme.of(context).textTheme.button,
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 12.0,
+                                  height: 8.0,
                                 ),
                                 RaisedButton(
-                                  onPressed: () => setState(() => _showSoltuion = true),
+                                  onPressed: () =>
+                                      setState(() => _showSoltuion = true),
                                   child: Text(
                                     'Add Solution',
                                     style: Theme.of(context).textTheme.button,
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 12.0,
+                                  height: 8.0,
                                 ),
                                 Visibility(
                                   visible: _currentQuestionId != null,
                                   child: RaisedButton(
                                     onPressed: () {
-                                      questions.removeWhere((element) => element == _currentQuestionId);
+                                      questions.removeWhere((element) =>
+                                          element == _currentQuestionId);
                                       _questionController.text = "";
                                       _option1Controller.text = "";
                                       _option2Controller.text = "";
@@ -829,8 +1003,14 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                       _option4Controller.text = "";
                                       _hintController.text = "";
                                       _solutionController.text = "";
-                                      context.bloc<QuestionAddCubit>().deleteQuestion(widget._assessmentId, questions);
-                                      context.bloc<QuestionsCubit>().getQuestionsToAnAssessment(widget._assessmentId);
+                                      context
+                                          .bloc<QuestionAddCubit>()
+                                          .deleteQuestion(
+                                              widget._assessmentId, questions);
+                                      context
+                                          .bloc<QuestionsCubit>()
+                                          .getQuestionsToAnAssessment(
+                                              widget._assessmentId);
                                       _currentQuestionId = null;
                                       setState(() {});
                                     },
@@ -843,37 +1023,43 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                 RaisedButton(
                                   color: Theme.of(context).primaryColor,
                                   onPressed: () {
-                                    if (widget._questionType == QuestionType.Objective) {
-                                      context.bloc<AddQuestionCubit>().addQuestion(
-                                          _questionController.text,
-                                          topics,
-                                          [
-                                            _option1Controller.text,
-                                            _option2Controller.text,
-                                            _option3Controller.text,
-                                            _option4Controller.text,
-                                            _option5Controller.text,
-                                          ],
-                                          widget._bloomValue,
-                                          difficultylevel,
-                                          _sourceController.text,
-                                          isPublic ? 'public' : 'private',
-                                          1,
-                                          _correctAnswer,
-                                          _option1Image,
-                                          _option2Image,
-                                          _option3Image,
-                                          _option4Image,
-                                          _option5Image,
-                                          _questionImage,
-                                          widget._assessmentId,
-                                          questions,
-                                          _hintController.text,
-                                          _solutionController.text,
-                                          false);
+                                    if (widget._questionType ==
+                                        QuestionType.Objective) {
+                                      context
+                                          .bloc<AddQuestionCubit>()
+                                          .addQuestion(
+                                              _questionController.text,
+                                              topics,
+                                              [
+                                                _option1Controller.text,
+                                                _option2Controller.text,
+                                                _option3Controller.text,
+                                                _option4Controller.text,
+                                                _option5Controller.text,
+                                              ],
+                                              widget._bloomValue,
+                                              difficultylevel,
+                                              _sourceController.text,
+                                              isPublic ? 'public' : 'private',
+                                              1,
+                                              _correctAnswer,
+                                              _option1Image,
+                                              _option2Image,
+                                              _option3Image,
+                                              _option4Image,
+                                              _option5Image,
+                                              _questionImage,
+                                              widget._assessmentId,
+                                              questions,
+                                              _hintController.text,
+                                              _solutionController.text,
+                                              false);
 
                                       Future.delayed(
-                                          Duration(seconds: 1), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                          Duration(seconds: 1),
+                                          () => _questionFetchCubit
+                                              .getQuestionsToAnAssessment(
+                                                  widget._assessmentId));
                                     } else {}
                                   },
                                   child: Icon(
@@ -965,7 +1151,10 @@ class OptionField extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: label,
-                hintStyle: Theme.of(context).textTheme.headline5.copyWith(color: Colors.black54),
+                hintStyle: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(color: Colors.black54),
               ),
               onChanged: onTap,
             ),
@@ -1096,7 +1285,9 @@ class LeftPane extends StatelessWidget {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.4,
-            child: ListView.builder(itemCount: quesCount, itemBuilder: (context, index) => _buildlist(index)),
+            child: ListView.builder(
+                itemCount: quesCount,
+                itemBuilder: (context, index) => _buildlist(index)),
           ),
           FlatButton(
             onPressed: null,

@@ -140,7 +140,7 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
   Widget _buildCoursesGrid(BuildContext context, CoursesFetched state) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height / 1.56,
+        height: MediaQuery.of(context).size.height / 1.6,
         child: Scrollbar(
           isAlwaysShown: true,
           controller: _scrollController,
@@ -214,18 +214,16 @@ class _CoursesLandingScreenState extends State<CoursesLandingScreen> {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 6,
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        state.coursesEntity.data[index].name,
-                        softWrap: true,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                    child: Text(
+                      state.coursesEntity.data[index].name,
+                      softWrap: true,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   // Wrap(

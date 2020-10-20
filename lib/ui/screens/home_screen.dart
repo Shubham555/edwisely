@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           _upcomingEventsList(),
                           //spacing
                           SizedBox(
-                            height: screenSize.height * 0.02,
+                            height: screenSize.height * 0.01,
                           ),
                           //heading text
                           Text(
@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _peerActivityList() {
     return Container(
-      height: screenSize.height * 0.25,
+      height: screenSize.height * 0.375,
       margin: const EdgeInsets.only(
         right: 22.0,
         top: 12.0,
@@ -184,13 +184,15 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context, state) {
         if (state is HomeScreenDefaultFetched) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Upcoming',
                 style: textTheme.headline2,
+                textAlign: TextAlign.start,
               ),
               Container(
-                height: screenSize.height * 0.25,
+                height: screenSize.height * 0.375,
                 width: screenSize.width * .25,
                 margin: const EdgeInsets.only(
                   right: 22.0,

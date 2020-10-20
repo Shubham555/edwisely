@@ -218,7 +218,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                         ),
                                         //spacing
                                         SizedBox(
-                                          height: screenSize.height * 0.03,
+                                          height: screenSize.height * 0.01,
                                         ),
                                         //description
                                         TextInput(
@@ -237,7 +237,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                         ),
                                         //spacing
                                         SizedBox(
-                                          height: screenSize.height * 0.03,
+                                          height: screenSize.height * 0.01,
                                         ),
                                         //start and end time
                                         Text(
@@ -416,7 +416,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                         ),
                                         //spacing
                                         SizedBox(
-                                          height: screenSize.height * 0.03,
+                                          height: screenSize.height * 0.01,
                                         ),
                                         //spacing
                                         Text(
@@ -645,13 +645,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                         SizedBox(width: 8.0),
                                                         Text(
                                                           'Students',
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .headline5
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .white),
+                                                          style: TextStyle(color: Colors.white,),
                                                         ),
                                                         Spacer(),
                                                         VerticalDivider(

@@ -120,9 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       width: screenSize.width * 0.3,
       height: screenSize.height,
-      padding: const EdgeInsets.symmetric(
-        vertical: 12.0,
-        horizontal: 62.0,
+      padding: EdgeInsets.symmetric(
+        horizontal: screenSize.width * 0.03,
       ),
       color: EdwiselyTheme.NAV_BAR_COLOR,
       child: Column(
@@ -171,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           //spacing
           SizedBox(
-            height: screenSize.height * 0.03,
+            height: screenSize.height * 0.02,
           ),
           //password text input
           TextInput(
@@ -273,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           //divider
           Padding(
-            padding: const EdgeInsets.all(22.0),
+            padding: const EdgeInsets.all(10.0),
             child: Divider(
               color: Colors.black.withOpacity(0.4),
               thickness: 0.2,
