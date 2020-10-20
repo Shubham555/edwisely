@@ -67,8 +67,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
     if (screenSize.width < 1366) {
       _sidebarWidth = _isNavigationDrawerCollapsed
-          ? screenSize.width * 0.1
-          : screenSize.width * 0.28;
+          ? screenSize.width * 0.07
+          : screenSize.width * 0.17;
     } else {
       _sidebarWidth = _isNavigationDrawerCollapsed
           ? screenSize.width * 0.06
