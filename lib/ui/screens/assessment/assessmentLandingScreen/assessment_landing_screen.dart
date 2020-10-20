@@ -88,7 +88,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: 12.0,
-                      horizontal: MediaQuery.of(context).size.width * 0.17,
+                      horizontal: MediaQuery.of(context).size.width * 0.15,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

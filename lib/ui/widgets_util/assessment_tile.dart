@@ -75,6 +75,7 @@ class AssessmentTile extends StatelessWidget {
                                 .textTheme
                                 .headline5
                                 .copyWith(fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
