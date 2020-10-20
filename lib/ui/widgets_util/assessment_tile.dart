@@ -67,16 +67,14 @@ class AssessmentTile extends StatelessWidget {
                     children: [
                       Container(
                         height: _screenSize.height * 0.035,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                            title,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5
-                                .copyWith(fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        width: _screenSize.width * 0.15,
+                        child: Text(
+                          title,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Container(
