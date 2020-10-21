@@ -43,7 +43,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                     cubit: context.bloc<ObjectiveBloc>(),
                     listener: (BuildContext context, state) {
                       if (state is ObjectiveAssessmentCreated) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
@@ -71,7 +71,7 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                     cubit: context.bloc<SubjectiveBloc>(),
                     listener: (BuildContext context, state) {
                       if (state is SubjectiveAssessmentCreated) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
