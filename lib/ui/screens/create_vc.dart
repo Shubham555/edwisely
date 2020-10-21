@@ -64,9 +64,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: _vcStart,
-      lastDate: DateTime.now().add(
-        Duration(days: 100),
-      ),
+      lastDate: _vcStart
     ).catchError(() {
       _vcEnd = null;
     });

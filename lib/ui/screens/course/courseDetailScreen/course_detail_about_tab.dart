@@ -33,14 +33,11 @@ class CourseDetailAboutTab extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Visibility(
-                            visible: state.courseEntity.data.description != '',
-                            child: Text(
-                              'Course Description',
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height / 40,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          Text(
+                            'Course Description',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
@@ -52,15 +49,12 @@ class CourseDetailAboutTab extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          Visibility(
-                            visible: state.courseEntity.data.objectives.isNotEmpty,
-                            child: Text(
-                              'Learning Objectives',
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height / 40,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                          Text(
+                            'Learning Objectives',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                           SizedBox(
@@ -76,7 +70,8 @@ class CourseDetailAboutTab extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
                                       width: 10,
                                       height: 10,
                                       decoration: BoxDecoration(
@@ -90,7 +85,8 @@ class CourseDetailAboutTab extends StatelessWidget {
                                       width: 10,
                                     ),
                                     Text(
-                                      state.courseEntity.data.objectives[index].trim(),
+                                      state.courseEntity.data.objectives[index]
+                                          .trim(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.grey.shade600,
@@ -105,15 +101,12 @@ class CourseDetailAboutTab extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          Visibility(
-                            visible: state.courseEntity.data.outcomes.isNotEmpty,
-                            child: Text(
-                              'Learning Outcomes',
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height / 40,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                          Text(
+                            'Learning Outcomes',
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height / 40,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           ),
                           SizedBox(
@@ -131,7 +124,8 @@ class CourseDetailAboutTab extends StatelessWidget {
                                     Container(
                                       width: 10,
                                       height: 10,
-                                      margin: const EdgeInsets.symmetric(vertical: 4.0),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 4.0),
                                       decoration: BoxDecoration(
                                         color: Colors.black,
                                         borderRadius: BorderRadius.circular(
@@ -143,7 +137,8 @@ class CourseDetailAboutTab extends StatelessWidget {
                                       width: 10,
                                     ),
                                     Text(
-                                      state.courseEntity.data.outcomes[index].trim(),
+                                      state.courseEntity.data.outcomes[index]
+                                          .trim(),
                                       style: TextStyle(
                                         color: Colors.grey.shade600,
                                         fontSize: 16.0,
@@ -206,7 +201,8 @@ class CourseDetailAboutTab extends StatelessWidget {
                                 Text(
                                   'Your Classes',
                                   style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height / 40,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 40,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
@@ -219,7 +215,8 @@ class CourseDetailAboutTab extends StatelessWidget {
                                   children: List.generate(
                                     state.courseEntity.data.sections.length,
                                     (index) => Text(
-                                      state.courseEntity.data.sections[index].name,
+                                      state.courseEntity.data.sections[index]
+                                          .name,
                                       style: TextStyle(
                                         color: Colors.black,
                                       ),

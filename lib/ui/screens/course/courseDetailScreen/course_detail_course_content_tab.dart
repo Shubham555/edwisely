@@ -672,94 +672,105 @@ class _CourseDetailCourseContentTabState
                                               'assets/icons/filesTypes/html.png';
                                           break;
                                       }
-                                      return ListTile(
-                                          onTap: () async {
-                                            html.window.open(
-                                                state.data[index].file_url,
-                                                state.data[index].title);
-                                          },
-                                          leading: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                              fileType,
-                                              // height: 24.0,
-                                              // width: 24.0,
-                                              fit: BoxFit.contain,
-                                            ),
-                                          ),
-                                          // Text(state.data[index].type),
-                                          // leading: state.data[index].,
-                                          title: Row(
-                                            children: [
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    7,
-                                                child: Text(
-                                                  state.data[index].title ?? '',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                      return state.data[index].source.isEmpty
+                                          ? Container()
+                                          : ListTile(
+                                              onTap: () async {
+                                                html.window.open(
+                                                    state.data[index].file_url,
+                                                    state.data[index].title);
+                                              },
+                                              leading: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Image.asset(
+                                                  fileType,
+                                                  // height: 24.0,
+                                                  // width: 24.0,
+                                                  fit: BoxFit.contain,
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 30,
-                                              ),
-                                              state.data[index].level == -1 ||
-                                                      state.data[index].level ==
-                                                          null
-                                                  ? Container()
-                                                  : Text('Level - $level '),
-                                              SizedBox(
-                                                width: 30,
-                                              ),
-                                              state.data[index].readtime == 0 ||
-                                                      state.data[index]
-                                                              .readtime ==
-                                                          null
-                                                  ? Container()
-                                                  : Text(
-                                                      'ReadingTime - ${state.data[index].readtime}'),
-                                            ],
-                                          ),
-                                          subtitle: Text(
-                                            'Source - ${state.data[index].source ?? ''}',
-                                          ),
-                                          trailing: PopupMenuButton(
-                                            onSelected: (string) {
-                                              switch (string) {
-                                                case 'Bookmark':
-                                                  _bookmark(state.data[index]);
-                                                  break;
-                                                case 'Delete':
-                                                  _delete(state.data[index]);
-                                                  break;
-                                                case 'Edit':
-                                                  _showDialog(
-                                                      context,
-                                                      CourseContentAddType
-                                                          .editing,
-                                                      data: state.data[index]);
-                                                // case 'Change Type':
-                                                //   _changeType(state.data[index]);
-                                                //   break;
-                                              }
-                                            },
-                                            itemBuilder: (context) {
-                                              return [
-                                                'Edit',
-                                                'Bookmark',
-                                                'Delete',
-                                              ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
-                                                  .map(
-                                                    (e) => PopupMenuItem(
-                                                      child: Text(e),
-                                                      value: e,
+                                              // Text(state.data[index].type),
+                                              // leading: state.data[index].,
+                                              title: Row(
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            7,
+                                                    child: Text(
+                                                      state.data[index].title ??
+                                                          '',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
-                                                  )
-                                                  .toList();
-                                            },
-                                          ));
+                                                  ),
+                                                  SizedBox(
+                                                    width: 30,
+                                                  ),
+                                                  state.data[index].level ==
+                                                              -1 ||
+                                                          state.data[index]
+                                                                  .level ==
+                                                              null
+                                                      ? Container()
+                                                      : Text('Level - $level '),
+                                                  SizedBox(
+                                                    width: 30,
+                                                  ),
+                                                  state.data[index].readtime ==
+                                                              0 ||
+                                                          state.data[index]
+                                                                  .readtime ==
+                                                              null
+                                                      ? Container()
+                                                      : Text(
+                                                          'ReadingTime - ${state.data[index].readtime}'),
+                                                ],
+                                              ),
+                                              subtitle: Text(
+                                                'Source - ${state.data[index].source ?? ''}',
+                                              ),
+                                              trailing: PopupMenuButton(
+                                                onSelected: (string) {
+                                                  switch (string) {
+                                                    case 'Bookmark':
+                                                      _bookmark(
+                                                          state.data[index]);
+                                                      break;
+                                                    case 'Delete':
+                                                      _delete(
+                                                          state.data[index]);
+                                                      break;
+                                                    case 'Edit':
+                                                      _showDialog(
+                                                          context,
+                                                          CourseContentAddType
+                                                              .editing,
+                                                          data: state
+                                                              .data[index]);
+                                                    // case 'Change Type':
+                                                    //   _changeType(state.data[index]);
+                                                    //   break;
+                                                  }
+                                                },
+                                                itemBuilder: (context) {
+                                                  return [
+                                                    'Edit',
+                                                    'Bookmark',
+                                                    'Delete',
+                                                  ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                      .map(
+                                                        (e) => PopupMenuItem(
+                                                          child: Text(e),
+                                                          value: e,
+                                                        ),
+                                                      )
+                                                      .toList();
+                                                },
+                                              ));
                                     },
                                   ),
                                 ],
