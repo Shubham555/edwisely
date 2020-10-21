@@ -192,6 +192,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                               horizontal: screenSize.width * 0.155,
                             ),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
                                   width: screenSize.width * 0.3,
