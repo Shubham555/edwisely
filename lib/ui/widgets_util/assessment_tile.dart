@@ -66,14 +66,13 @@ class AssessmentTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: _screenSize.height * 0.035,
                         width: _screenSize.width * 0.15,
                         child: Text(
                           title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              .copyWith(fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.headline5.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

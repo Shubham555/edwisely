@@ -198,6 +198,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                   child: Form(
                                     key: _formKey,
                                     child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -225,7 +227,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                           label: 'Description',
                                           hint: 'Enter the description here',
                                           inputType: TextInputType.multiline,
-                                          maxLines: 4,
+                                          maxLines: 3,
                                           onSaved: (String value) =>
                                               _description = value.trim(),
                                           validator: (String value) {
@@ -301,10 +303,9 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                                       'EEE d MMM yyyy')
                                                                   .format(
                                                                       _vcStart),
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .headline5,
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                          ),
                                                         ),
                                                       ),
                                                       SizedBox(
@@ -326,10 +327,9 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                           _vcStartTime == null
                                                               ? 'Pick Time'
                                                               : 'at ${_vcStartTime.format(context).toString()}',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .headline5,
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
@@ -376,10 +376,9 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                                       'EEE d MMM yyyy')
                                                                   .format(
                                                                       _vcEnd),
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .headline5,
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                          ),
                                                         ),
                                                       ),
                                                       SizedBox(
@@ -401,10 +400,9 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                           _vcEndTime == null
                                                               ? 'Pick Time'
                                                               : 'at ${_vcEndTime.format(context).toString()}',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .headline5,
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
@@ -645,7 +643,9 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                                         SizedBox(width: 8.0),
                                                         Text(
                                                           'Students',
-                                                          style: TextStyle(color: Colors.white,),
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
                                                         ),
                                                         Spacer(),
                                                         VerticalDivider(

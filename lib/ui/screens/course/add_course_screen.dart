@@ -378,12 +378,12 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                 horizontal: 18.0,
                 vertical: MediaQuery.of(context).size.height * 0.0001),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.07,
+              height: MediaQuery.of(context).size.height * 0.08,
               width: double.infinity,
               child: AutoSizeText(
                 courses[upperIndex].name,
-                maxLines: 3,
-                maxFontSize: 28.0,
+                maxLines: 2,
+                maxFontSize: 24.0,
                 minFontSize: 18.0,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
@@ -449,20 +449,26 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.04,
                 width: MediaQuery.of(context).size.width * 0.03,
-                child: RaisedButton(
-                  onPressed: () => _showDialog(
+                child: GestureDetector(
+                  onTap: () => _showDialog(
                     context,
                     courses[upperIndex],
                     courses[upperIndex].departments,
                     state.sectionEntity,
                   ),
-                  color: Theme.of(context).primaryColor,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Icon(
-                      Icons.add,
-                      size: MediaQuery.of(context).size.height * 0.02,
-                      color: Colors.white,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Icon(
+                        Icons.add,
+                        size: MediaQuery.of(context).size.height * 0.02,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),

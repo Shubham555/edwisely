@@ -163,7 +163,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                             label: 'Description',
                                             hint: 'Enter the description here',
                                             inputType: TextInputType.multiline,
-                                            maxLines: 4,
+                                            maxLines: 3,
                                             onSaved: (String value) =>
                                                 _description = value.trim(),
                                             validator: (String value) {
@@ -185,6 +185,8 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                             children: [
                                               //priority widget
                                               Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
@@ -192,15 +194,12 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                     children: [
                                                       Text(
                                                         'Priority',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline6
-                                                            .copyWith(
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
                                                       ),
-                                                      SizedBox(width: 34.0),
                                                       Switch(
                                                         onChanged:
                                                             (bool value) =>
@@ -216,14 +215,12 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        'Comments \nAnonymous',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline6
-                                                            .copyWith(
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
+                                                        'Anonymous comments',
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
                                                       ),
                                                       Switch(
                                                         onChanged:
@@ -244,9 +241,15 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                               Spacer(),
                                               Column(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  Text('Select Attachment'),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 8.0),
+                                                    child: Text(
+                                                        'Select Attachment'),
+                                                  ),
                                                   InkWell(
                                                     onTap: () async {
                                                       file =
@@ -261,7 +264,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                           0.08,
                                                       height:
                                                           screenSize.height *
-                                                              0.09,
+                                                              0.05,
                                                       decoration: BoxDecoration(
                                                         color: Colors.white,
                                                         borderRadius:
@@ -283,8 +286,8 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                             )
                                                           : Image.asset(
                                                               'assets/icons/upload.png',
-                                                              width: 24.0,
-                                                              height: 32.0,
+                                                              width: 18.0,
+                                                              height: 24.0,
                                                             ),
                                                     ),
                                                   ),
