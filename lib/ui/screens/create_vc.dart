@@ -40,9 +40,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
     return showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(
-        Duration(days: 100),
-      ),
+      firstDate: DateTime.now(),
       lastDate: DateTime.now().add(
         Duration(days: 100),
       ),

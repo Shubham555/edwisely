@@ -41,7 +41,6 @@ import 'util/theme.dart';
 int departmentId;
 int collegeId;
 String loginToken;
-bool isTestMode = true;
 
 main() {
   _initializeVariables();

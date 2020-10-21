@@ -120,11 +120,6 @@ class _LoginScreenState extends State<LoginScreen> {
   ) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-
-    if (isTestMode) {
-      emailController.text = 'prakash@edwisely.com';
-      passwordController.text = '12345';
-    }
     return Container(
       width: screenSize.width * 0.3,
       height: screenSize.height,

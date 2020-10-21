@@ -1020,7 +1020,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.arrow_back_ios,
                   color: Colors.black,
                 ),
-                onPressed: () {}, // TODO: Function missing
+                /* no-op */
+                onPressed: () {},
               ),
             ),
           ),
@@ -1041,7 +1042,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Icons.arrow_forward_ios,
                   color: Colors.black,
                 ),
-                onPressed: () {}, // TODO: Function missing
+                /* no-op */
+                onPressed: () {},
               ),
             ),
           ),
