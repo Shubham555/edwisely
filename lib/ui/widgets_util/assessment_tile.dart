@@ -183,10 +183,7 @@ class AssessmentTile extends StatelessWidget {
                 SizedBox(width: 4.0),
                 Text(
                   '$noOfQuestions',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 //spacing
                 Spacer(),
@@ -201,10 +198,7 @@ class AssessmentTile extends StatelessWidget {
                       SizedBox(width: 4.0),
                       Text(
                         '$sentTo',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -215,16 +209,13 @@ class AssessmentTile extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Answered : ',
+                        'Answered:',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                       SizedBox(width: 4.0),
                       Text(
                         '$answeredCount',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
