@@ -60,11 +60,11 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
 
   Future<DateTime> _pickEndDate() async {
     return showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: _vcStart,
-      lastDate: _vcStart
-    ).catchError(() {
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: _vcStart,
+            lastDate: _vcStart)
+        .catchError(() {
       _vcEnd = null;
     });
   }
@@ -580,7 +580,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                     builder: (BuildContext context, state) {
                                       if (state
                                           is SelectStudentsStudentsFetched) {
-                                        bool selectAll = false;
+                                        bool selectAll = students.toSet().containsAll(state.studentsEntity.data.map((e) => e.id));
                                         return StatefulBuilder(
                                           builder:
                                               (BuildContext context, setState) {
