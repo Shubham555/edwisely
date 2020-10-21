@@ -219,14 +219,13 @@ class AssessmentTile extends StatelessWidget {
                       ),
                     ],
                   ),
-                Spacer(),
                 //send button
                 isDateVisible
                     ? SizedBox.shrink()
                     : SizedBox(
                         width: MediaQuery.of(context).size.width * 0.06,
-                        child: RaisedButton(
-                          onPressed: () {
+                        child: GestureDetector(
+                          onTap: () {
                             if (int.parse(noOfQuestions) == 0) {
                               Navigator.push(
                                 context,
@@ -255,15 +254,21 @@ class AssessmentTile extends StatelessWidget {
                               );
                             }
                           },
-                          color: Theme.of(context).primaryColor,
-                          elevation: 2.0,
-                          child: Text(
-                            int.parse(noOfQuestions) == 0 ? 'Add' : 'Send',
-                            maxLines: 1,
-                            style: Theme.of(context).textTheme.button.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 12.0,
-                                ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              int.parse(noOfQuestions) == 0 ? 'Add' : 'Send',
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
                           ),
                         ),
                       ),
