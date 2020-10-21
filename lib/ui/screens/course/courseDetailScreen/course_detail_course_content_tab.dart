@@ -672,7 +672,7 @@ class _CourseDetailCourseContentTabState
                                               'assets/icons/filesTypes/html.png';
                                           break;
                                       }
-                                      return state.data[index].source.isEmpty
+                                      return state.data[index].source == null || state.data[index].source.isEmpty
                                           ? Container()
                                           : ListTile(
                                               onTap: () async {

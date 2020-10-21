@@ -6,12 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/api/api.dart';
 import '../../../data/cubits/login_cubit.dart';
+import '../../../main.dart';
 import '../../widgets_util/text_input.dart';
 import '../course/courses_landing_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   bool _obscure = true; // Variable to determine password visibility
   // TODO: Keep text persistent while toggling password visibility
+  // use fixme for these things
+  // done
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -117,6 +120,11 @@ class _LoginScreenState extends State<LoginScreen> {
   ) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+
+    if (isTestMode) {
+      emailController.text = 'prakash@edwisely.com';
+      passwordController.text = '12345';
+    }
     return Container(
       width: screenSize.width * 0.3,
       height: screenSize.height,
@@ -173,25 +181,30 @@ class _LoginScreenState extends State<LoginScreen> {
             height: screenSize.height * 0.02,
           ),
           //password text input
-          TextInput(
-            isWhite: true,
-            obscureText: widget._obscure,
-            label: 'Password',
-            hint: 'Enter your password',
-            inputType: TextInputType.visiblePassword,
-            suffix: FlatButton(
-              onPressed: () {
-                setState(() {
-                  // Function to toggle password visibility
-                  widget._obscure = !widget._obscure;
-                });
-              },
-              child: Icon(
-                Icons.remove_red_eye,
-                color: Colors.black,
-              ),
-            ),
-            controller: passwordController,
+          StatefulBuilder(
+            builder: (BuildContext context,
+                void Function(void Function()) setState) {
+              return TextInput(
+                isWhite: true,
+                obscureText: widget._obscure,
+                label: 'Password',
+                hint: 'Enter your password',
+                inputType: TextInputType.visiblePassword,
+                suffix: FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      // Function to toggle password visibility
+                      widget._obscure = !widget._obscure;
+                    });
+                  },
+                  child: Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.black,
+                  ),
+                ),
+                controller: passwordController,
+              );
+            },
           ),
           //forget password
           Align(

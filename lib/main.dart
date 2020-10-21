@@ -41,18 +41,18 @@ import 'util/theme.dart';
 int departmentId;
 int collegeId;
 String loginToken;
+bool isTestMode = true;
 
 main() {
   _initializeVariables();
   runApp(EdWisely());
-
 }
 
 void _initializeVariables() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    departmentId = int.parse(sharedPreferences.getString('department_id'));
-    collegeId = int.parse(sharedPreferences.getString('college_id'));
-    loginToken = sharedPreferences.getString('login_key').toString();
+  departmentId = int.parse(sharedPreferences.getString('department_id'));
+  collegeId = int.parse(sharedPreferences.getString('college_id'));
+  loginToken = sharedPreferences.getString('login_key').toString();
 }
 
 class EdWisely extends StatelessWidget {
