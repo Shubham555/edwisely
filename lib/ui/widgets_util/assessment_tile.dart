@@ -66,16 +66,14 @@ class AssessmentTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: _screenSize.height * 0.035,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                            title,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
+                        width: _screenSize.width * 0.15,
+                        child: Text(
+                          title,
+                          style: Theme.of(context).textTheme.headline5.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Container(
@@ -185,10 +183,7 @@ class AssessmentTile extends StatelessWidget {
                 SizedBox(width: 4.0),
                 Text(
                   '$noOfQuestions',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 //spacing
                 Spacer(),
@@ -203,10 +198,7 @@ class AssessmentTile extends StatelessWidget {
                       SizedBox(width: 4.0),
                       Text(
                         '$sentTo',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -217,27 +209,23 @@ class AssessmentTile extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Answered : ',
+                        'Answered:',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                       SizedBox(width: 4.0),
                       Text(
                         '$answeredCount',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                Spacer(),
                 //send button
                 isDateVisible
                     ? SizedBox.shrink()
                     : SizedBox(
                         width: MediaQuery.of(context).size.width * 0.06,
-                        child: RaisedButton(
-                          onPressed: () {
+                        child: GestureDetector(
+                          onTap: () {
                             if (int.parse(noOfQuestions) == 0) {
                               Navigator.push(
                                 context,
@@ -266,15 +254,21 @@ class AssessmentTile extends StatelessWidget {
                               );
                             }
                           },
-                          color: Theme.of(context).primaryColor,
-                          elevation: 2.0,
-                          child: Text(
-                            int.parse(noOfQuestions) == 0 ? 'Add' : 'Send',
-                            maxLines: 1,
-                            style: Theme.of(context).textTheme.button.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 12.0,
-                                ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              int.parse(noOfQuestions) == 0 ? 'Add' : 'Send',
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
                           ),
                         ),
                       ),

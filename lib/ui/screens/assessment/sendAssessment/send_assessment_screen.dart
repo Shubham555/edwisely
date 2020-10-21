@@ -135,7 +135,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                         children: [
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.28,
-                            height: MediaQuery.of(context).size.height * 0.5,
+                            height: MediaQuery.of(context).size.height * 0.7,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -177,12 +177,11 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                'Start Date :     ',
+                                                'Start Date:  ',
                                                 style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              Spacer(),
                                               InkWell(
                                                 onTap: () async {
                                                   _testStart =
@@ -218,13 +217,13 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                 },
                                                 child: Text(
                                                   _testStart == null
-                                                      ? 'Pick Start Date  '
+                                                      ? 'Pick Start Date '
                                                       : DateFormat(
                                                               'EEE d MMM yyyy')
                                                           .format(_testStart),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
                                               SizedBox(
@@ -239,9 +238,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                 _testStartTime == null
                                                     ? 'Pick Start Time'
                                                     : 'at ${_testStartTime.format(context).toString()}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                ),
                                               ),
                                             ],
                                           );
@@ -261,7 +260,6 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              Spacer(),
                                               InkWell(
                                                 onTap: () async {
                                                   if (_testStart == null ||
@@ -310,9 +308,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                       : DateFormat(
                                                               'EEE d MMM yyyy')
                                                           .format(_testExpiry),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
                                               SizedBox(
@@ -327,9 +325,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                 _testExpiryTime == null
                                                     ? 'Pick Expiry Time'
                                                     : 'at ${_testExpiryTime.format(context).toString()}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                ),
                                               ),
                                             ],
                                           );
@@ -344,12 +342,11 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                'Duration:         ',
+                                                'Duration:  ',
                                                 style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
-                                              Spacer(),
                                               InkWell(
                                                 onTap: () async {
                                                   _testDuration =
@@ -364,9 +361,9 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                   _testDuration == null
                                                       ? 'Pick Duration'
                                                       : '${_testDuration.inMinutes.toString()} Minutes',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5,
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               )
                                             ],
@@ -467,7 +464,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                             ? TextStyle(
                                                                 color: Colors
                                                                     .black,
-                                                                fontSize: 22.0,
+                                                                fontSize: 16.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -475,7 +472,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                                             : TextStyle(
                                                                 color:
                                                                     Colors.grey,
-                                                                fontSize: 20.0,
+                                                                fontSize: 14.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .normal,
@@ -558,7 +555,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                             return Text(
                                               '0',
                                               style: TextStyle(
-                                                fontSize: 30,
+                                                fontSize: 16,
                                               ),
                                             );
                                           } else {

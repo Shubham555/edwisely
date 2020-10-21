@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           _upcomingEventsList(),
                           //spacing
                           SizedBox(
-                            height: screenSize.height * 0.02,
+                            height: screenSize.height * 0.01,
                           ),
                           //heading text
                           Text(
@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _peerActivityList() {
     return Container(
-      height: screenSize.height * 0.25,
+      height: screenSize.height * 0.375,
       margin: const EdgeInsets.only(
         right: 22.0,
         top: 12.0,
@@ -184,13 +184,15 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context, state) {
         if (state is HomeScreenDefaultFetched) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Upcoming',
                 style: textTheme.headline2,
+                textAlign: TextAlign.start,
               ),
               Container(
-                height: screenSize.height * 0.25,
+                height: screenSize.height * 0.375,
                 width: screenSize.width * .25,
                 margin: const EdgeInsets.only(
                   right: 22.0,
@@ -218,16 +220,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         : ListView.builder(
                             shrinkWrap: true,
                             itemCount: List<NotifiacationHomeScreenEntity>.from(
-                                state.map['upcoming_events']['objective_tests'].map(
-                                    (it) =>
-                                        NotifiacationHomeScreenEntity.fromJsonMap(
-                                            it))).length,
+                                state.map['upcoming_events']['objective_tests']
+                                    .map((it) => NotifiacationHomeScreenEntity
+                                        .fromJsonMap(it))).length,
                             itemBuilder: (BuildContext context, int index) {
-                              var data = List<NotifiacationHomeScreenEntity>.from(
-                                  state.map['upcoming_events']['objective_tests']
-                                      .map((it) =>
-                                          NotifiacationHomeScreenEntity.fromJsonMap(
-                                              it)));
+                              var data =
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']['objective_tests']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it)));
                               return ListTile(
                                 title: Text(data[index].title),
                               );
@@ -240,15 +241,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             itemCount: List<NotifiacationHomeScreenEntity>.from(
                                 state.map['upcoming_events']['subjective_tests']
-                                    .map((it) =>
-                                        NotifiacationHomeScreenEntity.fromJsonMap(
-                                            it))).length,
+                                    .map((it) => NotifiacationHomeScreenEntity
+                                        .fromJsonMap(it))).length,
                             itemBuilder: (BuildContext context, int index) {
-                              var data = List<NotifiacationHomeScreenEntity>.from(
-                                  state.map['upcoming_events']['subjective_tests']
-                                      .map((it) =>
-                                          NotifiacationHomeScreenEntity.fromJsonMap(
-                                              it)));
+                              var data =
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']
+                                          ['subjective_tests']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it)));
                               return ListTile(
                                 title: Text(data[index].title),
                               );
@@ -264,10 +265,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     NotifiacationHomeScreenEntity.fromJsonMap(
                                         it))).length,
                             itemBuilder: (BuildContext context, int index) {
-                              var data = List<NotifiacationHomeScreenEntity>.from(
-                                  state.map['upcoming_events']['vc'].map((it) =>
-                                      NotifiacationHomeScreenEntity.fromJsonMap(
-                                          it)));
+                              var data =
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']['vc']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it)));
                               return ListTile(
                                 title: Text(data[index].title),
                               );

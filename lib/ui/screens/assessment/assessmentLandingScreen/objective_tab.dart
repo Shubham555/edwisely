@@ -107,7 +107,7 @@ class ObjectiveTab extends StatelessWidget {
                         crossAxisCount: 2,
                         crossAxisSpacing: 32.0,
                         mainAxisSpacing: 32.0,
-                        childAspectRatio: 3 / 1.2,
+                        childAspectRatio: 3 / 1.35,
                       ),
                       itemCount: state.questionsEntity.data.length,
                       itemBuilder: (BuildContext context, int index) {

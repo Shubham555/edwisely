@@ -12,6 +12,7 @@ import '../../../../data/model/course/coursesEntity/data.dart';
 import '../../../../data/provider/selected_page.dart';
 import '../../../../util/enums/question_type_enum.dart';
 import '../../../widgets_util/navigation_drawer.dart';
+import '../../this_way_up.dart';
 import 'add_questions_screen.dart';
 
 class CreateAssessmentScreen extends StatefulWidget {
@@ -32,193 +33,206 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(
-        builder: (BuildContext context) => MultiBlocListener(
-          listeners: [
-            BlocListener(
-              cubit: context.bloc<ObjectiveBloc>(),
-              listener: (BuildContext context, state) {
-                if (state is ObjectiveAssessmentCreated) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => AddQuestionsScreen(
-                        _titleController.text,
-                        _descriptionController.text,
-                        selectedCouerse,
-                        widget._questionType,
-                        state.assessmentId,
-                      ),
-                    ),
-                  );
-                }
-                if (state is ObjectiveFailed) {
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          'Creation of Assessment Failed. PLease try again'),
-                    ),
-                  );
-                }
-              },
-            ),
-            BlocListener(
-              cubit: context.bloc<SubjectiveBloc>(),
-              listener: (BuildContext context, state) {
-                if (state is SubjectiveAssessmentCreated) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => AddQuestionsScreen(
-                        _titleController.text,
-                        _descriptionController.text,
-                        selectedCouerse,
-                        widget._questionType,
-                        state.assessmentId,
-                      ),
-                    ),
-                  );
-                }
-                if (state is SubjectiveFailed) {
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          'Creation of Assessment Failed. Please try again'),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              NavigationDrawer(
-                isCollapsed: true,
-                key: context.watch<SelectedPageProvider>().navigatorKey,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return oneWay(context)
+        ? ThisWayUp()
+        : Scaffold(
+            body: Builder(
+              builder: (BuildContext context) => MultiBlocListener(
+                listeners: [
+                  BlocListener(
+                    cubit: context.bloc<ObjectiveBloc>(),
+                    listener: (BuildContext context, state) {
+                      if (state is ObjectiveAssessmentCreated) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                AddQuestionsScreen(
+                              _titleController.text,
+                              _descriptionController.text,
+                              selectedCouerse,
+                              widget._questionType,
+                              state.assessmentId,
+                            ),
+                          ),
+                        );
+                      }
+                      if (state is ObjectiveFailed) {
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                'Creation of Assessment Failed. PLease try again'),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  BlocListener(
+                    cubit: context.bloc<SubjectiveBloc>(),
+                    listener: (BuildContext context, state) {
+                      if (state is SubjectiveAssessmentCreated) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                AddQuestionsScreen(
+                              _titleController.text,
+                              _descriptionController.text,
+                              selectedCouerse,
+                              widget._questionType,
+                              state.assessmentId,
+                            ),
+                          ),
+                        );
+                      }
+                      if (state is SubjectiveFailed) {
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                'Creation of Assessment Failed. Please try again'),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    BigAppBar(
-                      actions: [],
-                      titleText:
-                          'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
-                      bottomTab: null,
-                      appBarSize: MediaQuery.of(context).size.height / 3,
-                      appBarTitle: Text(
-                        'Create Assessment',
-                      ),
-                      flatButton: RaisedButton(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                          horizontal: 16.0,
-                        ),
-                        onPressed: () => _continueButtonOnPressed(context),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/icons/save.png',
-                              color: Colors.white,
-                              height: 24.0,
-                            ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              'Continue',
-                              style: Theme.of(context).textTheme.button,
-                            ),
-                          ],
-                        ),
-                      ),
-                      route: 'Home > Assessments > Create Assessment',
+                    NavigationDrawer(
+                      isCollapsed: true,
+                      key: context.watch<SelectedPageProvider>().navigatorKey,
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 16.0,
-                        horizontal: MediaQuery.of(context).size.width * 0.27,
-                      ),
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildTextFieldWidget(
-                              'Add Title', 80, _titleController),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.05,
-                          ),
-                          _buildTextFieldWidget(
-                              'Description', 200, _descriptionController),
-                          // Text(
-                          //   'Choose Subject',
-                          //   style: TextStyle(
-                          //       fontWeight: FontWeight.bold,
-                          //       fontSize: MediaQuery.of(context).size.width / 50),
-                          // ),
-                          BlocBuilder(
-                            cubit: context.bloc<CoursesBloc>()
-                              ..add(
-                                GetCoursesByFaculty(),
+                          BigAppBar(
+                            actions: [],
+                            titleText:
+                                'Create new ${widget._questionType == QuestionType.Objective ? 'Objective' : 'Subjective'} Assessment',
+                            bottomTab: null,
+                            appBarSize: MediaQuery.of(context).size.height / 3,
+                            appBarTitle: Text(
+                              'Create Assessment',
+                            ),
+                            flatButton: RaisedButton(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8.0,
+                                horizontal: 16.0,
                               ),
-                            // ignore: missing_return
-                            builder: (BuildContext context, state) {
-                              if (state is CoursesInitial) {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                              if (state is CoursesFetchFailed) {
-                                return Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        'There is some server error please retry'),
-                                    RaisedButton(
-                                      color: Color(0xFF1D2B64).withOpacity(.3),
-                                      onPressed: () =>
-                                          context.bloc<CoursesBloc>().add(
-                                                GetCoursesByFaculty(),
-                                              ),
-                                      child: Text('Retry'),
-                                    )
-                                  ],
-                                );
-                              }
-                              if (state is CoursesFetched) {
-                                return SmartSelect.single(
-                                  title: 'Subjects',
-                                  placeholder: 'Select a Subject',
-                                  value: selectedCouerse,
-                                  choiceItems: S2Choice.listFrom(
-                                    source: state.coursesEntity.data,
-                                    value: (index, Data item) => item.id,
-                                    title: (index, Data item) => item.name,
-                                    group: (index, Data item) => '',
+                              onPressed: () =>
+                                  _continueButtonOnPressed(context),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/save.png',
+                                    color: Colors.white,
+                                    height: 24.0,
                                   ),
-                                  modalTitle: 'Choose Subject',
-                                  modalType: S2ModalType.popupDialog,
-                                  choiceType: S2ChoiceType.chips,
-                                  choiceStyle: S2ChoiceStyle(
-                                    showCheckmark: true,
+                                  SizedBox(width: 8.0),
+                                  Text(
+                                    'Continue',
+                                    style: Theme.of(context).textTheme.button,
                                   ),
-                                  choiceLayout: S2ChoiceLayout.wrap,
-                                  onChange: (state) => setState(() {
-                                    selectedCouerse = state.value;
-                                  }),
-                                  tileBuilder: (context, state) =>
-                                      S2Tile.fromState(
-                                    state,
-                                    isTwoLine: true,
-                                    leading: Container(
-                                      width: 40,
-                                      alignment: Alignment.center,
-                                      child: const Icon(Icons.subject),
+                                ],
+                              ),
+                            ),
+                            route: 'Home > Assessments > Create Assessment',
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 16.0,
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.27,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildTextFieldWidget(
+                                    'Add Title', 80, _titleController),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                ),
+                                _buildTextFieldWidget(
+                                    'Description', 200, _descriptionController),
+                                // Text(
+                                //   'Choose Subject',
+                                //   style: TextStyle(
+                                //       fontWeight: FontWeight.bold,
+                                //       fontSize: MediaQuery.of(context).size.width / 50),
+                                // ),
+                                BlocBuilder(
+                                  cubit: context.bloc<CoursesBloc>()
+                                    ..add(
+                                      GetCoursesByFaculty(),
                                     ),
-                                  ),
-                                );
-                              }
-                            },
+                                  // ignore: missing_return
+                                  builder: (BuildContext context, state) {
+                                    if (state is CoursesInitial) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                    if (state is CoursesFetchFailed) {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                              'There is some server error please retry'),
+                                          RaisedButton(
+                                            color: Color(0xFF1D2B64)
+                                                .withOpacity(.3),
+                                            onPressed: () =>
+                                                context.bloc<CoursesBloc>().add(
+                                                      GetCoursesByFaculty(),
+                                                    ),
+                                            child: Text('Retry'),
+                                          )
+                                        ],
+                                      );
+                                    }
+                                    if (state is CoursesFetched) {
+                                      return SmartSelect.single(
+                                        title: 'Subjects',
+                                        placeholder: 'Select a Subject',
+                                        value: selectedCouerse,
+                                        choiceItems: S2Choice.listFrom(
+                                          source: state.coursesEntity.data,
+                                          value: (index, Data item) => item.id,
+                                          title: (index, Data item) =>
+                                              item.name,
+                                          group: (index, Data item) => '',
+                                        ),
+                                        modalTitle: 'Choose Subject',
+                                        modalType: S2ModalType.popupDialog,
+                                        choiceType: S2ChoiceType.chips,
+                                        choiceStyle: S2ChoiceStyle(
+                                          showCheckmark: true,
+                                        ),
+                                        choiceLayout: S2ChoiceLayout.wrap,
+                                        onChange: (state) => setState(() {
+                                          selectedCouerse = state.value;
+                                        }),
+                                        tileBuilder: (context, state) =>
+                                            S2Tile.fromState(
+                                          state,
+                                          isTwoLine: true,
+                                          leading: Container(
+                                            width: 40,
+                                            alignment: Alignment.center,
+                                            child: const Icon(Icons.subject),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -226,11 +240,8 @@ class _CreateAssessmentScreenState extends State<CreateAssessmentScreen> {
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   _buildTextFieldWidget(

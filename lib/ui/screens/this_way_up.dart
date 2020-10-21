@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+bool oneWay(BuildContext context) {
+  final _screenSize = MediaQuery.of(context).size;
+  if (_screenSize.height > _screenSize.width)
+    return true;
+  else
+    return false;
+}
+
 class ThisWayUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -7,7 +15,7 @@ class ThisWayUp extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.blue,
+        color: Color(0xFF2A2A2A),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -16,7 +24,7 @@ class ThisWayUp extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(
                   Icons.screen_rotation,
-                  color: Color(0xFF2A2A2A),
+                  color: Colors.white,
                 ),
               ),
               Text(

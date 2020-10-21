@@ -67,8 +67,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
     if (screenSize.width < 1366) {
       _sidebarWidth = _isNavigationDrawerCollapsed
-          ? screenSize.width * 0.1
-          : screenSize.width * 0.28;
+          ? screenSize.width * 0.07
+          : screenSize.width * 0.17;
     } else {
       _sidebarWidth = _isNavigationDrawerCollapsed
           ? screenSize.width * 0.06
@@ -104,13 +104,19 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             //           : 'assets/logo/big_logo.png',
             //   fit: BoxFit.contain,
             // ),
-            child: Image.asset(
-              _isNavigationDrawerCollapsed
-                  ? 'assets/logo/small_logo.png'
-                  : widget.isHome
-                      ? 'assets/logo/big_logo_black.png'
-                      : 'assets/logo/big_logo.png',
-              fit: BoxFit.scaleDown,
+            child: Container(
+              height: screenSize.height * 0.07,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Image.asset(
+                  _isNavigationDrawerCollapsed
+                      ? 'assets/logo/small_logo.png'
+                      : widget.isHome
+                          ? 'assets/logo/big_logo_black.png'
+                          : 'assets/logo/big_logo.png',
+                  fit: BoxFit.scaleDown,
+                ),
+              ),
             ),
           ),
           //seperator
