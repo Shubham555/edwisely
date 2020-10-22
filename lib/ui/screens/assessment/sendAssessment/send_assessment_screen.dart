@@ -97,15 +97,15 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                         ),
                         onPressed: () {
                           // TODO: 10/4/2020 add validations
-                          context.bloc<SendAssessmentCubit>().sendAssessment(
-                                widget.title,
-                                widget.description,
-                                _testExpiry.toString(),
-                                _testDuration.toString(),
-                                students,
-                                widget.assessmentId,
-                                _testStart.toString(),
-                              );
+                          students.isEmpty ? null : context.bloc<SendAssessmentCubit>().sendAssessment(
+                            widget.title,
+                            widget.description,
+                            _testExpiry.toString(),
+                            _testDuration.toString(),
+                            students,
+                            widget.assessmentId,
+                            _testStart.toString(),
+                          );
                         },
                         child: Row(
                           children: [

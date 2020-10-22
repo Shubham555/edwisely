@@ -6,6 +6,7 @@ import 'package:edwisely/ui/screens/assessment/sendAssessment/send_assessment_sc
 import 'package:edwisely/util/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,7 +42,7 @@ import 'util/theme.dart';
 int departmentId;
 int collegeId;
 String loginToken;
-
+bool isFuckingTestMode = true;
 main() {
   _initializeVariables();
   runApp(EdWisely());
@@ -154,7 +155,7 @@ class EdWisely extends StatelessWidget {
             create: (BuildContext context) => CommentCubit(),
           ),
         ],
-        child: MaterialApp(
+        child: GetMaterialApp(
           title: 'Edwisely',
           theme: EdwiselyTheme.themeDataEdwisely,
           debugShowCheckedModeBanner: false,

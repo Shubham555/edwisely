@@ -91,7 +91,7 @@ class AssessmentTile extends StatelessWidget {
                         child: FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
-                            'Subject: $subjectName',
+                            '',
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5

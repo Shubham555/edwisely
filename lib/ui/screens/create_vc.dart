@@ -2,6 +2,7 @@ import 'package:edwisely/main.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -75,6 +76,14 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
       initialTime: TimeOfDay.now(),
     ).catchError(() {
       _vcEndTime = null;
+    // ignore: missing_return
+    }).then((value) {
+      if (value.hour - _vcStartTime.hour > 3) {
+        Get.defaultDialog(
+            title: 'Select time less than 3 hours',
+            onConfirm: () => Get.back(),
+            middleText: '');
+      }
     });
   }
 
@@ -580,7 +589,11 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                     builder: (BuildContext context, state) {
                                       if (state
                                           is SelectStudentsStudentsFetched) {
-                                        bool selectAll = students.toSet().containsAll(state.studentsEntity.data.map((e) => e.id));
+                                        bool selectAll = students
+                                            .toSet()
+                                            .containsAll(state
+                                                .studentsEntity.data
+                                                .map((e) => e.id));
                                         return StatefulBuilder(
                                           builder:
                                               (BuildContext context, setState) {

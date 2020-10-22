@@ -41,7 +41,9 @@ class CourseDetailAboutTab extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            state.courseEntity.data.description,
+                            state.courseEntity.data.description.isEmpty
+                                ? 'No Data Available'
+                                : state.courseEntity.data.description,
                             style: TextStyle(
                               color: Colors.grey.shade600,
                             ),
@@ -62,41 +64,47 @@ class CourseDetailAboutTab extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List.generate(
-                                state.courseEntity.data.objectives.length,
-                                (index) => Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 4.0),
-                                      width: 10,
-                                      height: 10,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(
-                                          60,
-                                        ),
+                            child: state.courseEntity.data.objectives.isEmpty
+                                ? Text('No Data Available')
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: List.generate(
+                                      state.courseEntity.data.objectives.length,
+                                      (index) => Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            width: 10,
+                                            height: 10,
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                60,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            state.courseEntity.data
+                                                .objectives[index]
+                                                .trim(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.grey.shade600,
+                                              fontSize: 16.0,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      state.courseEntity.data.objectives[index]
-                                          .trim(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 16.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  ),
                           ),
                           SizedBox(
                             height: 20,
@@ -114,40 +122,46 @@ class CourseDetailAboutTab extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List.generate(
-                                state.courseEntity.data.outcomes.length,
-                                (index) => Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 10,
-                                      height: 10,
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 4.0),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(
-                                          60,
-                                        ),
+                            child: state.courseEntity.data.outcomes.isEmpty
+                                ? Text('No Data Available')
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: List.generate(
+                                      state.courseEntity.data.outcomes.length,
+                                      (index) => Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 10,
+                                            height: 10,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 4.0),
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                60,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            state.courseEntity.data
+                                                .outcomes[index]
+                                                .trim(),
+                                            style: TextStyle(
+                                              color: Colors.grey.shade600,
+                                              fontSize: 16.0,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      state.courseEntity.data.outcomes[index]
-                                          .trim(),
-                                      style: TextStyle(
-                                        color: Colors.grey.shade600,
-                                        fontSize: 16.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  ),
                           ),
                         ],
                       ),
