@@ -86,19 +86,19 @@ class AssessmentTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Container(
-                        height: _screenSize.height * 0.0225,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                            '',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5
-                                .copyWith(fontSize: 14.0),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   height: _screenSize.height * 0.0225,
+                      //   child: FittedBox(
+                      //     fit: BoxFit.contain,
+                      //     child: Text(
+                      //         'Subject: $subjectName',
+                      //       style: Theme.of(context)
+                      //           .textTheme
+                      //           .headline5
+                      //           .copyWith(fontSize: 14.0),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   Spacer(),
