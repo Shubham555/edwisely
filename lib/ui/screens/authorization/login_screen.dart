@@ -3,6 +3,7 @@ import 'package:edwisely/ui/screens/home_screen.dart';
 import 'package:edwisely/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 import '../../../data/api/api.dart';
 import '../../../data/cubits/login_cubit.dart';
@@ -30,10 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
         cubit: context.bloc<LoginCubit>(),
         listener: (BuildContext context, state) {
           if (state is LoginError) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error),
-              ),
+            Get.defaultDialog(
+              title: 'Error',
+              middleText: state.error,
+              onConfirm: () => Get.back(),
             );
           }
           if (state is ForcePasswordChange) {

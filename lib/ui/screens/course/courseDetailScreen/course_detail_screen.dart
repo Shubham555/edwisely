@@ -114,6 +114,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                               ),
                               CourseDetailQuestionBankTab(
                                 widget.semesterSubjectId,
+                                widget.subjectId
                               ),
                             ],
                           ),
