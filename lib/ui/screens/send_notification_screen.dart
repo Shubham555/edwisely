@@ -194,50 +194,58 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'Priority',
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                      Switch(
-                                                        onChanged:
-                                                            (bool value) =>
-                                                                setState(
-                                                          () => _isPriority =
-                                                              value,
-                                                        ),
-                                                        value: _isPriority,
-                                                      ),
-                                                    ],
+                                                  StatefulBuilder(
+                                                    builder: (context, setState) {
+                                                      return Row(
+                                                        children: [
+                                                          Text(
+                                                            'Priority',
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight.w500,
+                                                            ),
+                                                          ),
+                                                          Switch(
+                                                            onChanged:
+                                                                (bool value) =>
+                                                                    setState(
+                                                              () => _isPriority =
+                                                                  value,
+                                                            ),
+                                                            value: _isPriority,
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
                                                   ),
                                                   //is comment anonymous widget
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'Anonymous comments',
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                      Switch(
-                                                        onChanged:
-                                                            (bool value) =>
-                                                                setState(
-                                                          () =>
-                                                              _isCommentAnonymous =
-                                                                  value,
-                                                        ),
-                                                        value:
-                                                            _isCommentAnonymous,
-                                                      ),
-                                                    ],
+                                                  StatefulBuilder(
+                                                    builder: (context, setState) {
+                                                      return Row(
+                                                        children: [
+                                                          Text(
+                                                            'Anonymous comments',
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight.w500,
+                                                            ),
+                                                          ),
+                                                          Switch(
+                                                            onChanged:
+                                                                (bool value) =>
+                                                                    setState(
+                                                              () =>
+                                                                  _isCommentAnonymous =
+                                                                      value,
+                                                            ),
+                                                            value:
+                                                                _isCommentAnonymous,
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
                                                   ),
                                                 ],
                                               ),
