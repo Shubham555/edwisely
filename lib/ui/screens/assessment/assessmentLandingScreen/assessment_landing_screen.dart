@@ -76,9 +76,12 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                           height: 24.0,
                         ),
                         SizedBox(width: 8.0),
-                        Text(
-                          'Create Assessment',
-                          style: Theme.of(context).textTheme.button,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
+                            'Create Assessment',
+                            style: Theme.of(context).textTheme.button,
+                          ),
                         ),
                       ],
                     ),

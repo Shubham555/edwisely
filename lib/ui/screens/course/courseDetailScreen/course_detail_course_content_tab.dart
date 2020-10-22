@@ -405,9 +405,13 @@ class _CourseDetailCourseContentTabState
                                     Icons.add,
                                     color: Colors.white,
                                   ),
-                                  Text(
-                                    'Add Your Content',
-                                    style: Theme.of(context).textTheme.button,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Text(
+                                      'Add Your Content',
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
                                   )
                                 ],
                               ),
@@ -672,7 +676,8 @@ class _CourseDetailCourseContentTabState
                                               'assets/icons/filesTypes/html.png';
                                           break;
                                       }
-                                      return state.data[index].source == null || state.data[index].source.isEmpty
+                                      return state.data[index].source == null ||
+                                              state.data[index].source.isEmpty
                                           ? Container()
                                           : ListTile(
                                               onTap: () async {

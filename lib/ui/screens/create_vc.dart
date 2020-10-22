@@ -182,9 +182,13 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                     height: 24.0,
                                   ),
                                   SizedBox(width: 8.0),
-                                  Text(
-                                    'Create',
-                                    style: Theme.of(context).textTheme.button,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Text(
+                                      'Create',
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
                                   ),
                                 ],
                               ),

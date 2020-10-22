@@ -17,13 +17,15 @@ class _MyCheckboxState extends State<MyCheckbox> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal : 28.0,vertical: 32.0),
+      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 28.0),
       child: SizedBox(
         height: 35.0,
         width: 35.0,
         child: InkWell(
           onTap: widget.onChanged,
           child: Container(
+            height: 25,
+            width: 25,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.0),
               border: Border.all(
@@ -32,9 +34,12 @@ class _MyCheckboxState extends State<MyCheckbox> {
               ),
             ),
             child: widget.value
-                ? Icon(
-                    Icons.done,
-                    color: Colors.white,
+                ? Transform.translate(
+                    offset: Offset(0, -5),
+                    child: Icon(
+                      Icons.done,
+                      color: Colors.white,
+                    ),
                   )
                 : SizedBox.shrink(),
           ),

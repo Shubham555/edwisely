@@ -108,9 +108,13 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                     height: 24.0,
                                   ),
                                   SizedBox(width: 8.0),
-                                  Text(
-                                    'Send',
-                                    style: Theme.of(context).textTheme.button,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Text(
+                                      'Send',
+                                      style: Theme.of(context).textTheme.button,
+                                    ),
                                   ),
                                 ],
                               ),
