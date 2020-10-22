@@ -91,9 +91,13 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                 height: 24.0,
                               ),
                               SizedBox(width: 8.0),
-                              Text(
-                                'Save',
-                                style: Theme.of(context).textTheme.button,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  'Save',
+                                  style: Theme.of(context).textTheme.button,
+                                ),
                               ),
                             ],
                           ),
