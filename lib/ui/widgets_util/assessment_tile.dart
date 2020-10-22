@@ -101,6 +101,7 @@ class AssessmentTile extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Spacer(),
                   //date and sections
                   Column(
                     children: [
