@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:edwisely/data/model/questionBank/questionBankObjective/data.dart';
+import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
+import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
@@ -6,14 +9,12 @@ import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
 import '../../../../../data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
-import '../../../../../data/model/questionBank/questionBankObjective/data.dart';
-import '../../../../../util/enums/question_type_enum.dart';
-import '../../../assessment/createAssessment/type_question_tab.dart';
 
 class QuestionBankObjectiveTab extends StatefulWidget {
   final int subjectId;
+  final int subjectsubjectId;
 
-  QuestionBankObjectiveTab(this.subjectId);
+  QuestionBankObjectiveTab(this.subjectId, this.subjectsubjectId);
 
   @override
   _QuestionBankObjectiveTabState createState() =>
@@ -71,23 +72,38 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                       isExpanded: true,
                                       items: [
                                         DropdownMenuItem(
-                                          child: Text('All'),
+                                          child: Text(
+                                            'All',
+                                            // overflow: TextOverflow.ellipsis,
+                                          ),
                                           value: -1,
                                         ),
                                         DropdownMenuItem(
-                                          child: Text('Remember'),
+                                          child: Text(
+                                            'Remember',
+                                            // overflow: TextOverflow.ellipsis,
+                                          ),
                                           value: 1,
                                         ),
                                         DropdownMenuItem(
-                                          child: Text('Understand'),
+                                          child: Text(
+                                            'Understand',
+                                            // overflow: TextOverflow.ellipsis,
+                                          ),
                                           value: 2,
                                         ),
                                         DropdownMenuItem(
-                                          child: Text('Apply'),
+                                          child: Text(
+                                            'Apply',
+                                            // overflow: TextOverflow.ellipsis,
+                                          ),
                                           value: 3,
                                         ),
                                         DropdownMenuItem(
-                                          child: Text('Analyze'),
+                                          child: Text(
+                                            'Analyze',
+                                            // overflow: TextOverflow.ellipsis,
+                                          ),
                                           value: 4,
                                         ),
                                       ],
@@ -338,8 +354,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                               itemCount:
                                   state.questionBankObjectiveEntity.data.length,
                               itemBuilder: (BuildContext context, int index) {
-                                print(state.questionBankObjectiveEntity
-                                    .data[index].name);
                                 return Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.1,
@@ -357,9 +371,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                       title: Row(
                                         children: [
                                           Text('Q. ${index + 1}  '),
-                                          // TexView(
-                                          //   text: state.questionBankObjectiveEntity.data[index].name,
-                                          // ),
                                           Flexible(
                                             child: TeXView(
                                               child: TeXViewDocument(
@@ -371,8 +382,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                               ),
                                             ),
                                           ),
-                                          Text(state.questionBankObjectiveEntity
-                                              .data[index].name)
+                                          // Text(state.questionBankObjectiveEntity.data[index].name)
                                         ],
                                       ),
                                       subtitle: Text(

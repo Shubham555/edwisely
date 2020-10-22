@@ -55,7 +55,7 @@ class QuestionBankObjectiveBloc
             ),
           );
         }
-        if (response.data['message'] != 'Successfully fetched the data') {
+        if (response.data['message'] != 'No questions') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
         } else
           yield UnitObjectiveQuestionsFetched(

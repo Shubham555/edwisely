@@ -8,21 +8,20 @@ import '../model/assessment/assessmentQuestions/AssessmentQuestionsEntity.dart';
 
 class QuestionsCubit extends Cubit<QuestionsState> {
   QuestionsCubit() : super(QuestionsInitial());
+
 //ye api se aara successful values  m null aara pata nahi bhai ab data kaise aa raha vaha pe bloc mese
   //are ye api m aara
   //too karana kya hai ab ?   check
   getQuestionsToAnAssessment(int testId) async {
     emit(QuestionsInitial());
-    final response = await EdwiselyApi.dio.get(
-      'questionnaireWeb/getObjectiveTestQuestions?test_id=$testId', options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',
-        })
-    );
-
+    final response = await EdwiselyApi.dio
+        .get('questionnaireWeb/getObjectiveTestQuestions?test_id=$testId',
+            options: Options(headers: {
+              'Authorization': 'Bearer $loginToken',
+            }));
 
     if (response.statusCode == 200) {
-      if (response.data['data'].toString().isNotEmpty) {
+      if (response.data['message'] != 'No questions to fetch') {
         emit(
           QuestionsToAnAssessmentFetched(
             AssessmentQuestionsEntity.fromJsonMap(
