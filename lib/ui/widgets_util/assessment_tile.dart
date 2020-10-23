@@ -215,7 +215,7 @@ class AssessmentTile extends StatelessWidget {
                       ),
                       SizedBox(width: 4.0),
                       Text(
-                        '$answeredCount',
+                        answeredCount == null ? '0' : '$answeredCount',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -255,22 +255,26 @@ class AssessmentTile extends StatelessWidget {
                               );
                             }
                           },
-                          child: Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              int.parse(noOfQuestions) == 0 ? 'Add' : 'Send',
-                              maxLines: 1,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+                          child: sentTo == null
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.symmetric(vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    int.parse(noOfQuestions) == 0
+                                        ? 'Add'
+                                        : 'Send',
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
                         ),
                       ),
               ],
