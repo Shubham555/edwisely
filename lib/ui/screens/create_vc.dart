@@ -76,14 +76,15 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
       initialTime: TimeOfDay.now(),
     ).catchError(() {
       _vcEndTime = null;
-    // ignore: missing_return
     }).then((value) {
       if (value.hour - _vcStartTime.hour > 3) {
         Get.defaultDialog(
             title: 'Select time less than 3 hours',
             onConfirm: () => Get.back(),
             middleText: '');
-      }
+        return null;
+      } else
+        return value;
     });
   }
 
@@ -105,11 +106,12 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                 cubit: context.bloc<LiveClassCubit>(),
                 listener: (BuildContext context, state) {
                   if (state is LiveClassSent) {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Live Class Sent'),
-                      ),
-                    );
+                    Get.defaultDialog(
+                        title: "Live Class Created",
+                        middleText:
+                            "Live Class is Created Click ok to move to homescreen",
+                        onConfirm: () =>
+                            Navigator.pushReplacementNamed(context, '/'));
                   }
                   if (state is LiveClassSendFailed) {
                     Scaffold.of(context).showSnackBar(

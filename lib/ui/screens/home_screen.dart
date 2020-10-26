@@ -985,6 +985,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _yourCoursesList(dynamic courses) {
+    ScrollController scrollController = ScrollController();
     return SizedBox(
       height: screenSize.height * 0.19,
       width: screenSize.width * 0.59,
@@ -997,6 +998,7 @@ class _HomeScreenState extends State<HomeScreen> {
             top: 0,
             bottom: 0,
             child: ListView.builder(
+              controller: scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               scrollDirection: Axis.horizontal,
               itemCount: courses.length,
@@ -1021,7 +1023,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                 ),
                 /* no-op */
-                onPressed: () {},
+                onPressed: () => scrollController.animateTo(
+                  scrollController.offset - screenSize.width * 0.12,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeIn,
+                ),
               ),
             ),
           ),
@@ -1043,7 +1049,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                 ),
                 /* no-op */
-                onPressed: () {},
+                onPressed: () => scrollController.animateTo(
+                  scrollController.offset + screenSize.width * 0.12,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeIn,
+                ),
               ),
             ),
           ),

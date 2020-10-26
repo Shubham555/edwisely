@@ -451,10 +451,15 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                           }
                           if (state is QuestionBankObjectiveFetchFailed) {
                             return Center(
-                              child: Text(
-                                'No Questions',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 30),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'No Questions',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30),
+                                  ),
+                                ],
                               ),
                             );
                           } else {
@@ -469,6 +474,14 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                 ),
               ),
             ],
+          );
+        }
+        if (state is QuestionBankObjectiveFetchFailed) {
+          return Center(child: Text(state.error));
+        }
+        if (state is QuestionBankObjectiveEmpty) {
+          return Center(
+            child: Text('No Questions'),
           );
         } else {
           return Center(

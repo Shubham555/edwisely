@@ -3,7 +3,6 @@ import 'package:edwisely/main.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class EdwiselyApi {
-
   static final dio = Dio(
     BaseOptions(
       baseUrl: 'https://stagingfacultypython.edwisely.com/',
@@ -11,7 +10,7 @@ class EdwiselyApi {
         'Authorization': 'Bearer $loginToken',
       },
     ),
-
-    // ..interceptors.add(PrettyDioLogger(),
+  )..interceptors.add(
+      PrettyDioLogger(),
     );
 }
