@@ -159,38 +159,6 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         ),
                                       ],
                                     ),
-                                    // trailing: Row(
-                                    //   children: [
-                                    //     IconButton(
-                                    //         icon: Icon(
-                                    //           Icons.delete,
-                                    //           size: 10,
-                                    //         ),
-                                    //         onPressed: () => null),
-                                    //     Visibility(
-                                    //       visible: state.assessmentQuestionsEntity.data[index].college_account_id == collegeId,
-                                    //       child: IconButton(
-                                    //         icon: Icon(
-                                    //           Icons.edit,
-                                    //           size: 10,
-                                    //         ),
-                                    //         onPressed: () => Navigator.of(context).push(
-                                    //           MaterialPageRoute(
-                                    //             builder: (ctx) => TypeQuestionTab(
-                                    //               widget._title,
-                                    //               widget._description,
-                                    //               widget._subjectId,
-                                    //               QuestionType.Objective,
-                                    //               widget._assessmentId,
-                                    //               false,
-                                    //               data : state.assessmentQuestionsEntity.data[index],
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ],
-                                    // ),
                                   ),
                                 ),
                               );
@@ -234,7 +202,9 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          _buildBloomLevelSelector(state.data),
+                                          StatefulBuilder(builder: (context, setState) {
+                                            return _buildBloomLevelSelector(state.data, setState);
+                                          }),
                                           Expanded(
                                             child: StatefulBuilder(
                                               builder: (BuildContext context, void Function(void Function()) setState) {
@@ -512,8 +482,8 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                 Text(
                                                   'Selected Topics',
                                                   style: Theme.of(context).textTheme.headline6.copyWith(
-                                                    color: Colors.black,
-                                                  ),
+                                                        color: Colors.black,
+                                                      ),
                                                 ),
                                                 SizedBox(
                                                   child: SmartSelect.multiple(
@@ -586,30 +556,35 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
     );
   }
 
-  Widget _buildBloomLevelSelector(List<Data> actualData) {
+  Widget _buildBloomLevelSelector(List<Data> actualData, Function setState) {
     return Transform.translate(
       offset: Offset(0, 0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _bloomLevel(0, bloomsFilter, onBloomChanged, 'All', 'assets/icons/blooms/all.svg', actualData),
-          _bloomLevel(1, bloomsFilter, onBloomChanged, 'Remember', 'assets/icons/blooms/all.svg', actualData),
-          _bloomLevel(2, bloomsFilter, onBloomChanged, 'Understand', 'assets/icons/blooms/understand.svg', actualData),
-          _bloomLevel(3, bloomsFilter, onBloomChanged, 'Apply', 'assets/icons/blooms/apply.svg', actualData),
-          _bloomLevel(4, bloomsFilter, onBloomChanged, 'Analyze', 'assets/icons/blooms/analyze.svg', actualData),
+          _bloomLevel(0, bloomsFilter, onBloomChanged, 'All', 'assets/icons/blooms/all.svg', actualData, setState),
+          _bloomLevel(1, bloomsFilter, onBloomChanged, 'Remember', 'assets/icons/blooms/all.svg', actualData, setState),
+          _bloomLevel(2, bloomsFilter, onBloomChanged, 'Understand', 'assets/icons/blooms/understand.svg', actualData, setState),
+          _bloomLevel(3, bloomsFilter, onBloomChanged, 'Apply', 'assets/icons/blooms/apply.svg', actualData, setState),
+          _bloomLevel(4, bloomsFilter, onBloomChanged, 'Analyze', 'assets/icons/blooms/analyze.svg', actualData, setState),
         ],
       ),
     );
   }
 
-  Widget _bloomLevel(int myValue, int selectedValue, Function onTap, String title, String image, List<Data> actualData) {
+  Widget _bloomLevel(int myValue, int selectedValue, Function onTap, String title, String image, List<Data> actualData, Function setState) {
     bool isSelected = myValue == selectedValue;
 
     return Flexible(
       flex: 1,
       child: InkWell(
-        onTap: () => onTap(myValue, actualData),
+        onTap: () {
+          setState(() {
+            bloomsFilter = myValue;
+            context.bloc<TopicQuestionsCubit>().getBloomsQuestions(myValue, actualData);
+          });
+        },
         child: Container(
           decoration: BoxDecoration(
             color: isSelected ? Theme.of(context).primaryColor : Colors.transparent,
@@ -637,7 +612,7 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
     );
   }
 
-  void onBloomChanged(int value, List<Data> actualData) {
+  void onBloomChanged(int value, List<Data> actualData, Function setState) {
     setState(() {
       bloomsFilter = value;
       context.bloc<TopicQuestionsCubit>().getBloomsQuestions(value, actualData);
