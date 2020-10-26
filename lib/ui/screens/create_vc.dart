@@ -149,30 +149,15 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
 
                                 if (form.validate()) {
                                   form.save();
-                                  if (_vcStart != null &&
-                                      _vcStartTime != null &&
-                                      _vcEnd != null &&
-                                      _vcEndTime != null) {
-                                    context
-                                        .bloc<LiveClassCubit>()
-                                        .sendLiveClass(
-                                            _title,
-                                            _description,
-                                            _vcStart
-                                                .add(Duration(
-                                                    hours: _vcStartTime.hour,
-                                                    minutes: _vcStartTime.hour))
-                                                .toString(),
-                                            students,
-                                            _vcEnd
-                                                .add(Duration(
-                                                    hours: _vcEndTime.hour,
-                                                    minutes: _vcEndTime.hour))
-                                                .toString());
+                                  if (_vcStart != null && _vcStartTime != null && _vcEnd != null && _vcEndTime != null) {
+                                    context.bloc<LiveClassCubit>().sendLiveClass(
+                                        _title,
+                                        _description,
+                                        _vcStart.add(Duration(hours: _vcStartTime.hour, minutes: _vcStartTime.hour)).toString(),
+                                        students,
+                                        _vcEnd.add(Duration(hours: _vcEndTime.hour, minutes: _vcEndTime.hour)).toString());
                                   } else {
-                                    Toast.show(
-                                        'Please Double Check the Entries ',
-                                        context);
+                                    Toast.show('Please Double Check the Entries ', context);
                                   }
                                 }
                               },
@@ -185,8 +170,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                   ),
                                   SizedBox(width: 8.0),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                                     child: Text(
                                       'Create',
                                       style: Theme.of(context).textTheme.button,

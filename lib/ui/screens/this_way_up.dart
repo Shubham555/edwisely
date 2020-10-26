@@ -28,7 +28,7 @@ class ThisWayUp extends StatelessWidget {
                 ),
               ),
               Text(
-                "Please rotate your device to resume",
+                "Use in Fullscreen Landscape to resume",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
