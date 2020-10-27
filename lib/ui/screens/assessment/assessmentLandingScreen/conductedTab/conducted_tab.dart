@@ -48,6 +48,7 @@ class _ConductedTabState extends State<ConductedTab>
         SizedBox(height: 32.0),
         Expanded(
           child: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _objectiveOrSubjectiveTabController,
             children: [
               ConductedTabObjectiveTab(),

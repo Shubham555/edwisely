@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/model/questionBank/questionBankSubjective/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:toast/toast.dart';
 
@@ -492,6 +495,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
         );
       }
     } else {
+      print(data.toJson());
       final response = await EdwiselyApi.dio.post(
         'addBookmark',
         data: FormData.fromMap(
