@@ -5,7 +5,9 @@ import 'package:edwisely/data/provider/selected_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:universal_html/html.dart' as html;
 
 import '../widgets_util/navigation_drawer.dart';
 
@@ -401,6 +403,35 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
+                    RaisedButton(
+                      onPressed: () {
+                        if (DateTime.parse(activity['end_time']).isAfter(
+                          DateTime.now().add(
+                            Duration(
+                              minutes: 10,
+                            ),
+                          ),
+                        )) {
+                          html.window.open(activity['url'], 'Meeting');
+                        } else if (DateTime.parse(activity['end_time'])
+                            .isBefore(
+                          DateTime.now(),
+                        )) {
+                        } else {
+                          Get.defaultDialog(
+                            title: 'Cannot Start Meeting',
+                            middleText:
+                                'You can login to the meeting only 10 mins before it starts',
+                          );
+                        }
+                      },
+                      child: Text(
+                        DateTime.parse(activity['end_time'])
+                                .isBefore(DateTime.now())
+                            ? 'Meeting Completed'
+                            : 'Start Meeting',
+                      ),
+                    )
                   ],
                 ),
               ],
