@@ -75,18 +75,40 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
   String _option4 = '';
   FilePickerCross _option5Image;
   String _option5 = '';
+  FilePickerCross _hintImage;
+  String _hint = '';
+  FilePickerCross _solutionImage;
+  String _solution = '';
 
   bool _showHint = false;
-  bool _showSoltuion = false;
+  bool _showSolution = false;
 
   int _currentQuestionId;
 
-  Future getImage() async {
+  Future getImage(Function setState) async {
     final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
     _question = pickedFile.toBase64();
 
     setState(() {
       _questionImage = pickedFile;
+    });
+  }
+
+  Future getHintImage(Function setState) async {
+    final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
+    _hint = pickedFile.toBase64();
+
+    setState(() {
+      _hintImage = pickedFile;
+    });
+  }
+
+  Future getSolutionImage(Function setState) async {
+    final pickedFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any);
+    _solution = pickedFile.toBase64();
+
+    setState(() {
+      _solutionImage = pickedFile;
     });
   }
 
@@ -128,7 +150,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
     _option4Node = FocusNode();
     _option5Node = FocusNode();
 
-    //initialze data
+    //initialize data
     if (widget.data != null) {
       _questionController.text = widget.data.name;
       _option1Controller.text = widget.data.questions_options[0].name;
@@ -380,7 +402,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                       ),
                                                       margin: const EdgeInsets.all(12.0),
                                                       child: FlatButton(
-                                                        onPressed: getImage,
+                                                        onPressed: () => getImage(setState),
                                                         child: Padding(
                                                           padding: const EdgeInsets.symmetric(vertical: 18.0),
                                                           child: Row(
@@ -420,13 +442,29 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                         SizedBox(
                                                           width: 18.0,
                                                         ),
-                                                        FlatButton.icon(
-                                                          color: Colors.grey[200],
-                                                          onPressed: getImage,
-                                                          icon: Icon(
-                                                            Icons.edit,
-                                                          ),
-                                                          label: Text('Edit'),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            FlatButton.icon(
+                                                              color: Colors.grey[200],
+                                                              onPressed: () => getImage(setState),
+                                                              icon: Icon(
+                                                                Icons.edit,
+                                                              ),
+                                                              label: Text('Edit'),
+                                                            ),
+                                                            FlatButton.icon(
+                                                              color: Colors.grey[200],
+                                                              onPressed: () => setState(() {
+                                                                _questionImage = null;
+                                                                _question = '';
+                                                              }),
+                                                              icon: Icon(
+                                                                Icons.delete,
+                                                              ),
+                                                              label: Text('Delete'),
+                                                            ),
+                                                          ],
                                                         )
                                                       ],
                                                     ),
@@ -513,180 +551,438 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                         ),
                                       ),
                                       SizedBox(height: height * 0.02),
-                                      SizedBox(
-                                        height: height * 0.12,
-                                        child: Row(
+                                      StatefulBuilder(builder: (context, setState) {
+                                        return Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Flexible(
-                                              flex: 1,
-                                              child: Container(
-                                                child: OptionField(
-                                                  myValue: 0,
-                                                  groupValue: _correctAnswer,
-                                                  myFocusNode: _option1Node,
-                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(() => _option1Controller.text = value),
-                                                  optionImagePicker: () => getOptionImage(1),
-                                                  image: _option1,
-                                                  color: Color(0xFFC04DD8),
-                                                  label: 'Enter Option',
-                                                ),
-                                              ),
-                                            ),
-                                            Flexible(
-                                              flex: 1,
-                                              child: Container(
-                                                child: OptionField(
-                                                  myValue: 1,
-                                                  groupValue: _correctAnswer,
-                                                  myFocusNode: _option2Node,
-                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(() => _option2Controller.text = value),
-                                                  optionImagePicker: () => getOptionImage(2),
-                                                  image: _option2,
-                                                  color: Color(0xFF4FB277),
-                                                  label: 'Enter Option',
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: height * 0.12,
-                                        child: Row(
-                                          children: [
-                                            Flexible(
-                                              flex: 1,
-                                              child: Container(
-                                                child: OptionField(
-                                                  myValue: 2,
-                                                  groupValue: _correctAnswer,
-                                                  myFocusNode: _option3Node,
-                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(() => _option3Controller.text = value),
-                                                  optionImagePicker: () => getOptionImage(3),
-                                                  image: _option3,
-                                                  color: Color(0xFF508AE0),
-                                                  label: 'Enter Option(Optional)',
-                                                ),
-                                              ),
-                                            ),
-                                            Flexible(
-                                              flex: 1,
-                                              child: Container(
-                                                child: OptionField(
-                                                  myValue: 3,
-                                                  groupValue: _correctAnswer,
-                                                  myFocusNode: _option4Node,
-                                                  onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                  onTap: (String value) => setState(() => _option4Controller.text = value),
-                                                  optionImagePicker: () => getOptionImage(4),
-                                                  image: _option4,
-                                                  color: Color(0xFF4ED8DA),
-                                                  label: 'Enter Option(Optional)',
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      widget.option5Selected
-                                          ? Container(
-                                              height: height * 0.118,
-                                              width: width * 0.292,
-                                              child: OptionField(
-                                                myValue: 4,
-                                                groupValue: _correctAnswer,
-                                                myFocusNode: _option3Node,
-                                                onChanged: (int value) => setState(() => _correctAnswer = value),
-                                                onTap: (String value) => setState(() => _option3Controller.text = value),
-                                                optionImagePicker: () => getOptionImage(3),
-                                                image: _option5,
-                                                color: Color(0xFFff6b6b),
-                                                label: 'Enter Option(Optional)',
-                                              ),
-                                            )
-                                          : InkWell(
-                                              onTap: () => setState(() => widget.option5Selected = true),
-                                              child: Container(
-                                                // height: height * 0.118,
-                                                width: width * 0.12,
-                                                margin: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4.0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(8.0),
-                                                  color: Color(0xFFff6b6b),
-                                                ),
-                                                padding: const EdgeInsets.symmetric(
-                                                  vertical: 12.0,
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        color: Colors.white,
+                                            SizedBox(
+                                              height: height * 0.12,
+                                              child: Row(
+                                                children: [
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      child: OptionField(
+                                                        myValue: 0,
+                                                        groupValue: _correctAnswer,
+                                                        myFocusNode: _option1Node,
+                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                        // onTap: (String value) => setState(() => _option1Controller.text = value),
+                                                        onTap: (String value) => _option1Controller.text = value,
+                                                        optionImagePicker: () => getOptionImage(1),
+                                                        deletePickedImage: () => setState(() {
+                                                          _option1Image = null;
+                                                          _option1 = '';
+                                                        }),
+                                                        image: _option1,
+                                                        color: Color(0xFFC04DD8),
+                                                        label: 'Enter Option',
                                                       ),
                                                     ),
-                                                    Text(
-                                                      'Add Option',
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 14,
+                                                  ),
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      child: OptionField(
+                                                        myValue: 1,
+                                                        groupValue: _correctAnswer,
+                                                        myFocusNode: _option2Node,
+                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                        // onTap: (String value) => setState(() => _option2Controller.text = value),
+                                                        onTap: (String value) => _option2Controller.text = value,
+                                                        optionImagePicker: () => getOptionImage(2),
+                                                        deletePickedImage: () => setState(() {
+                                                          _option2Image = null;
+                                                          _option2 = '';
+                                                        }),
+                                                        image: _option2,
+                                                        color: Color(0xFF4FB277),
+                                                        label: 'Enter Option',
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
+                                            SizedBox(
+                                              height: height * 0.12,
+                                              child: Row(
+                                                children: [
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      child: OptionField(
+                                                        myValue: 2,
+                                                        groupValue: _correctAnswer,
+                                                        myFocusNode: _option3Node,
+                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                        // onTap: (String value) => setState(() => _option3Controller.text = value),
+                                                        onTap: (String value) => _option3Controller.text = value,
+                                                        optionImagePicker: () => getOptionImage(3),
+                                                        image: _option3,
+                                                        deletePickedImage: () => setState(() {
+                                                          _option3Image = null;
+                                                          _option3 = '';
+                                                        }),
+                                                        color: Color(0xFF508AE0),
+                                                        label: 'Enter Option(Optional)',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      child: OptionField(
+                                                        myValue: 3,
+                                                        groupValue: _correctAnswer,
+                                                        myFocusNode: _option4Node,
+                                                        onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                        // onTap: (String value) => setState(() => _option4Controller.text = value),
+                                                        onTap: (String value) => _option4Controller.text = value,
+                                                        optionImagePicker: () => getOptionImage(4),
+                                                        image: _option4,
+                                                        deletePickedImage: () => setState(() {
+                                                          _option4Image = null;
+                                                          _option4 = '';
+                                                        }),
+                                                        color: Color(0xFF4ED8DA),
+                                                        label: 'Enter Option(Optional)',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            widget.option5Selected
+                                                ? Container(
+                                                    height: height * 0.118,
+                                                    width: width * 0.292,
+                                                    child: OptionField(
+                                                      myValue: 4,
+                                                      groupValue: _correctAnswer,
+                                                      myFocusNode: _option5Node,
+                                                      onChanged: (int value) => setState(() => _correctAnswer = value),
+                                                      // onTap: (String value) => setState(() => _option3Controller.text = value),
+                                                      onTap: (String value) => _option5Controller.text = value,
+                                                      optionImagePicker: () => getOptionImage(5),
+                                                      image: _option5,
+                                                      deletePickedImage: () => setState(() {
+                                                        _option5Image = null;
+                                                        _option5 = '';
+                                                      }),
+                                                      color: Color(0xFFff6b6b),
+                                                      label: 'Enter Option(Optional)',
+                                                    ),
+                                                  )
+                                                : InkWell(
+                                                    onTap: () => setState(() => widget.option5Selected = true),
+                                                    child: Container(
+                                                      // height: height * 0.118,
+                                                      width: width * 0.12,
+                                                      margin: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 4.0),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(8.0),
+                                                        color: Color(0xFFff6b6b),
+                                                      ),
+                                                      padding: const EdgeInsets.symmetric(
+                                                        vertical: 12.0,
+                                                      ),
+                                                      alignment: Alignment.center,
+                                                      child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                            child: Icon(
+                                                              Icons.add,
+                                                              color: Colors.white,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Add Option',
+                                                            style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                          ],
+                                        );
+                                      }),
                                       _showHint
-                                          ? Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                vertical: 12.0,
-                                                horizontal: 14.0,
+                                          ? Container(
+                                              margin: EdgeInsets.all(12),
+                                              padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
+                                              height: height * 0.17,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius: BorderRadius.circular(18.0),
                                               ),
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(12.0),
-                                                child: TextField(
-                                                  maxLines: 2,
-                                                  controller: _hintController,
-                                                  textAlign: TextAlign.center,
-                                                  decoration: InputDecoration(
-                                                    hintText: "Hint",
-                                                    border: InputBorder.none,
-                                                    fillColor: Colors.grey[200],
-                                                    filled: true,
+                                              child: Row(
+                                                children: [
+                                                  Flexible(
+                                                    child: TextField(
+                                                      maxLines: 4,
+                                                      controller: _hintController,
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontSize: 24.0,
+                                                      ),
+                                                      decoration: InputDecoration(
+                                                        hintText: "Give your hint here",
+                                                        hintStyle: TextStyle(
+                                                          fontWeight: FontWeight.w400,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        border: InputBorder.none,
+                                                        fillColor: Colors.grey[200],
+                                                        filled: true,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                  _hintImage == null
+                                                      ? Center(
+                                                          child: Container(
+                                                            height: height * 0.15,
+                                                            width: width * 0.15,
+                                                            decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(18.0),
+                                                              color: Colors.grey[100],
+                                                            ),
+                                                            margin: const EdgeInsets.all(12.0),
+                                                            child: FlatButton(
+                                                              onPressed: () => getHintImage(setState),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(vertical: 18.0),
+                                                                child: Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                      child: Image.asset(
+                                                                        'assets/icons/upload_image.png',
+                                                                        height: height * 0.03,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      'Upload Image',
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Center(
+                                                          child: Row(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Image.memory(
+                                                                base64Decode(_hint),
+                                                                height: height * 0.15,
+                                                                width: height * 0.15,
+                                                                fit: BoxFit.contain,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 18.0,
+                                                              ),
+                                                              Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  FlatButton.icon(
+                                                                    color: Colors.grey[200],
+                                                                    onPressed: () => getHintImage(setState),
+                                                                    icon: Icon(
+                                                                      Icons.edit,
+                                                                    ),
+                                                                    label: Text('Edit'),
+                                                                  ),
+                                                                  FlatButton.icon(
+                                                                    color: Colors.grey[200],
+                                                                    onPressed: () => setState(() {
+                                                                      _hintImage = null;
+                                                                      _hint = '';
+                                                                    }),
+                                                                    icon: Icon(
+                                                                      Icons.delete,
+                                                                    ),
+                                                                    label: Text('Delete'),
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                ],
                                               ),
                                             )
                                           : SizedBox.shrink(),
-                                      _showSoltuion
-                                          ? Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                vertical: 12.0,
-                                                horizontal: 14.0,
+                                      // _showHint
+                                      //     ? Padding(
+                                      //         padding: const EdgeInsets.symmetric(
+                                      //           vertical: 12.0,
+                                      //           horizontal: 14.0,
+                                      //         ),
+                                      //         child: ClipRRect(
+                                      //           borderRadius: BorderRadius.circular(12.0),
+                                      //           child: TextField(
+                                      //             maxLines: 2,
+                                      //             controller: _hintController,
+                                      //             textAlign: TextAlign.center,
+                                      //             decoration: InputDecoration(
+                                      //               hintText: "Hint",
+                                      //               border: InputBorder.none,
+                                      //               fillColor: Colors.grey[200],
+                                      //               filled: true,
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //       )
+                                      //     : SizedBox.shrink(),
+                                      _showSolution
+                                          ? Container(
+                                              margin: EdgeInsets.all(12),
+                                              padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
+                                              height: height * 0.17,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius: BorderRadius.circular(18.0),
                                               ),
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(12.0),
-                                                child: TextField(
-                                                  maxLines: 2,
-                                                  controller: _solutionController,
-                                                  textAlign: TextAlign.center,
-                                                  decoration: InputDecoration(
-                                                    hintText: "Solution",
-                                                    border: InputBorder.none,
-                                                    fillColor: Colors.grey[200],
-                                                    filled: true,
+                                              child: Row(
+                                                children: [
+                                                  Flexible(
+                                                    child: TextField(
+                                                      maxLines: 4,
+                                                      controller: _solutionController,
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontSize: 24.0,
+                                                      ),
+                                                      decoration: InputDecoration(
+                                                        hintText: "Give your solution here",
+                                                        hintStyle: TextStyle(
+                                                          fontWeight: FontWeight.w400,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        border: InputBorder.none,
+                                                        fillColor: Colors.grey[200],
+                                                        filled: true,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                  _solutionImage == null
+                                                      ? Center(
+                                                          child: Container(
+                                                            height: height * 0.15,
+                                                            width: width * 0.15,
+                                                            decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(18.0),
+                                                              color: Colors.grey[100],
+                                                            ),
+                                                            margin: const EdgeInsets.all(12.0),
+                                                            child: FlatButton(
+                                                              onPressed: () => getSolutionImage(setState),
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.symmetric(vertical: 18.0),
+                                                                child: Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                      child: Image.asset(
+                                                                        'assets/icons/upload_image.png',
+                                                                        height: height * 0.03,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      'Upload Image',
+                                                                      style: TextStyle(
+                                                                        fontSize: 14,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Center(
+                                                          child: Row(
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Image.memory(
+                                                                base64Decode(_solution),
+                                                                height: height * 0.15,
+                                                                width: height * 0.15,
+                                                                fit: BoxFit.contain,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 18.0,
+                                                              ),
+                                                              Column(
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  FlatButton.icon(
+                                                                    color: Colors.grey[200],
+                                                                    onPressed: () => getSolutionImage(setState),
+                                                                    icon: Icon(
+                                                                      Icons.edit,
+                                                                    ),
+                                                                    label: Text('Edit'),
+                                                                  ),
+                                                                  FlatButton.icon(
+                                                                    color: Colors.grey[200],
+                                                                    onPressed: () => setState(() {
+                                                                      _solutionImage = null;
+                                                                      _solution = '';
+                                                                    }),
+                                                                    icon: Icon(
+                                                                      Icons.delete,
+                                                                    ),
+                                                                    label: Text('Delete'),
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                ],
                                               ),
                                             )
                                           : SizedBox.shrink(),
+                                      // _showSolution
+                                      //     ? Padding(
+                                      //         padding: const EdgeInsets.symmetric(
+                                      //           vertical: 12.0,
+                                      //           horizontal: 14.0,
+                                      //         ),
+                                      //         child: ClipRRect(
+                                      //           borderRadius: BorderRadius.circular(12.0),
+                                      //           child: TextField(
+                                      //             maxLines: 2,
+                                      //             controller: _solutionController,
+                                      //             textAlign: TextAlign.center,
+                                      //             decoration: InputDecoration(
+                                      //               hintText: "Solution",
+                                      //               border: InputBorder.none,
+                                      //               fillColor: Colors.grey[200],
+                                      //               filled: true,
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //       )
+                                      //     : SizedBox.shrink(),
                                       SizedBox(
                                         height: 12.0,
                                       ),
@@ -819,7 +1115,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                   height: 8.0,
                                 ),
                                 RaisedButton(
-                                  onPressed: () => setState(() => _showSoltuion = true),
+                                  onPressed: () => setState(() => _showSolution = true),
                                   child: Text(
                                     'Add Solution',
                                     style: Theme.of(context).textTheme.button,
@@ -917,6 +1213,7 @@ class OptionField extends StatelessWidget {
   final Function onTap;
   final Function onChanged;
   final Function optionImagePicker;
+  final Function deletePickedImage;
   final Color color;
   final String label;
 
@@ -928,6 +1225,7 @@ class OptionField extends StatelessWidget {
     @required this.onChanged,
     @required this.onTap,
     @required this.optionImagePicker,
+    @required this.deletePickedImage,
     @required this.color,
     @required this.label,
   });
@@ -1012,78 +1310,48 @@ class OptionField extends StatelessWidget {
                     SizedBox(
                       width: 12.0,
                     ),
-                    SizedBox(
+                    Container(
                       height: MediaQuery.of(context).size.height * 0.1,
-                      width: 55.0,
-                      child: FlatButton(
+                      decoration: BoxDecoration(
                         color: color,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18.0,
-                        ),
-                        onPressed: optionImagePicker,
-                        child: Icon(
-                          Icons.edit,
-                          size: 22.0,
-                          color: Colors.white,
-                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      width: 55.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FlatButton(
+                            color: color,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18.0,
+                            ),
+                            onPressed: optionImagePicker,
+                            child: Icon(
+                              Icons.edit,
+                              size: 22.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          FlatButton(
+                            color: color,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18.0,
+                            ),
+                            onPressed: deletePickedImage,
+                            child: Icon(
+                              Icons.delete,
+                              size: 22.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     )
                   ],
                 ),
         ],
       ),
-      // child: RadioListTile(
-      //   value: myValue,
-      //   groupValue: groupValue,
-      //   onChanged: onChanged,
-      //   title: TextField(
-      //     focusNode: myFocusNode,
-      //     decoration: InputDecoration(
-      //       border: InputBorder.none,
-      //       hintText: "Enter option",
-      //       hintStyle: TextStyle(fontSize: 20),
-      //       fillColor: Colors.grey[200],
-      //       filled: true,
-      //     ),
-      //     onChanged: onTap,
-      //   ),
-      //   secondary: image == null
-      //       ? FlatButton(
-      //           color: color,
-      //           padding: const EdgeInsets.symmetric(
-      //             vertical: 12.0,
-      //             horizontal: 18.0,
-      //           ),
-      //           onPressed: optionImagePicker,
-      //           child: Icon(
-      //             Icons.image,
-      //             color: Colors.white,
-      //           ))
-      //       : Row(
-      //           crossAxisAlignment: CrossAxisAlignment.center,
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           mainAxisSize: MainAxisSize.min,
-      //           children: [
-      //             Image.network(
-      //               image.path,
-      //               height: MediaQuery.of(context).size.height * 0.1,
-      //               width: MediaQuery.of(context).size.height * 0.1,
-      //               fit: BoxFit.contain,
-      //             ),
-      //             SizedBox(
-      //               width: 18.0,
-      //             ),
-      //             FlatButton(
-      //               color: color,
-      //               onPressed: optionImagePicker,
-      //               child: Icon(
-      //                 Icons.edit,
-      //                 color: Colors.white,
-      //               ),
-      //             )
-      //           ],
-      //         ),
-      // ),
     );
   }
 }
