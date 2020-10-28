@@ -5,7 +5,9 @@ import 'package:edwisely/data/provider/selected_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:universal_html/html.dart' as html;
 
 import '../widgets_util/navigation_drawer.dart';
 
@@ -401,6 +403,35 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
+                    RaisedButton(
+                      onPressed: () {
+                        if (DateTime.parse(activity['end_time']).isAfter(
+                          DateTime.now().add(
+                            Duration(
+                              minutes: 10,
+                            ),
+                          ),
+                        )) {
+                          html.window.open(activity['url'], 'Meeting');
+                        } else if (DateTime.parse(activity['end_time'])
+                            .isBefore(
+                          DateTime.now(),
+                        )) {
+                        } else {
+                          Get.defaultDialog(
+                            title: 'Cannot Start Meeting',
+                            middleText:
+                                'You can login to the meeting only 10 mins before it starts',
+                          );
+                        }
+                      },
+                      child: Text(
+                        DateTime.parse(activity['end_time'])
+                                .isBefore(DateTime.now())
+                            ? 'Meeting Completed'
+                            : 'Start Meeting',
+                      ),
+                    )
                   ],
                 ),
               ],
@@ -985,6 +1016,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _yourCoursesList(dynamic courses) {
+    ScrollController scrollController = ScrollController();
     return SizedBox(
       height: screenSize.height * 0.19,
       width: screenSize.width * 0.59,
@@ -997,6 +1029,7 @@ class _HomeScreenState extends State<HomeScreen> {
             top: 0,
             bottom: 0,
             child: ListView.builder(
+              controller: scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               scrollDirection: Axis.horizontal,
               itemCount: courses.length,
@@ -1021,7 +1054,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                 ),
                 /* no-op */
-                onPressed: () {},
+                onPressed: () => scrollController.animateTo(
+                  scrollController.offset - screenSize.width * 0.12,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeIn,
+                ),
               ),
             ),
           ),
@@ -1043,7 +1080,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                 ),
                 /* no-op */
-                onPressed: () {},
+                onPressed: () => scrollController.animateTo(
+                  scrollController.offset + screenSize.width * 0.12,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeIn,
+                ),
               ),
             ),
           ),

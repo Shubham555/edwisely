@@ -449,10 +449,6 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                     value: widget._bloomValue,
                                                     items: [
                                                       DropdownMenuItem(
-                                                        child: Text('All'),
-                                                        value: -1,
-                                                      ),
-                                                      DropdownMenuItem(
                                                         child: Text('Remember'),
                                                         value: 1,
                                                       ),

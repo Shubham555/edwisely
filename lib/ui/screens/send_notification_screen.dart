@@ -85,7 +85,6 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                               ),
                               onPressed: () {
                                 final form = _formKey.currentState;
-
                                 if (form.validate()) {
                                   form.save();
                                   context
@@ -262,47 +261,75 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                     child: Text(
                                                         'Select Attachment'),
                                                   ),
-                                                  InkWell(
-                                                    onTap: () async {
-                                                      file =
-                                                          await FilePickerCross
+                                                  StatefulBuilder(
+                                                    builder: (BuildContext
+                                                            context,
+                                                        void Function(
+                                                                void Function())
+                                                            setState) {
+                                                      return InkWell(
+                                                        onTap: () async {
+                                                          file = await FilePickerCross
                                                               .importFromStorage(
-                                                        type: FileTypeCross.any,
-                                                      );
-                                                      setState(() {});
-                                                    },
-                                                    child: Container(
-                                                      width: screenSize.width *
-                                                          0.08,
-                                                      height:
-                                                          screenSize.height *
+                                                            type: FileTypeCross
+                                                                .any,
+                                                          );
+                                                          setState(() {});
+                                                        },
+                                                        child: Container(
+                                                          width:
+                                                              screenSize.width *
+                                                                  0.08,
+                                                          height: screenSize
+                                                                  .height *
                                                               0.05,
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                        border: Border.all(
-                                                          color: Colors.black,
-                                                          width: 0.5,
-                                                        ),
-                                                      ),
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: file != null
-                                                          ? Text(
-                                                              file.fileName,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                            )
-                                                          : Image.asset(
-                                                              'assets/icons/upload.png',
-                                                              width: 18.0,
-                                                              height: 24.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            border: Border.all(
+                                                              color:
+                                                                  Colors.black,
+                                                              width: 0.5,
                                                             ),
-                                                    ),
-                                                  ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: file != null
+                                                              ? Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                  children: [
+                                                                    Text(
+                                                                      file.fileName,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                    IconButton(
+                                                                      icon: Icon(
+                                                                          Icons
+                                                                              .close),
+                                                                      onPressed:
+                                                                          () {
+                                                                        setState(() =>
+                                                                            file =
+                                                                                null);
+                                                                      },
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              : Image.asset(
+                                                                  'assets/icons/upload.png',
+                                                                  width: 18.0,
+                                                                  height: 24.0,
+                                                                ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  )
                                                 ],
                                               ),
                                             ],

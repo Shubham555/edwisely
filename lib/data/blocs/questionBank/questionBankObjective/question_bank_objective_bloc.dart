@@ -55,7 +55,7 @@ class QuestionBankObjectiveBloc
             ),
           );
         }
-        if (response.data['message'] != 'No questions') {
+        if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
         } else
           yield UnitObjectiveQuestionsFetched(
@@ -75,14 +75,10 @@ class QuestionBankObjectiveBloc
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200) {
-        QuestionBankObjectiveEntity questionBankObjectiveEntity =
-            QuestionBankObjectiveEntity.fromJsonMap(
-          response.data,
-        );
-        if (questionBankObjectiveEntity == null) {
+        if (response.data['message'] == 'No questions') {
           yield QuestionBankObjectiveEmpty();
-        }
-        if (response.data['message'] != 'Successfully fetched the data') {
+        } else if (response.data['message'] !=
+            'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
         } else
           yield UnitObjectiveQuestionsFetched(

@@ -38,12 +38,6 @@ class AssessmentTile extends StatelessWidget {
         doe != null &&
         startTime.isNotEmpty &&
         doe.isNotEmpty;
-    // int st = DateTime.parse(startTime).month;
-    //
-    // DateFormat formatter = DateFormat('hh : mm');
-    // String displayStartTime = formatter.format(st);
-    // String displayStartTime = '';
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -150,6 +144,32 @@ class AssessmentTile extends StatelessWidget {
                                 Text(
                                   DateTime.parse(
                                     startTime,
+                                  ).day.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                Text('  -  '),
+                                Text(
+                                  DateUtils().getMonthFromDateTime(
+                                    DateTime.parse(
+                                      doe,
+                                    ).month,
+                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  DateTime.parse(
+                                    doe,
                                   ).day.toString(),
                                   style: Theme.of(context)
                                       .textTheme

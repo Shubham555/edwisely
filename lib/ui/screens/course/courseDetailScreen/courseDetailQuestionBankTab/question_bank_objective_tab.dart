@@ -9,6 +9,7 @@ import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
 import '../../../../../data/blocs/questionBank/questionBankObjective/question_bank_objective_bloc.dart';
+import '../../../../../main.dart';
 
 class QuestionBankObjectiveTab extends StatefulWidget {
   final int subjectId;
@@ -451,10 +452,15 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                           }
                           if (state is QuestionBankObjectiveFetchFailed) {
                             return Center(
-                              child: Text(
-                                'No Questions',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 30),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'No Questions',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30),
+                                  ),
+                                ],
                               ),
                             );
                           } else {
@@ -469,6 +475,14 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                 ),
               ),
             ],
+          );
+        }
+        if (state is QuestionBankObjectiveFetchFailed) {
+          return Center(child: Text(state.error));
+        }
+        if (state is QuestionBankObjectiveEmpty) {
+          return Center(
+            child: Text('No Questions'),
           );
         } else {
           return Center(
@@ -491,6 +505,9 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
             'id': data.id,
           },
         ),
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }),
       );
       if (response.data['message'] == 'Successfully deleted the bookmark') {
         setState(
@@ -512,6 +529,9 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
             'id': data.id,
           },
         ),
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }),
       );
       if (response.data['message'] == 'Successfully added the bookmark') {
         setState(
@@ -536,6 +556,9 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
           'type': s,
         },
       ),
+      options: Options(headers: {
+        'Authorization': 'Bearer $loginToken',
+      }),
     );
     if (response.data['message'] == 'Successfully updated the data') {
       Toast.show('Changed the type to $s', context);

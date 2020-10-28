@@ -122,7 +122,7 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                       ],
                     );
                   } else {
-                    return Text('Fetching');
+                    return Text('');
                   }
                 },
               ),

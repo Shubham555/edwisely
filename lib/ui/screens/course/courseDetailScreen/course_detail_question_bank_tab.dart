@@ -57,14 +57,14 @@ class _CourseDetailQuestionBankTabState
                   _tabController.addListener(
                     () {
                       switch (_tabController.index) {
-                        // case 0:
-                        //   context.bloc<QuestionBankObjectiveBloc>().add(
-                        //         GetUnitObjectiveQuestions(
-                        //           widget.subjectId,
-                        //           state.units.data[0].id,
-                        //         ),
-                        //       );
-                        //   break;
+                        case 0:
+                          context.bloc<QuestionBankObjectiveBloc>().add(
+                                GetUnitObjectiveQuestions(
+                                  widget.subjectId,
+                                  state.units.data[0].id,
+                                ),
+                              );
+                          break;
                         case 1:
                           context.bloc<QuestionBankSubjectiveBloc>().add(
                                 GetUnitSubjectiveQuestions(

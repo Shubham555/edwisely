@@ -1,11 +1,16 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/model/questionBank/questionBankSubjective/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:get/get.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
 import '../../../../../data/blocs/questionBank/questionBankSubjective/question_bank_subjective_bloc.dart';
+import '../../../../../main.dart';
 
 class QuestionBankSubjectiveTab extends StatefulWidget {
   final int subjectId;
@@ -13,7 +18,8 @@ class QuestionBankSubjectiveTab extends StatefulWidget {
   QuestionBankSubjectiveTab(this.subjectId);
 
   @override
-  _QuestionBankSubjectiveTabState createState() => _QuestionBankSubjectiveTabState();
+  _QuestionBankSubjectiveTabState createState() =>
+      _QuestionBankSubjectiveTabState();
 }
 
 class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
@@ -53,10 +59,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       width: 10,
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context).size.width * 0.07,
-                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.07,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 12.0),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12.0),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
                                         color: Colors.white,
                                         border: Border.all(
                                           color: Colors.black,
@@ -95,13 +104,19 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               },
                                             );
                                             value == -1
-                                                ? context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                ? context
+                                                    .bloc<
+                                                        QuestionBankSubjectiveBloc>()
+                                                    .add(
                                                       GetUnitSubjectiveQuestions(
                                                         widget.subjectId,
                                                         state.unitId,
                                                       ),
                                                     )
-                                                : context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                : context
+                                                    .bloc<
+                                                        QuestionBankSubjectiveBloc>()
+                                                    .add(
                                                       GetUnitSubjectiveQuestionsByLevel(
                                                         value,
                                                         state.unitId,
@@ -120,10 +135,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       width: 10,
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context).size.width * 0.07,
-                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.07,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 12.0),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12.0),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
                                         color: Colors.white,
                                         border: Border.all(
                                           color: Colors.black,
@@ -141,13 +159,19 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                             },
                                           );
                                           value == 1234567890
-                                              ? context.bloc<QuestionBankSubjectiveBloc>().add(
+                                              ? context
+                                                  .bloc<
+                                                      QuestionBankSubjectiveBloc>()
+                                                  .add(
                                                     GetUnitSubjectiveQuestions(
                                                       widget.subjectId,
                                                       state.unitId,
                                                     ),
                                                   )
-                                              : context.bloc<QuestionBankSubjectiveBloc>().add(
+                                              : context
+                                                  .bloc<
+                                                      QuestionBankSubjectiveBloc>()
+                                                  .add(
                                                     GetUnitSubjectiveQuestionsByTopic(
                                                       value,
                                                       state.unitId,
@@ -167,10 +191,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       width: 10,
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context).size.width * 0.1,
-                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+                                      width: MediaQuery.of(context).size.width *
+                                          0.1,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 12.0),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12.0),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
                                         color: Colors.white,
                                         border: Border.all(
                                           color: Colors.black,
@@ -203,7 +230,10 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                           switch (value) {
                                             case 1:
                                               {
-                                                context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                context
+                                                    .bloc<
+                                                        QuestionBankSubjectiveBloc>()
+                                                    .add(
                                                       GetUnitSubjectiveQuestions(
                                                         widget.subjectId,
                                                         state.unitId,
@@ -213,7 +243,10 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               break;
                                             case 2:
                                               {
-                                                context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                context
+                                                    .bloc<
+                                                        QuestionBankSubjectiveBloc>()
+                                                    .add(
                                                       GetSubjectiveQuestionsByBookmark(
                                                         state.unitId,
                                                       ),
@@ -222,7 +255,10 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               break;
                                             case 3:
                                               {
-                                                context.bloc<QuestionBankSubjectiveBloc>().add(
+                                                context
+                                                    .bloc<
+                                                        QuestionBankSubjectiveBloc>()
+                                                    .add(
                                                       GetYourSubjectiveQuestions(
                                                         state.unitId,
                                                       ),
@@ -241,7 +277,9 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                           Container(
                             padding: const EdgeInsets.all(18.0),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor.withOpacity(0.1),
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.1),
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(18.0),
                                 topRight: Radius.circular(18.0),
@@ -255,7 +293,8 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                   'Subjective Questions',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.height / 50,
+                                    fontSize:
+                                        MediaQuery.of(context).size.height / 50,
                                   ),
                                 ),
                                 RaisedButton(
@@ -289,8 +328,13 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                               if (state is UnitSubjectiveQuestionsFetched) {
                                 return ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: state.questionBankSubjectiveEntity.data.length,
-                                    itemBuilder: (BuildContext context, int index) => Container(
+                                    itemCount: state
+                                        .questionBankSubjectiveEntity
+                                        .data
+                                        .length,
+                                    itemBuilder: (BuildContext context,
+                                            int index) =>
+                                        Container(
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             border: Border(
@@ -305,7 +349,10 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               children: [
                                                 Text('Q. ${index + 1}'),
                                                 Image.network(
-                                                  state.questionBankSubjectiveEntity.data[index].question_img[0],
+                                                  state
+                                                      .questionBankSubjectiveEntity
+                                                      .data[index]
+                                                      .question_img[0],
                                                   width: 250,
                                                   height: 120,
                                                 ),
@@ -314,18 +361,42 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                             subtitle: Text(
                                               'Level ${state.questionBankSubjectiveEntity.data[index].blooms_level}',
                                             ),
-                                            trailing: questionsDropDownValue == 3
+                                            trailing: questionsDropDownValue ==
+                                                    3
                                                 ? PopupMenuButton(
                                                     onSelected: (string) {
                                                       switch (string) {
                                                         case 'Bookmark':
-                                                          _bookmark(state.questionBankSubjectiveEntity.data[index]);
+                                                          _bookmark(state
+                                                              .questionBankSubjectiveEntity
+                                                              .data[index]);
                                                           break;
                                                         case 'Change type to Public':
-                                                          _changeType(state.questionBankSubjectiveEntity.data[index].id, 'public');
+                                                          Get.defaultDialog(
+                                                            title: 'Confirm',
+                                                            middleText:
+                                                                'You wont be able to change it back to private once a question is made public',
+                                                            onConfirm: () {
+                                                              Get.back();
+                                                              _changeType(
+                                                                    state
+                                                                        .questionBankSubjectiveEntity
+                                                                        .data[
+                                                                            index]
+                                                                        .id,
+                                                                    'public');
+                                                            },
+                                                            onCancel: () =>
+                                                                Get.back(),
+                                                          );
                                                           break;
                                                         case 'Change type to Private':
-                                                          _changeType(state.questionBankSubjectiveEntity.data[index].id, 'private');
+                                                          _changeType(
+                                                              state
+                                                                  .questionBankSubjectiveEntity
+                                                                  .data[index]
+                                                                  .id,
+                                                              'private');
                                                           break;
                                                       }
                                                     },
@@ -335,7 +406,8 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                         'Change type to ${state.questionBankSubjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
                                                       ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
                                                           .map(
-                                                            (e) => PopupMenuItem(
+                                                            (e) =>
+                                                                PopupMenuItem(
                                                               child: Text(e),
                                                               value: e,
                                                             ),
@@ -344,11 +416,18 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                     },
                                                   )
                                                 : IconButton(
-                                                    icon: Icon(state.questionBankSubjectiveEntity.data[index].bookmarked == 1
+                                                    icon: Icon(state
+                                                                .questionBankSubjectiveEntity
+                                                                .data[index]
+                                                                .bookmarked ==
+                                                            1
                                                         ? Icons.bookmark
-                                                        : Icons.bookmark_border),
+                                                        : Icons
+                                                            .bookmark_border),
                                                     onPressed: () => _bookmark(
-                                                      state.questionBankSubjectiveEntity.data[index],
+                                                      state
+                                                          .questionBankSubjectiveEntity
+                                                          .data[index],
                                                     ),
                                                   ),
                                           ),
@@ -358,7 +437,9 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                 return Center(
                                   child: Text(
                                     'No Questions',
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30),
                                   ),
                                 );
                               } else {
@@ -397,6 +478,9 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
             'id': data.id,
           },
         ),
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }),
       );
 
       if (response.data['message'] == 'Successfully deleted the bookmark') {
@@ -411,6 +495,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
         );
       }
     } else {
+      print(data.toJson());
       final response = await EdwiselyApi.dio.post(
         'addBookmark',
         data: FormData.fromMap(
@@ -419,8 +504,10 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
             'id': data.id,
           },
         ),
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }),
       );
-
 
       if (response.data['message'] == 'Successfully added the bookmark') {
         setState(
@@ -445,6 +532,9 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
           'type': s,
         },
       ),
+      options: Options(headers: {
+        'Authorization': 'Bearer $loginToken',
+      }),
     );
     if (response.data['message'] == 'Successfully updated the data') {
       Toast.show('Changed the type to $s', context);
