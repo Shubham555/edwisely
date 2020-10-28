@@ -17,7 +17,7 @@ class _MyCheckboxState extends State<MyCheckbox> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 28.0),
+      padding: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 34.0),
       child: SizedBox(
         height: 35.0,
         width: 35.0,
