@@ -13,123 +13,148 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-          margin: const EdgeInsets.symmetric(vertical: 12.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4.0),
-            border: Border.all(
-              color: Colors.grey,
-              width: 1.0,
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.calendar_today_outlined),
-                onPressed: () async => context.bloc<ConductedBloc>().add(
-                      GetSubjectiveQuestionsByDate(
-                        await showDatePicker(
-                          context: context,
-                          initialDate: initialDate ?? DateTime.now(),
-                          firstDate: DateTime.now().subtract(
-                            Duration(days: 100),
-                          ),
-                          lastDate: DateTime.now().add(
-                            Duration(days: 100),
-                          ),
-                        ).then(
-                          (value) {
-                            initialDate = value;
-                            Scaffold.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    'Fetching Assessments after ${value == null ? 'Yesterday' : DateFormat('EEE d MMM yyyy').format(value)}'),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+              margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1.0,
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.calendar_today_outlined),
+                    onPressed: () async => context.bloc<ConductedBloc>().add(
+                          GetSubjectiveQuestionsByDate(
+                            await showDatePicker(
+                              context: context,
+                              initialDate: initialDate ?? DateTime.now(),
+                              firstDate: DateTime.now().subtract(
+                                Duration(days: 100),
                               ),
-                            );
-                            return value == null
-                                ? DateTime.now()
-                                    .subtract(
-                                      Duration(days: 1),
-                                    )
-                                    .toString()
-                                : value.toString();
-                          },
+                              lastDate: DateTime.now().add(
+                                Duration(days: 100),
+                              ),
+                            ).then(
+                              (value) {
+                                initialDate = value;
+                                Scaffold.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Fetching Assessments after ${value == null ? 'Yesterday' : DateFormat('EEE d MMM yyyy').format(value)}'),
+                                  ),
+                                );
+                                return value == null
+                                    ? DateTime.now()
+                                        .subtract(
+                                          Duration(days: 1),
+                                        )
+                                        .toString()
+                                    : value.toString();
+                              },
+                            ),
+                          ),
+                        ),
+                  ),
+                  Text('Filter by Date'),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            BlocBuilder(
+              cubit: context.bloc<CoursesBloc>(),
+              builder: (BuildContext context, state) {
+                if (state is SectionsAndGetCoursesListFetched) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                        margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: DropdownButton(
+                          underline: Container(),
+                          hint: Text('Filter Assessments by Sections'),
+                          items: [
+                                DropdownMenuItem(
+                                  child: Text('All'),
+                                  value: 1234567890,
+                                ),
+                              ] +
+                              List.generate(
+                                state.sections.data.length,
+                                (index) => DropdownMenuItem(
+                                  child: Text(state.sections.data[index].name),
+                                  value: state.sections.data[index].id,
+                                ),
+                              ),
+                          onChanged: (value) => value == 1234567890
+                              ? context.bloc<ConductedBloc>().add(
+                                    GetSubjectiveQuestions(),
+                                  )
+                              : context.bloc<ConductedBloc>().add(
+                                    GetSubjectiveQuestionsBySection(
+                                      value.toString(),
+                                    ),
+                                  ),
                         ),
                       ),
-                    ),
-              ),
-              Text('Filter by Date'),
-              SizedBox(
-                height: 20,
-              ),
-              BlocBuilder(
-                cubit: context.bloc<CoursesBloc>(),
-                builder: (BuildContext context, state) {
-                  if (state is SectionsAndGetCoursesListFetched) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: DropdownButton(
-                            underline: Container(),
-                            hint: Text('Filter Assessments by Sections'),
-                            items: [
-                                  DropdownMenuItem(
-                                    child: Text('All'),
-                                    value: 1234567890,
-                                  ),
-                                ] +
-                                List.generate(
-                                  state.sections.data.length,
-                                  (index) => DropdownMenuItem(
-                                    child:
-                                        Text(state.sections.data[index].name),
-                                    value: state.sections.data[index].id,
-                                  ),
-                                ),
-                            onChanged: (value) => value == 1234567890
-                                ? context.bloc<ConductedBloc>().add(
-                                      GetSubjectiveQuestions(),
-                                    )
-                                : context.bloc<ConductedBloc>().add(
-                                      GetSubjectiveQuestionsBySection(
-                                        value.toString(),
-                                      ),
-                                    ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                        margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: DropdownButton(
-                            isDense: true,
-                            underline: Container(),
-                            hint: Text('Filter Assessments by Subjects'),
-                            items: state.subjects,
-                            onChanged: (value) => value == 1234567890
-                                ? context.bloc<ConductedBloc>().add(
-                                      GetSubjectiveQuestions(),
-                                    )
-                                : context.bloc<ConductedBloc>().add(
-                                      GetSubjectiveQuestionsBySubject(
-                                        value.toString(),
-                                      ),
+                        child: DropdownButton(
+                          underline: Container(),
+                          hint: Text('Filter Assessments by Subjects'),
+                          items: state.subjects,
+                          onChanged: (value) => value == 1234567890
+                              ? context.bloc<ConductedBloc>().add(
+                                    GetSubjectiveQuestions(),
+                                  )
+                              : context.bloc<ConductedBloc>().add(
+                                    GetSubjectiveQuestionsBySubject(
+                                      value.toString(),
                                     ),
-                          ),
+                                  ),
                         ),
-                      ],
-                    );
-                  } else {
-                    return Text('');
-                  }
-                },
-              ),
-            ],
-          ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Text('');
+                }
+              },
+            ),
+          ],
         ),
         Expanded(
           child: BlocBuilder(
@@ -170,8 +195,7 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                         state.questionsEntity.data[index].id,
                         state.questionsEntity.data[index].name,
                         state.questionsEntity.data[index].description,
-                        state.questionsEntity.data[index].questions_count
-                            .toString(),
+                        state.questionsEntity.data[index].questions_count.toString(),
                         '',
                         //for subject name
                         state.questionsEntity.data[index].doe,

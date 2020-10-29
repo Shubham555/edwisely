@@ -13,23 +13,29 @@ class ConductedTabObjectiveTab extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-          margin: const EdgeInsets.symmetric(vertical: 12.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4.0),
-            border: Border.all(
-              color: Colors.grey,
-              width: 1.0,
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.calendar_today_outlined),
-                onPressed: () async => context.bloc<ConductedBloc>().add(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+              margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1.0,
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.calendar_today_outlined),
+                    onPressed: () async => context.bloc<ConductedBloc>().add(
                       GetObjectiveQuestionsByDate(
                         await showDatePicker(
                           context: context,
@@ -41,7 +47,7 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                             Duration(days: 100),
                           ),
                         ).then(
-                          (value) {
+                              (value) {
                             initialDate = value;
                             Scaffold.of(context).showSnackBar(
                               SnackBar(
@@ -51,86 +57,105 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                             );
                             return value == null
                                 ? DateTime.now()
-                                    .subtract(
-                                      Duration(days: 1),
-                                    )
-                                    .toString()
+                                .subtract(
+                              Duration(days: 1),
+                            )
+                                .toString()
                                 : value.toString();
                           },
                         ),
                       ),
                     ),
+                  ),
+                  Text('Filter by Date'),
+                ],
               ),
-              Text('Filter by Date'),
-              SizedBox(
-                height: 20,
-              ),
-              BlocBuilder(
-                cubit: context.bloc<CoursesBloc>(),
-                builder: (BuildContext context, state) {
-                  if (state is SectionsAndGetCoursesListFetched) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: DropdownButton(
-                            underline: Container(),
-                            hint: Text('Filter Assessments by Sections'),
-                            items: [
-                                  DropdownMenuItem(
-                                    child: Text('All'),
-                                    value: 1234567890,
-                                  ),
-                                ] +
-                                List.generate(
-                                  state.sections.data.length,
-                                  (index) => DropdownMenuItem(
-                                    child:
-                                        Text(state.sections.data[index].name),
-                                    value: state.sections.data[index].id,
-                                  ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            BlocBuilder(
+              cubit: context.bloc<CoursesBloc>(),
+              builder: (BuildContext context, state) {
+                if (state is SectionsAndGetCoursesListFetched) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                        margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: DropdownButton(
+                          underline: SizedBox.shrink(),
+                          hint: Text('Filter Assessments by Sections'),
+                          items: [
+                                DropdownMenuItem(
+                                  child: Text('All'),
+                                  value: 1234567890,
                                 ),
-                            onChanged: (value) => value == 1234567890
-                                ? context.bloc<ConductedBloc>().add(
-                                      GetObjectiveQuestions(),
-                                    )
-                                : context.bloc<ConductedBloc>().add(
-                                      GetObjectiveQuestionsBySection(
-                                        value.toString(),
-                                      ),
+                              ] +
+                              List.generate(
+                                state.sections.data.length,
+                                (index) => DropdownMenuItem(
+                                  child:
+                                      Text(state.sections.data[index].name),
+                                  value: state.sections.data[index].id,
+                                ),
+                              ),
+                          onChanged: (value) => value == 1234567890
+                              ? context.bloc<ConductedBloc>().add(
+                                    GetObjectiveQuestions(),
+                                  )
+                              : context.bloc<ConductedBloc>().add(
+                                    GetObjectiveQuestionsBySection(
+                                      value.toString(),
                                     ),
+                                  ),
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                        margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.0,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: DropdownButton(
-                            isDense: true,
-                            underline: Container(),
-                            hint: Text('Filter Assessments by Subjects'),
-                            items: state.subjects,
-                            onChanged: (value) => value == 1234567890
-                                ? context.bloc<ConductedBloc>().add(
-                                      GetObjectiveQuestions(),
-                                    )
-                                : context.bloc<ConductedBloc>().add(
-                                      GetObjectiveQuestionsBySubject(
-                                        value.toString(),
-                                      ),
+                        child: DropdownButton(
+                          underline: SizedBox.shrink(),
+                          hint: Text('Filter Assessments by Subjects'),
+                          items: state.subjects,
+                          onChanged: (value) => value == 1234567890
+                              ? context.bloc<ConductedBloc>().add(
+                                    GetObjectiveQuestions(),
+                                  )
+                              : context.bloc<ConductedBloc>().add(
+                                    GetObjectiveQuestionsBySubject(
+                                      value.toString(),
                                     ),
-                          ),
+                                  ),
                         ),
-                      ],
-                    );
-                  } else {
-                    return Text('');
-                  }
-                },
-              ),
-            ],
-          ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Text('');
+                }
+              },
+            ),
+          ],
         ),
         Expanded(
           child: BlocBuilder(

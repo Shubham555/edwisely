@@ -17,18 +17,15 @@ import 'subjective_tab.dart';
 
 class AssessmentLandingScreen extends StatefulWidget {
   @override
-  _AssessmentLandingScreenState createState() =>
-      _AssessmentLandingScreenState();
+  _AssessmentLandingScreenState createState() => _AssessmentLandingScreenState();
 }
 
-class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
-    with SingleTickerProviderStateMixin {
+class _AssessmentLandingScreenState extends State<AssessmentLandingScreen> with SingleTickerProviderStateMixin {
   TabController _assessmentLandingScreenTabController;
 
   @override
   void initState() {
-    _assessmentLandingScreenTabController =
-        TabController(vsync: this, length: 3);
+    _assessmentLandingScreenTabController = TabController(vsync: this, length: 3);
     super.initState();
   }
 
@@ -38,8 +35,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
       body: Row(
         children: [
           NavigationDrawer(
-            isCollapsed:
-                MediaQuery.of(context).size.width <= 1366 ? true : false,
+            isCollapsed: MediaQuery.of(context).size.width <= 1366 ? true : false,
             key: context.watch<SelectedPageProvider>().navigatorKey,
           ),
           Expanded(
@@ -52,8 +48,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                   appBarSize: MediaQuery.of(context).size.height / 3,
                   appBarTitle: Text(
                     'Edwisely',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   route: 'Home > My Assessments',
                   flatButton: RaisedButton(
@@ -64,8 +59,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            CreateAssessmentScreen(QuestionType.Objective),
+                        builder: (BuildContext context) => CreateAssessmentScreen(QuestionType.Objective),
                       ),
                     ),
                     child: Row(
@@ -102,12 +96,10 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                           labelColor: Colors.black,
                           indicatorPadding: const EdgeInsets.only(top: 8.0),
                           unselectedLabelColor: Colors.grey,
-                          unselectedLabelStyle:
-                              Theme.of(context).textTheme.headline6,
-                          labelStyle:
-                              Theme.of(context).textTheme.headline5.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          unselectedLabelStyle: Theme.of(context).textTheme.headline6,
+                          labelStyle: Theme.of(context).textTheme.headline5.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                           controller: _assessmentLandingScreenTabController,
                           isScrollable: true,
                           tabs: [
@@ -130,18 +122,16 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                               MultiBlocProvider(
                                 providers: [
                                   BlocProvider(
-                                    create: (BuildContext context) =>
-                                        ObjectiveBloc()
-                                          ..add(
-                                            GetObjectiveTests(),
-                                          ),
+                                    create: (BuildContext context) => ObjectiveBloc()
+                                      ..add(
+                                        GetObjectiveTests(),
+                                      ),
                                   ),
                                   BlocProvider(
-                                    create: (BuildContext context) =>
-                                        CoursesBloc()
-                                          ..add(
-                                            GetCoursesList(),
-                                          ),
+                                    create: (BuildContext context) => CoursesBloc()
+                                      ..add(
+                                        GetCoursesList(),
+                                      ),
                                   ),
                                 ],
                                 child: ObjectiveTab(),
@@ -149,18 +139,16 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                               MultiBlocProvider(
                                 providers: [
                                   BlocProvider(
-                                    create: (BuildContext context) =>
-                                        SubjectiveBloc()
-                                          ..add(
-                                            GetSubjectiveTests(),
-                                          ),
+                                    create: (BuildContext context) => SubjectiveBloc()
+                                      ..add(
+                                        GetSubjectiveTests(),
+                                      ),
                                   ),
                                   BlocProvider(
-                                    create: (BuildContext context) =>
-                                        CoursesBloc()
-                                          ..add(
-                                            GetCoursesList(),
-                                          ),
+                                    create: (BuildContext context) => CoursesBloc()
+                                      ..add(
+                                        GetCoursesList(),
+                                      ),
                                   ),
                                 ],
                                 child: SubjectiveTab(),
@@ -168,18 +156,16 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                               MultiBlocProvider(
                                 providers: [
                                   BlocProvider(
-                                    create: (BuildContext context) =>
-                                        ConductedBloc()
-                                          ..add(
-                                            GetObjectiveQuestions(),
-                                          ),
+                                    create: (BuildContext context) => ConductedBloc()
+                                      ..add(
+                                        GetObjectiveQuestions(),
+                                      ),
                                   ),
                                   BlocProvider(
-                                    create: (BuildContext context) =>
-                                        CoursesBloc()
-                                          ..add(
-                                            GetSectionsAndGetCoursesList(),
-                                          ),
+                                    create: (BuildContext context) => CoursesBloc()
+                                      ..add(
+                                        GetSectionsAndGetCoursesList(),
+                                      ),
                                   ),
                                 ],
                                 child: ConductedTab(),
@@ -212,9 +198,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                 children: [
                   Text(
                     'Create a New Assignment',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.height / 40),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: MediaQuery.of(context).size.height / 40),
                   ),
                   Divider(
                     thickness: 2,
@@ -225,8 +209,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            CreateAssessmentScreen(QuestionType.Objective),
+                        builder: (BuildContext context) => CreateAssessmentScreen(QuestionType.Objective),
                       ),
                     ),
                   ),
@@ -236,8 +219,7 @@ class _AssessmentLandingScreenState extends State<AssessmentLandingScreen>
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            CreateAssessmentScreen(QuestionType.Subjective),
+                        builder: (BuildContext context) => CreateAssessmentScreen(QuestionType.Subjective),
                       ),
                     ),
                   ),
