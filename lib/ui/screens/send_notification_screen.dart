@@ -57,6 +57,7 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                             content: Text('Notification Sent'),
                           ),
                         );
+                        // TODO: 29/10/20 mayur add navigation to home screen
                       }
                       if (state is NotificationSentFailed) {
                         Scaffold.of(context).showSnackBar(

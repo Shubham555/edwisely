@@ -63,7 +63,9 @@ class CourseDetailSyllabusTab extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         // color: Colors.white,
                                         // decoration: ,
-                                        fontSize: MediaQuery.of(context).size.height / 50,
+                                        fontSize:
+                                            MediaQuery.of(context).size.height /
+                                                50,
                                       ),
                                     ),
                                     SizedBox(
@@ -73,15 +75,21 @@ class CourseDetailSyllabusTab extends StatelessWidget {
                                       'Objectives',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.height / 80,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              80,
                                           color: Colors.grey.shade600),
                                     ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: List.generate(
-                                        state.syllabusEntity.data[index].objectives.length,
+                                        state.syllabusEntity.data[index]
+                                            .objectives.length,
                                         (indd) => Text(
-                                          state.syllabusEntity.data[index].objectives[indd],
+                                          state.syllabusEntity.data[index]
+                                              .objectives[indd],
                                           style: TextStyle(
                                             color: Colors.black,
                                           ),
@@ -95,15 +103,21 @@ class CourseDetailSyllabusTab extends StatelessWidget {
                                       'Outcome',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.height / 80,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              80,
                                           color: Colors.grey.shade600),
                                     ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: List.generate(
-                                        state.syllabusEntity.data[index].outcomes.length,
+                                        state.syllabusEntity.data[index]
+                                            .outcomes.length,
                                         (inddd) => Text(
-                                          state.syllabusEntity.data[index].outcomes[inddd],
+                                          state.syllabusEntity.data[index]
+                                              .outcomes[inddd],
                                           style: TextStyle(
                                             color: Colors.black,
                                           ),
@@ -115,27 +129,35 @@ class CourseDetailSyllabusTab extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width / 2.5,
                               ),
                               Visibility(
-                                visible: state.syllabusEntity.data[index].topics.isNotEmpty,
+                                visible: state.syllabusEntity.data[index].topics
+                                    .isNotEmpty,
                                 child: Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Topics Covered',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context).size.height / 50,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              50,
                                         ),
                                       ),
                                       Wrap(
                                         spacing: 5,
                                         runSpacing: 5,
                                         children: List.generate(
-                                          state.syllabusEntity.data[index].topics.length,
+                                          state.syllabusEntity.data[index]
+                                              .topics.length,
                                           (indddd) => Chip(
-                                            backgroundColor: EdwiselyTheme.CARD_COLOR,
+                                            backgroundColor:
+                                                EdwiselyTheme.CARD_COLOR,
                                             label: Text(
-                                              state.syllabusEntity.data[index].topics[indddd].topic_name,
+                                              state.syllabusEntity.data[index]
+                                                  .topics[indddd].topic_name,
                                               style: TextStyle(
                                                 color: Colors.black,
                                               ),
@@ -158,6 +180,13 @@ class CourseDetailSyllabusTab extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          );
+        }
+        if (state is CoursesFetchFailed) {
+          return Expanded(
+            child: Center(
+              child: Text('No Data'),
             ),
           );
         } else {

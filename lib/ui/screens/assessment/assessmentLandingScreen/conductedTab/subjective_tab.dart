@@ -9,6 +9,7 @@ import '../../../../widgets_util/assessment_tile.dart';
 class ConductedTabSubjectiveTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    DateTime initialDate;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,7 +33,7 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                       GetSubjectiveQuestionsByDate(
                         await showDatePicker(
                           context: context,
-                          initialDate: DateTime.now(),
+                          initialDate: initialDate ?? DateTime.now(),
                           firstDate: DateTime.now().subtract(
                             Duration(days: 100),
                           ),
@@ -41,6 +42,7 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                           ),
                         ).then(
                           (value) {
+                            initialDate = value;
                             Scaffold.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
@@ -165,16 +167,19 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                   itemCount: state.questionsEntity.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return AssessmentTile(
-                      state.questionsEntity.data[index].id,
-                      state.questionsEntity.data[index].name,
-                      state.questionsEntity.data[index].description,
-                      state.questionsEntity.data[index].questions_count
-                          .toString(),
-                      '', //for subject name
-                      state.questionsEntity.data[index].doe,
-                      state.questionsEntity.data[index].start_time,
-                      state.questionsEntity.data[index].subject_id,
-                    );
+                        state.questionsEntity.data[index].id,
+                        state.questionsEntity.data[index].name,
+                        state.questionsEntity.data[index].description,
+                        state.questionsEntity.data[index].questions_count
+                            .toString(),
+                        '',
+                        //for subject name
+                        state.questionsEntity.data[index].doe,
+                        state.questionsEntity.data[index].start_time == ""
+                            ? state.questionsEntity.data[index].created_at
+                            : state.questionsEntity.data[index].start_time,
+                        state.questionsEntity.data[index].subject_id,
+                        true);
                   },
                 );
               }

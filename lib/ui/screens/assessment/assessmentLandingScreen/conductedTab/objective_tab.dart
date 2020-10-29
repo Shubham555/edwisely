@@ -9,6 +9,7 @@ import '../../../../widgets_util/assessment_tile.dart';
 class ConductedTabObjectiveTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    DateTime initialDate;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,7 +33,7 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                       GetObjectiveQuestionsByDate(
                         await showDatePicker(
                           context: context,
-                          initialDate: DateTime.now(),
+                          initialDate: initialDate ?? DateTime.now(),
                           firstDate: DateTime.now().subtract(
                             Duration(days: 100),
                           ),
@@ -41,6 +42,7 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                           ),
                         ).then(
                           (value) {
+                            initialDate = value;
                             Scaffold.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
@@ -172,10 +174,15 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                       state.questionsEntity.data[index].questions_count
                           .toString(),
                       state.questionsEntity.data[index].doe,
-                      state.questionsEntity.data[index].start_time,
-                      '', //for subject name
-                      state.questionsEntity.data[index]
-                          .sent, //check these two variables what is coming
+                      state.questionsEntity.data[index].start_time == ""
+                          ? state.questionsEntity.data[index].created_at
+                          : state.questionsEntity.data[index].start_time,
+                      '',
+                      //for subject name
+                      1,
+                      true,
+                      state.questionsEntity.data[index].sent,
+                      //check these two variables what is coming
                       state.questionsEntity.data[index].students_count,
                     );
                   },

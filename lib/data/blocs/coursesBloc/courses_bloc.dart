@@ -6,7 +6,6 @@ import 'package:edwisely/data/model/course/getAllCourses/data.dart';
 import 'package:edwisely/main.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../api/api.dart';
 import '../../model/course/courseDeckEntity/CourseDeckEntity.dart';
@@ -29,7 +28,6 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   ) async* {
     var currentStrate = state;
     if (event is GetCoursesByFaculty) {
-
       final response = await EdwiselyApi.dio.get('getFacultyCourses',
           options: Options(
             headers: {
@@ -55,7 +53,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         subjects.add(
           DropdownMenuItem(
             child: Text('All'),
-            value: {1234567890 : 'All'},
+            value: {1234567890: 'All'},
           ),
         );
         CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
@@ -63,7 +61,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             subjects.add(
               DropdownMenuItem(
                 child: Text(element.name),
-                value: {element.id : element.name},
+                value: {element.id: element.name},
               ),
             );
           },
@@ -74,7 +72,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetSectionsAndGetCoursesList) {
-      final response = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId',
+      final response = await EdwiselyApi.dio.get(
+          'getCourseDepartmentSections?university_degree_department_id=$departmentId',
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
@@ -84,7 +83,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         subjects.add(
           DropdownMenuItem(
             child: Text('All'),
-            value: {1234567890 : 'All'},
+            value: {1234567890: 'All'},
           ),
         );
         CoursesEntity.fromJsonMap(subjectResponse.data).data.forEach(
@@ -92,7 +91,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
             subjects.add(
               DropdownMenuItem(
                 child: Text(element.name),
-                value: {element.id : element.name},
+                value: {element.id: element.name},
               ),
             );
           },
@@ -106,7 +105,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetSections) {
-      final response = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId',
+      final response = await EdwiselyApi.dio.get(
+          'getCourseDepartmentSections?university_degree_department_id=$departmentId',
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
@@ -119,7 +119,8 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetCourse) {
-      final response = await EdwiselyApi.dio.get('getCourseDetails?subject_semester_id=${event.subjectSemesterId}',
+      final response = await EdwiselyApi.dio.get(
+          'getCourseDetails?subject_semester_id=${event.subjectSemesterId}',
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
@@ -132,14 +133,18 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetCourseSyllabus) {
-      final response = await EdwiselyApi.dio.get('getCourseSyllabus?subject_semester_id=${event.subjectSemesterId}',
+      final response = await EdwiselyApi.dio.get(
+          'getCourseSyllabus?subject_semester_id=${event.subjectSemesterId}',
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200) {
-        yield CourseSyllabusFetched(
-          SyllabusEntity.fromJsonMap(response.data),
-        );
+        if (response.data['message'] == 'No data to fetch') {
+          yield CoursesFetchFailed();
+        } else
+          yield CourseSyllabusFetched(
+            SyllabusEntity.fromJsonMap(response.data),
+          );
       } else {
         yield CoursesFetchFailed();
       }
@@ -149,25 +154,36 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
-      final courseDep = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=71',
-          options: Options(headers: {
-            'Authorization': 'Bearer $loginToken',
-          }));
+      final courseDep = await EdwiselyApi.dio
+          .get('getCourseDepartmentSections?university_degree_department_id=71',
+              options: Options(headers: {
+                'Authorization': 'Bearer $loginToken',
+              }));
       if (courses.statusCode == 200 && courseDep.statusCode == 200) {
-        yield AllCoursesFetched(GetAllCoursesEntity.fromJsonMap(courses.data), SectionEntity.fromJsonMap(courseDep.data));
+        yield AllCoursesFetched(GetAllCoursesEntity.fromJsonMap(courses.data),
+            SectionEntity.fromJsonMap(courseDep.data));
       } else {
         yield CoursesFetchFailed();
       }
     }
     if (event is SortCourses) {
       if (event.pattern == 1234567890) {
-        yield AllCoursesFetched(event.originalCourseEntity, currentStrate is AllCoursesFetched ? currentStrate.sectionEntity : null);
+        yield AllCoursesFetched(
+            event.originalCourseEntity,
+            currentStrate is AllCoursesFetched
+                ? currentStrate.sectionEntity
+                : null);
       } else {
         GetAllCoursesEntity f = event.originalCourseEntity;
         List<Data> sv = List.from(event.originalCourseEntity.data);
-        sv.retainWhere((element) => element.departments.any((element) => element.id == event.pattern));
+        sv.retainWhere((element) =>
+            element.departments.any((element) => element.id == event.pattern));
         f.data = List.from(sv);
-        yield AllCoursesFetched(f, currentStrate is AllCoursesFetched ? currentStrate.sectionEntity : null);
+        yield AllCoursesFetched(
+            f,
+            currentStrate is AllCoursesFetched
+                ? currentStrate.sectionEntity
+                : null);
       }
     }
   }

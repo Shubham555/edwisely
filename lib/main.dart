@@ -43,6 +43,7 @@ int departmentId;
 int collegeId;
 String loginToken;
 bool isFuckingTestMode = true;
+
 main() {
   _initializeVariables();
   runApp(EdWisely());

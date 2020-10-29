@@ -17,6 +17,7 @@ class AssessmentTile extends StatelessWidget {
   final int answeredCount;
   final String subjectName;
   final int subjectId;
+  final bool isConductedTile;
 
   AssessmentTile(
     this.assessmentId,
@@ -26,7 +27,8 @@ class AssessmentTile extends StatelessWidget {
     this.doe,
     this.startTime,
     this.subjectName,
-    this.subjectId, [
+    this.subjectId,
+    this.isConductedTile, [
     this.sentTo,
     this.answeredCount,
   ]);
@@ -80,19 +82,6 @@ class AssessmentTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Container(
-                      //   height: _screenSize.height * 0.0225,
-                      //   child: FittedBox(
-                      //     fit: BoxFit.contain,
-                      //     child: Text(
-                      //         'Subject: $subjectName',
-                      //       style: Theme.of(context)
-                      //           .textTheme
-                      //           .headline5
-                      //           .copyWith(fontSize: 14.0),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                   Spacer(),
@@ -103,25 +92,28 @@ class AssessmentTile extends StatelessWidget {
                           ? SizedBox.shrink()
                           : Transform.translate(
                               offset: Offset(10, -10),
-                              child: IconButton(
-                                padding: const EdgeInsets.all(0),
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 22.0,
-                                  color: Colors.black,
-                                ),
-                                onPressed: () => Navigator.pushNamed(
-                                  context,
-                                  '/add-questions',
-                                  arguments: {
-                                    'title': title,
-                                    'description': description,
-                                    'subjectId': subjectId,
-                                    'questionType': QuestionType.Objective,
-                                    'assessmentId': assessmentId,
-                                  },
-                                ),
-                              ),
+                              child: isConductedTile
+                                  ? Container()
+                                  : IconButton(
+                                      padding: const EdgeInsets.all(0),
+                                      icon: Icon(
+                                        Icons.edit,
+                                        size: 22.0,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () => Navigator.pushNamed(
+                                        context,
+                                        '/add-questions',
+                                        arguments: {
+                                          'title': title,
+                                          'description': description,
+                                          'subjectId': subjectId,
+                                          'questionType':
+                                              QuestionType.Objective,
+                                          'assessmentId': assessmentId,
+                                        },
+                                      ),
+                                    ),
                             ),
                       Spacer(),
                       isDateVisible

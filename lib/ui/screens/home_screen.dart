@@ -429,7 +429,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         DateTime.parse(activity['end_time'])
                                 .isBefore(DateTime.now())
                             ? 'Meeting Completed'
-                            : 'Start Meeting',
+                            : DateTime.parse(activity['end_time']).isBefore(
+                                DateTime.now().add(
+                                  Duration(
+                                    minutes: 10,
+                                  ),
+                                ),
+                              )
+                                ? 'Start Meeting'
+                                : 'Meeting Scheduled',
                       ),
                     )
                   ],
@@ -751,6 +759,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _notificationActivity(dynamic activity) {
+    print(activity['description']);
     TextEditingController controller = TextEditingController();
     return Container(
       height: screenSize.height * 0.2,

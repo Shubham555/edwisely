@@ -123,6 +123,7 @@ class ObjectiveTab extends StatelessWidget {
                               ? 'All'
                               : dropDownValue.values.first,
                           state.questionsEntity.data[index].subject_id,
+                          false
                         );
                       },
                     );

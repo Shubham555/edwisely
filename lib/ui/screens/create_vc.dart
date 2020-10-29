@@ -77,9 +77,9 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
     ).catchError(() {
       _vcEndTime = null;
     }).then((value) {
-      if (value.hour - _vcStartTime.hour > 3) {
+      if (value.hour - _vcStartTime.hour > 3 || value.hour - _vcStartTime.hour < 0 ) {
         Get.defaultDialog(
-            title: 'Select time less than 3 hours',
+            title: 'Please check any errors with the time',
             onConfirm: () => Get.back(),
             middleText: '');
         return null;
