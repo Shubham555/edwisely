@@ -11,6 +11,10 @@ class EdwiselyApi {
       },
     ),
   )..interceptors.add(
-      PrettyDioLogger(),
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        request: true,
+      ),
     );
 }
