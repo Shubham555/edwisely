@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'package:toast/toast.dart';
+import 'package:universal_html/html.dart' as html;
 
 import '../../../../data/api/api.dart';
 import '../../../../data/cubits/add_faculty_content_cubit.dart';
@@ -17,9 +18,7 @@ import '../../../../data/cubits/get_course_decks_cubit.dart';
 import '../../../../data/cubits/topic_cubit.dart';
 import '../../../../data/cubits/unit_cubit.dart';
 import '../../../../data/model/questionBank/topicEntity/data.dart';
-import '../../../../main.dart';
 import '../../../widgets_util/text_input.dart';
-import 'package:universal_html/html.dart' as html;
 
 //doing this page
 class CourseDetailCourseContentTab extends StatefulWidget {
@@ -50,19 +49,22 @@ class _CourseDetailCourseContentTabState
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener(
-      cubit: BlocProvider.of<AddFacultyContentCubit>(context),
-      listener: (BuildContext context, state) {
-        if (state is AddFacultyContentAdded) {
-          Toast.show('Your Content Added', context);
-          context
-              .bloc<CourseContentCubit>()
-              .getFacultyAddedCourseContent(enabledUnitId, widget.semesterId);
-        }
-        if (state is AddFacultyContentFailed) {
-          Toast.show(state.error, context);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener(
+          cubit: BlocProvider.of<AddFacultyContentCubit>(context),
+          listener: (BuildContext context, state) {
+            if (state is AddFacultyContentAdded) {
+              Toast.show('Your Content Added', context);
+              context.bloc<CourseContentCubit>().getFacultyAddedCourseContent(
+                  enabledUnitId, widget.semesterId);
+            }
+            if (state is AddFacultyContentFailed) {
+              Toast.show(state.error, context);
+            }
+          },
+        ),
+      ],
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18.0),
         child: Column(
@@ -123,681 +125,852 @@ class _CourseDetailCourseContentTabState
                                 );
                           },
                         );
-
-                        //   ListView.builder(
-                        //   shrinkWrap: true,
-                        //   itemCount: state.units.data.length,
-                        //   itemBuilder: (BuildContext context, int index) =>
-                        //       ListTile(
-                        //     hoverColor: Colors.white,
-                        //     selected: enabledUnitId == state.units.data[index].id,
-                        //     title: Container(
-                        //       padding: const EdgeInsets.symmetric(
-                        //         vertical: 8.0,
-                        //         horizontal: 16.0,
-                        //       ),
-                        //       alignment: Alignment.center,
-                        //       child: Text(
-                        //         state.units.data[index].name,
-                        //         style: enabledUnitId == state.units.data[index].id
-                        //             ? TextStyle(
-                        //                 color: Colors.black,
-                        //                 fontSize: 22.0,
-                        //                 fontWeight: FontWeight.bold,
-                        //               )
-                        //             : TextStyle(
-                        //                 color: Colors.grey,
-                        //                 fontSize: 20.0,
-                        //                 fontWeight: FontWeight.normal,
-                        //               ),
-                        //       ),
-                        //     ),
-                        //     onTap: () {
-                        //       enabledUnitId = state.units.data[index].id;
-                        //
-                        //       setState(() {});
-                        //       context.bloc<CourseContentCubit>().getCourseContent(
-                        //             state.units.data[index].id,
-                        //             widget.semesterId,
-                        //           );
-                        //     },
-                        //   ),
-                        // );
                       },
                     ),
                   );
+                }
+                if (state is CourseUnitEmpty) {
+                  return Text('');
                 } else {
                   return Container();
                 }
               },
             ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(top: 12.0),
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18.0),
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Colors.black,
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      BlocBuilder(
-                        cubit: context.bloc<CourseDecksCubit>(),
-                        builder: (BuildContext context, state) {
-                          if (state is CourseDecksFetched) {
-                            return Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        (3.5 / 5),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+            BlocBuilder(
+              cubit: context.bloc<UnitCubit>(),
+              builder: (BuildContext context, state) {
+                if (state is CourseUnitFetched) {
+                  return Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 12.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18.0),
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.black,
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            BlocBuilder(
+                              cubit: context.bloc<CourseDecksCubit>(),
+                              builder: (BuildContext context, state) {
+                                if (state is CourseDecksFetched) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(
-                                          'Learning Snippets',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                50,
-                                          ),
-                                        ),
-                                        // RaisedButton(
-                                        //   hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                                        //   onPressed: () => null,
-                                        //   child: Row(
-                                        //     mainAxisSize: MainAxisSize.min,
-                                        //     children: [
-                                        //       Icon(
-                                        //         Icons.add,
-                                        //         color: Colors.white,
-                                        //       ),
-                                        //       Text(
-                                        //         'Add Your Deck',
-                                        //         style: Theme.of(context).textTheme.button,
-                                        //       )
-                                        //     ],
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        (3.5 / 5),
-                                    height: 300,
-                                    child: ListView.builder(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 22.0),
-                                      itemCount:
-                                          state.courseDeckEntity.data.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) =>
-                                              GestureDetector(
-                                        onTap: () {
-                                          context
-                                              .bloc<DeckItemsCubit>()
-                                              .getDeckItems(
-                                                state.courseDeckEntity
-                                                    .data[index].id,
-                                              );
-                                          return _showDeckItems(context);
-                                        },
-                                        child: Container(
+                                        SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.1,
-                                          margin: const EdgeInsets.only(
-                                              left: 12.0, top: 12.0),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          child: Stack(
-                                            fit: StackFit.expand,
+                                              (3.5 / 5),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Positioned(
-                                                top: 0,
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                child: state
-                                                            .courseDeckEntity
-                                                            .data[index]
-                                                            .image ==
-                                                        ''
-                                                    ? Center(
-                                                        child: Icon(
-                                                          Icons.book,
-                                                          size: 60,
-                                                        ),
-                                                      )
-                                                    : ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12.0),
-                                                        child: Image.network(
-                                                          state
-                                                              .courseDeckEntity
-                                                              .data[index]
-                                                              .image,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                              ),
-                                              Positioned(
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                child: Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.07,
-                                                  padding: const EdgeInsets.all(
-                                                      12.0),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                    color: Theme.of(context)
-                                                        .primaryColor
-                                                        .withOpacity(0.8),
-                                                  ),
-                                                  child: Text(
-                                                    state.courseDeckEntity
-                                                        .data[index].name
-                                                        .trim(),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline6
-                                                        .copyWith(
-                                                            color: Colors.white,
-                                                            fontSize: 14.0),
-                                                  ),
+                                              Text(
+                                                'Learning Snippets',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height /
+                                                          50,
                                                 ),
                                               ),
+                                              // RaisedButton(
+                                              //   hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                              //   onPressed: () => null,
+                                              //   child: Row(
+                                              //     mainAxisSize: MainAxisSize.min,
+                                              //     children: [
+                                              //       Icon(
+                                              //         Icons.add,
+                                              //         color: Colors.white,
+                                              //       ),
+                                              //       Text(
+                                              //         'Add Your Deck',
+                                              //         style: Theme.of(context).textTheme.button,
+                                              //       )
+                                              //     ],
+                                              //   ),
+                                              // ),
                                             ],
                                           ),
                                         ),
-                                        // GridTile(
-                                        //   child: state.courseDeckEntity.data[index].image == ''
-                                        //       ? Center(
-                                        //           child: Icon(
-                                        //             Icons.book,
-                                        //             size: 60,
-                                        //           ),
-                                        //         )
-                                        //       : Image.network(
-                                        //           state.courseDeckEntity.data[index].image,
-                                        //           width: 150,
-                                        //           height: 200,
-                                        //         ),
-                                        //   footer: Container(
-                                        //     width: 150,
-                                        //     child: Text(
-                                        //       state.courseDeckEntity.data[index].name,
-                                        //       style: TextStyle(
-                                        //         fontWeight: FontWeight.bold,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ),
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              (3.5 / 5),
+                                          height: 300,
+                                          child: ListView.builder(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 22.0),
+                                            itemCount: state
+                                                .courseDeckEntity.data.length,
+                                            itemBuilder: (BuildContext context,
+                                                    int index) =>
+                                                GestureDetector(
+                                              onTap: () {
+                                                context
+                                                    .bloc<DeckItemsCubit>()
+                                                    .getDeckItems(
+                                                      state.courseDeckEntity
+                                                          .data[index].id,
+                                                    );
+                                                return _showDeckItems(context);
+                                              },
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.1,
+                                                margin: const EdgeInsets.only(
+                                                    left: 12.0, top: 12.0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                ),
+                                                child: Stack(
+                                                  fit: StackFit.expand,
+                                                  children: [
+                                                    Positioned(
+                                                      top: 0,
+                                                      bottom: 0,
+                                                      left: 0,
+                                                      right: 0,
+                                                      child: state
+                                                                  .courseDeckEntity
+                                                                  .data[index]
+                                                                  .image ==
+                                                              ''
+                                                          ? Center(
+                                                              child: Icon(
+                                                                Icons.book,
+                                                                size: 60,
+                                                              ),
+                                                            )
+                                                          : ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12.0),
+                                                              child:
+                                                                  Image.network(
+                                                                state
+                                                                    .courseDeckEntity
+                                                                    .data[index]
+                                                                    .image,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                    ),
+                                                    Positioned(
+                                                      bottom: 0,
+                                                      left: 0,
+                                                      right: 0,
+                                                      child: Container(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.07,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(12.0),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      12.0),
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColor
+                                                              .withOpacity(0.8),
+                                                        ),
+                                                        child: Text(
+                                                          state.courseDeckEntity
+                                                              .data[index].name
+                                                              .trim(),
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .headline6
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      14.0),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              // GridTile(
+                                              //   child: state.courseDeckEntity.data[index].image == ''
+                                              //       ? Center(
+                                              //           child: Icon(
+                                              //             Icons.book,
+                                              //             size: 60,
+                                              //           ),
+                                              //         )
+                                              //       : Image.network(
+                                              //           state.courseDeckEntity.data[index].image,
+                                              //           width: 150,
+                                              //           height: 200,
+                                              //         ),
+                                              //   footer: Container(
+                                              //     width: 150,
+                                              //     child: Text(
+                                              //       state.courseDeckEntity.data[index].name,
+                                              //       style: TextStyle(
+                                              //         fontWeight: FontWeight.bold,
+                                              //       ),
+                                              //     ),
+                                              //   ),
+                                              // ),
+                                            ),
+                                            scrollDirection: Axis.horizontal,
+                                            shrinkWrap: true,
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                  )
-                                ],
-                              ),
-                            );
-                          }
-                          if (state is CoursesDeckFetchFailed) {
-                            return Center(
-                              child: Text('There was some error'),
-                            );
-                          }
-                          if (state is CoursesDeckEmpty) {
-                            return Container();
-                            //   Center(
-                            //   child: Text('No Decks were found for this unit'),
-                            // );
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Curated Content',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.height / 50,
-                              ),
+                                  );
+                                }
+                                if (state is CoursesDeckFetchFailed) {
+                                  return Center(
+                                    child: Text('There was some error'),
+                                  );
+                                }
+                                if (state is CoursesDeckEmpty) {
+                                  return Container();
+                                  //   Center(
+                                  //   child: Text('No Decks were found for this unit'),
+                                  // );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
                             ),
-                            RaisedButton(
-                              hoverColor: Color(0xFF1D2B64).withOpacity(.2),
-                              onPressed: () => _showDialog(
-                                  context, CourseContentAddType.adding),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: Text(
-                                      'Add Your Content',
-                                      style: Theme.of(context).textTheme.button,
+                                  Text(
+                                    'Curated Content',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                          MediaQuery.of(context).size.height /
+                                              50,
                                     ),
-                                  )
+                                  ),
+                                  RaisedButton(
+                                    hoverColor:
+                                        Color(0xFF1D2B64).withOpacity(.2),
+                                    onPressed: () => _showDialog(
+                                        context, CourseContentAddType.adding),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0),
+                                          child: Text(
+                                            'Add Your Content',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .button,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
+                            BlocBuilder(
+                              cubit: context.bloc<CourseContentCubit>(),
+                              builder: (BuildContext context, state) {
+                                if (state is CourseContentFetched) {
+                                  return Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    child: Column(
+                                      children: [
+                                        StatefulBuilder(
+                                          builder: (BuildContext context,
+                                              StateSetter setState) {
+                                            return Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('Type'),
+                                                    SizedBox(
+                                                      height: 8.0,
+                                                    ),
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 4.0,
+                                                          horizontal: 12.0),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12.0),
+                                                        color: Colors.white,
+                                                        border: Border.all(
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      child: DropdownButton(
+                                                        underline:
+                                                            SizedBox.shrink(),
+                                                        items: [
+                                                          DropdownMenuItem(
+                                                            child: Text('All'),
+                                                            value: 'All',
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child: Text(
+                                                                'Documents'),
+                                                            value: 'DOCS',
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child:
+                                                                Text('Videos'),
+                                                            value: 'MP4',
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child: Text('PPT'),
+                                                            value: 'PPT',
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child: Text(
+                                                                'Other Links'),
+                                                            value: 'URL',
+                                                          ),
+                                                        ],
+                                                        onChanged: (value) {
+                                                          setState(
+                                                            () =>
+                                                                typeDropDownValue =
+                                                                    value,
+                                                          );
+                                                          context
+                                                              .bloc<
+                                                                  CourseContentCubit>()
+                                                              .getDocumentWiseData(
+                                                                value,
+                                                                state.backup,
+                                                              );
+                                                        },
+                                                        value:
+                                                            typeDropDownValue,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: 30,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('Level'),
+                                                    SizedBox(
+                                                      height: 8.0,
+                                                    ),
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 4.0,
+                                                          horizontal: 12.0),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12.0),
+                                                        color: Colors.white,
+                                                        border: Border.all(
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      child: DropdownButton(
+                                                        underline:
+                                                            SizedBox.shrink(),
+                                                        items: [
+                                                          DropdownMenuItem(
+                                                            child: Text('All'),
+                                                            value: -1,
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child: Text('Easy'),
+                                                            value: 1,
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child:
+                                                                Text('Medium'),
+                                                            value: 2,
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child: Text('Hard'),
+                                                            value: 3,
+                                                          ),
+                                                        ],
+                                                        onChanged: (value) {
+                                                          setState(
+                                                            () =>
+                                                                levelDropDownValue =
+                                                                    value,
+                                                          );
+                                                          return context
+                                                              .bloc<
+                                                                  CourseContentCubit>()
+                                                              .getLevelWiseData(
+                                                                value,
+                                                                state.backup,
+                                                              );
+                                                        },
+                                                        value:
+                                                            levelDropDownValue,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: 30,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text('Category'),
+                                                    SizedBox(
+                                                      height: 8.0,
+                                                    ),
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 4.0,
+                                                          horizontal: 12.0),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12.0),
+                                                        color: Colors.white,
+                                                        border: Border.all(
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      child: DropdownButton(
+                                                        underline:
+                                                            SizedBox.shrink(),
+                                                        items: [
+                                                          DropdownMenuItem(
+                                                            child: Text('All'),
+                                                            value: 1,
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child: Text(
+                                                                'Bookmarked'),
+                                                            value: 2,
+                                                          ),
+                                                          DropdownMenuItem(
+                                                            child: Text(
+                                                                'Your Content'),
+                                                            value: 3,
+                                                          ),
+                                                        ],
+                                                        onChanged: (value) {
+                                                          setState(() =>
+                                                              questionDropDownValue =
+                                                                  value);
+
+                                                          switch (value) {
+                                                            case 1:
+                                                              context
+                                                                  .bloc<
+                                                                      CourseContentCubit>()
+                                                                  .getCourseContent(
+                                                                      enabledUnitId,
+                                                                      widget
+                                                                          .semesterId);
+                                                              break;
+                                                            case 2:
+                                                              context
+                                                                  .bloc<
+                                                                      CourseContentCubit>()
+                                                                  .getFacultyBookmarkedCourseContent(
+                                                                      enabledUnitId,
+                                                                      widget
+                                                                          .semesterId);
+                                                              break;
+                                                            case 3:
+                                                              context
+                                                                  .bloc<
+                                                                      CourseContentCubit>()
+                                                                  .getFacultyAddedCourseContent(
+                                                                      enabledUnitId,
+                                                                      widget
+                                                                          .semesterId);
+                                                              break;
+                                                          }
+                                                        },
+                                                        value:
+                                                            questionDropDownValue,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ),
+                                        SizedBox(height: 22.0),
+                                        state.data.isEmpty
+                                            ? Text('No Data')
+                                            : ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: state.data.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  String level = '';
+                                                  String fileType = '';
+                                                  switch (
+                                                      state.data[index].level) {
+                                                    case -1:
+                                                      level = 'N/A';
+                                                      break;
+                                                    case 1:
+                                                      level = 'Easy';
+                                                      break;
+                                                    case 2:
+                                                      level = 'Medium';
+                                                      break;
+                                                    case 3:
+                                                      level = 'Hard';
+                                                      break;
+                                                  }
+
+                                                  switch (
+                                                      state.data[index].type) {
+                                                    case 'DOCS':
+                                                      fileType =
+                                                          'assets/icons/filesTypes/pdf.png';
+                                                      break;
+                                                    case 'PPT':
+                                                      fileType =
+                                                          'assets/icons/filesTypes/ppt.png';
+                                                      break;
+                                                    case 'MP4':
+                                                      fileType =
+                                                          'assets/icons/filesTypes/mp4.png';
+                                                      break;
+                                                    case 'url':
+                                                      fileType =
+                                                          'assets/icons/filesTypes/html.png';
+                                                      break;
+                                                  }
+                                                  return state.data[index].title
+                                                          .isEmpty
+                                                      ? Container()
+                                                      : state.data[index].source ==
+                                                              null
+                                                          ? ListTile(
+                                                              onTap: () async {
+                                                                html.window.open(
+                                                                    state
+                                                                        .data[
+                                                                            index]
+                                                                        .file_url,
+                                                                    state
+                                                                        .data[
+                                                                            index]
+                                                                        .title);
+                                                              },
+                                                              leading: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child:
+                                                                    Image.asset(
+                                                                  fileType,
+                                                                  // height: 24.0,
+                                                                  // width: 24.0,
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                ),
+                                                              ),
+                                                              // Text(state.data[index].type),
+                                                              // leading: state.data[index].,
+                                                              title: Row(
+                                                                children: [
+                                                                  Container(
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width /
+                                                                        7,
+                                                                    child: Text(
+                                                                      state.data[index]
+                                                                              .title ??
+                                                                          '',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 30,
+                                                                  ),
+                                                                  state.data[index].level ==
+                                                                              -1 ||
+                                                                          state.data[index].level ==
+                                                                              null
+                                                                      ? Container()
+                                                                      : Text(
+                                                                          'Level - $level '),
+                                                                  SizedBox(
+                                                                    width: 30,
+                                                                  ),
+                                                                  state.data[index].readtime ==
+                                                                              0 ||
+                                                                          state.data[index].readtime ==
+                                                                              null
+                                                                      ? Container()
+                                                                      : Text(
+                                                                          'ReadingTime - ${state.data[index].readtime}'),
+                                                                ],
+                                                              ),
+                                                              subtitle: state
+                                                                          .data[
+                                                                              index]
+                                                                          .source !=
+                                                                      null
+                                                                  ? Text(
+                                                                      'Source - ${state.data[index].source ?? ''}',
+                                                                    )
+                                                                  : Container(),
+                                                              trailing:
+                                                                  PopupMenuButton(
+                                                                onSelected:
+                                                                    (string) {
+                                                                  switch (
+                                                                      string) {
+                                                                    case 'Bookmark':
+                                                                      _bookmark(
+                                                                          state.data[
+                                                                              index]);
+                                                                      break;
+                                                                    case 'Delete':
+                                                                      _delete(state
+                                                                              .data[
+                                                                          index]);
+                                                                      break;
+                                                                    case 'Edit':
+                                                                      _showDialog(
+                                                                          context,
+                                                                          CourseContentAddType
+                                                                              .editing,
+                                                                          data:
+                                                                              state.data[index]);
+                                                                    // case 'Change Type':
+                                                                    //   _changeType(state.data[index]);
+                                                                    //   break;
+                                                                  }
+                                                                },
+                                                                itemBuilder:
+                                                                    (context) {
+                                                                  return [
+                                                                    'Edit',
+                                                                    'Bookmark',
+                                                                    'Delete',
+                                                                  ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                                      .map(
+                                                                        (e) =>
+                                                                            PopupMenuItem(
+                                                                          child:
+                                                                              Text(e),
+                                                                          value:
+                                                                              e,
+                                                                        ),
+                                                                      )
+                                                                      .toList();
+                                                                },
+                                                              ))
+                                                          : state
+                                                                  .data[index]
+                                                                  .source
+                                                                  .isEmpty
+                                                              ? Container()
+                                                              : ListTile(
+                                                                  onTap:
+                                                                      () async {
+                                                                    html.window.open(
+                                                                        state
+                                                                            .data[
+                                                                                index]
+                                                                            .file_url,
+                                                                        state
+                                                                            .data[index]
+                                                                            .title);
+                                                                  },
+                                                                  leading:
+                                                                      Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            8.0),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      fileType,
+                                                                      // height: 24.0,
+                                                                      // width: 24.0,
+                                                                      fit: BoxFit
+                                                                          .contain,
+                                                                    ),
+                                                                  ),
+                                                                  // Text(state.data[index].type),
+                                                                  // leading: state.data[index].,
+                                                                  title: Row(
+                                                                    children: [
+                                                                      Container(
+                                                                        width:
+                                                                            MediaQuery.of(context).size.width /
+                                                                                7,
+                                                                        child:
+                                                                            Text(
+                                                                          state.data[index].title ??
+                                                                              '',
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            30,
+                                                                      ),
+                                                                      state.data[index].level == -1 ||
+                                                                              state.data[index].level ==
+                                                                                  null
+                                                                          ? Container()
+                                                                          : Text(
+                                                                              'Level - $level '),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            30,
+                                                                      ),
+                                                                      state.data[index].readtime == 0 ||
+                                                                              state.data[index].readtime ==
+                                                                                  null
+                                                                          ? Container()
+                                                                          : Text(
+                                                                              'ReadingTime - ${state.data[index].readtime}'),
+                                                                    ],
+                                                                  ),
+                                                                  subtitle: state
+                                                                              .data[
+                                                                                  index]
+                                                                              .source !=
+                                                                          null
+                                                                      ? Text(
+                                                                          'Source - ${state.data[index].source ?? ''}',
+                                                                        )
+                                                                      : Container(),
+                                                                  trailing:
+                                                                      PopupMenuButton(
+                                                                    onSelected:
+                                                                        (string) {
+                                                                      switch (
+                                                                          string) {
+                                                                        case 'Bookmark':
+                                                                          _bookmark(
+                                                                              state.data[index]);
+                                                                          break;
+                                                                        case 'Delete':
+                                                                          _delete(
+                                                                              state.data[index]);
+                                                                          break;
+                                                                        case 'Edit':
+                                                                          _showDialog(
+                                                                              context,
+                                                                              CourseContentAddType.editing,
+                                                                              data: state.data[index]);
+                                                                        // case 'Change Type':
+                                                                        //   _changeType(state.data[index]);
+                                                                        //   break;
+                                                                      }
+                                                                    },
+                                                                    itemBuilder:
+                                                                        (context) {
+                                                                      return [
+                                                                        'Edit',
+                                                                        'Bookmark',
+                                                                        'Delete',
+                                                                      ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                                          .map(
+                                                                            (e) =>
+                                                                                PopupMenuItem(
+                                                                              child: Text(e),
+                                                                              value: e,
+                                                                            ),
+                                                                          )
+                                                                          .toList();
+                                                                    },
+                                                                  ));
+                                                },
+                                              ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                if (state is CourseContentFailed) {
+                                  return Center(
+                                    child: Text(state.error),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              },
+                            )
                           ],
                         ),
                       ),
-                      BlocBuilder(
-                        cubit: context.bloc<CourseContentCubit>(),
-                        builder: (BuildContext context, state) {
-                          if (state is CourseContentFetched) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Column(
-                                children: [
-                                  StatefulBuilder(
-                                    builder: (BuildContext context,
-                                        StateSetter setState) {
-                                      return Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Type'),
-                                              SizedBox(
-                                                height: 8.0,
-                                              ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 4.0,
-                                                        horizontal: 12.0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12.0),
-                                                  color: Colors.white,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                                child: DropdownButton(
-                                                  underline: SizedBox.shrink(),
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      child: Text('All'),
-                                                      value: 'All',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Documents'),
-                                                      value: 'DOCS',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Videos'),
-                                                      value: 'MP4',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('PPT'),
-                                                      value: 'PPT',
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child:
-                                                          Text('Other Links'),
-                                                      value: 'URL',
-                                                    ),
-                                                  ],
-                                                  onChanged: (value) => context
-                                                      .bloc<
-                                                          CourseContentCubit>()
-                                                      .getDocumentWiseData(
-                                                        value,
-                                                        state.backup,
-                                                      ),
-                                                  value: typeDropDownValue,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            width: 30,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Level'),
-                                              SizedBox(
-                                                height: 8.0,
-                                              ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 4.0,
-                                                        horizontal: 12.0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12.0),
-                                                  color: Colors.white,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                                child: DropdownButton(
-                                                  underline: SizedBox.shrink(),
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      child: Text('All'),
-                                                      value: -1,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Easy'),
-                                                      value: 1,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Medium'),
-                                                      value: 2,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Hard'),
-                                                      value: 3,
-                                                    ),
-                                                  ],
-                                                  onChanged: (value) => context
-                                                      .bloc<
-                                                          CourseContentCubit>()
-                                                      .getLevelWiseData(
-                                                        value,
-                                                        state.backup,
-                                                      ),
-                                                  value: levelDropDownValue,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            width: 30,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Questions'),
-                                              SizedBox(
-                                                height: 8.0,
-                                              ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 4.0,
-                                                        horizontal: 12.0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12.0),
-                                                  color: Colors.white,
-                                                  border: Border.all(
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                                child: DropdownButton(
-                                                  underline: SizedBox.shrink(),
-                                                  items: [
-                                                    DropdownMenuItem(
-                                                      child:
-                                                          Text('All Questions'),
-                                                      value: 1,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child: Text('Bookmarked'),
-                                                      value: 2,
-                                                    ),
-                                                    DropdownMenuItem(
-                                                      child:
-                                                          Text('Your Content'),
-                                                      value: 3,
-                                                    ),
-                                                  ],
-                                                  onChanged: (value) {
-                                                    setState(() =>
-                                                        questionDropDownValue =
-                                                            value);
-
-                                                    switch (value) {
-                                                      case 1:
-                                                        context
-                                                            .bloc<
-                                                                CourseContentCubit>()
-                                                            .getCourseContent(
-                                                                enabledUnitId,
-                                                                widget
-                                                                    .semesterId);
-                                                        break;
-                                                      case 2:
-                                                        context
-                                                            .bloc<
-                                                                CourseContentCubit>()
-                                                            .getFacultyBookmarkedCourseContent(
-                                                                enabledUnitId,
-                                                                widget
-                                                                    .semesterId);
-                                                        break;
-                                                      case 3:
-                                                        context
-                                                            .bloc<
-                                                                CourseContentCubit>()
-                                                            .getFacultyAddedCourseContent(
-                                                                enabledUnitId,
-                                                                widget
-                                                                    .semesterId);
-                                                        break;
-                                                    }
-                                                  },
-                                                  value: questionDropDownValue,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(height: 22.0),
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: state.data.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      String level = '';
-                                      String fileType = '';
-                                      switch (state.data[index].level) {
-                                        case -1:
-                                          level = 'N/A';
-                                          break;
-                                        case 1:
-                                          level = 'Easy';
-                                          break;
-                                        case 2:
-                                          level = 'Medium';
-                                          break;
-                                        case 3:
-                                          level = 'Hard';
-                                          break;
-                                      }
-
-                                      switch (state.data[index].type) {
-                                        case 'DOCS':
-                                          fileType =
-                                              'assets/icons/filesTypes/pdf.png';
-                                          break;
-                                        case 'PPT':
-                                          fileType =
-                                              'assets/icons/filesTypes/ppt.png';
-                                          break;
-                                        case 'MP4':
-                                          fileType =
-                                              'assets/icons/filesTypes/mp4.png';
-                                          break;
-                                        case 'url':
-                                          fileType =
-                                              'assets/icons/filesTypes/html.png';
-                                          break;
-                                      }
-                                      return state.data[index].source == null ||
-                                              state.data[index].source.isEmpty
-                                          ? Container()
-                                          : ListTile(
-                                              onTap: () async {
-                                                html.window.open(
-                                                    state.data[index].file_url,
-                                                    state.data[index].title);
-                                              },
-                                              leading: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Image.asset(
-                                                  fileType,
-                                                  // height: 24.0,
-                                                  // width: 24.0,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                              ),
-                                              // Text(state.data[index].type),
-                                              // leading: state.data[index].,
-                                              title: Row(
-                                                children: [
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            7,
-                                                    child: Text(
-                                                      state.data[index].title ??
-                                                          '',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 30,
-                                                  ),
-                                                  state.data[index].level ==
-                                                              -1 ||
-                                                          state.data[index]
-                                                                  .level ==
-                                                              null
-                                                      ? Container()
-                                                      : Text('Level - $level '),
-                                                  SizedBox(
-                                                    width: 30,
-                                                  ),
-                                                  state.data[index].readtime ==
-                                                              0 ||
-                                                          state.data[index]
-                                                                  .readtime ==
-                                                              null
-                                                      ? Container()
-                                                      : Text(
-                                                          'ReadingTime - ${state.data[index].readtime}'),
-                                                ],
-                                              ),
-                                              subtitle: Text(
-                                                'Source - ${state.data[index].source ?? ''}',
-                                              ),
-                                              trailing: PopupMenuButton(
-                                                onSelected: (string) {
-                                                  switch (string) {
-                                                    case 'Bookmark':
-                                                      _bookmark(
-                                                          state.data[index]);
-                                                      break;
-                                                    case 'Delete':
-                                                      _delete(
-                                                          state.data[index]);
-                                                      break;
-                                                    case 'Edit':
-                                                      _showDialog(
-                                                          context,
-                                                          CourseContentAddType
-                                                              .editing,
-                                                          data: state
-                                                              .data[index]);
-                                                    // case 'Change Type':
-                                                    //   _changeType(state.data[index]);
-                                                    //   break;
-                                                  }
-                                                },
-                                                itemBuilder: (context) {
-                                                  return [
-                                                    'Edit',
-                                                    'Bookmark',
-                                                    'Delete',
-                                                  ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
-                                                      .map(
-                                                        (e) => PopupMenuItem(
-                                                          child: Text(e),
-                                                          value: e,
-                                                        ),
-                                                      )
-                                                      .toList();
-                                                },
-                                              ));
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                          if (state is CourseContentFailed) {
-                            return Center(
-                              child: Text(state.error),
-                            );
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Text('No Data'),
+                  );
+                }
+              },
+            )
           ],
         ),
       ),
@@ -879,7 +1052,7 @@ class _CourseDetailCourseContentTabState
             return Dialog(
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.3,
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: MediaQuery.of(context).size.height * 0.9,
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -906,10 +1079,6 @@ class _CourseDetailCourseContentTabState
                           child: DropdownButton(
                             underline: SizedBox.shrink(),
                             items: [
-                              DropdownMenuItem(
-                                child: Text('All'),
-                                value: 'All',
-                              ),
                               DropdownMenuItem(
                                 child: Text('Documents'),
                                 value: 'DOCS',
@@ -965,19 +1134,24 @@ class _CourseDetailCourseContentTabState
                         ..getTopics(widget.subjectId),
                       builder: (BuildContext context, state) {
                         if (state is TopicFetched) {
-                          return ChipsChoice<String>.single(
-                            value: topic,
-                            isWrapped: true,
-                            options: ChipsChoiceOption.listFrom(
-                              source: state.topicEntity.data,
-                              value: (i, Data v) => v.code,
-                              label: (i, Data v) => v.name,
-                            ),
-                            onChanged: (val) {
-                              setState(
-                                () => topic = val,
-                              );
-                            },
+                          return Column(
+                            children: [
+                              Text('Tag Topics'),
+                              ChipsChoice<String>.single(
+                                value: topic,
+                                isWrapped: true,
+                                options: ChipsChoiceOption.listFrom(
+                                  source: state.topicEntity.data,
+                                  value: (i, Data v) => v.code,
+                                  label: (i, Data v) => v.name,
+                                ),
+                                onChanged: (val) {
+                                  setState(
+                                    () => topic = val,
+                                  );
+                                },
+                              ),
+                            ],
                           );
                         }
                         if (state is TopicEmpty) {

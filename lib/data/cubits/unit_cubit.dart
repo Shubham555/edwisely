@@ -10,21 +10,22 @@ class UnitCubit extends Cubit<UnitState> {
   UnitCubit() : super(UnitInitial());
 
   getUnitsOfACourse(int subjectSemesterId) async {
-    final response = await EdwiselyApi.dio.get('getCourseSyllabus?subject_semester_id=$subjectSemesterId', options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',//kr le tu me aya 10 min me
-        }));
+    final response = await EdwiselyApi.dio
+        .get('getCourseSyllabus?subject_semester_id=$subjectSemesterId',
+            options: Options(headers: {
+              'Authorization': 'Bearer $loginToken',
+            }));
 
     if (response.statusCode == 200) {
-      if (response.data['message'] != 'No data to fetch') {
+      if (response.data['message'] == 'No data to fetch') {
+        emit(
+          CourseUnitEmpty(),
+        );
+      } else {
         emit(
           CourseUnitFetched(
             SyllabusEntity.fromJsonMap(response.data),
           ),
-        );
-      } else {
-        emit(
-          CourseUnitEmpty(),
         );
       }
     } else {

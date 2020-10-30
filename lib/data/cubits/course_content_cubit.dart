@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
@@ -14,10 +16,11 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi.dio.get('getCourseContent?unit_id=$unitId&subject_semester_id=$semesterId', options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',
-        }));
+    final response = await EdwiselyApi.dio
+        .get('getCourseContent?unit_id=$unitId&subject_semester_id=$semesterId',
+            options: Options(headers: {
+              'Authorization': 'Bearer $loginToken',
+            }));
     if (response.data['message'] == 'Successfully updated the course details') {
       List<Learning_content> data = [];
       CourseContentEntity d = CourseContentEntity.fromJsonMap(
@@ -25,7 +28,11 @@ class CourseContentCubit extends Cubit<CourseContentState> {
       );
       data.addAll(d.academic_materials);
       data.addAll(d.learning_content);
-
+      data.removeWhere(
+          (element) => element.source == "");
+      data.forEach((element) {
+        log(element.source);
+      });
       emit(
         CourseContentFetched(
           data,
@@ -45,12 +52,14 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi.dio.get('getFacultyAddedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId', options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.get(
+        'getFacultyAddedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId',
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
     if (response.data['message'] == 'Successfully updated the course details') {
-      List<Learning_content> data = List<Learning_content>.from(response.data["data"].map((it) => Learning_content.fromJsonMap(it)));
+      List<Learning_content> data = List<Learning_content>.from(
+          response.data["data"].map((it) => Learning_content.fromJsonMap(it)));
       emit(
         CourseContentFetched(
           data,
@@ -70,8 +79,9 @@ class CourseContentCubit extends Cubit<CourseContentState> {
     emit(
       CourseContentInitial(),
     );
-    final response = await EdwiselyApi.dio.get('getFacultyBookmarkedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId', options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.get(
+        'getFacultyBookmarkedCourseContent?unit_id=$unitId&subject_semester_id=$semesterId',
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
     if (response.data['message'] == 'Successfully updated the course details') {
@@ -124,6 +134,9 @@ class CourseContentCubit extends Cubit<CourseContentState> {
               doc.toLowerCase(),
             ),
       );
+      ddata.forEach((element) {
+        print(element.toJson());
+      });
       emit(
         CourseContentFetched(ddata, data),
       );
