@@ -11,7 +11,7 @@ class TopicCubit extends Cubit<TopicState> {
 
   getTopics(int subjectId) async {
     final response = await EdwiselyApi.dio.get(
-      'questionnaireWeb/getSubjectTopics?subject_id=$subjectId&university_degree_department_id=$departmentId', options: Options(
+      'questionnaireWeb/getSubjectTopics?subject_id=$subjectId&university_degree_department_id=$universityDegreeDepartmenId', options: Options(
         headers: {
           'Authorization': 'Bearer $loginToken',
         })

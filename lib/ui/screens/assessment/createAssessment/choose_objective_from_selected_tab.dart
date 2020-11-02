@@ -3,8 +3,6 @@ import 'package:edwisely/data/cubits/opic_questions_cubit.dart';
 import 'package:edwisely/data/cubits/unit_topic_cubit.dart';
 import 'package:edwisely/data/model/assessment/topicQuestionsEntity/data.dart';
 import 'package:edwisely/data/model/assessment/unitTopic/topic.dart';
-import 'package:edwisely/main.dart';
-import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
@@ -28,13 +26,17 @@ class ChooseObjectiveFromSelectedTab extends StatefulWidget {
   final QuestionType _questionType;
   final int _assessmentId;
 
-  ChooseObjectiveFromSelectedTab(this._title, this._description, this._subjectId, this._questionType, this._assessmentId);
+  ChooseObjectiveFromSelectedTab(this._title, this._description,
+      this._subjectId, this._questionType, this._assessmentId);
 
   @override
-  _ChooseObjectiveFromSelectedTabState createState() => _ChooseObjectiveFromSelectedTabState();
+  _ChooseObjectiveFromSelectedTabState createState() =>
+      _ChooseObjectiveFromSelectedTabState();
 }
 
-class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSelectedTab> with SingleTickerProviderStateMixin {
+class _ChooseObjectiveFromSelectedTabState
+    extends State<ChooseObjectiveFromSelectedTab>
+    with SingleTickerProviderStateMixin {
   final _questionFetchCubit = QuestionsCubit();
 
   final topicCubit = TopicCubit();
@@ -82,7 +84,9 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                       vertical: 8.0,
                       horizontal: 16.0,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     child: Row(
                       children: [
                         Image.asset(
@@ -127,13 +131,18 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                             ),
                           builder: (BuildContext context, state) {
                             if (state is QuestionsToAnAssessmentFetched) {
-                              state.assessmentQuestionsEntity.data.forEach((element) {
+                              state.assessmentQuestionsEntity.data
+                                  .forEach((element) {
                                 questions.add(element.id);
                               });
                               return ListView.builder(
-                                itemCount: state.assessmentQuestionsEntity.data.length,
-                                itemBuilder: (BuildContext context, int index) => Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                itemCount:
+                                    state.assessmentQuestionsEntity.data.length,
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
@@ -147,14 +156,20 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                       children: [
                                         Text(
                                           'Q ${index + 1}   ',
-                                          style: Theme.of(context).textTheme.headline6,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6,
                                         ),
                                         Expanded(
                                           child: Text(
-                                            state.assessmentQuestionsEntity.data[index].name,
+                                            state.assessmentQuestionsEntity
+                                                .data[index].name,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 3,
-                                            style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 14.0),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline6
+                                                .copyWith(fontSize: 14.0),
                                           ),
                                         ),
                                       ],
@@ -192,37 +207,56 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                       ),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12.0),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
                                         border: Border.all(
                                           color: Colors.black,
                                           width: 0.5,
                                         ),
                                       ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
-                                          StatefulBuilder(builder: (context, setState) {
-                                            return _buildBloomLevelSelector(state.data, setState);
+                                          StatefulBuilder(
+                                              builder: (context, setState) {
+                                            return _buildBloomLevelSelector(
+                                                state.data, setState);
                                           }),
                                           Expanded(
                                             child: StatefulBuilder(
-                                              builder: (BuildContext context, void Function(void Function()) setState) {
+                                              builder: (BuildContext context,
+                                                  void Function(void Function())
+                                                      setState) {
                                                 return ListView.builder(
                                                   shrinkWrap: true,
                                                   itemCount: state.data.length,
-                                                  itemBuilder: (BuildContext context, int index) {
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
                                                     var answer;
-                                                    state.data[index].questions_options.forEach((options) {
-                                                      if (options.is_answer == 1) answer = options.name;
+                                                    state.data[index]
+                                                        .questions_options
+                                                        .forEach((options) {
+                                                      if (options.is_answer ==
+                                                          1)
+                                                        answer = options.name;
                                                     });
                                                     return Container(
-                                                      padding: const EdgeInsets.symmetric(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
                                                         vertical: 8.0,
                                                         horizontal: 18.0,
                                                       ),
                                                       decoration: BoxDecoration(
-                                                        color: index % 2 == 0 ? Colors.white : Theme.of(context).primaryColor.withOpacity(0.1),
+                                                        color: index % 2 == 0
+                                                            ? Colors.white
+                                                            : Theme.of(context)
+                                                                .primaryColor
+                                                                .withOpacity(
+                                                                    0.1),
                                                         border: Border(
                                                           bottom: BorderSide(
                                                             color: Colors.black,
@@ -231,19 +265,32 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                         ),
                                                       ),
                                                       child: CheckboxListTile(
-                                                        activeColor: Theme.of(context).primaryColor,
+                                                        activeColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
                                                         subtitle: Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
                                                           children: [
                                                             //correct Answer
                                                             Text(
                                                               'Answer : $answer',
-                                                              overflow: TextOverflow.ellipsis,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                             ),
                                                             FlatButton(
-                                                              onPressed: () => _showDetailDialog(state.data[index], context),
-                                                              child: Text('View More'),
+                                                              onPressed: () =>
+                                                                  _showDetailDialog(
+                                                                      state.data[
+                                                                          index],
+                                                                      context),
+                                                              child: Text(
+                                                                  'View More'),
                                                             ),
                                                           ],
                                                         ),
@@ -251,27 +298,50 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                           children: [
                                                             Text(
                                                               'Q ${index + 1}',
-                                                              style: Theme.of(context).textTheme.headline5,
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .headline5,
                                                             ),
                                                             SizedBox(
                                                               width: 22.0,
                                                             ),
                                                             Expanded(
                                                               child: Text(
-                                                                state.data[index].name,
+                                                                state
+                                                                    .data[index]
+                                                                    .name,
                                                                 softWrap: true,
-                                                                overflow: TextOverflow.ellipsis,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 maxLines: 2,
-                                                                style: Theme.of(context).textTheme.headline6,
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .headline6,
                                                               ),
                                                             )
                                                           ],
                                                         ),
-                                                        value: questions.contains(state.data[index].id),
+                                                        value: questions
+                                                            .contains(state
+                                                                .data[index]
+                                                                .id),
                                                         onChanged: (flag) {
                                                           setState(
                                                             () {
-                                                              flag ? questions.add(state.data[index].id) : questions.remove(state.data[index].id);
+                                                              flag
+                                                                  ? questions
+                                                                      .add(state
+                                                                          .data[
+                                                                              index]
+                                                                          .id)
+                                                                  : questions
+                                                                      .remove(state
+                                                                          .data[
+                                                                              index]
+                                                                          .id);
                                                             },
                                                           );
                                                         },
@@ -288,7 +358,18 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                   }
                                   if (state is TopicQuestionsFailed) {
                                     return Center(
-                                      child: Text(state.error),
+                                      child: Column(
+                                        children: [
+                                          Text(state.error),
+                                          RaisedButton(
+                                            onPressed: () {
+                                              context.bloc<GetUnitsCubit>()
+                                                ..getUnits(widget._subjectId);
+                                            },
+                                            child: Text('Reload'),
+                                          )
+                                        ],
+                                      ),
                                     );
                                   } else {
                                     return Center(
@@ -301,7 +382,8 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width / 6,
-                              margin: const EdgeInsets.only(left: 18.0, right: 12.0, top: 12.0),
+                              margin: const EdgeInsets.only(
+                                  left: 18.0, right: 12.0, top: 12.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
@@ -339,12 +421,22 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                   //   },
                                   // ),
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 22.0, top: 12.0),
+                                    padding: const EdgeInsets.only(
+                                        right: 22.0, top: 12.0),
                                     child: RaisedButton.icon(
                                       onPressed: () {
-                                        questions.isEmpty ? null : context.bloc<QuestionAddCubit>().addQuestions(widget._assessmentId, questions, []);
+                                        questions.isEmpty
+                                            ? null
+                                            : context
+                                                .bloc<QuestionAddCubit>()
+                                                .addQuestions(
+                                                    widget._assessmentId,
+                                                    questions, []);
                                         Future.delayed(
-                                            Duration(seconds: 2), () => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId));
+                                            Duration(seconds: 2),
+                                            () => _questionFetchCubit
+                                                .getQuestionsToAnAssessment(
+                                                    widget._assessmentId));
                                       },
                                       icon: Icon(
                                         Icons.add,
@@ -352,70 +444,116 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                       ),
                                       label: Text(
                                         'Add',
-                                        style: Theme.of(context).textTheme.button,
+                                        style:
+                                            Theme.of(context).textTheme.button,
                                       ),
                                     ),
                                   ),
                                   BlocBuilder(
-                                    cubit: context.bloc<GetUnitsCubit>()..getUnits(widget._subjectId),
+                                    cubit: context.bloc<GetUnitsCubit>()
+                                      ..getUnits(widget._subjectId),
                                     builder: (BuildContext context, state) {
                                       if (state is GetUnitsFetched) {
-                                        int enabledUnitId = state.getUnitsEntity.data[0].id;
-                                        unitId = state.getUnitsEntity.data[0].id;
-                                        context.bloc<UnitTopicCubit>().getTopics(
+                                        int enabledUnitId =
+                                            state.getUnitsEntity.data[0].id;
+                                        unitId =
+                                            state.getUnitsEntity.data[0].id;
+                                        context
+                                            .bloc<UnitTopicCubit>()
+                                            .getTopics(
                                               unitId,
                                             );
                                         return Container(
-                                          margin: const EdgeInsets.only(right: 22.0, top: 12.0),
+                                          margin: const EdgeInsets.only(
+                                              right: 22.0, top: 12.0),
                                           padding: const EdgeInsets.symmetric(
                                             vertical: 8.0,
                                             horizontal: 12.0,
                                           ),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius: BorderRadius.circular(12.0),
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
                                             border: Border.all(
                                               color: Colors.black,
                                               width: 0.5,
                                             ),
                                           ),
                                           child: StatefulBuilder(
-                                            builder: (BuildContext context, void Function(void Function()) setState) {
+                                            builder: (BuildContext context,
+                                                void Function(void Function())
+                                                    setState) {
                                               return ListView.builder(
                                                 shrinkWrap: true,
-                                                itemCount: state.getUnitsEntity.data.length,
-                                                itemBuilder: (BuildContext context, int index) => Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                                itemCount: state
+                                                    .getUnitsEntity.data.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                            int index) =>
+                                                        Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 16.0),
                                                   child: InkWell(
                                                     onTap: () {
                                                       setState(
                                                         () {
-                                                          enabledUnitId = state.getUnitsEntity.data[index].id;
-                                                          unitId = state.getUnitsEntity.data[index].id;
+                                                          enabledUnitId = state
+                                                              .getUnitsEntity
+                                                              .data[index]
+                                                              .id;
+                                                          unitId = state
+                                                              .getUnitsEntity
+                                                              .data[index]
+                                                              .id;
                                                         },
                                                       );
-                                                      context.bloc<UnitTopicCubit>().getTopics(
+                                                      context
+                                                          .bloc<
+                                                              UnitTopicCubit>()
+                                                          .getTopics(
                                                             unitId,
                                                           );
                                                     },
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         AnimatedDefaultTextStyle(
-                                                          duration: Duration(milliseconds: 300),
-                                                          style: enabledUnitId == state.getUnitsEntity.data[index].id
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  300),
+                                                          style: enabledUnitId ==
+                                                                  state
+                                                                      .getUnitsEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .id
                                                               ? TextStyle(
-                                                                  color: Colors.black,
-                                                                  fontSize: 22.0,
-                                                                  fontWeight: FontWeight.bold,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      22.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
                                                                 )
                                                               : TextStyle(
-                                                                  color: Colors.grey,
-                                                                  fontSize: 20.0,
-                                                                  fontWeight: FontWeight.normal,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize:
+                                                                      20.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
                                                                 ),
                                                           child: Text(
-                                                            state.getUnitsEntity.data[index].name,
+                                                            state
+                                                                .getUnitsEntity
+                                                                .data[index]
+                                                                .name,
                                                           ),
                                                         ),
                                                         SizedBox(height: 2.0),
@@ -423,9 +561,18 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                           duration: Duration(
                                                             milliseconds: 300,
                                                           ),
-                                                          width: enabledUnitId == state.getUnitsEntity.data[index].id ? 80.0 : 40.0,
+                                                          width: enabledUnitId ==
+                                                                  state
+                                                                      .getUnitsEntity
+                                                                      .data[
+                                                                          index]
+                                                                      .id
+                                                              ? 80.0
+                                                              : 40.0,
                                                           height: 3.0,
-                                                          color: Theme.of(context).primaryColor,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
                                                         ),
                                                         // ListTile(
                                                         //   hoverColor: Colors.white,
@@ -472,16 +619,24 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         state.subTopics.forEach((element) {
                                           subTopics.add(element.topic_id);
                                         });
-                                        context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                        context
+                                            .bloc<TopicQuestionsCubit>()
+                                            .getTopicQuestions(
+                                                topics, subTopics);
                                         return StatefulBuilder(
-                                          builder: (BuildContext context, StateSetter setState) {
+                                          builder: (BuildContext context,
+                                              StateSetter setState) {
                                             return Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(height: 12.0),
                                                 Text(
                                                   'Selected Topics',
-                                                  style: Theme.of(context).textTheme.headline6.copyWith(
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6
+                                                      .copyWith(
                                                         color: Colors.black,
                                                       ),
                                                 ),
@@ -494,16 +649,31 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                                         topics = state.value;
                                                         subTopics = state.value;
                                                       });
-                                                      context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                                      context
+                                                          .bloc<
+                                                              TopicQuestionsCubit>()
+                                                          .getTopicQuestions(
+                                                              topics,
+                                                              subTopics);
                                                     },
-                                                    modalType: S2ModalType.popupDialog,
-                                                    choiceItems: S2Choice.listFrom(
-                                                      source: state.topics + state.subTopics,
-                                                      value: (index, Topic item) => item.topic_id,
-                                                      title: (index, Topic item) => item.topic_name,
-                                                      group: (index, Topic item) => item.topic_code,
+                                                    modalType:
+                                                        S2ModalType.popupDialog,
+                                                    choiceItems:
+                                                        S2Choice.listFrom(
+                                                      source: state.topics +
+                                                          state.subTopics,
+                                                      value:
+                                                          (index, Topic item) =>
+                                                              item.topic_id,
+                                                      title:
+                                                          (index, Topic item) =>
+                                                              item.topic_name,
+                                                      group:
+                                                          (index, Topic item) =>
+                                                              item.topic_code,
                                                     ),
-                                                    choiceType: S2ChoiceType.chips,
+                                                    choiceType:
+                                                        S2ChoiceType.chips,
                                                     modalConfirm: true,
                                                   ),
                                                 ),
@@ -530,7 +700,10 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                                         );
                                       }
                                       if (state is UnitTopicEmpty) {
-                                        context.bloc<TopicQuestionsCubit>().emit(TopicQuestionsFailed('No Questions for this Unit'));
+                                        context
+                                            .bloc<TopicQuestionsCubit>()
+                                            .emit(TopicQuestionsFailed(
+                                                'No Questions for this Unit'));
                                         return Text('No topics to Tag');
                                       } else {
                                         return Center(
@@ -563,17 +736,23 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _bloomLevel(0, bloomsFilter, onBloomChanged, 'All', 'assets/icons/blooms/all.svg', actualData, setState),
-          _bloomLevel(1, bloomsFilter, onBloomChanged, 'Remember', 'assets/icons/blooms/all.svg', actualData, setState),
-          _bloomLevel(2, bloomsFilter, onBloomChanged, 'Understand', 'assets/icons/blooms/understand.svg', actualData, setState),
-          _bloomLevel(3, bloomsFilter, onBloomChanged, 'Apply', 'assets/icons/blooms/apply.svg', actualData, setState),
-          _bloomLevel(4, bloomsFilter, onBloomChanged, 'Analyze', 'assets/icons/blooms/analyze.svg', actualData, setState),
+          _bloomLevel(0, bloomsFilter, onBloomChanged, 'All',
+              'assets/icons/blooms/all.svg', actualData, setState),
+          _bloomLevel(1, bloomsFilter, onBloomChanged, 'Remember',
+              'assets/icons/blooms/all.svg', actualData, setState),
+          _bloomLevel(2, bloomsFilter, onBloomChanged, 'Understand',
+              'assets/icons/blooms/understand.svg', actualData, setState),
+          _bloomLevel(3, bloomsFilter, onBloomChanged, 'Apply',
+              'assets/icons/blooms/apply.svg', actualData, setState),
+          _bloomLevel(4, bloomsFilter, onBloomChanged, 'Analyze',
+              'assets/icons/blooms/analyze.svg', actualData, setState),
         ],
       ),
     );
   }
 
-  Widget _bloomLevel(int myValue, int selectedValue, Function onTap, String title, String image, List<Data> actualData, Function setState) {
+  Widget _bloomLevel(int myValue, int selectedValue, Function onTap,
+      String title, String image, List<Data> actualData, Function setState) {
     bool isSelected = myValue == selectedValue;
 
     return Flexible(
@@ -582,12 +761,16 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
         onTap: () {
           setState(() {
             bloomsFilter = myValue;
-            context.bloc<TopicQuestionsCubit>().getBloomsQuestions(myValue, actualData);
+            context
+                .bloc<TopicQuestionsCubit>()
+                .getBloomsQuestions(myValue, actualData);
           });
         },
         child: Container(
           decoration: BoxDecoration(
-            color: isSelected ? Theme.of(context).primaryColor : Colors.transparent,
+            color: isSelected
+                ? Theme.of(context).primaryColor
+                : Colors.transparent,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(myValue == 0 ? 12.0 : 0.0),
               topRight: Radius.circular(myValue == 4 ? 12.0 : 0.0),
@@ -603,7 +786,10 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
               ),
               Text(
                 title,
-                style: Theme.of(context).textTheme.headline6.copyWith(color: isSelected ? Colors.white : Colors.black),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(color: isSelected ? Colors.white : Colors.black),
               ),
             ],
           ),
@@ -650,8 +836,11 @@ class _ChooseObjectiveFromSelectedTabState extends State<ChooseObjectiveFromSele
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     padding: const EdgeInsets.all(12.0),
-                    color: data.questions_options[index].is_answer == 0 ? null : Colors.greenAccent.withOpacity(.5),
-                    child: ListTile(title: Text(data.questions_options[index].name)),
+                    color: data.questions_options[index].is_answer == 0
+                        ? null
+                        : Colors.greenAccent.withOpacity(.5),
+                    child: ListTile(
+                        title: Text(data.questions_options[index].name)),
                   );
                 },
               ),

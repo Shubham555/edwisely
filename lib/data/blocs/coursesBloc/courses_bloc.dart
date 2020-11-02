@@ -73,7 +73,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     }
     if (event is GetSectionsAndGetCoursesList) {
       final response = await EdwiselyApi.dio.get(
-          'getCourseDepartmentSections?university_degree_department_id=$departmentId',
+          'getCourseDepartmentSections?university_degree_department_id=$universityDegreeDepartmenId',
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
@@ -106,7 +106,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
     }
     if (event is GetSections) {
       final response = await EdwiselyApi.dio.get(
-          'getCourseDepartmentSections?university_degree_department_id=$departmentId',
+          'getCourseDepartmentSections?university_degree_department_id=$universityDegreeDepartmenId',
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
@@ -178,7 +178,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         List<Data> sv = List.from(event.originalCourseEntity.data);
         sv.retainWhere((element) =>
             element.departments.any((element) => element.id == event.pattern));
-        f.data = List.from(sv);
+        f.data = List.unmodifiable(sv);
         yield AllCoursesFetched(
             f,
             currentStrate is AllCoursesFetched

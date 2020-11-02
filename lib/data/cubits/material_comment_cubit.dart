@@ -10,11 +10,15 @@ class CommentCubit extends Cubit<CommentState> {
   CommentCubit() : super(MaterialCommentInitial());
 
   getMaterialComments(int materialId) async {
-    final response = await EdwiselyApi.dio
-        .post('Material/getComments', data: FormData.fromMap({'material_id': materialId}), options: Options(
+    final response = await EdwiselyApi.dio.post(
+      'Material/getComments',
+      data: FormData.fromMap({'material_id': materialId}),
+      options: Options(
         headers: {
           'Authorization': 'Bearer $loginToken',
-        }),);
+        },
+      ),
+    );
     if (response.data['message'] == 'Successfully fetched comments') {
       emit(
         MaterialCommentsFetched(
@@ -33,18 +37,16 @@ class CommentCubit extends Cubit<CommentState> {
   }
 
   postMaterialComment(int materialId, String comment) async {
-    final response = await EdwiselyApi.dio.post(
-      'Material/Comment',
-      data: FormData.fromMap(
-        {
-          'material_id': materialId,
-          'comment': comment,
-        },
-      ), options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.post('Material/Comment',
+        data: FormData.fromMap(
+          {
+            'material_id': materialId,
+            'comment': comment,
+          },
+        ),
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
-        })
-    );
+        }));
     if (response.data['message'] == 'Successfully added material') {
       emit(
         MaterialCommentAdded(),
@@ -60,10 +62,10 @@ class CommentCubit extends Cubit<CommentState> {
 
   getNotificationComments(int notificationId) async {
     final response = await EdwiselyApi.dio.post('Notification/getComments',
-        data: FormData.fromMap({'notification_id': notificationId}), options: Options(
-            headers: {
-              'Authorization': 'Bearer $loginToken',
-            }));
+        data: FormData.fromMap({'notification_id': notificationId}),
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
     if (response.data['message'] == 'Successfully fetched comments') {
       emit(
         MaterialCommentsFetched(
@@ -82,18 +84,16 @@ class CommentCubit extends Cubit<CommentState> {
   }
 
   postNotificationComment(int notificationId, String comment) async {
-    final response = await EdwiselyApi.dio.post(
-      'Notification/Comment',
-      data: FormData.fromMap(
-        {
-          'notification_id': notificationId,
-          'comment': comment,
-        },
-      ), options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.post('Notification/Comment',
+        data: FormData.fromMap(
+          {
+            'notification_id': notificationId,
+            'comment': comment,
+          },
+        ),
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
-        })
-    );
+        }));
     if (response.data['message'] == 'Successfully added material') {
       emit(
         MaterialCommentAdded(),
@@ -108,9 +108,9 @@ class CommentCubit extends Cubit<CommentState> {
   }
 
   getSurveyComments(int surveyId) async {
-    final response = await EdwiselyApi.dio
-        .post('survey/getComments', data: FormData.fromMap({'survey_id': surveyId}), options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.post('survey/getComments',
+        data: FormData.fromMap({'survey_id': surveyId}),
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
     if (response.data['message'] == 'Successfully fetched comments') {
@@ -131,18 +131,16 @@ class CommentCubit extends Cubit<CommentState> {
   }
 
   postSurveyComment(int surveyId, String comment) async {
-    final response = await EdwiselyApi.dio.post(
-      'survey/Comment',
-      data: FormData.fromMap(
-        {
-          'survey_id': surveyId,
-          'comment': comment,
-        },
-      ), options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.post('survey/Comment',
+        data: FormData.fromMap(
+          {
+            'survey_id': surveyId,
+            'comment': comment,
+          },
+        ),
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
-        })
-    );
+        }));
     if (response.data['message'] == 'Successfully added material') {
       emit(
         MaterialCommentAdded(),

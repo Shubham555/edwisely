@@ -96,16 +96,20 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                           horizontal: 16.0,
                         ),
                         onPressed: () {
-                          // TODO: 10/4/2020 add validations
-                          students.isEmpty ? null : context.bloc<SendAssessmentCubit>().sendAssessment(
-                            widget.title,
-                            widget.description,
-                            _testExpiry.toString(),
-                            _testDuration.toString(),
-                            students,
-                            widget.assessmentId,
-                            _testStart.toString(),
-                          );
+                          if (students.isNotEmpty &&
+                              _testExpiry != null &&
+                              _testStart != null &&
+                              _testDuration != null) {
+                            context.bloc<SendAssessmentCubit>().sendAssessment(
+                                  widget.title,
+                                  widget.description,
+                                  _testExpiry.toString(),
+                                  _testDuration.toString(),
+                                  students,
+                                  widget.assessmentId,
+                                  _testStart.toString(),
+                                );
+                          }
                         },
                         child: Row(
                           children: [
@@ -1061,6 +1065,9 @@ class StudentsCountCubit extends Cubit<StudentsCountState> {
   }
 
   addAllStudents(List<Data> data, List<int> students) {
+    data.forEach((elementa) {
+      students.removeWhere((element) => element == elementa.id);
+    });
     data.forEach((element) {
       students.add(element.id);
     });

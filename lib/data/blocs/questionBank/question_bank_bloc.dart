@@ -28,7 +28,7 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
             'Authorization': 'Bearer $loginToken',
           }));
 
-      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$departmentId', options: Options(
+      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$universityDegreeDepartmenId', options: Options(
           headers: {
             'Authorization': 'Bearer $loginToken',
           }));

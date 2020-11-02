@@ -225,7 +225,36 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                         vertical: 8.0,
                         horizontal: 16.0,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                        // context.bloc<AddQuestionCubit>().addQuestion(
+                        //     _questionController.text,
+                        //     topics,
+                        //     [
+                        //       _option1Controller.text,
+                        //       _option2Controller.text,
+                        //       _option3Controller.text,
+                        //       _option4Controller.text,
+                        //       _option5Controller.text,
+                        //     ],
+                        //     widget._bloomValue,
+                        //     difficultylevel,
+                        //     _sourceController.text,
+                        //     isPublic ? 'public' : 'private',
+                        //     1,
+                        //     _correctAnswer,
+                        //     _option1Image,
+                        //     _option2Image,
+                        //     _option3Image,
+                        //     _option4Image,
+                        //     _option5Image,
+                        //     _questionImage,
+                        //     widget._assessmentId,
+                        //     questions,
+                        //     _hintController.text,
+                        //     _solutionController.text,
+                        //     true);
+                      },
                       child: Row(
                         children: [
                           Image.asset(
@@ -1412,11 +1441,14 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                                                       modalConfirm: true,
                                                       choiceLayout:
                                                           S2ChoiceLayout.wrap,
-                                                      onChange: (state) =>
-                                                          setState(() {
+                                                      onChange: (state) {
+                                                        setState(() {
                                                         print(state.value);
                                                         topics = state.value;
-                                                      }),
+
+                                                      });
+                                                        print(topics);
+                                                      },
                                                       tileBuilder:
                                                           (context, state) =>
                                                               S2Tile.fromState(

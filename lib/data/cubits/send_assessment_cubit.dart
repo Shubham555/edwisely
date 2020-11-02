@@ -15,7 +15,7 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
 
   getSections(int universityDepartmentId) async {
 
-    final sectionResponse = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$departmentId', options: Options(
+    final sectionResponse = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$universityDegreeDepartmenId', options: Options(
         headers: {
           'Authorization': 'Bearer $loginToken',
         }));

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:edwisely/main.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
@@ -146,16 +148,16 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                               ),
                               onPressed: () {
                                 final form = _formKey.currentState;
-
                                 if (form.validate()) {
                                   form.save();
                                   if (_vcStart != null && _vcStartTime != null && _vcEnd != null && _vcEndTime != null) {
+
                                     context.bloc<LiveClassCubit>().sendLiveClass(
                                         _title,
                                         _description,
-                                        _vcStart.add(Duration(hours: _vcStartTime.hour, minutes: _vcStartTime.hour)).toString(),
+                                        _vcStart.add(Duration(hours: _vcStartTime.hour, minutes: _vcStartTime.minute)).toString(),
                                         students,
-                                        _vcEnd.add(Duration(hours: _vcEndTime.hour, minutes: _vcEndTime.hour)).toString());
+                                        _vcEnd.add(Duration(hours: _vcEndTime.hour, minutes: _vcEndTime.minute)).toString());
                                   } else {
                                     Toast.show('Please Double Check the Entries ', context);
                                   }

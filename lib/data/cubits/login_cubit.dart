@@ -40,7 +40,7 @@ class LoginCubit extends Cubit<LoginState> {
 
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
-        departmentId = response.data['university_degree_department_id'];
+        universityDegreeDepartmenId = response.data['university_degree_department_id'];
         collegeId = response.data['college_id'];
         loginToken = response.data['token'];
         // loginToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"

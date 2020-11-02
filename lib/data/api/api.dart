@@ -10,7 +10,8 @@ class EdwiselyApi {
         'Authorization': 'Bearer $loginToken',
       },
     ),
-  )..interceptors.add(
+  )
+  ..interceptors.add(
       PrettyDioLogger(
         requestHeader: true,
         requestBody: true,

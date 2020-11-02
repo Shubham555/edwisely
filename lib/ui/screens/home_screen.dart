@@ -2,6 +2,7 @@ import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
 import 'package:edwisely/data/cubits/material_comment_cubit.dart';
 import 'package:edwisely/data/model/NotifiacationHomeScreenEntity.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
+import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    homeScreenDefaultCubit = context.bloc<HomeScreenDefaultCubit>()..getHomeScreenContent();
+    homeScreenDefaultCubit = context.bloc<HomeScreenDefaultCubit>()
+      ..getHomeScreenContent();
     screenSize = MediaQuery.of(context).size;
     textTheme = Theme.of(context).textTheme;
 
@@ -39,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        Provider.of<SelectedPageProvider>(context, listen: false).setPreviousIndex();
+        Provider.of<SelectedPageProvider>(context, listen: false)
+            .setPreviousIndex();
         return true;
       },
       child: Scaffold(
@@ -182,87 +185,118 @@ class _HomeScreenState extends State<HomeScreen> {
       cubit: homeScreenDefaultCubit,
       builder: (BuildContext context, state) {
         if (state is HomeScreenDefaultFetched) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Upcoming',
-                style: textTheme.headline2,
-                textAlign: TextAlign.start,
-              ),
-              Container(
-                height: screenSize.height * 0.375,
-                width: screenSize.width * .25,
-                margin: const EdgeInsets.only(
-                  right: 22.0,
-                  top: 12.0,
+          if (state.map['upcoming_events'].toString() ==
+              '{objective_tests: [], subjective_tests: [], vc: []}') {
+            return Container();
+          } else
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Upcoming',
+                  style: textTheme.headline2,
+                  textAlign: TextAlign.start,
                 ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12.0,
-                  horizontal: 18.0,
+                Container(
+                  height: screenSize.height * 0.375,
+                  width: screenSize.width * .25,
+                  margin: const EdgeInsets.only(
+                    right: 22.0,
+                    top: 12.0,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12.0,
+                    horizontal: 18.0,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 6.0,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      state.map['upcoming_events']['objective_tests'] == ''
+                          ? Text('There are no objective test!')
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']['objective_tests']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it))).length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var data =
+                                    List<NotifiacationHomeScreenEntity>.from(
+                                        state
+                                            .map['upcoming_events']
+                                                ['objective_tests']
+                                            .map((it) =>
+                                                NotifiacationHomeScreenEntity
+                                                    .fromJsonMap(it)));
+                                return ListTile(
+                                  title: Text(data[index].title),
+                                );
+                              },
+                            ),
+                      //for Suvbjective
+                      state.map['upcoming_events']['subjective_tests'] == ''
+                          ? Text('There are no objective test!')
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']
+                                          ['subjective_tests']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it))).length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var data =
+                                    List<NotifiacationHomeScreenEntity>.from(
+                                        state
+                                            .map['upcoming_events']
+                                                ['subjective_tests']
+                                            .map((it) =>
+                                                NotifiacationHomeScreenEntity
+                                                    .fromJsonMap(it)));
+                                return ListTile(
+                                  title: Text(data[index].title),
+                                );
+                              },
+                            ),
+                      // for video conference
+                      state.map['upcoming_events']['vc'] == ''
+                          ? Text('There are no objective test!')
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount:
+                                  List<NotifiacationHomeScreenEntity>.from(state
+                                      .map['upcoming_events']['vc']
+                                      .map((it) => NotifiacationHomeScreenEntity
+                                          .fromJsonMap(it))).length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var data =
+                                    List<NotifiacationHomeScreenEntity>.from(
+                                        state.map['upcoming_events']
+                                                ['vc']
+                                            .map((it) =>
+                                                NotifiacationHomeScreenEntity
+                                                    .fromJsonMap(it)));
+                                return ListTile(
+                                  title: Text(data[index].title),
+                                );
+                              },
+                            ),
+                    ],
+                  ),
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 6.0,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    state.map['upcoming_events']['objective_tests'] == ''
-                        ? Text('There are no objective test!')
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: List<NotifiacationHomeScreenEntity>.from(
-                                state.map['upcoming_events']['objective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var data = List<NotifiacationHomeScreenEntity>.from(
-                                  state.map['upcoming_events']['objective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
-                              return ListTile(
-                                title: Text(data[index].title),
-                              );
-                            },
-                          ),
-                    //for Suvbjective
-                    state.map['upcoming_events']['subjective_tests'] == ''
-                        ? Text('There are no objective test!')
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: List<NotifiacationHomeScreenEntity>.from(
-                                state.map['upcoming_events']['subjective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var data = List<NotifiacationHomeScreenEntity>.from(
-                                  state.map['upcoming_events']['subjective_tests'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
-                              return ListTile(
-                                title: Text(data[index].title),
-                              );
-                            },
-                          ),
-                    // for video conference
-                    state.map['upcoming_events']['vc'] == ''
-                        ? Text('There are no objective test!')
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: List<NotifiacationHomeScreenEntity>.from(
-                                state.map['upcoming_events']['vc'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it))).length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var data = List<NotifiacationHomeScreenEntity>.from(
-                                  state.map['upcoming_events']['vc'].map((it) => NotifiacationHomeScreenEntity.fromJsonMap(it)));
-                              return ListTile(
-                                title: Text(data[index].title),
-                              );
-                            },
-                          ),
-                  ],
-                ),
-              ),
-            ],
-          );
+              ],
+            );
         }
         if (state is HomeScreenDefaultFailed) {
           return Center(
@@ -279,7 +313,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget activityTabList(dynamic activityTab) {
     return Expanded(
-      child: ListView.builder(
+      child:           ListView.builder(
+        shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemCount: activityTab.length,
         itemBuilder: (ctx, index) {
@@ -302,6 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return SizedBox.shrink();
         },
       ),
+  
     );
   }
 
@@ -336,7 +372,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           //center portion
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 32.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 22.0, horizontal: 32.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -393,18 +430,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         )) {
                           html.window.open(activity['url'], 'Meeting');
-                        } else if (DateTime.parse(activity['end_time']).isBefore(
+                        } else if (DateTime.parse(activity['end_time'])
+                            .isBefore(
                           DateTime.now(),
                         )) {
                         } else {
                           Get.defaultDialog(
                             title: 'Cannot Start Meeting',
-                            middleText: 'You can login to the meeting only 10 mins before it starts',
+                            middleText:
+                                'You can login to the meeting only 10 mins before it starts',
                           );
                         }
                       },
                       child: Text(
-                        DateTime.parse(activity['end_time']).isBefore(DateTime.now())
+                        DateTime.parse(activity['end_time'])
+                                .isBefore(DateTime.now())
                             ? 'Meeting Completed'
                             : DateTime.parse(activity['end_time']).isBefore(
                                 DateTime.now().add(
@@ -620,7 +660,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     controller: controller,
                     decoration: InputDecoration(
                       hintText: 'Enter your comment',
-                      hintStyle: textTheme.headline6.copyWith(color: Colors.grey[400]),
+                      hintStyle:
+                          textTheme.headline6.copyWith(color: Colors.grey[400]),
                       border: InputBorder.none,
                     ),
                   ),
@@ -630,7 +671,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 64.0,
                   child: FlatButton(
                     onPressed: () {
-                      context.bloc<CommentCubit>().postSurveyComment(activity['id'], controller.text);
+                      context
+                          .bloc<CommentCubit>()
+                          .postSurveyComment(activity['id'], controller.text);
                     },
                     child: Icon(
                       Icons.send,
@@ -643,7 +686,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           BlocBuilder(
-            cubit: context.bloc<CommentCubit>()..getSurveyComments(activity['id']),
+            cubit: context.bloc<CommentCubit>()
+              ..getSurveyComments(activity['id']),
             // ignore: missing_return
             builder: (BuildContext context, state) {
               if (state is MaterialCommentsFetched) {
@@ -651,14 +695,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   shrinkWrap: true,
                   itemCount: state.materialComment.data.length,
                   itemBuilder: (ctx, index) => Align(
-                    alignment: state.materialComment.data[index].college_account_id == null ? Alignment.centerLeft : Alignment.centerRight,
+                    alignment:
+                        state.materialComment.data[index].college_account_id ==
+                                null
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
                     child: Container(
                       height: screenSize.height * 0.07,
                       width: screenSize.width * 0.3,
                       margin: const EdgeInsets.symmetric(vertical: 4.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color: state.materialComment.data[index].college_account_id == null
+                        color: state.materialComment.data[index]
+                                    .college_account_id ==
+                                null
                             ? Color(0xFF7bed9f).withOpacity(0.5)
                             : Color(0xFFff6b81).withOpacity(0.5),
                       ),
@@ -673,9 +723,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(32.0),
                                     child: Image.network(
-                                      state.materialComment.data[index].college_account_id == null
-                                          ? state.materialComment.data[index].student.profile_pic
-                                          : state.materialComment.data[index].college_account.profile_pic,
+                                      state.materialComment.data[index]
+                                                  .college_account_id ==
+                                              null
+                                          ? state.materialComment.data[index]
+                                              .student.profile_pic
+                                          : state.materialComment.data[index]
+                                              .college_account.profile_pic,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -696,7 +750,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           Positioned(
                             right: 4.0,
                             bottom: 4.0,
-                            child: Text(state.materialComment.data[index].created_at.toString()),
+                            child: Text(state
+                                .materialComment.data[index].created_at
+                                .toString()),
                           ),
                         ],
                       ),
@@ -705,7 +761,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               if (state is MaterialCommentFailed) {
-                return Text(' Could not fetch Comments');
+                return Text(' ');
               }
               if (state is MaterialCommentInitial) {
                 return Center(
@@ -802,7 +858,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     controller: controller,
                     decoration: InputDecoration(
                       hintText: 'Enter your comment',
-                      hintStyle: textTheme.headline6.copyWith(color: Colors.grey[400]),
+                      hintStyle:
+                          textTheme.headline6.copyWith(color: Colors.grey[400]),
                       border: InputBorder.none,
                     ),
                   ),
@@ -812,7 +869,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 64.0,
                   child: FlatButton(
                     onPressed: () {
-                      context.bloc<CommentCubit>().postSurveyComment(activity['id'], controller.text);
+                      context
+                          .bloc<CommentCubit>()
+                          .postSurveyComment(activity['id'], controller.text);
                     },
                     child: Icon(
                       Icons.send,
@@ -825,7 +884,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           BlocBuilder(
-            cubit: context.bloc<CommentCubit>()..getSurveyComments(activity['id']),
+            cubit: context.bloc<CommentCubit>()
+              ..getSurveyComments(activity['id']),
             // ignore: missing_return
             builder: (BuildContext context, state) {
               if (state is MaterialCommentsFetched) {
@@ -833,14 +893,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   shrinkWrap: true,
                   itemCount: state.materialComment.data.length,
                   itemBuilder: (ctx, index) => Align(
-                    alignment: state.materialComment.data[index].college_account_id == null ? Alignment.centerLeft : Alignment.centerRight,
+                    alignment:
+                        state.materialComment.data[index].college_account_id ==
+                                null
+                            ? Alignment.centerLeft
+                            : Alignment.centerRight,
                     child: Container(
                       height: screenSize.height * 0.07,
                       width: screenSize.width * 0.3,
                       margin: const EdgeInsets.symmetric(vertical: 4.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color: state.materialComment.data[index].college_account_id == null
+                        color: state.materialComment.data[index]
+                                    .college_account_id ==
+                                null
                             ? Color(0xFF7bed9f).withOpacity(0.5)
                             : Color(0xFFff6b81).withOpacity(0.5),
                       ),
@@ -855,9 +921,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(32.0),
                                     child: Image.network(
-                                      state.materialComment.data[index].college_account_id == null
-                                          ? state.materialComment.data[index].student.profile_pic
-                                          : state.materialComment.data[index].college_account.profile_pic,
+                                      state.materialComment.data[index]
+                                                  .college_account_id ==
+                                              null
+                                          ? state.materialComment.data[index]
+                                              .student.profile_pic
+                                          : state.materialComment.data[index]
+                                              .college_account.profile_pic,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -878,7 +948,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           Positioned(
                             right: 4.0,
                             bottom: 4.0,
-                            child: Text(state.materialComment.data[index].created_at.toString()),
+                            child: Text(state
+                                .materialComment.data[index].created_at
+                                .toString()),
                           ),
                         ],
                       ),
@@ -887,7 +959,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               if (state is MaterialCommentFailed) {
-                return Text(' Could not fetch Comments');
+                return Text(' ');
               }
               if (state is MaterialCommentInitial) {
                 return Center(
@@ -956,7 +1028,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: followers.toString() == '[]'
                     ? Container()
                     : Text(
-                        followers[0]['faculty_name'].substring(0, 1).toUpperCase(),
+                        followers[0]['faculty_name']
+                            .substring(0, 1)
+                            .toUpperCase(),
                         style: textTheme.headline3,
                       ),
               ),
@@ -1046,50 +1120,67 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _courseCard(dynamic course) {
-    return Container(
-      height: screenSize.height * 0.18,
-      width: screenSize.width * 0.12,
-      margin: const EdgeInsets.symmetric(
-        vertical: 4.0,
-        horizontal: 8.0,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        image: DecorationImage(
-          image: AssetImage('placeholder_image.jpg'),
-          fit: BoxFit.cover,
+    print('course $course');
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => CourseDetailScreen(
+            course['name'],
+            course['subject_semester_id'],
+            course['id'],
+          ),
         ),
       ),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: SizedBox(
-              height: screenSize.height * 0.04,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: Theme.of(context).primaryColor.withOpacity(0.8),
-                ),
-                alignment: Alignment.center,
+      child: Container(
+        height: screenSize.height * 0.18,
+        width: screenSize.width * 0.12,
+        margin: const EdgeInsets.symmetric(
+          vertical: 4.0,
+          horizontal: 8.0,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+          image: DecorationImage(
+            image: course['course_image'].toString().isEmpty
+                ? AssetImage('placeholder_image.jpg')
+                : NetworkImage(
+                    course['course_image'],
+                  ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: SizedBox(
+                height: screenSize.height * 0.04,
                 child: Container(
-                  width: 180,
-                  child: Text(
-                    course['name'],
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: Theme.of(context).primaryColor.withOpacity(0.8),
+                  ),
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 180,
+                    child: Text(
+                      course['name'],
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -1115,7 +1206,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Very Good',
               ),
               PieChartSectionData(
-                value: double.parse(results['percentage_below_average'].toString()),
+                value: double.parse(
+                    results['percentage_below_average'].toString()),
                 radius: 15,
                 title: 'Below Average',
               ),

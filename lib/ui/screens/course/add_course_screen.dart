@@ -249,7 +249,7 @@ class _AddCourseScreenState extends State<AddCourseScreen> {
                                                                 selectedDropDown =
                                                                     value;
                                                               });
-                                                              // context.bloc<CoursesBloc>().add(SortCourses(value, coursesFilter));
+                                                              context.bloc<CoursesBloc>().add(SortCourses(value, coursesFilter));
                                                             },
                                                           ),
                                                         ),

@@ -23,5 +23,5 @@ jobs:
           git remote add origin https://${{secrets.commit_secret}}@github.com/Shubham555/edwisely.git
           git checkout -b gh-pages
           git add --all
-          git commit -m "Flutter Web Hosting"
+          git commit -m "update"
           git push origin gh-pages -f

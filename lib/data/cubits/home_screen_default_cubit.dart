@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/api/api.dart';
@@ -10,8 +12,9 @@ class HomeScreenDefaultCubit extends Cubit<HomeScreenDefaultState> {
   HomeScreenDefaultCubit() : super(HomeScreenDefaultInitial());
 
   getHomeScreenContent() async {
+
     final response = await EdwiselyApi.dio.get(
-        'college/dashboardData?from_date=${DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now())}&delta_days=10&to_date', options: Options(
+        'college/dashboardData?from_date=${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}&delta_days=10&to_date', options: Options(
         headers: {
           'Authorization': 'Bearer $loginToken',
         }));

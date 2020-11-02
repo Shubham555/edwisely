@@ -18,6 +18,7 @@ import '../../../../data/cubits/get_course_decks_cubit.dart';
 import '../../../../data/cubits/topic_cubit.dart';
 import '../../../../data/cubits/unit_cubit.dart';
 import '../../../../data/model/questionBank/topicEntity/data.dart';
+import '../../../../main.dart';
 import '../../../widgets_util/text_input.dart';
 
 //doing this page
@@ -696,10 +697,14 @@ class _CourseDetailCourseContentTabState
                                                           'assets/icons/filesTypes/html.png';
                                                       break;
                                                   }
-                                                  return state.data[index].title
-                                                          .isEmpty
+                                                  return state.data[index]
+                                                                  .title ==
+                                                              null ||
+                                                          state.data[index]
+                                                              .title.isEmpty
                                                       ? Container()
-                                                      : state.data[index].source ==
+                                                      : state.data[index]
+                                                                  .source ==
                                                               null
                                                           ? ListTile(
                                                               onTap: () async {
@@ -807,9 +812,18 @@ class _CourseDetailCourseContentTabState
                                                                 itemBuilder:
                                                                     (context) {
                                                                   return [
-                                                                    'Edit',
-                                                                    'Bookmark',
-                                                                    'Delete',
+                                                                    state.data[index].faculty_content ==
+                                                                            1
+                                                                        ? 'Edit'
+                                                                        : null,
+                                                                    state.data[index].bookmarked ==
+                                                                            1
+                                                                        ? "UnBookmark"
+                                                                        : 'Bookmark',
+                                                                    state.data[index].faculty_content ==
+                                                                            1
+                                                                        ? 'Delete'
+                                                                        : null,
                                                                   ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
                                                                       .map(
                                                                         (e) =>
@@ -981,15 +995,16 @@ class _CourseDetailCourseContentTabState
     //going the easy way allah maaf kre
     bool isBookmarked = data.bookmarked == 1;
     if (isBookmarked) {
-      final response = await EdwiselyApi.dio.post(
-        'deleteBookmark',
-        data: FormData.fromMap(
-          {
-            'type': data.type,
-            'id': data.topic_id,
-          },
-        ),
-      );
+      final response = await EdwiselyApi.dio.post('deleteBookmark',
+          data: FormData.fromMap(
+            {
+              'type': data.type,
+              'id': data.topic_id,
+            },
+          ),
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
 
       if (response.data['message'] == 'Successfully deleted the bookmark') {
         setState(
@@ -999,15 +1014,16 @@ class _CourseDetailCourseContentTabState
         Toast.show('Some Error Occurred', context);
       }
     } else {
-      final response = await EdwiselyApi.dio.post(
-        'addBookmark',
-        data: FormData.fromMap(
-          {
-            'type': data.type,
-            'id': data.topic_id,
-          },
-        ),
-      );
+      final response = await EdwiselyApi.dio.post('addBookmark',
+          data: FormData.fromMap(
+            {
+              'type': data.type,
+              'id': data.topic_id,
+            },
+          ),
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
 
       if (response.data['message'] == 'Successfully added the bookmark') {
         setState(
@@ -1020,12 +1036,13 @@ class _CourseDetailCourseContentTabState
   }
 
   void _delete(Learning_content data) async {
-    final response = await EdwiselyApi.dio.post(
-      'units/deleteMaterial',
-      data: FormData.fromMap(
-        {'topic_id': data.topic_id, 'material_id': data.material_id},
-      ),
-    );
+    final response = await EdwiselyApi.dio.post('units/deleteMaterial',
+        data: FormData.fromMap(
+          {'topic_id': data.topic_id, 'material_id': data.material_id},
+        ),
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
     if (response.data['message'] == 'Successfully deleted the files.') {
       setState(() {});
     } else {
@@ -1039,7 +1056,7 @@ class _CourseDetailCourseContentTabState
     showDialog(
       context: context,
       builder: (context) {
-        String typeDropDownValue = isAdding ? 'All' : data.type;
+        String typeDropDownValue = isAdding ? 'DOCS' : data.type;
         TextEditingController titleController = TextEditingController();
         if (!isAdding) {
           titleController.text = data.title;
@@ -1210,6 +1227,10 @@ class _CourseDetailCourseContentTabState
                               }
                             }
                             Navigator.pop(context);
+                            context.bloc<CourseContentCubit>().getCourseContent(
+                                  enabledUnitId,
+                                  widget.semesterId,
+                                );
                           },
                           icon: Icon(
                             Icons.save,
