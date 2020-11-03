@@ -186,7 +186,7 @@ class CourseDetailSyllabusTab extends StatelessWidget {
         if (state is CoursesFetchFailed) {
           return Expanded(
             child: Center(
-              child: Text('No Data'),
+              child: Text('No Data to '),
             ),
           );
         } else {

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -115,12 +116,14 @@ class QuestionBankObjectiveBloc
       }
     }
     if (event is GetObjectiveQuestionsByBookmark) {
+
       yield QuestionBankObjectiveInitial();
       final response = await EdwiselyApi.dio
           .get('getBookmarkedQuestions?unit_id=${event.unitId}',
               options: Options(headers: {
                 'Authorization': 'Bearer $loginToken',
               }));
+      print(response.data);
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully deleted the bookmark') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
