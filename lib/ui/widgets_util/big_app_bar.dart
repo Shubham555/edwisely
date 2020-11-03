@@ -13,6 +13,7 @@ class BigAppBar extends StatelessWidget {
   final Text appBarTitle;
   final Widget flatButton;
   final String route;
+
   BigAppBar({
     @required this.actions,
     @required this.titleText,
@@ -58,14 +59,13 @@ class BigAppBar extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.topLeft,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                            // Heading
-                            titleText,
-                            style: Theme.of(context).textTheme.headline1,
-                          ),
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: Text(
+                          // Heading
+                          titleText,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 28.0),
                         ),
                       ),
                       Container(
@@ -82,15 +82,12 @@ class BigAppBar extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.2,
                         height: MediaQuery.of(context).size.height * 0.03,
                         child: FittedBox(
-                          fit: BoxFit.contain,
+                          fit: BoxFit.scaleDown,
                           child: Text(
-                            // Route
-                            route,
-                            style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                          ),
+                              // Route
+                              route,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Theme.of(context).primaryColor)),
                         ),
                       ),
                     ],

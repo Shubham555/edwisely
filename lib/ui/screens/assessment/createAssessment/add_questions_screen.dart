@@ -32,8 +32,7 @@ class AddQuestionsScreen extends StatefulWidget {
   _AddQuestionsScreenState createState() => _AddQuestionsScreenState();
 }
 
-class _AddQuestionsScreenState extends State<AddQuestionsScreen>
-    with SingleTickerProviderStateMixin {
+class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTickerProviderStateMixin {
   final _questionFetchCubit = QuestionsCubit();
   Size screenSize;
   TextTheme textTheme;
@@ -77,8 +76,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                               : Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SendAssessmentScreen(
+                                    builder: (BuildContext context) => SendAssessmentScreen(
                                       widget._assessmentId,
                                       widget._title,
                                       widget._description,
@@ -94,8 +92,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                               ),
                               SizedBox(width: 8.0),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: Text(
                                   'Save',
                                   style: Theme.of(context).textTheme.button,
@@ -104,13 +101,10 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                             ],
                           ),
                         ),
-                        titleText:
-                            'Add Questions to ${widget._title} Assessment',
+                        titleText: 'Add Questions to ${widget._title} Assessment',
                       ).build(context),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.17),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.17),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -170,9 +164,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                     'Create Questions',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              40,
+                                      fontSize: MediaQuery.of(context).size.height / 40,
                                     ),
                                   ),
                                   SizedBox(
@@ -180,26 +172,19 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                   ),
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       Visibility(
                                         child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
+                                          width: MediaQuery.of(context).size.width * 0.1,
                                           height: 150,
-                                          margin: const EdgeInsets.only(
-                                              right: 22.0),
+                                          margin: const EdgeInsets.only(right: 22.0),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
+                                            borderRadius: BorderRadius.circular(18.0),
                                             color: Colors.white,
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(0.2),
+                                                color: Colors.black.withOpacity(0.2),
                                                 blurRadius: 6.0,
                                               ),
                                             ],
@@ -208,26 +193,14 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                             onTap: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    TypeQuestionTab(
-                                                        widget._title,
-                                                        widget._description,
-                                                        widget._subjectId,
-                                                        widget._questionType,
-                                                        widget._assessmentId,
-                                                        false),
+                                                builder: (BuildContext context) => TypeQuestionTab(widget._title, widget._description,
+                                                    widget._subjectId, widget._questionType, widget._assessmentId, false),
                                               ),
-                                            ).then((value) =>
-                                                _questionFetchCubit
-                                                    .getQuestionsToAnAssessment(
-                                                        widget._assessmentId)),
+                                            ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(8.0),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   Image.asset(
                                                     'assets/icons/add.png',
@@ -237,14 +210,17 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                                   SizedBox(
                                                     height: 15,
                                                   ),
-                                                  Text('Add Questions')
+                                                  Text(
+                                                    'Add Questions',
+                                                    textAlign: TextAlign.center,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  )
                                                 ],
                                               ),
                                             ),
                                           ),
                                         ),
-                                        visible: widget._questionType ==
-                                            QuestionType.Objective,
+                                        visible: widget._questionType == QuestionType.Objective,
                                       ),
                                       SizedBox(
                                         height: 20,
@@ -253,28 +229,19 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                         onTap: () => Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                UploadExcelTab(),
+                                            builder: (BuildContext context) => UploadExcelTab(),
                                           ),
-                                        ).then((value) => _questionFetchCubit
-                                            .getQuestionsToAnAssessment(
-                                                widget._assessmentId)),
+                                        ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
                                         child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
+                                          width: MediaQuery.of(context).size.width * 0.1,
                                           height: 150,
-                                          margin: const EdgeInsets.only(
-                                              right: 22.0),
+                                          margin: const EdgeInsets.only(right: 22.0),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
+                                            borderRadius: BorderRadius.circular(18.0),
                                             color: Colors.white,
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(0.2),
+                                                color: Colors.black.withOpacity(0.2),
                                                 blurRadius: 6.0,
                                               ),
                                             ],
@@ -282,8 +249,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Image.asset(
                                                   'assets/icons/upload_black.png',
@@ -293,7 +259,11 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                                 SizedBox(
                                                   height: 15,
                                                 ),
-                                                Text('Upload Questions')
+                                                Text(
+                                                  'Upload Questions',
+                                                  textAlign: TextAlign.center,
+                                                  overflow: TextOverflow.ellipsis,
+                                                )
                                               ],
                                             ),
                                           ),
@@ -301,21 +271,15 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                       ),
                                       Visibility(
                                         child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
+                                          width: MediaQuery.of(context).size.width * 0.1,
                                           height: 150,
-                                          margin: const EdgeInsets.only(
-                                              right: 22.0),
+                                          margin: const EdgeInsets.only(right: 22.0),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
+                                            borderRadius: BorderRadius.circular(18.0),
                                             color: Colors.white,
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(0.2),
+                                                color: Colors.black.withOpacity(0.2),
                                                 blurRadius: 6.0,
                                               ),
                                             ],
@@ -324,25 +288,14 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                             onTap: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    ChooseObjectiveFromSelectedTab(
-                                                        widget._title,
-                                                        widget._description,
-                                                        widget._subjectId,
-                                                        widget._questionType,
-                                                        widget._assessmentId),
+                                                builder: (BuildContext context) => ChooseObjectiveFromSelectedTab(widget._title, widget._description,
+                                                    widget._subjectId, widget._questionType, widget._assessmentId),
                                               ),
-                                            ).then((value) =>
-                                                _questionFetchCubit
-                                                    .getQuestionsToAnAssessment(
-                                                        widget._assessmentId)),
+                                            ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(8.0),
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   Image.asset(
                                                     'assets/icons/question_bank.png',
@@ -355,14 +308,14 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                                   Text(
                                                     'Choose from Question Bank',
                                                     textAlign: TextAlign.center,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ],
                                               ),
                                             ),
                                           ),
                                         ),
-                                        visible: widget._questionType ==
-                                            QuestionType.Objective,
+                                        visible: widget._questionType == QuestionType.Objective,
                                       ),
                                       Visibility(
                                         child: Container(
@@ -375,9 +328,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                               onTap: () => Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (BuildContext
-                                                          context) =>
-                                                      ChooseSubjectiveFromSelectedTab(
+                                                  builder: (BuildContext context) => ChooseSubjectiveFromSelectedTab(
                                                     widget._title,
                                                     widget._description,
                                                     widget._subjectId,
@@ -385,19 +336,12 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                                     widget._assessmentId,
                                                   ),
                                                 ),
-                                              ).then((value) =>
-                                                  _questionFetchCubit
-                                                      .getQuestionsToAnAssessment(
-                                                          widget
-                                                              ._assessmentId)),
+                                              ).then((value) => _questionFetchCubit.getQuestionsToAnAssessment(widget._assessmentId)),
                                               child: Card(
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
+                                                  padding: const EdgeInsets.all(8.0),
                                                   child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       Icon(
                                                         Icons.handyman,
@@ -407,7 +351,9 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                                         height: 15,
                                                       ),
                                                       Text(
-                                                          'Choose from Question Bank')
+                                                        'Choose from Question Bank',
+                                                        textAlign: TextAlign.center,
+                                                      )
                                                     ],
                                                   ),
                                                 ),
@@ -415,8 +361,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                                             ),
                                           ),
                                         ),
-                                        visible: widget._questionType ==
-                                            QuestionType.Subjective,
+                                        visible: widget._questionType == QuestionType.Subjective,
                                       ),
                                     ],
                                   ),
