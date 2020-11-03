@@ -16,29 +16,28 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
     String name,
     FilePickerCross attachments,
     String displayType,
-    String externalUrl,//ik sec 10 lele
+    String externalUrl, //ik sec 10 lele
   ) async {
-    final response = await EdwiselyApi.dio.post(
-      'addFacultyContent',
-      data: FormData.fromMap(
-        {
-          'unit_id': unitId,
-          'topic_code': topicCode,
-          'material_type': materialType,
-          'name': name,
-          'attachments': MultipartFile.fromBytes(
-            attachments.toUint8List(),
-            filename: attachments.fileName,
-          ),
-          'display_type': displayType,
-          'external_url': externalUrl
-        },
-      )
-        , options: Options(
-    headers: {
-    'Authorization': 'Bearer $loginToken',
-    })
-    );
+    final response = await EdwiselyApi.dio.post('addFacultyContent',
+        data: FormData.fromMap(
+          {
+            'unit_id': unitId,
+            'topic_code': topicCode,
+            'material_type': materialType,
+            'name': name,
+            'attachments': attachments == null
+                ? null
+                : MultipartFile.fromBytes(
+                    attachments.toUint8List(),
+                    filename: attachments.fileName,
+                  ),
+            'display_type': displayType,
+            'external_url': externalUrl
+          },
+        ),
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
 
     if (response.data['message'] == 'Successfully updated the course details') {
       emit(
@@ -60,24 +59,22 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
     String name, {
     FilePickerCross attachments,
   }) async {
-    final response = await EdwiselyApi.dio.post(
-      'units/updateMaterial',
-      data: FormData.fromMap(
-        {
-          'topic_id': topicId,
-          'material_type': materialThype,
-          'material_id': materialId,
-          'name': name,
-          'attachements': MultipartFile.fromBytes(
-            attachments.toUint8List(),
-            filename: attachments.fileName,
-          ),
-        },
-      ), options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.post('units/updateMaterial',
+        data: FormData.fromMap(
+          {
+            'topic_id': topicId,
+            'material_type': materialThype,
+            'material_id': materialId,
+            'name': name,
+            'attachements': MultipartFile.fromBytes(
+              attachments.toUint8List(),
+              filename: attachments.fileName,
+            ),
+          },
+        ),
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
-        })
-    );
+        }));
     if (response.data['message'] == 'Successfully updated the course details') {
       emit(
         AddFacultyContentAdded(),

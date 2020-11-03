@@ -47,7 +47,12 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
       }
     }
     if (event is GetCoursesList) {
-      final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses');
+      final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses',
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $loginToken',
+            },
+          ));
       if (subjectResponse.statusCode == 200) {
         List<DropdownMenuItem> subjects = [];
         subjects.add(
@@ -77,7 +82,12 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
-      final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses');
+      final subjectResponse = await EdwiselyApi.dio.get('getFacultyCourses',
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $loginToken',
+            },
+          ));
       if (response.statusCode == 200 && subjectResponse.statusCode == 200) {
         List<DropdownMenuItem> subjects = [];
         subjects.add(

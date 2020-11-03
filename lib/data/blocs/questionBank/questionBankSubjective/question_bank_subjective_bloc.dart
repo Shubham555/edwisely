@@ -107,7 +107,7 @@ class QuestionBankSubjectiveBloc extends Bloc<QuestionBankSubjectiveEvent, Quest
           'Authorization': 'Bearer $loginToken',
         }));
       if (response.statusCode == 200) {
-        if (response.data['message'] != 'Successfully fetched the data') {
+        if (response.data['message'] != 'Successfully deleted the bookmark') {
           yield QuestionBankSubjectiveFetchFailed(response.data['message']);
         } else
           yield UnitSubjectiveQuestionsFetched(

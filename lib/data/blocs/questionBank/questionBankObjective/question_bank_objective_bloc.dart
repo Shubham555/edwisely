@@ -122,7 +122,7 @@ class QuestionBankObjectiveBloc
                 'Authorization': 'Bearer $loginToken',
               }));
       if (response.statusCode == 200) {
-        if (response.data['message'] != 'Successfully fetched the data') {
+        if (response.data['message'] != 'Successfully deleted the bookmark') {
           yield QuestionBankObjectiveFetchFailed(response.data['message']);
         } else
           yield UnitObjectiveQuestionsFetched(

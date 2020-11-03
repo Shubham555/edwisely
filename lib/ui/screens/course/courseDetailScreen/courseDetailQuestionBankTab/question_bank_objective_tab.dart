@@ -75,35 +75,35 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         DropdownMenuItem(
                                           child: Text(
                                             'All',
-                                            // overflow: TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                           value: -1,
                                         ),
                                         DropdownMenuItem(
                                           child: Text(
                                             'Remember',
-                                            // overflow: TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                           value: 1,
                                         ),
                                         DropdownMenuItem(
                                           child: Text(
                                             'Understand',
-                                            // overflow: TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                           value: 2,
                                         ),
                                         DropdownMenuItem(
                                           child: Text(
                                             'Apply',
-                                            // overflow: TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                           value: 3,
                                         ),
                                         DropdownMenuItem(
                                           child: Text(
                                             'Analyze',
-                                            // overflow: TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                           value: 4,
                                         ),
@@ -372,17 +372,17 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                       title: Row(
                                         children: [
                                           Text('Q. ${index + 1}  '),
-                                          Flexible(
-                                            child: TeXView(
-                                              child: TeXViewDocument(
-                                                state
-                                                    .questionBankObjectiveEntity
-                                                    .data[index]
-                                                    .name
-                                                  ..replaceAll("\$", ''),
-                                              ),
-                                            ),
-                                          ),
+                                          // Flexible(
+                                          //   child: TeXView(
+                                          //     child: TeXViewDocument(
+                                          //       state
+                                          //           .questionBankObjectiveEntity
+                                          //           .data[index]
+                                          //           .name
+                                          //         ..replaceAll("\$", ''),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           // Text(state.questionBankObjectiveEntity.data[index].name)
                                         ],
                                       ),
