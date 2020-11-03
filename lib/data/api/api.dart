@@ -10,12 +10,12 @@ class EdwiselyApi {
         'Authorization': 'Bearer $loginToken',
       },
     ),
-  );
-  // ..interceptors.add(
-  //     PrettyDioLogger(
-  //       requestHeader: true,
-  //       requestBody: true,
-  //       request: true,
-  //     ),
-  //   );
+  )
+  ..interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        request: true,
+      ),
+    );
 }
