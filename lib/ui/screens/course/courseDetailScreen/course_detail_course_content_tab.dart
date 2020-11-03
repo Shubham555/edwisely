@@ -942,42 +942,9 @@ class _CourseDetailCourseContentTabState
                                                                     itemBuilder:
                                                                         (context) {
                                                                       return [
-                                                                        state.data[index].faculty_content ==
-                                                                                1
-                                                                            ? PopupMenuItem(
-                                                                                child: Text('Edit'),
-                                                                                value: 'Edit',
-                                                                              )
-                                                                            : null,
-                                                                        PopupMenuItem(
-                                                                          child: state.data[index].bookmarked == 1
-                                                                              ? Text('UnBookmark')
-                                                                              : Text('Bookmark'),
-                                                                          value: state.data[index].bookmarked == 1
-                                                                              ? 'UnBookmark'
-                                                                              : 'Bookmark',
-                                                                        ),
-                                                                        state.data[index].faculty_content ==
-                                                                                1
-                                                                            ? PopupMenuItem(
-                                                                                child: Text('Delete'),
-                                                                                value: 'Delete',
-                                                                              )
-                                                                            : null,
-                                                                      ];
-                                                                      return [
-                                                                        state.data[index].faculty_content ==
-                                                                                1
-                                                                            ? 'Edit'
-                                                                            : '',
-                                                                        state.data[index].bookmarked ==
-                                                                                1
-                                                                            ? 'UnBookmark'
-                                                                            : 'Bookmark',
-                                                                        state.data[index].faculty_content ==
-                                                                                1
-                                                                            ? 'Delete'
-                                                                            : '',
+                                                                        'Edit',
+                                                                        'Bookmark',
+                                                                        'Delete',
                                                                       ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
                                                                           .map(
                                                                             (e) =>
@@ -1234,6 +1201,7 @@ class _CourseDetailCourseContentTabState
                         RaisedButton.icon(
                           onPressed: () {
                             if (typeDropDownValue.isEmpty ||
+                                file.path.isEmpty ||
                                 titleController.text.isEmpty ||
                                 topic.isEmpty) {
                               Toast.show('Please Check contents once', context);
