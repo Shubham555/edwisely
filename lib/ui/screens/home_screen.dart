@@ -313,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget activityTabList(dynamic activityTab) {
     return Expanded(
-      child:           ListView.builder(
+      child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemCount: activityTab.length,
@@ -321,23 +321,18 @@ class _HomeScreenState extends State<HomeScreen> {
           switch (activityTab[index]['type']) {
             case 'Test':
               return _testActivity(activityTab[index]);
-              break;
             case 'Notification':
               return _notificationActivity(activityTab[index]);
-              break;
             case 'Feedback':
               return _feedbackActivity(activityTab[index]);
-              break;
             case 'VideoConference':
               return _meetingActivity(activityTab[index]);
-              break;
             case 'Material':
               return _testActivity(activityTab[index]);
           }
           return SizedBox.shrink();
         },
       ),
-  
     );
   }
 
@@ -776,10 +771,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _notificationActivity(dynamic activity) {
-    print(activity['description']);
     TextEditingController controller = TextEditingController();
     return Container(
-      height: screenSize.height * 0.2,
+      height: activity['thumb_url'] == null
+          ? screenSize.height * 0.2
+          : screenSize.height * 0.3,
       margin: const EdgeInsets.symmetric(
         vertical: 12.0,
         horizontal: 22.0,
@@ -822,6 +818,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: screenSize.width * 0.2,
                     child: Text(activity['description']),
                   ),
+                  //notification thumbnail
+                  activity['thumb_url'] == null
+                      ? SizedBox.shrink()
+                      : Image.network(activity['thumb_url']),
                 ],
               ),
             ),
@@ -1120,7 +1120,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _courseCard(dynamic course) {
-    print('course $course');
     return GestureDetector(
       onTap: () => Navigator.push(
         context,

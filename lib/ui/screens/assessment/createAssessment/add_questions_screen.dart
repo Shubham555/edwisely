@@ -101,7 +101,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen> with SingleTick
                             ],
                           ),
                         ),
-                        titleText: 'Add Questions to ${widget._title} Assessment',
+                        titleText: '${widget._title}',
                       ).build(context),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.17),

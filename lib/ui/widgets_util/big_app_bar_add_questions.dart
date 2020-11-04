@@ -54,11 +54,15 @@ class BigAppBarAddQuestionScreen extends StatelessWidget {
                     children: [
                       Container(
                         alignment: Alignment.topLeft,
-                        width: _screenSize.width * 0.4,
-                        child: Text(
-                          titleText,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.headline1,
+                        width: _screenSize.width * 0.45,
+                        child: FittedBox(
+                          child: Text(
+                            titleText,
+                            maxLines: 2,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.headline1,
+                          ),
                         ),
                       ),
                       Container(
