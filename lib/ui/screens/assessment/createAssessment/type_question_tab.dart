@@ -266,7 +266,7 @@ class _TypeQuestionTabState extends State<TypeQuestionTab> {
                         ],
                       ),
                     ),
-                    titleText: 'Type Questions to ${widget._title} Assessment',
+                    titleText: '${widget._title}',
                     description: "${widget._description}",
                     subject: "Subject: ${widget._subjectId}",
                   ).build(context),
