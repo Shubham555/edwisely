@@ -390,7 +390,8 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         'Level ${state.questionBankObjectiveEntity.data[index].blooms_level}',
                                       ),
                                       trailing: questionsDropDownValue == 3
-                                          ? PopupMenuButton(
+                                          ?
+                                      PopupMenuButton(
                                               onSelected: (string) {
                                                 switch (string) {
                                                   case 'Bookmark':
@@ -419,7 +420,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                               itemBuilder: (context) {
                                                 return [
                                                   'Bookmark',
-                                                  'Change type to ${state.questionBankObjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
+                                                  // 'Change type to ${state.questionBankObjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
                                                 ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
                                                     .map(
                                                       (e) => PopupMenuItem(

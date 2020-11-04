@@ -388,6 +388,7 @@ class _ChooseObjectiveFromSelectedTabState
                                                         GetUnitsCubit>()
                                                       ..getUnits(
                                                           widget._subjectId);
+                                                    bloomsFilter = 0;
                                                   },
                                                   child: Text('Reload'),
                                                 )

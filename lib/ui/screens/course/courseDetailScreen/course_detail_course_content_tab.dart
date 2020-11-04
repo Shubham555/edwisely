@@ -477,9 +477,14 @@ class _CourseDetailCourseContentTabState
                                                         ],
                                                         onChanged: (value) {
                                                           setState(
-                                                            () =>
-                                                                typeDropDownValue =
-                                                                    value,
+                                                            () {
+                                                              typeDropDownValue =
+                                                                  value;
+                                                              questionDropDownValue =
+                                                                  1;
+                                                              levelDropDownValue =
+                                                                  -1;
+                                                            },
                                                           );
                                                           context
                                                               .bloc<
@@ -544,9 +549,14 @@ class _CourseDetailCourseContentTabState
                                                         ],
                                                         onChanged: (value) {
                                                           setState(
-                                                            () =>
-                                                                levelDropDownValue =
-                                                                    value,
+                                                            () {
+                                                              levelDropDownValue =
+                                                                  value;
+                                                              typeDropDownValue =
+                                                                  'All';
+                                                              questionDropDownValue =
+                                                                  1;
+                                                            },
                                                           );
                                                           return context
                                                               .bloc<
@@ -607,9 +617,14 @@ class _CourseDetailCourseContentTabState
                                                           ),
                                                         ],
                                                         onChanged: (value) {
-                                                          setState(() =>
-                                                              questionDropDownValue =
-                                                                  value);
+                                                          setState(() {
+                                                            questionDropDownValue =
+                                                                value;
+                                                            typeDropDownValue =
+                                                                'All';
+                                                            levelDropDownValue =
+                                                                -1;
+                                                          });
 
                                                           switch (value) {
                                                             case 1:
@@ -697,285 +712,140 @@ class _CourseDetailCourseContentTabState
                                                           'assets/icons/filesTypes/html.png';
                                                       break;
                                                   }
-                                                  return state.data[index]
-                                                                  .title ==
-                                                              null ||
+                                                  return ListTile(
+                                                      onTap: () async {
+                                                        html.window.open(
+                                                            state.data[index]
+                                                                .file_url,
+                                                            state.data[index]
+                                                                .title);
+                                                      },
+                                                      leading: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Image.asset(
+                                                          fileType,
+                                                          // height: 24.0,
+                                                          // width: 24.0,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                      // Text(state.data[index].type),
+                                                      // leading: state.data[index].,
+                                                      title: Row(
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                7,
+                                                            child: Text(
+                                                              state.data[index]
+                                                                      .title ??
+                                                                  state.data[index].file_url,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 30,
+                                                          ),
                                                           state.data[index]
-                                                              .title.isEmpty
-                                                      ? Container()
-                                                      : state.data[index]
-                                                                  .source ==
-                                                              null
-                                                          ? ListTile(
-                                                              onTap: () async {
-                                                                html.window.open(
-                                                                    state
-                                                                        .data[
-                                                                            index]
-                                                                        .file_url,
-                                                                    state
-                                                                        .data[
-                                                                            index]
-                                                                        .title);
-                                                              },
-                                                              leading: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        8.0),
-                                                                child:
-                                                                    Image.asset(
-                                                                  fileType,
-                                                                  // height: 24.0,
-                                                                  // width: 24.0,
-                                                                  fit: BoxFit
-                                                                      .contain,
-                                                                ),
-                                                              ),
-                                                              // Text(state.data[index].type),
-                                                              // leading: state.data[index].,
-                                                              title: Row(
-                                                                children: [
-                                                                  Container(
-                                                                    width: MediaQuery.of(context)
-                                                                            .size
-                                                                            .width /
-                                                                        7,
-                                                                    child: Text(
-                                                                      state.data[index]
-                                                                              .title ??
-                                                                          '',
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 30,
-                                                                  ),
-                                                                  state.data[index].level ==
-                                                                              -1 ||
-                                                                          state.data[index].level ==
-                                                                              null
-                                                                      ? Container()
-                                                                      : Text(
-                                                                          'Level - $level '),
-                                                                  SizedBox(
-                                                                    width: 30,
-                                                                  ),
-                                                                  state.data[index].readtime ==
-                                                                              0 ||
-                                                                          state.data[index].readtime ==
-                                                                              null
-                                                                      ? Container()
-                                                                      : Text(
-                                                                          'ReadingTime - ${state.data[index].readtime}'),
-                                                                ],
-                                                              ),
-                                                              subtitle: state
+                                                                          .level ==
+                                                                      -1 ||
+                                                                  state
                                                                           .data[
                                                                               index]
-                                                                          .source !=
+                                                                          .level ==
                                                                       null
-                                                                  ? Text(
-                                                                      'Source - ${state.data[index].source ?? ''}',
-                                                                    )
-                                                                  : Container(),
-                                                              trailing:
-                                                                  PopupMenuButton(
-                                                                onSelected:
-                                                                    (string) {
-                                                                  switch (
-                                                                      string) {
-                                                                    case 'Bookmark':
-                                                                      _bookmark(
-                                                                          state.data[
-                                                                              index]);
-                                                                      break;
-                                                                    case 'Delete':
-                                                                      _delete(state
-                                                                              .data[
-                                                                          index]);
-                                                                      break;
-                                                                    case 'Edit':
-                                                                      _showDialog(
-                                                                          context,
-                                                                          CourseContentAddType
-                                                                              .editing,
-                                                                          data:
-                                                                              state.data[index]);
-                                                                    // case 'Change Type':
-                                                                    //   _changeType(state.data[index]);
-                                                                    //   break;
-                                                                  }
-                                                                },
-                                                                itemBuilder:
-                                                                    (context) {
-                                                                  return [
-                                                                    state.data[index].faculty_content ==
-                                                                            1
-                                                                        ? 'Edit'
-                                                                        : null,
-                                                                    state.data[index].bookmarked ==
-                                                                            1
-                                                                        ? "UnBookmark"
-                                                                        : 'Bookmark',
-                                                                    state.data[index].faculty_content ==
-                                                                            1
-                                                                        ? 'Delete'
-                                                                        : null,
-                                                                  ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
-                                                                      .map(
-                                                                        (e) =>
-                                                                            PopupMenuItem(
-                                                                          child:
-                                                                              Text(e),
-                                                                          value:
-                                                                              e,
-                                                                        ),
-                                                                      )
-                                                                      .toList();
-                                                                },
-                                                              ))
-                                                          : state
+                                                              ? Container()
+                                                              : Text(
+                                                                  'Level - $level '),
+                                                          SizedBox(
+                                                            width: 30,
+                                                          ),
+                                                          state.data[index]
+                                                                          .readtime ==
+                                                                      0 ||
+                                                                  state
+                                                                          .data[
+                                                                              index]
+                                                                          .readtime ==
+                                                                      null
+                                                              ? Container()
+                                                              : Text(
+                                                                  'ReadingTime - ${state.data[index].readtime}'),
+                                                        ],
+                                                      ),
+                                                      subtitle: state
+                                                                  .data[index]
+                                                                  .source !=
+                                                              null
+                                                          ? state
                                                                   .data[index]
                                                                   .source
-                                                                  .isEmpty
-                                                              ? Container()
-                                                              : ListTile(
-                                                                  onTap:
-                                                                      () async {
-                                                                    html.window.open(
-                                                                        state
-                                                                            .data[
-                                                                                index]
-                                                                            .file_url,
-                                                                        state
-                                                                            .data[index]
-                                                                            .title);
-                                                                  },
-                                                                  leading:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            8.0),
-                                                                    child: Image
-                                                                        .asset(
-                                                                      fileType,
-                                                                      // height: 24.0,
-                                                                      // width: 24.0,
-                                                                      fit: BoxFit
-                                                                          .contain,
-                                                                    ),
-                                                                  ),
-                                                                  // Text(state.data[index].type),
-                                                                  // leading: state.data[index].,
-                                                                  title: Row(
-                                                                    children: [
-                                                                      Container(
-                                                                        width:
-                                                                            MediaQuery.of(context).size.width /
-                                                                                7,
-                                                                        child:
-                                                                            Text(
-                                                                          state.data[index].title ??
-                                                                              '',
-                                                                          overflow:
-                                                                              TextOverflow.ellipsis,
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            30,
-                                                                      ),
-                                                                      state.data[index].level == -1 ||
-                                                                              state.data[index].level ==
-                                                                                  null
-                                                                          ? Container()
-                                                                          : Text(
-                                                                              'Level - $level '),
-                                                                      SizedBox(
-                                                                        width:
-                                                                            30,
-                                                                      ),
-                                                                      state.data[index].readtime == 0 ||
-                                                                              state.data[index].readtime ==
-                                                                                  null
-                                                                          ? Container()
-                                                                          : Text(
-                                                                              'ReadingTime - ${state.data[index].readtime}'),
-                                                                    ],
-                                                                  ),
-                                                                  subtitle: state
-                                                                              .data[
-                                                                                  index]
-                                                                              .source !=
-                                                                          null
-                                                                      ? Text(
-                                                                          'Source - ${state.data[index].source ?? ''}',
-                                                                        )
-                                                                      : Container(),
-                                                                  trailing:
-                                                                      PopupMenuButton(
-                                                                    onSelected:
-                                                                        (string) {
-                                                                      switch (
-                                                                          string) {
-                                                                        case 'Bookmark':
-                                                                          _bookmark(
-                                                                              state.data[index]);
-                                                                          break;
-                                                                        case 'Delete':
-                                                                          _delete(
-                                                                              state.data[index]);
-                                                                          break;
-                                                                        case 'Edit':
-                                                                          _showDialog(
-                                                                              context,
-                                                                              CourseContentAddType.editing,
-                                                                              data: state.data[index]);
-                                                                        // case 'Change Type':
-                                                                        //   _changeType(state.data[index]);
-                                                                        //   break;
-                                                                      }
-                                                                    },
-                                                                    itemBuilder:
-                                                                        (context) {
-                                                                      return [
-                                                                        state.data[index].faculty_content ==
-                                                                                1
-                                                                            ? PopupMenuItem(
-                                                                                child: Text('Edit'),
-                                                                                value: 'Edit')
-                                                                            : null,
-                                                                        state.data[index].bookmarked ==
-                                                                                0
-                                                                            ? PopupMenuItem(
-                                                                                child: Text('Bookmark'),
-                                                                                value: 'Bookmark')
-                                                                            : PopupMenuItem(child: Text('UnBookmark'), value: 'UnBookmark'),
-                                                                        state.data[index].faculty_content ==
-                                                                                1
-                                                                            ? PopupMenuItem(
-                                                                                child: Text('Delete'),
-                                                                                value: 'Delete')
-                                                                            : null,
-                                                                      ];
-                                                                      return [
-                                                                        'Edit',
-                                                                        'Bookmark',
-                                                                        'Delete',
-                                                                      ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
-                                                                          .map(
-                                                                            (e) =>
-                                                                                PopupMenuItem(
-                                                                              child: Text(e),
-                                                                              value: e,
-                                                                            ),
-                                                                          )
-                                                                          .toList();
-                                                                    },
-                                                                  ));
+                                                                  .isNotEmpty
+                                                              ? Text(
+                                                                  'Source - ${state.data[index].source}',
+                                                                )
+                                                              : Container()
+                                                          : Container(),
+                                                      trailing: PopupMenuButton(
+                                                        onSelected: (string) {
+                                                          switch (string) {
+                                                            case 'Bookmark':
+                                                              _bookmark(state
+                                                                  .data[index]);
+                                                              break;
+                                                            case 'Delete':
+                                                              _delete(state
+                                                                  .data[index]);
+                                                              break;
+                                                            case 'Edit':
+                                                              _showDialog(
+                                                                  context,
+                                                                  CourseContentAddType
+                                                                      .editing,
+                                                                  data: state
+                                                                          .data[
+                                                                      index]);
+                                                            // case 'Change Type':
+                                                            //   _changeType(state.data[index]);
+                                                            //   break;
+                                                          }
+                                                        },
+                                                        itemBuilder: (context) {
+                                                          return [
+                                                            state.data[index]
+                                                                        .faculty_content ==
+                                                                    1
+                                                                ? 'Edit'
+                                                                : null,
+                                                            state.data[index]
+                                                                        .bookmarked ==
+                                                                    1
+                                                                ? "UnBookmark"
+                                                                : 'Bookmark',
+                                                            state.data[index]
+                                                                        .faculty_content ==
+                                                                    1
+                                                                ? 'Delete'
+                                                                : null,
+                                                          ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                              .map(
+                                                                (e) =>
+                                                                    PopupMenuItem(
+                                                                  child:
+                                                                      Text(e),
+                                                                  value: e,
+                                                                ),
+                                                              )
+                                                              .toList();
+                                                        },
+                                                      ));
                                                 },
                                               ),
                                       ],
@@ -1250,6 +1120,9 @@ class _CourseDetailCourseContentTabState
                                   enabledUnitId,
                                   widget.semesterId,
                                 );
+                            levelDropDownValue = -1;
+                            typeDropDownValue = 'All';
+                            questionDropDownValue = 1;
                           },
                           icon: Icon(
                             Icons.save,
