@@ -184,10 +184,8 @@ class CourseDetailSyllabusTab extends StatelessWidget {
           );
         }
         if (state is CoursesFetchFailed) {
-          return Expanded(
-            child: Center(
-              child: Text('No Data to '),
-            ),
+          return Center(
+            child: Text('No Data'),
           );
         } else {
           return Center(

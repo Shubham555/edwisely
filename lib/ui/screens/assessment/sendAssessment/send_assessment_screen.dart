@@ -2,6 +2,7 @@ import 'package:edwisely/data/model/assessment/studentsSection/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -109,6 +110,13 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                   widget.assessmentId,
                                   _testStart.toString(),
                                 );
+                          } else {
+                            Get.defaultDialog(
+                              title: 'Empty',
+                              middleText:
+                                  'Some things are left empty , please check ',
+                              onConfirm: () => Get.back(),
+                            );
                           }
                         },
                         child: Row(

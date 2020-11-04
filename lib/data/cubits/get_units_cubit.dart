@@ -11,12 +11,13 @@ class GetUnitsCubit extends Cubit<GetUnitsState> {
 
   getUnits(int subjectId) async {
     final response = await EdwiselyApi.dio.get(
-        'questionnaire/getUnits?subject_id=$subjectId&university_degree_department_id=71', options: Options(
-        headers: {
+        'questionnaire/getUnits?subject_id=$subjectId&university_degree_department_id=71',
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
 
-    if (response.data['message'] == 'Successfully fetched the data') {
+    if (response.data['message'] == 'Successfully fetched the data' &&
+        response.data['data'].toString() != '[]') {
       emit(
         GetUnitsFetched(
           GetUnitsEntity.fromJsonMap(
@@ -31,7 +32,6 @@ class GetUnitsCubit extends Cubit<GetUnitsState> {
     }
   }
 }
-
 
 @immutable
 abstract class GetUnitsState {}

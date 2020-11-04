@@ -195,189 +195,223 @@ class _ChooseObjectiveFromSelectedTabState
                           children: [
                             Expanded(
                               child: BlocBuilder(
+                                cubit: context.bloc<GetUnitsCubit>(),
                                 builder: (BuildContext context, state) {
-                                  if (state is TopicQuestionsFetched) {
-                                    if (data == null) {
-                                      data = List.unmodifiable(state.data);
-                                    }
-                                    return Container(
-                                      margin: const EdgeInsets.symmetric(
-                                        vertical: 22.0,
-                                        horizontal: 18.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 0.5,
-                                        ),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          StatefulBuilder(
-                                              builder: (context, setState) {
-                                            return _buildBloomLevelSelector(
-                                                state.data, setState);
-                                          }),
-                                          Expanded(
-                                            child: StatefulBuilder(
-                                              builder: (BuildContext context,
-                                                  void Function(void Function())
-                                                      setState) {
-                                                return ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: state.data.length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    var answer;
-                                                    state.data[index]
-                                                        .questions_options
-                                                        .forEach((options) {
-                                                      if (options.is_answer ==
-                                                          1)
-                                                        answer = options.name;
-                                                    });
-                                                    return Container(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                        vertical: 8.0,
-                                                        horizontal: 18.0,
-                                                      ),
-                                                      decoration: BoxDecoration(
-                                                        color: index % 2 == 0
-                                                            ? Colors.white
-                                                            : Theme.of(context)
-                                                                .primaryColor
-                                                                .withOpacity(
-                                                                    0.1),
-                                                        border: Border(
-                                                          bottom: BorderSide(
-                                                            color: Colors.black,
-                                                            width: 0.2,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      child: CheckboxListTile(
-                                                        activeColor:
-                                                            Theme.of(context)
-                                                                .primaryColor,
-                                                        subtitle: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            //correct Answer
-                                                            Text(
-                                                              'Answer : $answer',
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                  if (state is GetUnitsFetched) {
+                                    return BlocBuilder(
+                                      builder: (BuildContext context, state) {
+                                        if (state is TopicQuestionsFetched) {
+                                          if (data == null) {
+                                            data =
+                                                List.unmodifiable(state.data);
+                                          }
+                                          return Container(
+                                            margin: const EdgeInsets.symmetric(
+                                              vertical: 22.0,
+                                              horizontal: 18.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 0.5,
+                                              ),
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                StatefulBuilder(builder:
+                                                    (context, setState) {
+                                                  return _buildBloomLevelSelector(
+                                                      state.data, setState);
+                                                }),
+                                                Expanded(
+                                                  child: StatefulBuilder(
+                                                    builder: (BuildContext
+                                                            context,
+                                                        void Function(
+                                                                void Function())
+                                                            setState) {
+                                                      return ListView.builder(
+                                                        shrinkWrap: true,
+                                                        itemCount:
+                                                            state.data.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          var answer;
+                                                          state.data[index]
+                                                              .questions_options
+                                                              .forEach(
+                                                                  (options) {
+                                                            if (options
+                                                                    .is_answer ==
+                                                                1)
+                                                              answer =
+                                                                  options.name;
+                                                          });
+                                                          return Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                              vertical: 8.0,
+                                                              horizontal: 18.0,
                                                             ),
-                                                            FlatButton(
-                                                              onPressed: () =>
-                                                                  _showDetailDialog(
-                                                                      state.data[
-                                                                          index],
-                                                                      context),
-                                                              child: Text(
-                                                                  'View More'),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        title: Row(
-                                                          children: [
-                                                            Text(
-                                                              'Q ${index + 1}',
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .headline5,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 22.0,
-                                                            ),
-                                                            Expanded(
-                                                              child: Text(
-                                                                state
-                                                                    .data[index]
-                                                                    .name,
-                                                                softWrap: true,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                maxLines: 2,
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .headline6,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: index %
+                                                                          2 ==
+                                                                      0
+                                                                  ? Colors.white
+                                                                  : Theme.of(
+                                                                          context)
+                                                                      .primaryColor
+                                                                      .withOpacity(
+                                                                          0.1),
+                                                              border: Border(
+                                                                bottom:
+                                                                    BorderSide(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  width: 0.2,
+                                                                ),
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        value: questions
-                                                            .contains(state
-                                                                .data[index]
-                                                                .id),
-                                                        onChanged: (flag) {
-                                                          setState(
-                                                            () {
-                                                              flag
-                                                                  ? questions
-                                                                      .add(state
+                                                            ),
+                                                            child:
+                                                                CheckboxListTile(
+                                                              activeColor: Theme
+                                                                      .of(context)
+                                                                  .primaryColor,
+                                                              subtitle: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  //correct Answer
+                                                                  Text(
+                                                                    'Answer : $answer',
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                  ),
+                                                                  FlatButton(
+                                                                    onPressed: () => _showDetailDialog(
+                                                                        state.data[
+                                                                            index],
+                                                                        context),
+                                                                    child: Text(
+                                                                        'View More'),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              title: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    'Q ${index + 1}',
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .headline5,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 22.0,
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: Text(
+                                                                      state
                                                                           .data[
                                                                               index]
-                                                                          .id)
-                                                                  : questions
-                                                                      .remove(state
-                                                                          .data[
-                                                                              index]
-                                                                          .id);
-                                                            },
+                                                                          .name,
+                                                                      softWrap:
+                                                                          true,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      maxLines:
+                                                                          2,
+                                                                      style: Theme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .headline6,
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              value: questions
+                                                                  .contains(state
+                                                                      .data[
+                                                                          index]
+                                                                      .id),
+                                                              onChanged:
+                                                                  (flag) {
+                                                                setState(
+                                                                  () {
+                                                                    flag
+                                                                        ? questions.add(state
+                                                                            .data[
+                                                                                index]
+                                                                            .id)
+                                                                        : questions.remove(state
+                                                                            .data[index]
+                                                                            .id);
+                                                                  },
+                                                                );
+                                                              },
+                                                            ),
                                                           );
                                                         },
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
+                                          );
+                                        }
+                                        if (state is TopicQuestionsFailed) {
+                                          return Center(
+                                            child: Column(
+                                              children: [
+                                                Text(state.error),
+                                                RaisedButton(
+                                                  onPressed: () {
+                                                    context.bloc<
+                                                        GetUnitsCubit>()
+                                                      ..getUnits(
+                                                          widget._subjectId);
+                                                  },
+                                                  child: Text('Reload'),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                      },
+                                      cubit:
+                                          context.bloc<TopicQuestionsCubit>(),
                                     );
                                   }
-                                  if (state is TopicQuestionsFailed) {
-                                    return Center(
-                                      child: Column(
-                                        children: [
-                                          Text(state.error),
-                                          RaisedButton(
-                                            onPressed: () {
-                                              context.bloc<GetUnitsCubit>()
-                                                ..getUnits(widget._subjectId);
-                                            },
-                                            child: Text('Reload'),
-                                          )
-                                        ],
-                                      ),
-                                    );
+                                  if (state is GetUnitsFetchFailed) {
+                                    return Center(child: Text('No Questions'));
                                   } else {
                                     return Center(
                                       child: CircularProgressIndicator(),
                                     );
                                   }
                                 },
-                                cubit: context.bloc<TopicQuestionsCubit>(),
                               ),
                             ),
                             Container(
@@ -600,7 +634,7 @@ class _ChooseObjectiveFromSelectedTabState
                                           ),
                                         );
                                       }
-                                      if (state is CourseUnitEmpty) {
+                                      if (state is GetUnitsFetchFailed) {
                                         return Text('No Units to fetch');
                                       } else {
                                         return Center(
@@ -610,101 +644,129 @@ class _ChooseObjectiveFromSelectedTabState
                                     },
                                   ),
                                   BlocBuilder(
-                                    cubit: context.bloc<UnitTopicCubit>(),
+                                    cubit: context.bloc<GetUnitsCubit>(),
                                     builder: (BuildContext context, state) {
-                                      if (state is UnitTopicFetched) {
-                                        state.topics.forEach((element) {
-                                          topics.add(element.topic_id);
-                                        });
-                                        state.subTopics.forEach((element) {
-                                          subTopics.add(element.topic_id);
-                                        });
-                                        context
-                                            .bloc<TopicQuestionsCubit>()
-                                            .getTopicQuestions(
-                                                topics, subTopics);
-                                        return StatefulBuilder(
-                                          builder: (BuildContext context,
-                                              StateSetter setState) {
-                                            return Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(height: 12.0),
-                                                Text(
-                                                  'Selected Topics',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6
-                                                      .copyWith(
-                                                        color: Colors.black,
+                                      if (state is GetUnitsFetched) {
+                                        return BlocBuilder(
+                                          cubit: context.bloc<UnitTopicCubit>(),
+                                          builder:
+                                              (BuildContext context, state) {
+                                            if (state is UnitTopicFetched) {
+                                              state.topics.forEach((element) {
+                                                topics.add(element.topic_id);
+                                              });
+                                              state.subTopics
+                                                  .forEach((element) {
+                                                subTopics.add(element.topic_id);
+                                              });
+                                              context
+                                                  .bloc<TopicQuestionsCubit>()
+                                                  .getTopicQuestions(
+                                                      topics, subTopics);
+                                              return StatefulBuilder(
+                                                builder: (BuildContext context,
+                                                    StateSetter setState) {
+                                                  return Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(height: 12.0),
+                                                      Text(
+                                                        'Selected Topics',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headline6
+                                                            .copyWith(
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
                                                       ),
-                                                ),
-                                                SizedBox(
-                                                  child: SmartSelect.multiple(
-                                                    title: 'Topic:',
-                                                    value: topics + subTopics,
-                                                    onChange: (state) {
-                                                      setState(() {
-                                                        topics = state.value;
-                                                        subTopics = state.value;
-                                                      });
-                                                      context
-                                                          .bloc<
-                                                              TopicQuestionsCubit>()
-                                                          .getTopicQuestions(
-                                                              topics,
-                                                              subTopics);
-                                                    },
-                                                    modalType:
-                                                        S2ModalType.popupDialog,
-                                                    choiceItems:
-                                                        S2Choice.listFrom(
-                                                      source: state.topics +
-                                                          state.subTopics,
-                                                      value:
-                                                          (index, Topic item) =>
-                                                              item.topic_id,
-                                                      title:
-                                                          (index, Topic item) =>
-                                                              item.topic_name,
-                                                      group:
-                                                          (index, Topic item) =>
-                                                              item.topic_code,
-                                                    ),
-                                                    choiceType:
-                                                        S2ChoiceType.chips,
-                                                    modalConfirm: true,
-                                                  ),
-                                                ),
-                                                // SmartSelect.multiple(
-                                                //   title: 'Sub Topics',
-                                                //   value: subTopics,
-                                                //   onChange: (state) {
-                                                //     setState(() => subTopics = state.value);
-                                                //     context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
-                                                //   },
-                                                //   modalType: S2ModalType.popupDialog,
-                                                //   choiceItems: S2Choice.listFrom(
-                                                //     source: state.subTopics,
-                                                //     value: (index, Topic item) => item.topic_id,
-                                                //     title: (index, Topic item) => item.topic_name,
-                                                //     group: (index, Topic item) => item.topic_code,
-                                                //   ),
-                                                //   choiceType: S2ChoiceType.chips,
-                                                //   modalConfirm: true,
-                                                // ),
-                                              ],
-                                            );
+                                                      SizedBox(
+                                                        child: SmartSelect
+                                                            .multiple(
+                                                          title: 'Topic:',
+                                                          value: topics +
+                                                              subTopics,
+                                                          onChange: (state) {
+                                                            setState(() {
+                                                              topics =
+                                                                  state.value;
+                                                              subTopics =
+                                                                  state.value;
+                                                            });
+                                                            context
+                                                                .bloc<
+                                                                    TopicQuestionsCubit>()
+                                                                .getTopicQuestions(
+                                                                    topics,
+                                                                    subTopics);
+                                                          },
+                                                          modalType: S2ModalType
+                                                              .popupDialog,
+                                                          choiceItems:
+                                                              S2Choice.listFrom(
+                                                            source: state
+                                                                    .topics +
+                                                                state.subTopics,
+                                                            value: (index,
+                                                                    Topic
+                                                                        item) =>
+                                                                item.topic_id,
+                                                            title: (index,
+                                                                    Topic
+                                                                        item) =>
+                                                                item.topic_name,
+                                                            group: (index,
+                                                                    Topic
+                                                                        item) =>
+                                                                item.topic_code,
+                                                          ),
+                                                          choiceType:
+                                                              S2ChoiceType
+                                                                  .chips,
+                                                          modalConfirm: true,
+                                                        ),
+                                                      ),
+                                                      // SmartSelect.multiple(
+                                                      //   title: 'Sub Topics',
+                                                      //   value: subTopics,
+                                                      //   onChange: (state) {
+                                                      //     setState(() => subTopics = state.value);
+                                                      //     context.bloc<TopicQuestionsCubit>().getTopicQuestions(topics, subTopics);
+                                                      //   },
+                                                      //   modalType: S2ModalType.popupDialog,
+                                                      //   choiceItems: S2Choice.listFrom(
+                                                      //     source: state.subTopics,
+                                                      //     value: (index, Topic item) => item.topic_id,
+                                                      //     title: (index, Topic item) => item.topic_name,
+                                                      //     group: (index, Topic item) => item.topic_code,
+                                                      //   ),
+                                                      //   choiceType: S2ChoiceType.chips,
+                                                      //   modalConfirm: true,
+                                                      // ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            }
+                                            if (state is UnitTopicEmpty) {
+                                              context
+                                                  .bloc<TopicQuestionsCubit>()
+                                                  .emit(TopicQuestionsFailed(
+                                                      'No Questions for this Unit'));
+                                              return Text('No topics to Tag');
+                                            } else {
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
                                           },
                                         );
                                       }
-                                      if (state is UnitTopicEmpty) {
-                                        context
-                                            .bloc<TopicQuestionsCubit>()
-                                            .emit(TopicQuestionsFailed(
-                                                'No Questions for this Unit'));
-                                        return Text('No topics to Tag');
+                                      if (state is GetUnitsFetchFailed) {
+                                        return Text('No Topics to tag');
                                       } else {
                                         return Center(
                                           child: CircularProgressIndicator(),
