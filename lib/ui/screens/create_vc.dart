@@ -77,7 +77,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
       _vcEndTime = null;
     }).then((value) {
       double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
-      if (toDouble(value) - toDouble(_vcStartTime) < 0) {
+      if (toDouble(value) - toDouble(_vcStartTime) < 0  || toDouble(_vcStartTime) < toDouble(TimeOfDay.now())) {
         Get.defaultDialog(
             title: 'Please check any errors with the time',
             onConfirm: () => Get.back(),

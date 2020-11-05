@@ -482,8 +482,8 @@ class _CourseDetailCourseContentTabState
                                                                   value;
                                                               // questionDropDownValue =
                                                               //     1;
-                                                              // levelDropDownValue =
-                                                              //     -1;
+                                                              levelDropDownValue =
+                                                                  -1;
                                                             },
                                                           );
                                                           context
@@ -1042,7 +1042,6 @@ class _CourseDetailCourseContentTabState
                                 setState(() {});
                               },
                               child: Container(
-                                width: MediaQuery.of(context).size.width * 0.08,
                                 height:
                                     MediaQuery.of(context).size.height * 0.05,
                                 decoration: BoxDecoration(
@@ -1055,30 +1054,33 @@ class _CourseDetailCourseContentTabState
                                 ),
                                 alignment: Alignment.center,
                                 child: file != null
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Container(
-                                            child: Text(
+                                    ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
                                               file.fileName,
                                               overflow: TextOverflow.ellipsis,
                                             ),
-                                            width: 60,
-                                          ),
-                                          IconButton(
-                                            icon: Icon(Icons.close),
-                                            onPressed: () {
-                                              setState(() => file = null);
-                                            },
-                                          )
-                                        ],
-                                      )
-                                    : Image.asset(
-                                        'assets/icons/upload.png',
-                                        width: 18.0,
-                                        height: 24.0,
-                                      ),
+                                            IconButton(
+                                              icon: Icon(Icons.close),
+                                              onPressed: () {
+                                                setState(() => file = null);
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                    )
+                                    : Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.asset(
+                                          'assets/icons/upload.png',
+                                          width: 18.0,
+                                          height: 24.0,
+                                        ),
+                                    ),
                               ),
                             );
                           },
@@ -1174,13 +1176,13 @@ class _CourseDetailCourseContentTabState
                               }
                             }
                             Navigator.pop(context);
-                            context.bloc<CourseContentCubit>().getCourseContent(
+                            context.bloc<CourseContentCubit>().getFacultyAddedCourseContent(
                                   enabledUnitId,
                                   widget.semesterId,
                                 );
                             levelDropDownValue = -1;
                             typeDropDownValue = 'All';
-                            questionDropDownValue = 1;
+                            questionDropDownValue = 3;
                           },
                           icon: Icon(
                             Icons.save,
