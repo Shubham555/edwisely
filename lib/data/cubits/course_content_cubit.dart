@@ -28,11 +28,6 @@ class CourseContentCubit extends Cubit<CourseContentState> {
       );
       data.addAll(d.academic_materials);
       data.addAll(d.learning_content);
-      data.removeWhere(
-          (element) => element.source == "");
-      data.forEach((element) {
-        log(element.source);
-      });
       emit(
         CourseContentFetched(
           data,

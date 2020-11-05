@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -58,7 +57,8 @@ class QuestionBankObjectiveBloc
           );
         }
         if (response.data['message'] != 'Successfully fetched the data') {
-          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+          yield QuestionBankObjectiveFetchFailed(
+              response.data['message'], event.unitId);
         } else
           yield UnitObjectiveQuestionsFetched(
             QuestionBankObjectiveEntity.fromJsonMap(
@@ -81,7 +81,8 @@ class QuestionBankObjectiveBloc
           yield QuestionBankObjectiveEmpty();
         } else if (response.data['message'] !=
             'Successfully fetched the data') {
-          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+          yield QuestionBankObjectiveFetchFailed(
+              response.data['message'], event.unitId);
         } else
           yield UnitObjectiveQuestionsFetched(
             QuestionBankObjectiveEntity.fromJsonMap(
@@ -103,7 +104,8 @@ class QuestionBankObjectiveBloc
           }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
-          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+          yield QuestionBankObjectiveFetchFailed(
+              response.data['message'], event.unitId);
         } else
           yield UnitObjectiveQuestionsFetched(
             QuestionBankObjectiveEntity.fromJsonMap(
@@ -117,7 +119,6 @@ class QuestionBankObjectiveBloc
       }
     }
     if (event is GetObjectiveQuestionsByBookmark) {
-
       yield QuestionBankObjectiveInitial();
       final response = await EdwiselyApi.dio
           .get('getBookmarkedQuestions?unit_id=${event.unitId}',
@@ -127,7 +128,8 @@ class QuestionBankObjectiveBloc
       print(response.data);
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully deleted the bookmark') {
-          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+          yield QuestionBankObjectiveFetchFailed(
+              response.data['message'], event.unitId);
         } else
           yield UnitObjectiveQuestionsFetched(
             QuestionBankObjectiveEntity.fromJsonMap(
@@ -149,7 +151,8 @@ class QuestionBankObjectiveBloc
           }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
-          yield QuestionBankObjectiveFetchFailed(response.data['message']);
+          yield QuestionBankObjectiveFetchFailed(
+              response.data['message'], event.unitId);
         } else
           yield UnitObjectiveQuestionsFetched(
             QuestionBankObjectiveEntity.fromJsonMap(

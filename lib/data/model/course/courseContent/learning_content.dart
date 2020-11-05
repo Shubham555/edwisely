@@ -12,6 +12,7 @@ class Learning_content {
   int readtime;
   int bookmarked;
   String display_type;
+  String topic_code;
 
   Learning_content.fromJsonMap(Map<String, dynamic> map)
       : material_id = map["material_id"],
@@ -26,6 +27,7 @@ class Learning_content {
         level = map["level"],
         readtime = map["readtime"],
         display_type = map['display_type'],
+        topic_code = map['topic_code'],
         bookmarked = map["bookmarked"];
 
   Map<String, dynamic> toJson() {

@@ -7,8 +7,8 @@ class QuestionBankSubjectiveInitial extends QuestionBankSubjectiveState {}
 
 class QuestionBankSubjectiveFetchFailed extends QuestionBankSubjectiveState {
   final String error;
-
-  QuestionBankSubjectiveFetchFailed(this.error);
+final int unitId;
+  QuestionBankSubjectiveFetchFailed(this.error, this.unitId);
 }
 
 class QuestionBankSubjectiveEmpty extends QuestionBankSubjectiveState {}

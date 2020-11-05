@@ -50,6 +50,7 @@ class SubjectiveTab extends StatelessWidget {
                         hint: Text('Filter by Subjects'),
                         items: state.subjects,
                         onChanged: (value) {
+                          print(value);
                           value.keys.first == 1234567890
                               ? context.bloc<SubjectiveBloc>().add(
                             GetSubjectiveTests(),

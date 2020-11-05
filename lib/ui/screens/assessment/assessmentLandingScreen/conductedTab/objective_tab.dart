@@ -139,7 +139,9 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                           hint: Text('Filter Assessments by Subjects'),
                           value: subhjectId,
                           items: state.subjects,
-                          onChanged: (value) => value == 1234567890
+                          onChanged: (value) {
+                            print(value);
+                            value == 1234567890
                               ? context.bloc<ConductedBloc>().add(
                                     GetObjectiveQuestions(),
                                   )
@@ -147,7 +149,8 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                                     GetObjectiveQuestionsBySubject(
                                       value.toString(),
                                     ),
-                                  ),
+                                  );
+                          },
                         ),
                       ),
                     ],

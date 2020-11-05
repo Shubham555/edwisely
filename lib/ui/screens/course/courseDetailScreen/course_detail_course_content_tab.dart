@@ -839,7 +839,7 @@ class _CourseDetailCourseContentTabState
                                                                     child: Text(
                                                                         'UnBookmark'),
                                                                     value:
-                                                                        'UnBookmark',
+                                                                        'Bookmark',
                                                                   )
                                                                 : PopupMenuItem(
                                                                     child: Text(
@@ -902,7 +902,7 @@ class _CourseDetailCourseContentTabState
       final response = await EdwiselyApi.dio.post('deleteBookmark',
           data: FormData.fromMap(
             {
-              'type': data.type,
+              'type': 'learning_content',
               'id': data.topic_id,
             },
           ),
@@ -911,9 +911,7 @@ class _CourseDetailCourseContentTabState
           }));
 
       if (response.data['message'] == 'Successfully deleted the bookmark') {
-        setState(
-          () => isBookmarked = false,
-        );
+        isBookmarked = false;
       } else {
         Toast.show('Some Error Occurred', context);
       }
@@ -921,7 +919,7 @@ class _CourseDetailCourseContentTabState
       final response = await EdwiselyApi.dio.post('addBookmark',
           data: FormData.fromMap(
             {
-              'type': data.type,
+              'type': 'learning_content',
               'id': data.topic_id,
             },
           ),
@@ -930,9 +928,11 @@ class _CourseDetailCourseContentTabState
           }));
 
       if (response.data['message'] == 'Successfully added the bookmark') {
-        setState(
-          () => isBookmarked = true,
-        );
+        Toast.show('Bookmark Added', context);
+      }
+      if (response.data['message'] ==
+          'learning content is already bookmarked') {
+        Toast.show('Already Bookmarked', context);
       } else {
         Toast.show('Some Error Occurred', context);
       }
@@ -948,7 +948,12 @@ class _CourseDetailCourseContentTabState
           'Authorization': 'Bearer $loginToken',
         }));
     if (response.data['message'] == 'Successfully deleted the files.') {
-      setState(() {});
+      questionDropDownValue = 1;
+      typeDropDownValue = 'All';
+      levelDropDownValue = -1;
+      setState(() {
+
+      });
     } else {
       Toast.show('Cannot delete the item . PLease try again', context);
     }
@@ -965,7 +970,7 @@ class _CourseDetailCourseContentTabState
         if (!isAdding) {
           titleController.text = data.title;
         }
-        String topic;
+        String topic = isAdding ? null : data.topic_code;
         bool isPublic = isAdding ? true : data.display_type == 'public';
         FilePickerCross file;
         return StatefulBuilder(
@@ -1055,8 +1060,8 @@ class _CourseDetailCourseContentTabState
                                 alignment: Alignment.center,
                                 child: file != null
                                     ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
@@ -1072,15 +1077,15 @@ class _CourseDetailCourseContentTabState
                                             )
                                           ],
                                         ),
-                                    )
+                                      )
                                     : Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.asset(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.asset(
                                           'assets/icons/upload.png',
                                           width: 18.0,
                                           height: 24.0,
                                         ),
-                                    ),
+                                      ),
                               ),
                             );
                           },
@@ -1176,7 +1181,9 @@ class _CourseDetailCourseContentTabState
                               }
                             }
                             Navigator.pop(context);
-                            context.bloc<CourseContentCubit>().getFacultyAddedCourseContent(
+                            context
+                                .bloc<CourseContentCubit>()
+                                .getFacultyAddedCourseContent(
                                   enabledUnitId,
                                   widget.semesterId,
                                 );

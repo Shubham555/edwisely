@@ -7,8 +7,9 @@ class QuestionBankObjectiveInitial extends QuestionBankObjectiveState {}
 
 class QuestionBankObjectiveFetchFailed extends QuestionBankObjectiveState {
   final String error;
+  final int unitId;
 
-  QuestionBankObjectiveFetchFailed(this.error);
+  QuestionBankObjectiveFetchFailed(this.error, this.unitId);
 }
 
 class QuestionBankObjectiveEmpty extends QuestionBankObjectiveState {}

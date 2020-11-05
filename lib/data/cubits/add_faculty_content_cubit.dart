@@ -16,7 +16,7 @@ class AddFacultyContentCubit extends Cubit<AddFacultyContentState> {
     String name,
     FilePickerCross attachments,
     String displayType,
-    String externalUrl, //ik sec 10 lele
+    String externalUrl,
   ) async {
     final response = await EdwiselyApi.dio.post('addFacultyContent',
         data: FormData.fromMap(

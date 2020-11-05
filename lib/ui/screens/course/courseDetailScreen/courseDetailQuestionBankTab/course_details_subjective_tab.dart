@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:edwisely/data/cubits/unit_cubit.dart';
 import 'package:edwisely/data/model/questionBank/questionBankSubjective/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:toast/toast.dart';
 
@@ -60,20 +57,24 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                   child: Row(
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text('Bloom Level'),
                                           SizedBox(
                                             width: 10,
                                           ),
                                           Container(
-                                            width: MediaQuery.of(context).size.width *
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
                                                 0.07,
                                             padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0, horizontal: 12.0),
+                                                vertical: 4.0,
+                                                horizontal: 12.0),
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(12.0),
+                                                  BorderRadius.circular(12.0),
                                               color: Colors.white,
                                               border: Border.all(
                                                 color: Colors.black,
@@ -107,49 +108,54 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                 value: levelDropDownValue,
                                                 onChanged: (value) {
                                                   setState(
-                                                        () {
-                                                      levelDropDownValue = value;
+                                                    () {
+                                                      levelDropDownValue =
+                                                          value;
                                                     },
                                                   );
                                                   value == -1
                                                       ? context
-                                                      .bloc<
-                                                      QuestionBankSubjectiveBloc>()
-                                                      .add(
-                                                    GetUnitSubjectiveQuestions(
-                                                      widget.subjectId,
-                                                      state.unitId,
-                                                    ),
-                                                  )
+                                                          .bloc<
+                                                              QuestionBankSubjectiveBloc>()
+                                                          .add(
+                                                            GetUnitSubjectiveQuestions(
+                                                              widget.subjectId,
+                                                              state.unitId,
+                                                            ),
+                                                          )
                                                       : context
-                                                      .bloc<
-                                                      QuestionBankSubjectiveBloc>()
-                                                      .add(
-                                                    GetUnitSubjectiveQuestionsByLevel(
-                                                      value,
-                                                      state.unitId,
-                                                    ),
-                                                  );
+                                                          .bloc<
+                                                              QuestionBankSubjectiveBloc>()
+                                                          .add(
+                                                            GetUnitSubjectiveQuestionsByLevel(
+                                                              value,
+                                                              state.unitId,
+                                                            ),
+                                                          );
                                                 }),
                                           ),
                                         ],
                                       ),
                                       SizedBox(width: 18.0),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text('Topic'),
                                           SizedBox(
                                             width: 10,
                                           ),
                                           Container(
-                                            width: MediaQuery.of(context).size.width *
-                                                0.07,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.1,
                                             padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0, horizontal: 12.0),
+                                                vertical: 4.0,
+                                                horizontal: 12.0),
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(12.0),
+                                                  BorderRadius.circular(12.0),
                                               color: Colors.white,
                                               border: Border.all(
                                                 color: Colors.black,
@@ -162,29 +168,29 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               value: topicsDropDown,
                                               onChanged: (value) {
                                                 setState(
-                                                      () {
+                                                  () {
                                                     topicsDropDown = value;
                                                   },
                                                 );
                                                 value == 1234567890
                                                     ? context
-                                                    .bloc<
-                                                    QuestionBankSubjectiveBloc>()
-                                                    .add(
-                                                  GetUnitSubjectiveQuestions(
-                                                    widget.subjectId,
-                                                    state.unitId,
-                                                  ),
-                                                )
+                                                        .bloc<
+                                                            QuestionBankSubjectiveBloc>()
+                                                        .add(
+                                                          GetUnitSubjectiveQuestions(
+                                                            widget.subjectId,
+                                                            state.unitId,
+                                                          ),
+                                                        )
                                                     : context
-                                                    .bloc<
-                                                    QuestionBankSubjectiveBloc>()
-                                                    .add(
-                                                  GetUnitSubjectiveQuestionsByTopic(
-                                                    value,
-                                                    state.unitId,
-                                                  ),
-                                                );
+                                                        .bloc<
+                                                            QuestionBankSubjectiveBloc>()
+                                                        .add(
+                                                          GetUnitSubjectiveQuestionsByTopic(
+                                                            value,
+                                                            state.unitId,
+                                                          ),
+                                                        );
                                               },
                                             ),
                                           ),
@@ -192,20 +198,24 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                       ),
                                       SizedBox(width: 18.0),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text('Questions'),
                                           SizedBox(
                                             width: 10,
                                           ),
                                           Container(
-                                            width: MediaQuery.of(context).size.width *
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
                                                 0.1,
                                             padding: const EdgeInsets.symmetric(
-                                                vertical: 4.0, horizontal: 12.0),
+                                                vertical: 4.0,
+                                                horizontal: 12.0),
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(12.0),
+                                                  BorderRadius.circular(12.0),
                                               color: Colors.white,
                                               border: Border.all(
                                                 color: Colors.black,
@@ -231,8 +241,9 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               value: questionsDropDownValue,
                                               onChanged: (value) {
                                                 setState(
-                                                      () {
-                                                    questionsDropDownValue = value;
+                                                  () {
+                                                    questionsDropDownValue =
+                                                        value;
                                                   },
                                                 );
                                                 switch (value) {
@@ -240,37 +251,37 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                     {
                                                       context
                                                           .bloc<
-                                                          QuestionBankSubjectiveBloc>()
+                                                              QuestionBankSubjectiveBloc>()
                                                           .add(
-                                                        GetUnitSubjectiveQuestions(
-                                                          widget.subjectId,
-                                                          state.unitId,
-                                                        ),
-                                                      );
+                                                            GetUnitSubjectiveQuestions(
+                                                              widget.subjectId,
+                                                              state.unitId,
+                                                            ),
+                                                          );
                                                     }
                                                     break;
                                                   case 2:
                                                     {
                                                       context
                                                           .bloc<
-                                                          QuestionBankSubjectiveBloc>()
+                                                              QuestionBankSubjectiveBloc>()
                                                           .add(
-                                                        GetSubjectiveQuestionsByBookmark(
-                                                          state.unitId,
-                                                        ),
-                                                      );
+                                                            GetSubjectiveQuestionsByBookmark(
+                                                              state.unitId,
+                                                            ),
+                                                          );
                                                     }
                                                     break;
                                                   case 3:
                                                     {
                                                       context
                                                           .bloc<
-                                                          QuestionBankSubjectiveBloc>()
+                                                              QuestionBankSubjectiveBloc>()
                                                           .add(
-                                                        GetYourSubjectiveQuestions(
-                                                          state.unitId,
-                                                        ),
-                                                      );
+                                                            GetYourSubjectiveQuestions(
+                                                              state.unitId,
+                                                            ),
+                                                          );
                                                     }
                                                     break;
                                                 }
@@ -295,20 +306,25 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                   ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         'Subjective Questions',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize:
-                                          MediaQuery.of(context).size.height / 50,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              50,
                                         ),
                                       ),
                                       RaisedButton(
-                                        hoverColor: Color(0xFF1D2B64).withOpacity(.2),
+                                        hoverColor:
+                                            Color(0xFF1D2B64).withOpacity(.2),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(6),
+                                          borderRadius:
+                                              BorderRadius.circular(6),
                                         ),
                                         onPressed: () => null,
                                         child: Row(
@@ -331,9 +347,11 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                   ),
                                 ),
                                 BlocBuilder(
-                                  cubit: context.bloc<QuestionBankSubjectiveBloc>(),
+                                  cubit: context
+                                      .bloc<QuestionBankSubjectiveBloc>(),
                                   builder: (BuildContext context, state) {
-                                    if (state is UnitSubjectiveQuestionsFetched) {
+                                    if (state
+                                        is UnitSubjectiveQuestionsFetched) {
                                       return ListView.builder(
                                           shrinkWrap: true,
                                           itemCount: state
@@ -341,7 +359,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                               .data
                                               .length,
                                           itemBuilder: (BuildContext context,
-                                              int index) =>
+                                                  int index) =>
                                               Container(
                                                 decoration: BoxDecoration(
                                                   color: Colors.white,
@@ -369,85 +387,111 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                   subtitle: Text(
                                                     'Level ${state.questionBankSubjectiveEntity.data[index].blooms_level}',
                                                   ),
-                                                  trailing: questionsDropDownValue ==
-                                                      3
-                                                      ? PopupMenuButton(
-                                                    onSelected: (string) {
-                                                      switch (string) {
-                                                        case 'Bookmark':
-                                                          _bookmark(state
-                                                              .questionBankSubjectiveEntity
-                                                              .data[index]);
-                                                          break;
-                                                        case 'Change type to Public':
-                                                          Get.defaultDialog(
-                                                            title: 'Confirm',
-                                                            middleText:
-                                                            'You wont be able to change it back to private once a question is made public',
-                                                            onConfirm: () {
-                                                              Get.back();
-                                                              _changeType(
-                                                                  state
-                                                                      .questionBankSubjectiveEntity
-                                                                      .data[
-                                                                  index]
-                                                                      .id,
-                                                                  'public');
-                                                            },
-                                                            onCancel: () =>
-                                                                Get.back(),
-                                                          );
-                                                          break;
-                                                        case 'Change type to Private':
-                                                          _changeType(
-                                                              state
-                                                                  .questionBankSubjectiveEntity
-                                                                  .data[index]
-                                                                  .id,
-                                                              'private');
-                                                          break;
-                                                      }
-                                                    },
-                                                    itemBuilder: (context) {
-                                                      return [
-                                                        'Bookmark',
-                                                        'Change type to ${state.questionBankSubjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
-                                                      ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
-                                                          .map(
-                                                            (e) =>
-                                                            PopupMenuItem(
-                                                              child: Text(e),
-                                                              value: e,
+                                                  trailing:
+                                                      questionsDropDownValue ==
+                                                              3
+                                                          ? PopupMenuButton(
+                                                              onSelected:
+                                                                  (string) {
+                                                                switch (
+                                                                    string) {
+                                                                  case 'Bookmark':
+                                                                    _bookmark(state
+                                                                        .questionBankSubjectiveEntity
+                                                                        .data[index]);
+                                                                    break;
+                                                                  case 'Change type to Public':
+                                                                    Get.defaultDialog(
+                                                                      title:
+                                                                          'Confirm',
+                                                                      middleText:
+                                                                          'You wont be able to change it back to private once a question is made public',
+                                                                      onConfirm:
+                                                                          () {
+                                                                        Get.back();
+                                                                        _changeType(
+                                                                            state.questionBankSubjectiveEntity.data[index].id,
+                                                                            'public');
+                                                                      },
+                                                                      onCancel:
+                                                                          () =>
+                                                                              Get.back(),
+                                                                    );
+                                                                    break;
+                                                                  case 'Change type to Private':
+                                                                    _changeType(
+                                                                        state
+                                                                            .questionBankSubjectiveEntity
+                                                                            .data[index]
+                                                                            .id,
+                                                                        'private');
+                                                                    break;
+                                                                }
+                                                              },
+                                                              itemBuilder:
+                                                                  (context) {
+                                                                return [
+                                                                  'Bookmark',
+                                                                  'Change type to ${state.questionBankSubjectiveEntity.data[index].question_type == 'public' ? 'Private' : 'Public'}',
+                                                                ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
+                                                                    .map(
+                                                                      (e) =>
+                                                                          PopupMenuItem(
+                                                                        child:
+                                                                            Text(e),
+                                                                        value:
+                                                                            e,
+                                                                      ),
+                                                                    )
+                                                                    .toList();
+                                                              },
+                                                            )
+                                                          : IconButton(
+                                                              icon: Icon(state
+                                                                          .questionBankSubjectiveEntity
+                                                                          .data[
+                                                                              index]
+                                                                          .bookmarked ==
+                                                                      1
+                                                                  ? Icons
+                                                                      .bookmark
+                                                                  : Icons
+                                                                      .bookmark_border),
+                                                              onPressed: () =>
+                                                                  _bookmark(
+                                                                state
+                                                                    .questionBankSubjectiveEntity
+                                                                    .data[index],
+                                                              ),
                                                             ),
-                                                      )
-                                                          .toList();
-                                                    },
-                                                  )
-                                                      : IconButton(
-                                                    icon: Icon(state
-                                                        .questionBankSubjectiveEntity
-                                                        .data[index]
-                                                        .bookmarked ==
-                                                        1
-                                                        ? Icons.bookmark
-                                                        : Icons
-                                                        .bookmark_border),
-                                                    onPressed: () => _bookmark(
-                                                      state
-                                                          .questionBankSubjectiveEntity
-                                                          .data[index],
-                                                    ),
-                                                  ),
                                                 ),
                                               ));
                                     }
-                                    if (state is QuestionBankSubjectiveFetchFailed) {
+                                    if (state
+                                        is QuestionBankSubjectiveFetchFailed) {
                                       return Center(
-                                        child: Text(
-                                          'No Questions',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 30),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'No Questions',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 30),
+                                            ),
+                                            RaisedButton(
+                                              child: Text('Reload'),
+                                              onPressed: () {
+                                                context
+                                                    .bloc<
+                                                        QuestionBankSubjectiveBloc>()
+                                                    .add(
+                                                      GetUnitSubjectiveQuestions(
+                                                          widget.subjectId,
+                                                          state.unitId),
+                                                    );
+                                              },
+                                            )
+                                          ],
                                         ),
                                       );
                                     } else {
@@ -465,6 +509,9 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                     ),
                   ],
                 );
+              }
+              if (state is QuestionBankSubjectiveFetchFailed) {
+                return Center(child: Text(state.error));
               } else {
                 return Center(
                   child: CircularProgressIndicator(),
@@ -472,8 +519,7 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
               }
             },
           );
-        }
-        else{
+        } else {
           return Center(child: CircularProgressIndicator());
         }
       },

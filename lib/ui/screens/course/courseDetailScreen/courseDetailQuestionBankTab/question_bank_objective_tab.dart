@@ -167,7 +167,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                       Container(
                                         width:
                                             MediaQuery.of(context).size.width *
-                                                0.07,
+                                                0.1,
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 4.0, horizontal: 12.0),
                                         decoration: BoxDecoration(
@@ -493,6 +493,20 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                               fontWeight: FontWeight.bold,
                                               fontSize: 30),
                                         ),
+                                        RaisedButton(
+                                          child: Text('Reload'),
+                                          onPressed: () {
+                                            context
+                                                .bloc<
+                                                QuestionBankObjectiveBloc>()
+                                                .add(
+                                              GetUnitObjectiveQuestions(
+                                                  widget.subjectId,
+                                                  state.unitId),
+                                            );
+                                          },
+                                        )
+
                                       ],
                                     ),
                                   );
@@ -511,7 +525,32 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                 );
               }
               if (state is QuestionBankObjectiveFetchFailed) {
-                return Center(child: Text(state.error));
+                return Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'No Questions',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30),
+                      ),
+                      RaisedButton(
+                        child: Text('Reload'),
+                        onPressed: () {
+                          context
+                              .bloc<
+                              QuestionBankObjectiveBloc>()
+                              .add(
+                            GetUnitObjectiveQuestions(
+                                widget.subjectId,
+                                state.unitId),
+                          );
+                        },
+                      )
+
+                    ],
+                  ),
+                );
               }
               if (state is QuestionBankObjectiveEmpty) {
                 return Center(

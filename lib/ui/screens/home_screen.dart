@@ -862,7 +862,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Image.asset('assets/icons/comments.png'),
               SizedBox(width: 6.0),
               //send count
-              Text('${activity['comments_count']} Comments')
+              Text('${activity['comments_counts']} Comments')
             ],
           ),
           Container(
