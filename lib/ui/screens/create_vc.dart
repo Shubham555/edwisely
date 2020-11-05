@@ -77,7 +77,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
       _vcEndTime = null;
     }).then((value) {
       double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
-      if (toDouble(value) - toDouble(_vcStartTime) < 0  || toDouble(_vcStartTime) < toDouble(TimeOfDay.now())) {
+      if (toDouble(value) - toDouble(_vcStartTime) < 0 ||
+          toDouble(_vcStartTime) < toDouble(TimeOfDay.now())) {
         Get.defaultDialog(
             title: 'Please check any errors with the time',
             onConfirm: () => Get.back(),
@@ -91,6 +92,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
+    bool isSaveButtonClickable = true;
 
     return oneWay(context)
         ? ThisWayUp()
@@ -139,61 +141,79 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                               'Edwisely',
                               style: TextStyle(color: Colors.black),
                             ),
-                            flatButton: RaisedButton(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8.0,
-                                horizontal: 16.0,
-                              ),
-                              onPressed: () {
-                                final form = _formKey.currentState;
-                                if (form.validate()) {
-                                  form.save();
-                                  if (_vcStart != null &&
-                                      _vcStartTime != null &&
-                                      _vcEnd != null &&
-                                      _vcEndTime != null) {
-                                    context
-                                        .bloc<LiveClassCubit>()
-                                        .sendLiveClass(
-                                            _title,
-                                            _description,
-                                            _vcStart
-                                                .add(Duration(
-                                                    hours: _vcStartTime.hour,
-                                                    minutes:
-                                                        _vcStartTime.minute))
-                                                .toString(),
-                                            students,
-                                            _vcEnd
-                                                .add(Duration(
-                                                    hours: _vcEndTime.hour,
-                                                    minutes: _vcEndTime.minute))
-                                                .toString());
-                                  } else {
-                                    Toast.show(
-                                        'Please Double Check the Entries ',
-                                        context);
-                                  }
-                                }
+                            flatButton: StatefulBuilder(
+                              builder: (BuildContext context,
+                                  void Function(void Function()) setState) {
+                                return RaisedButton(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0,
+                                    horizontal: 16.0,
+                                  ),
+                                  onPressed: isSaveButtonClickable
+                                      ? () {
+                                          setState(() {
+                                            isSaveButtonClickable = false;
+                                          });
+                                          final form = _formKey.currentState;
+                                          if (form.validate()) {
+                                            form.save();
+                                            if (_vcStart != null &&
+                                                _vcStartTime != null &&
+                                                _vcEnd != null &&
+                                                _vcEndTime != null) {
+                                              context
+                                                  .bloc<LiveClassCubit>()
+                                                  .sendLiveClass(
+                                                      _title,
+                                                      _description,
+                                                      _vcStart
+                                                          .add(Duration(
+                                                              hours:
+                                                                  _vcStartTime
+                                                                      .hour,
+                                                              minutes:
+                                                                  _vcStartTime
+                                                                      .minute))
+                                                          .toString(),
+                                                      students,
+                                                      _vcEnd
+                                                          .add(Duration(
+                                                              hours: _vcEndTime
+                                                                  .hour,
+                                                              minutes:
+                                                                  _vcEndTime
+                                                                      .minute))
+                                                          .toString());
+                                            } else {
+                                              Toast.show(
+                                                  'Please Double Check the Entries ',
+                                                  context);
+                                            }
+                                          }
+                                        }
+                                      : () => null,
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/create_vc.png',
+                                        color: Colors.white,
+                                        height: 24.0,
+                                      ),
+                                      SizedBox(width: 8.0),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Text(
+                                          'Create',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .button,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               },
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/create_vc.png',
-                                    color: Colors.white,
-                                    height: 24.0,
-                                  ),
-                                  SizedBox(width: 8.0),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: Text(
-                                      'Create',
-                                      style: Theme.of(context).textTheme.button,
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ),
                             route: 'Home > Create Virtual Class',
                           ).build(context),
