@@ -480,10 +480,10 @@ class _CourseDetailCourseContentTabState
                                                             () {
                                                               typeDropDownValue =
                                                                   value;
-                                                              questionDropDownValue =
-                                                                  1;
-                                                              levelDropDownValue =
-                                                                  -1;
+                                                              // questionDropDownValue =
+                                                              //     1;
+                                                              // levelDropDownValue =
+                                                              //     -1;
                                                             },
                                                           );
                                                           context
@@ -552,10 +552,10 @@ class _CourseDetailCourseContentTabState
                                                             () {
                                                               levelDropDownValue =
                                                                   value;
-                                                              typeDropDownValue =
-                                                                  'All';
-                                                              questionDropDownValue =
-                                                                  1;
+                                                              // typeDropDownValue =
+                                                              //     'All';
+                                                              // questionDropDownValue =
+                                                              //     1;
                                                             },
                                                           );
                                                           return context
