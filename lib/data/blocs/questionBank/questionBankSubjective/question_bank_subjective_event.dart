@@ -2,6 +2,7 @@ part of 'question_bank_subjective_bloc.dart';
 
 @immutable
 abstract class QuestionBankSubjectiveEvent {}
+
 class GetUnitSubjectiveQuestions extends QuestionBankSubjectiveEvent {
   final int subjectId;
   final int unitId;
@@ -28,6 +29,7 @@ class GetSubjectiveQuestionsByBookmark extends QuestionBankSubjectiveEvent {
 
   GetSubjectiveQuestionsByBookmark(this.unitId);
 }
+
 class GetYourSubjectiveQuestions extends QuestionBankSubjectiveEvent {
   final int unitId;
 

@@ -27,20 +27,23 @@ class LoginCubit extends Cubit<LoginState> {
 
   signIn(String email, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await EdwiselyApi.dio.post('auth/loginUser',
-        data: FormData.fromMap(
-          {
-            'username': email,
-            'password': password,
-          },
-        ), options: Options(
-            headers: {
-              'Authorization': 'Bearer $loginToken',
-            }),);
+    final response = await EdwiselyApi.dio.post(
+      'auth/loginUser',
+      data: FormData.fromMap(
+        {
+          'username': email,
+          'password': password,
+        },
+      ),
+      options: Options(headers: {
+        'Authorization': 'Bearer $loginToken',
+      }),
+    );
 
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Log in success!') {
-        universityDegreeDepartmenId = response.data['university_degree_department_id'];
+        universityDegreeDepartmenId =
+            response.data['university_degree_department_id'];
         collegeId = response.data['college_id'];
         loginToken = response.data['token'];
         // loginToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
@@ -75,15 +78,13 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   changePassword(String email, String password) async {
-    final response = await EdwiselyApi.dio.post(
-      'user/updatePassword',
-      data: FormData.fromMap(
-        {'user_id': email, 'new_password': password},
-      ), options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.post('user/updatePassword',
+        data: FormData.fromMap(
+          {'user_id': email, 'new_password': password},
+        ),
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
-        })
-    );
+        }));
 
     if (response.statusCode == 200) {
       if (response.data['message'] == 'Successfully updated password') {

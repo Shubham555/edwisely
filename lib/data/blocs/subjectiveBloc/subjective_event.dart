@@ -10,7 +10,8 @@ class CreateSubjectiveQuestionnaire extends SubjectiveEvent {
   final String _description;
   final int _subjectId;
 
-  CreateSubjectiveQuestionnaire(this._title, this._description, this._subjectId);
+  CreateSubjectiveQuestionnaire(
+      this._title, this._description, this._subjectId);
 }
 
 class GetSubjectiveTestsBYSubjectId extends SubjectiveEvent {
@@ -18,4 +19,3 @@ class GetSubjectiveTestsBYSubjectId extends SubjectiveEvent {
 
   GetSubjectiveTestsBYSubjectId(this.subjectId);
 }
-

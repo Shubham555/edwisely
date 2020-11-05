@@ -31,8 +31,8 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
-        cubit: context.bloc<UnitCubit>(),
-        builder: (BuildContext context, state) {
+      cubit: context.bloc<UnitCubit>(),
+      builder: (BuildContext context, state) {
         if (state is CourseUnitEmpty) {
           return Container();
         }
@@ -498,15 +498,14 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                           onPressed: () {
                                             context
                                                 .bloc<
-                                                QuestionBankObjectiveBloc>()
+                                                    QuestionBankObjectiveBloc>()
                                                 .add(
-                                              GetUnitObjectiveQuestions(
-                                                  widget.subjectId,
-                                                  state.unitId),
-                                            );
+                                                  GetUnitObjectiveQuestions(
+                                                      widget.subjectId,
+                                                      state.unitId),
+                                                );
                                           },
                                         )
-
                                       ],
                                     ),
                                   );
@@ -531,23 +530,17 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                       Text(
                         'No Questions',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30),
+                            fontWeight: FontWeight.bold, fontSize: 30),
                       ),
                       RaisedButton(
                         child: Text('Reload'),
                         onPressed: () {
-                          context
-                              .bloc<
-                              QuestionBankObjectiveBloc>()
-                              .add(
-                            GetUnitObjectiveQuestions(
-                                widget.subjectId,
-                                state.unitId),
-                          );
+                          context.bloc<QuestionBankObjectiveBloc>().add(
+                                GetUnitObjectiveQuestions(
+                                    widget.subjectId, state.unitId),
+                              );
                         },
                       )
-
                     ],
                   ),
                 );
@@ -563,8 +556,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
               }
             },
           );
-        }
-        else{
+        } else {
           return Center(child: CircularProgressIndicator());
         }
       },

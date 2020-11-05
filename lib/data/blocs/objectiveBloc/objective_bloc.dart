@@ -21,10 +21,11 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     ObjectiveEvent event,
   ) async* {
     if (event is GetObjectiveTests) {
-      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests', options: Options(
-          headers: {
-            'Authorization': 'Bearer $loginToken',
-          }));
+      final assessmentResponse =
+          await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests',
+              options: Options(headers: {
+                'Authorization': 'Bearer $loginToken',
+              }));
       if (assessmentResponse.statusCode == 200) {
         yield ObjectiveSuccess(
           AssessmentsEntity.fromJsonMap(assessmentResponse.data),
@@ -35,8 +36,9 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     }
     if (event is GetObjectiveTestsBYSubjectId) {
       yield ObjectiveInitial();
-      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectWiseObjectiveTests?subject_id=${event.subjectId}', options: Options(
-          headers: {
+      final assessmentResponse = await EdwiselyApi.dio.get(
+          'questionnaireWeb/getSubjectWiseObjectiveTests?subject_id=${event.subjectId}',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (assessmentResponse.statusCode == 200) {
@@ -53,20 +55,18 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     }
     if (event is CreateObjectiveQuestionnaire) {
       yield ObjectiveInitial();
-      final response = await EdwiselyApi.dio.post(
-            'questionnaireWeb/createObjectiveTest',
-            data: FormData.fromMap(
-              {
-                'name': event._title,
-                'description': event._description,
-                'subject_id': event._subjectId,
-              },
-            ),
-           options: Options(
-      headers: {
-      'Authorization': 'Bearer $loginToken',
-      })
-          );
+      final response =
+          await EdwiselyApi.dio.post('questionnaireWeb/createObjectiveTest',
+              data: FormData.fromMap(
+                {
+                  'name': event._title,
+                  'description': event._description,
+                  'subject_id': event._subjectId,
+                },
+              ),
+              options: Options(headers: {
+                'Authorization': 'Bearer $loginToken',
+              }));
 
       if (response.data.toString().contains('Successfully created the test')) {
         yield ObjectiveAssessmentCreated(response.data['test_id']);

@@ -11,9 +11,6 @@ class QuestionAddCubit extends Cubit<QuestionAddState> {
   QuestionAddCubit() : super(QuestionAddInitial());
 
   addQuestions(int assessmentId, List<int> questions, List<int> units) async {
-
-
-
     final response = await EdwiselyApi.dio.post(
       'questionnaireWeb/editObjectiveTestQuestions',
       options: Options(headers: {
@@ -36,9 +33,6 @@ class QuestionAddCubit extends Cubit<QuestionAddState> {
   }
 
   deleteQuestion(int assessmentId, List<int> questions) async {
-
-
-
     final response = await EdwiselyApi.dio.post(
       'questionnaireWeb/editObjectiveTestQuestions',
       data: FormData.fromMap(

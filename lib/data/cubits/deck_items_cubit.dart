@@ -10,11 +10,10 @@ class DeckItemsCubit extends Cubit<DeckItemsState> {
   DeckItemsCubit() : super(DeckItemsInitial());
 
   getDeckItems(int deckId) async {
-    final response = await EdwiselyApi.dio.get('deckItems?deck_id=$deckId', options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.get('deckItems?deck_id=$deckId',
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
-
 
     if (response.data['message'] == 'Successfully fetched the data') {
       emit(

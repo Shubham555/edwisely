@@ -12,10 +12,9 @@ class HomeScreenDefaultCubit extends Cubit<HomeScreenDefaultState> {
   HomeScreenDefaultCubit() : super(HomeScreenDefaultInitial());
 
   getHomeScreenContent() async {
-
     final response = await EdwiselyApi.dio.get(
-        'college/dashboardData?from_date=${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}&delta_days=10&to_date', options: Options(
-        headers: {
+        'college/dashboardData?from_date=${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}&delta_days=10&to_date',
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
 

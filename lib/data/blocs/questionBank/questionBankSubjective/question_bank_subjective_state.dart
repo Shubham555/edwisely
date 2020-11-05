@@ -7,7 +7,7 @@ class QuestionBankSubjectiveInitial extends QuestionBankSubjectiveState {}
 
 class QuestionBankSubjectiveFetchFailed extends QuestionBankSubjectiveState {
   final String error;
-final int unitId;
+  final int unitId;
   QuestionBankSubjectiveFetchFailed(this.error, this.unitId);
 }
 
@@ -18,5 +18,6 @@ class UnitSubjectiveQuestionsFetched extends QuestionBankSubjectiveState {
   final int unitId;
   final List<DropdownMenuItem> dropDownList;
 
-  UnitSubjectiveQuestionsFetched(this.questionBankSubjectiveEntity, this.unitId, this.dropDownList);
+  UnitSubjectiveQuestionsFetched(
+      this.questionBankSubjectiveEntity, this.unitId, this.dropDownList);
 }

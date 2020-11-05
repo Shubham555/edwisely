@@ -52,7 +52,8 @@ class CourseContentCubit extends Cubit<CourseContentState> {
         options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
-    if (response.data['message'] == 'Successfully fetched the faculty added course content') {
+    if (response.data['message'] ==
+        'Successfully fetched the faculty added course content') {
       List<Learning_content> data = List<Learning_content>.from(
           response.data["data"].map((it) => Learning_content.fromJsonMap(it)));
       emit(
@@ -79,7 +80,8 @@ class CourseContentCubit extends Cubit<CourseContentState> {
         options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
-    if (response.data['message'] == 'Successfully fetched the bookmarked content') {
+    if (response.data['message'] ==
+        'Successfully fetched the bookmarked content') {
       List<Learning_content> data = [];
       CourseContentEntity d = CourseContentEntity.fromJsonMap(
         response.data,

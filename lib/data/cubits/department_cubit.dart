@@ -10,15 +10,13 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   DepartmentCubit() : super(DepartmentInitial());
 
   getDepartments() async {
-    final response = await EdwiselyApi.dio.post(
-      'common/getCollegeDepartment',
-      data: FormData.fromMap(
-        {'college_id': collegeId},
-      ), options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.post('common/getCollegeDepartment',
+        data: FormData.fromMap(
+          {'college_id': collegeId},
+        ),
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
-        })
-    );
+        }));
     if (response.data['message'] == true) {
       emit(
         DepartmentFetched(

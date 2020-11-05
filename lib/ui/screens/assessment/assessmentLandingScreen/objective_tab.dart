@@ -112,19 +112,18 @@ class ObjectiveTab extends StatelessWidget {
                       itemCount: state.questionsEntity.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return AssessmentTile(
-                          state.questionsEntity.data[index].id,
-                          state.questionsEntity.data[index].name,
-                          state.questionsEntity.data[index].description,
-                          state.questionsEntity.data[index].questions_count
-                              .toString(),
-                          state.questionsEntity.data[index].doe,
-                          state.questionsEntity.data[index].start_time,
-                          dropDownValue == null
-                              ? 'All'
-                              : dropDownValue.values.first,
-                          state.questionsEntity.data[index].subject_id,
-                          false
-                        );
+                            state.questionsEntity.data[index].id,
+                            state.questionsEntity.data[index].name,
+                            state.questionsEntity.data[index].description,
+                            state.questionsEntity.data[index].questions_count
+                                .toString(),
+                            state.questionsEntity.data[index].doe,
+                            state.questionsEntity.data[index].start_time,
+                            dropDownValue == null
+                                ? 'All'
+                                : dropDownValue.values.first,
+                            state.questionsEntity.data[index].subject_id,
+                            false);
                       },
                     );
                   }

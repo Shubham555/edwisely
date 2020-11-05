@@ -21,10 +21,11 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
     SubjectiveEvent event,
   ) async* {
     if (event is GetSubjectiveTests) {
-      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectiveTests', options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',
-        }));
+      final assessmentResponse =
+          await EdwiselyApi.dio.get('questionnaireWeb/getSubjectiveTests',
+              options: Options(headers: {
+                'Authorization': 'Bearer $loginToken',
+              }));
 
       if (assessmentResponse.statusCode == 200) {
         yield SubjectiveSuccess(
@@ -36,10 +37,11 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
     }
     if (event is GetSubjectiveTestsBYSubjectId) {
       yield SubjectiveInitial();
-      final assessmentResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectWiseSubjectiveTests?subject_id=${event.subjectId}', options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',
-        }));
+      final assessmentResponse = await EdwiselyApi.dio.get(
+          'questionnaireWeb/getSubjectWiseSubjectiveTests?subject_id=${event.subjectId}',
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          }));
       if (assessmentResponse.statusCode == 200) {
         if (assessmentResponse.data['message'] == 'No tests to fetch') {
           yield SubjectiveEmpty();
@@ -54,19 +56,18 @@ class SubjectiveBloc extends Bloc<SubjectiveEvent, SubjectiveState> {
     }
     if (event is CreateSubjectiveQuestionnaire) {
       yield SubjectiveInitial();
-      final response = await EdwiselyApi.dio.post(
-            'questionnaireWeb/createSubjectiveTest',
-            data: FormData.fromMap(
-              {
-                'name': event._title,
-                'description': event._description,
-                'subject_id': event._subjectId,
-              },
-            ), options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',
-        })
-          );
+      final response =
+          await EdwiselyApi.dio.post('questionnaireWeb/createSubjectiveTest',
+              data: FormData.fromMap(
+                {
+                  'name': event._title,
+                  'description': event._description,
+                  'subject_id': event._subjectId,
+                },
+              ),
+              options: Options(headers: {
+                'Authorization': 'Bearer $loginToken',
+              }));
 
       if (response.data.toString().contains('Successfully created the test')) {
         yield SubjectiveAssessmentCreated(response.data['test_id']);

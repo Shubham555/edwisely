@@ -14,16 +14,15 @@ class UnitTopicCubit extends Cubit<UnitTopicState> {
     emit(
       UnitTopicInitial(),
     );
-    final response = await EdwiselyApi.dio.get(
-      'questionnaire/getUnitTopics',
-      queryParameters: {'unit_ids': unitId}, options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.get('questionnaire/getUnitTopics',
+        queryParameters: {'unit_ids': unitId},
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
-        })
-    );
+        }));
     if (response.data['message'] == 'Successfully fetched the data') {
       if (response.data['data'].toString() != '[]') {
-        UnitTOpicEntity unitTOpicEntity = UnitTOpicEntity.fromJsonMap(response.data);
+        UnitTOpicEntity unitTOpicEntity =
+            UnitTOpicEntity.fromJsonMap(response.data);
         List<Topic> topics = [];
         List<Topic> subTopics = [];
         unitTOpicEntity.data[0].topic.forEach((element) {

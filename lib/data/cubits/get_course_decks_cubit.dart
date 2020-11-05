@@ -10,8 +10,8 @@ class CourseDecksCubit extends Cubit<GetCourseDecksState> {
   CourseDecksCubit() : super(GetCourseDecksInitial());
 
   getCourseDecks(int unitId) async {
-    final response = await EdwiselyApi.dio.get('getCourseDecks?unit_id=$unitId', options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.get('getCourseDecks?unit_id=$unitId',
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
 

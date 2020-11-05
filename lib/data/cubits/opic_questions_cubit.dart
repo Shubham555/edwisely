@@ -17,13 +17,16 @@ class TopicQuestionsCubit extends Cubit<TopicQuestionsState> {
     emit(
       TopicQuestionsInitial(),
     );
-    final response = await EdwiselyApi.dio.get(
-      'questionnaire/getTopicsQuestions',
-      queryParameters: {'topic_ids': topics.map((e) => "$e").join(','), 'sub_topic_ids': subTopics.map((e) => "$e").join(','), 'grand_topic_ids': ''}, options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',
-        })
-    );
+    final response =
+        await EdwiselyApi.dio.get('questionnaire/getTopicsQuestions',
+            queryParameters: {
+              'topic_ids': topics.map((e) => "$e").join(','),
+              'sub_topic_ids': subTopics.map((e) => "$e").join(','),
+              'grand_topic_ids': ''
+            },
+            options: Options(headers: {
+              'Authorization': 'Bearer $loginToken',
+            }));
 
     if (response.data['message'] == 'Successfully fetched the data') {
       emit(

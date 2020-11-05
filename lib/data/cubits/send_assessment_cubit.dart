@@ -14,9 +14,9 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
   SendAssessmentCubit() : super(SendAssessmentInitial());
 
   getSections(int universityDepartmentId) async {
-
-    final sectionResponse = await EdwiselyApi.dio.get('getCourseDepartmentSections?university_degree_department_id=$universityDegreeDepartmenId', options: Options(
-        headers: {
+    final sectionResponse = await EdwiselyApi.dio.get(
+        'getCourseDepartmentSections?university_degree_department_id=$universityDegreeDepartmenId',
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
         }));
 
@@ -40,15 +40,22 @@ class SendAssessmentCubit extends Cubit<SendAssessmentState> {
     int testId,
     String startTime,
   ) async {
-    final response = await EdwiselyApi.dio.post(
-      'questionnaireWeb/editObjectiveTest',
-      data: FormData.fromMap(
-        {'name': name, 'description': description, 'doe': doe, 'timelimit': timeLimit, 'students': jsonEncode(students), 'test_id': testId, 'starttime': startTime},
-      ), options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',
-        })
-    );
+    final response =
+        await EdwiselyApi.dio.post('questionnaireWeb/editObjectiveTest',
+            data: FormData.fromMap(
+              {
+                'name': name,
+                'description': description,
+                'doe': doe,
+                'timelimit': timeLimit,
+                'students': jsonEncode(students),
+                'test_id': testId,
+                'starttime': startTime
+              },
+            ),
+            options: Options(headers: {
+              'Authorization': 'Bearer $loginToken',
+            }));
     if (response.data['message'] == 'Successfully updated the questions') {
       emit(
         TestSent(),

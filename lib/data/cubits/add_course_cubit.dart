@@ -15,19 +15,21 @@ class AddCourseCubit extends Cubit<AddCourseState> {
     int subjectSemesterId,
     List<int> sections,
   ) async {
-    final response = await EdwiselyApi.dio.post(
-          'addFacultyCourseSections',
-          data: FormData.fromMap(
-            {'subject_id': subjectId, 'subject_semester_id': subjectSemesterId, 'sections': jsonEncode(sections)},
-          )
-        , options: Options(
-    headers: {
-    'Authorization': 'Bearer $loginToken',
-    })
-        );
+    final response = await EdwiselyApi.dio.post('addFacultyCourseSections',
+        data: FormData.fromMap(
+          {
+            'subject_id': subjectId,
+            'subject_semester_id': subjectSemesterId,
+            'sections': jsonEncode(sections)
+          },
+        ),
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
 
     if (response.statusCode == 200) {
-      if (response.data['message'] == 'Successfully updated the course details') {
+      if (response.data['message'] ==
+          'Successfully updated the course details') {
         emit(
           CourseAdded(),
         );

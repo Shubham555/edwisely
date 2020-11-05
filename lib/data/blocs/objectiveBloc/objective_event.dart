@@ -18,4 +18,3 @@ class GetObjectiveTestsBYSubjectId extends ObjectiveEvent {
 
   GetObjectiveTestsBYSubjectId(this.subjectId);
 }
-

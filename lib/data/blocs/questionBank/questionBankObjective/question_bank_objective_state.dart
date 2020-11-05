@@ -19,5 +19,6 @@ class UnitObjectiveQuestionsFetched extends QuestionBankObjectiveState {
   final int unitId;
   final List<DropdownMenuItem> dropDownList;
 
-  UnitObjectiveQuestionsFetched(this.questionBankObjectiveEntity, this.unitId, this.dropDownList);
+  UnitObjectiveQuestionsFetched(
+      this.questionBankObjectiveEntity, this.unitId, this.dropDownList);
 }

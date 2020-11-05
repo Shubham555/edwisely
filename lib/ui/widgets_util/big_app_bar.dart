@@ -65,7 +65,10 @@ class BigAppBar extends StatelessWidget {
                           titleText,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.headline1.copyWith(fontSize: 28.0),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1
+                              .copyWith(fontSize: 28.0),
                         ),
                       ),
                       Container(
@@ -87,7 +90,11 @@ class BigAppBar extends StatelessWidget {
                               // Route
                               route,
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodyText1.copyWith(color: Theme.of(context).primaryColor)),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(
+                                      color: Theme.of(context).primaryColor)),
                         ),
                       ),
                     ],

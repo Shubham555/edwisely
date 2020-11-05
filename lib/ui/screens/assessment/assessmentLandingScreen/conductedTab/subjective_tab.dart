@@ -20,8 +20,10 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
           children: [
             Container(
               height: MediaQuery.of(context).size.height * 0.05,
-              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-              margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
                 border: Border.all(
@@ -85,8 +87,10 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                     children: [
                       Container(
                         height: MediaQuery.of(context).size.height * 0.05,
-                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                        margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 8.0),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 8.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
                           border: Border.all(
@@ -123,8 +127,10 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                       ),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.05,
-                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                        margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4.0, horizontal: 8.0),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 8.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
                           border: Border.all(
@@ -195,7 +201,8 @@ class ConductedTabSubjectiveTab extends StatelessWidget {
                         state.questionsEntity.data[index].id,
                         state.questionsEntity.data[index].name,
                         state.questionsEntity.data[index].description,
-                        state.questionsEntity.data[index].questions_count.toString(),
+                        state.questionsEntity.data[index].questions_count
+                            .toString(),
                         '',
                         //for subject name
                         state.questionsEntity.data[index].doe,

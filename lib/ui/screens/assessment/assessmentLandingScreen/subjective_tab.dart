@@ -53,13 +53,13 @@ class SubjectiveTab extends StatelessWidget {
                           print(value);
                           value.keys.first == 1234567890
                               ? context.bloc<SubjectiveBloc>().add(
-                            GetSubjectiveTests(),
-                          )
+                                    GetSubjectiveTests(),
+                                  )
                               : context.bloc<SubjectiveBloc>().add(
-                            GetSubjectiveTestsBYSubjectId(
-                              value.keys.first,
-                            ),
-                          );
+                                    GetSubjectiveTestsBYSubjectId(
+                                      value.keys.first,
+                                    ),
+                                  );
                           dropDownValue = value;
                           setState(() {});
                         },

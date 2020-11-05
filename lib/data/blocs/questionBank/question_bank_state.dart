@@ -16,5 +16,6 @@ class UnitQuestionsFetched extends QuestionBankState {
   final int unitId;
   final List<DropdownMenuItem> dropDownList;
 
-  UnitQuestionsFetched(this.questionBankAllEntity, this.unitId, this.dropDownList);
+  UnitQuestionsFetched(
+      this.questionBankAllEntity, this.unitId, this.dropDownList);
 }

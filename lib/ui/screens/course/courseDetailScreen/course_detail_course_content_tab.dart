@@ -951,9 +951,7 @@ class _CourseDetailCourseContentTabState
       questionDropDownValue = 1;
       typeDropDownValue = 'All';
       levelDropDownValue = -1;
-      setState(() {
-
-      });
+      setState(() {});
     } else {
       Toast.show('Cannot delete the item . PLease try again', context);
     }

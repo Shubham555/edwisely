@@ -36,7 +36,10 @@ class AssessmentTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
-    bool isDateVisible = startTime != null && doe != null && startTime.isNotEmpty && doe.isNotEmpty;
+    bool isDateVisible = startTime != null &&
+        doe != null &&
+        startTime.isNotEmpty &&
+        doe.isNotEmpty;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -83,38 +86,52 @@ class AssessmentTile extends StatelessWidget {
                       Spacer(),
                       isDateVisible
                           ? Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            DateUtils().getMonthFromDateTime(DateTime.parse(startTime).month),
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(width: 8.0),
-                          Text(
-                            DateTime.parse(startTime).day.toString(),
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text('  -  '),
-                          Text(
-                            DateUtils().getMonthFromDateTime(DateTime.parse(doe).month),
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(width: 8.0),
-                          Text(
-                            DateTime.parse(doe).day.toString(),
-                            style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      )
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  DateUtils().getMonthFromDateTime(
+                                      DateTime.parse(startTime).month),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  DateTime.parse(startTime).day.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                Text('  -  '),
+                                Text(
+                                  DateUtils().getMonthFromDateTime(
+                                      DateTime.parse(doe).month),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  DateTime.parse(doe).day.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                              ],
+                            )
                           : SizedBox.shrink(),
                     ],
                   ),
@@ -122,29 +139,29 @@ class AssessmentTile extends StatelessWidget {
                   isDateVisible
                       ? SizedBox.shrink()
                       : Transform.translate(
-                    offset: Offset(10, -10),
-                    child: isConductedTile
-                        ? Container()
-                        : IconButton(
-                      padding: const EdgeInsets.all(0),
-                      icon: Icon(
-                        Icons.edit,
-                        size: 22.0,
-                        color: Colors.black,
-                      ),
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        '/add-questions',
-                        arguments: {
-                          'title': title,
-                          'description': description,
-                          'subjectId': subjectId,
-                          'questionType': QuestionType.Objective,
-                          'assessmentId': assessmentId,
-                        },
-                      ),
-                    ),
-                  ),
+                          offset: Offset(10, -10),
+                          child: isConductedTile
+                              ? Container()
+                              : IconButton(
+                                  padding: const EdgeInsets.all(0),
+                                  icon: Icon(
+                                    Icons.edit,
+                                    size: 22.0,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () => Navigator.pushNamed(
+                                    context,
+                                    '/add-questions',
+                                    arguments: {
+                                      'title': title,
+                                      'description': description,
+                                      'subjectId': subjectId,
+                                      'questionType': QuestionType.Objective,
+                                      'assessmentId': assessmentId,
+                                    },
+                                  ),
+                                ),
+                        ),
                   // //date and sections
                   // Column(
                   //   crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,7 +298,8 @@ class AssessmentTile extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (BuildContext context) => AddQuestionsScreen(
+                                  builder: (BuildContext context) =>
+                                      AddQuestionsScreen(
                                     title,
                                     description,
                                     subjectId,
@@ -294,7 +312,8 @@ class AssessmentTile extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (BuildContext context) => SendAssessmentScreen(
+                                  builder: (BuildContext context) =>
+                                      SendAssessmentScreen(
                                     assessmentId,
                                     title,
                                     description,
@@ -312,7 +331,9 @@ class AssessmentTile extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Text(
-                                    int.parse(noOfQuestions) == 0 ? 'Add' : 'Send',
+                                    int.parse(noOfQuestions) == 0
+                                        ? 'Add'
+                                        : 'Send',
                                     maxLines: 1,
                                     style: TextStyle(
                                       color: Colors.white,

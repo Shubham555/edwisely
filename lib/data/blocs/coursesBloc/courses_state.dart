@@ -64,4 +64,3 @@ class AllCoursesFetched extends CoursesState {
 
   AllCoursesFetched(this.getAllCoursesEntity, this.sectionEntity);
 }
-

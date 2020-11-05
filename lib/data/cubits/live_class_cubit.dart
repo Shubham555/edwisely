@@ -17,22 +17,21 @@ class LiveClassCubit extends Cubit<LiveClassState> {
     List<int> students,
     String endTime,
   ) async {
-    final response = await EdwiselyApi.dio.post(
-      'college/createVC',
-      data: FormData.fromMap(
-        {
-          'title': title,
-          'description': description,
-          'start_time': startTime,
-          'end_time': endTime,
-          'students': jsonEncode(students),
-        },
-      ), options: Options(
-        headers: {
+    final response = await EdwiselyApi.dio.post('college/createVC',
+        data: FormData.fromMap(
+          {
+            'title': title,
+            'description': description,
+            'start_time': startTime,
+            'end_time': endTime,
+            'students': jsonEncode(students),
+          },
+        ),
+        options: Options(headers: {
           'Authorization': 'Bearer $loginToken',
-        })
-    );
-    if (response.data['message'] == 'Successfully created the video conference') {
+        }));
+    if (response.data['message'] ==
+        'Successfully created the video conference') {
       emit(
         LiveClassSent(),
       );

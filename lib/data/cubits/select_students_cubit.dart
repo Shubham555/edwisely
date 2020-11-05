@@ -13,18 +13,17 @@ class SelectStudentsCubit extends Cubit<SelectStudentsState> {
     emit(
       SelectStudentsInitial(),
     );
-    final response = await EdwiselyApi.dio.post(
-      'common/getCollegeDepartmentSectionStudents',
-      data: FormData.fromMap(
-        {
-          'college_department_section_id': sectionId,
-          'year': year,
-        },
-      ), options: Options(
-        headers: {
-          'Authorization': 'Bearer $loginToken',
-        })
-    );
+    final response =
+        await EdwiselyApi.dio.post('common/getCollegeDepartmentSectionStudents',
+            data: FormData.fromMap(
+              {
+                'college_department_section_id': sectionId,
+                'year': year,
+              },
+            ),
+            options: Options(headers: {
+              'Authorization': 'Bearer $loginToken',
+            }));
     if (response.statusCode == 200) {
       emit(
         SelectStudentsStudentsFetched(

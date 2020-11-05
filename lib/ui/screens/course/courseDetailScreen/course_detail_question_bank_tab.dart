@@ -114,19 +114,19 @@ class _CourseDetailQuestionBankTabState
                             switch (_tabController.index) {
                               case 0:
                                 context.bloc<QuestionBankObjectiveBloc>().add(
-                                  GetUnitObjectiveQuestions(
-                                    widget.subjectId,
-                                    state.units.data[index].id,
-                                  ),
-                                );
+                                      GetUnitObjectiveQuestions(
+                                        widget.subjectId,
+                                        state.units.data[index].id,
+                                      ),
+                                    );
                                 break;
                               case 1:
                                 context.bloc<QuestionBankSubjectiveBloc>().add(
-                                  GetUnitSubjectiveQuestions(
-                                    widget.subjectId,
-                                    state.units.data[index].id,
-                                  ),
-                                );
+                                      GetUnitSubjectiveQuestions(
+                                        widget.subjectId,
+                                        state.units.data[index].id,
+                                      ),
+                                    );
                                 break;
                             }
                           },
@@ -137,8 +137,7 @@ class _CourseDetailQuestionBankTabState
                 }
                 if (state is CourseUnitEmpty) {
                   return Center(child: Text('No Data'));
-                }
-                else {
+                } else {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
@@ -183,9 +182,7 @@ class _CourseDetailQuestionBankTabState
                     BlocProvider.value(
                       value: context.bloc<QuestionBankBloc>(),
                       child: QuestionBankObjectiveTab(
-                        widget.subjectId,
-                        widget.subjectsubjectId
-                      ),
+                          widget.subjectId, widget.subjectsubjectId),
                     ),
                     BlocProvider.value(
                       value: context.bloc<QuestionBankBloc>(),

@@ -23,13 +23,15 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
   ) async* {
     var currentState = state;
     if (event is GetUnitQuestions) {
-      final response = await EdwiselyApi.dio.get('questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}', options: Options(
-          headers: {
+      final response = await EdwiselyApi.dio.get(
+          'questions/getUnitQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
 
-      final topicsResponse = await EdwiselyApi.dio.get('questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$universityDegreeDepartmenId', options: Options(
-          headers: {
+      final topicsResponse = await EdwiselyApi.dio.get(
+          'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$universityDegreeDepartmenId',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
@@ -41,7 +43,8 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
           ),
         );
         if (topicsResponse.data['message'] != 'No topics to fetch') {
-          TopicEntity topicEntity = TopicEntity.fromJsonMap(topicsResponse.data);
+          TopicEntity topicEntity =
+              TopicEntity.fromJsonMap(topicsResponse.data);
           dropDownItems.addAll(
             topicEntity.data.map(
               (e) => DropdownMenuItem(
@@ -65,8 +68,9 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
     }
     if (event is GetUnitQuestionsByLevel) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi.dio.get('questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}', options: Options(
-          headers: {
+      final response = await EdwiselyApi.dio.get(
+          'questions/getLevelWiseQuestions?unit_id=${event.unitId}&level=${event.level}',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200) {
@@ -78,14 +82,17 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
               response.data,
             ),
             event.unitId,
-            currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
+            currentState is UnitQuestionsFetched
+                ? currentState.dropDownList
+                : null,
           );
       }
     }
     if (event is GetUnitQuestionsByTopic) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi.dio.get('questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}', options: Options(
-          headers: {
+      final response = await EdwiselyApi.dio.get(
+          'questions/getTopicWiseQuestions?unit_id=${event.unitId}&topic_id=${event.topic}',
+          options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
       if (response.statusCode == 200) {
@@ -97,16 +104,19 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
               response.data,
             ),
             event.unitId,
-            currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
+            currentState is UnitQuestionsFetched
+                ? currentState.dropDownList
+                : null,
           );
       }
     }
     if (event is GetQuestionsByBookmark) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi.dio.get('getBookmarkedQuestions?unit_id=${event.unitId}', options: Options(
-          headers: {
-            'Authorization': 'Bearer $loginToken',
-          }));
+      final response = await EdwiselyApi.dio
+          .get('getBookmarkedQuestions?unit_id=${event.unitId}',
+              options: Options(headers: {
+                'Authorization': 'Bearer $loginToken',
+              }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -116,16 +126,19 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
               response.data,
             ),
             event.unitId,
-            currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
+            currentState is UnitQuestionsFetched
+                ? currentState.dropDownList
+                : null,
           );
       }
     }
     if (event is GetYourQuestions) {
       yield QuestionBankInitial();
-      final response = await EdwiselyApi.dio.get('questions/getFacultyAddedQuestions?unit_id=${event.unitId}', options: Options(
-          headers: {
-            'Authorization': 'Bearer $loginToken',
-          }));
+      final response = await EdwiselyApi.dio
+          .get('questions/getFacultyAddedQuestions?unit_id=${event.unitId}',
+              options: Options(headers: {
+                'Authorization': 'Bearer $loginToken',
+              }));
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankFetchFailed(response.data['message']);
@@ -135,7 +148,9 @@ class QuestionBankBloc extends Bloc<QuestionBankEvent, QuestionBankState> {
               response.data,
             ),
             event.unitId,
-            currentState is UnitQuestionsFetched ? currentState.dropDownList : null,
+            currentState is UnitQuestionsFetched
+                ? currentState.dropDownList
+                : null,
           );
       }
     }

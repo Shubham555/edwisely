@@ -40,9 +40,10 @@ class _UploadExcelTabState extends State<UploadExcelTab> {
                 child: Padding(
                   padding: const EdgeInsets.all(50),
                   child: FloatingActionButton.extended(
-                    onPressed: () => context.bloc<UploadExcelCubit>().uploadExcel(
-                          _excelFile,
-                        ),
+                    onPressed: () =>
+                        context.bloc<UploadExcelCubit>().uploadExcel(
+                              _excelFile,
+                            ),
                     icon: Icon(Icons.upload_file),
                     label: Text('Upload'),
                   ),
@@ -53,8 +54,10 @@ class _UploadExcelTabState extends State<UploadExcelTab> {
   }
 
   _selectFile(BuildContext context) async {
-    _excelFile = await FilePickerCross.importFromStorage(type: FileTypeCross.any, fileExtension: '.xlsx, .xls');
-    if (_excelFile.fileName.contains('xlsx') || _excelFile.fileName.contains('xls')) {
+    _excelFile = await FilePickerCross.importFromStorage(
+        type: FileTypeCross.any, fileExtension: '.xlsx, .xls');
+    if (_excelFile.fileName.contains('xlsx') ||
+        _excelFile.fileName.contains('xls')) {
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text('Selected ${_excelFile.fileName}'),

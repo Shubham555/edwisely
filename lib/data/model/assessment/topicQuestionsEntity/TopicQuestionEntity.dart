@@ -16,7 +16,8 @@ class TopicQuestionEntity {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = status;
     data['message'] = message;
-    data['data'] = data != null ? this.data.map((v) => v.toJson()).toList() : null;
+    data['data'] =
+        data != null ? this.data.map((v) => v.toJson()).toList() : null;
     data['question_ids'] = question_ids;
     ;
     return data;

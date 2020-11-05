@@ -18,7 +18,8 @@ class ChooseSubjectiveFromSelectedTab extends StatelessWidget {
   final QuestionType _questionType;
   final int _assessmentId;
 
-  ChooseSubjectiveFromSelectedTab(this._title, this._description, this._subjectId, this._questionType, this._assessmentId);
+  ChooseSubjectiveFromSelectedTab(this._title, this._description,
+      this._subjectId, this._questionType, this._assessmentId);
 
   final _questionFetchCubit = QuestionsCubit();
   final topicCubit = TopicCubit();
@@ -92,14 +93,27 @@ class ChooseSubjectiveFromSelectedTab extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        RaisedButton(child: Text('Remember'), onPressed: () => SubjectiveBloc.add(GetUnitSubjectiveQuestionsByLevel(1, unitId))),
-                        RaisedButton(child: Text('Understand'), onPressed: () => SubjectiveBloc.add(GetUnitSubjectiveQuestionsByLevel(2, unitId))),
-                        RaisedButton(child: Text('Apply'), onPressed: () => SubjectiveBloc.add(GetUnitSubjectiveQuestionsByLevel(3, unitId))),
-                        RaisedButton(child: Text('Analyze'), onPressed: () => SubjectiveBloc.add(GetUnitSubjectiveQuestionsByLevel(4, unitId))),
+                        RaisedButton(
+                            child: Text('Remember'),
+                            onPressed: () => SubjectiveBloc.add(
+                                GetUnitSubjectiveQuestionsByLevel(1, unitId))),
+                        RaisedButton(
+                            child: Text('Understand'),
+                            onPressed: () => SubjectiveBloc.add(
+                                GetUnitSubjectiveQuestionsByLevel(2, unitId))),
+                        RaisedButton(
+                            child: Text('Apply'),
+                            onPressed: () => SubjectiveBloc.add(
+                                GetUnitSubjectiveQuestionsByLevel(3, unitId))),
+                        RaisedButton(
+                            child: Text('Analyze'),
+                            onPressed: () => SubjectiveBloc.add(
+                                GetUnitSubjectiveQuestionsByLevel(4, unitId))),
                       ],
                     ),
                     StatefulBuilder(
-                      builder: (BuildContext context, void Function(void Function()) setState) {
+                      builder: (BuildContext context,
+                          void Function(void Function()) setState) {
                         return BlocBuilder(
                           cubit: SubjectiveBloc,
                           builder: (BuildContext context, state) {
@@ -107,10 +121,19 @@ class ChooseSubjectiveFromSelectedTab extends StatelessWidget {
                               return ListView.builder(
                                 itemBuilder: (BuildContext context, int index) {
                                   return CheckboxListTile(
-                                      value: questions.contains(state.questionBankSubjectiveEntity.data[index].id),
+                                      value: questions.contains(state
+                                          .questionBankSubjectiveEntity
+                                          .data[index]
+                                          .id),
                                       onChanged: (flag) => flag
-                                          ? questions.add(state.questionBankSubjectiveEntity.data[index].id)
-                                          : questions.remove(state.questionBankSubjectiveEntity.data[index].id));
+                                          ? questions.add(state
+                                              .questionBankSubjectiveEntity
+                                              .data[index]
+                                              .id)
+                                          : questions.remove(state
+                                              .questionBankSubjectiveEntity
+                                              .data[index]
+                                              .id));
                                 },
                               );
                             }
@@ -136,31 +159,44 @@ class ChooseSubjectiveFromSelectedTab extends StatelessWidget {
                         builder: (BuildContext context, state) {
                           if (state is CourseUnitFetched) {
                             return StatefulBuilder(
-                              builder: (BuildContext context, void Function(void Function()) setState) {
+                              builder: (BuildContext context,
+                                  void Function(void Function()) setState) {
                                 int enabledUnitId = state.units.data[0].id;
                                 unitId = state.units.data[0].id;
                                 return ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: state.units.data.length,
-                                  itemBuilder: (BuildContext context, int index) => ListTile(
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          ListTile(
                                     hoverColor: Colors.white,
-                                    selected: enabledUnitId == state.units.data[index].id,
+                                    selected: enabledUnitId ==
+                                        state.units.data[index].id,
                                     title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           state.units.data[index].name,
                                           style: TextStyle(
-                                              color: enabledUnitId == state.units.data[index].id ? Colors.black : Colors.grey.shade600,
-                                              fontSize: enabledUnitId == state.units.data[index].id ? 25 : null),
+                                              color: enabledUnitId ==
+                                                      state.units.data[index].id
+                                                  ? Colors.black
+                                                  : Colors.grey.shade600,
+                                              fontSize: enabledUnitId ==
+                                                      state.units.data[index].id
+                                                  ? 25
+                                                  : null),
                                         ),
                                       ],
                                     ),
                                     onTap: () {
-                                      enabledUnitId = state.units.data[index].id;
+                                      enabledUnitId =
+                                          state.units.data[index].id;
                                       unitId = state.units.data[index].id;
                                       SubjectiveBloc.add(
-                                        GetUnitSubjectiveQuestions(_subjectId, unitId),
+                                        GetUnitSubjectiveQuestions(
+                                            _subjectId, unitId),
                                       );
                                       setState(
                                         () {},
@@ -192,7 +228,8 @@ class ChooseSubjectiveFromSelectedTab extends StatelessWidget {
                                 label: (i, Data v) => v.name,
                               ),
                               onChanged: (int value) => SubjectiveBloc.add(
-                                GetUnitSubjectiveQuestionsByTopic(value, unitId),
+                                GetUnitSubjectiveQuestionsByTopic(
+                                    value, unitId),
                               ),
                             );
                           }
