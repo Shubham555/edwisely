@@ -26,6 +26,7 @@ class QuestionBankObjectiveBloc
     var currentState = state;
 
     if (event is GetUnitObjectiveQuestions) {
+      yield QuestionBankObjectiveInitial();
       final response = await EdwiselyApi.dio.get(
           'questions/getUnitObjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}',
           options: Options(headers: {

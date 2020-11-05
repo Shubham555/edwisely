@@ -23,6 +23,7 @@ class QuestionBankSubjectiveBloc extends Bloc<QuestionBankSubjectiveEvent, Quest
   ) async* {
     var currentState = state;
     if (event is GetUnitSubjectiveQuestions) {
+      yield QuestionBankSubjectiveInitial();
       final response = await EdwiselyApi.dio.get('questions/getUnitSubjectiveQuestions?subject_id=${event.subjectId}&unit_id=${event.unitId}', options: Options(
         headers: {
           'Authorization': 'Bearer $loginToken',

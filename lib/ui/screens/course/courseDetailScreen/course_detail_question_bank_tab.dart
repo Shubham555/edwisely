@@ -113,28 +113,20 @@ class _CourseDetailQuestionBankTabState
                             );
                             switch (_tabController.index) {
                               case 0:
-                                context.bloc<QuestionBankBloc>().add(
-                                      GetUnitQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
+                                context.bloc<QuestionBankObjectiveBloc>().add(
+                                  GetUnitObjectiveQuestions(
+                                    widget.subjectId,
+                                    state.units.data[index].id,
+                                  ),
+                                );
                                 break;
                               case 1:
-                                context.bloc<QuestionBankObjectiveBloc>().add(
-                                      GetUnitObjectiveQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
-                                break;
-                              case 2:
                                 context.bloc<QuestionBankSubjectiveBloc>().add(
-                                      GetUnitSubjectiveQuestions(
-                                        widget.subjectId,
-                                        state.units.data[0].id,
-                                      ),
-                                    );
+                                  GetUnitSubjectiveQuestions(
+                                    widget.subjectId,
+                                    state.units.data[index].id,
+                                  ),
+                                );
                                 break;
                             }
                           },
