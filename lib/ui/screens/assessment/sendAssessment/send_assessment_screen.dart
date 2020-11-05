@@ -114,7 +114,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                             Get.defaultDialog(
                               title: 'Empty',
                               middleText:
-                                  'Some things are left empty , please check ',
+                                  'Please enter all details',
                               onConfirm: () => Get.back(),
                             );
                           }

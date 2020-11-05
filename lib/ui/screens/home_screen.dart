@@ -417,6 +417,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     RaisedButton(
                       onPressed: () {
+                        if (DateTime.parse(activity['start_time']).isAfter(
+                          DateTime.now().add(
+                            Duration(
+                              minutes: 10,
+                            ),
+                          ),
+                        )) {
+                          return null;
+                        }
+                        if (DateTime.parse(activity['start_time']).isBefore(
+                          DateTime.now().add(
+                            Duration(
+                              minutes: 10,
+                            ),
+                          ),
+                        )) {
+                          return html.window.open(activity['url'], 'Meeting');
+                        } else {
+                          return null;
+                        }
+
                         if (DateTime.parse(activity['end_time']).isAfter(
                           DateTime.now().add(
                             Duration(
@@ -424,11 +445,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         )) {
-                          html.window.open(activity['url'], 'Meeting');
                         } else if (DateTime.parse(activity['end_time'])
                             .isBefore(
                           DateTime.now(),
                         )) {
+                          html.window.open(activity['url'], 'Meeting');
                         } else {
                           Get.defaultDialog(
                             title: 'Cannot Start Meeting',
@@ -437,20 +458,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         }
                       },
-                      child: Text(
-                        DateTime.parse(activity['end_time'])
-                                .isBefore(DateTime.now())
-                            ? 'Meeting Completed'
-                            : DateTime.parse(activity['end_time']).isBefore(
-                                DateTime.now().add(
-                                  Duration(
-                                    minutes: 10,
-                                  ),
-                                ),
-                              )
-                                ? 'Start Meeting'
-                                : 'Meeting Scheduled',
-                      ),
+                      child:
+                          Text(DateTime.parse(activity['start_time']).isAfter(
+                        DateTime.now().add(
+                          Duration(
+                            minutes: 10,
+                          ),
+                        ),
+                      )
+                              ? 'Meeting Scheduled'
+                              : DateTime.parse(activity['start_time']).isBefore(
+                                  DateTime.now(),
+                                )
+                                  ? 'Meeting Completed'
+                                  : 'Start Meeting'),
                     )
                   ],
                 ),

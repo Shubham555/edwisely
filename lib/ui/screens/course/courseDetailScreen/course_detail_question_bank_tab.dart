@@ -142,7 +142,11 @@ class _CourseDetailQuestionBankTabState
                       );
                     },
                   );
-                } else {
+                }
+                if (state is CourseUnitEmpty) {
+                  return Center(child: Text('No Data'));
+                }
+                else {
                   return Center(
                     child: CircularProgressIndicator(),
                   );

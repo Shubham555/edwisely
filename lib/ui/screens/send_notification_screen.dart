@@ -286,7 +286,6 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                   children: [
                                                                     Container(
-
                                                                       child: Text(
                                                                         file.fileName,
                                                                         overflow: TextOverflow.ellipsis,

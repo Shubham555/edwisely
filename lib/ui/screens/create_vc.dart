@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:edwisely/main.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+import './this_way_up.dart';
 import '../../data/cubits/live_class_cubit.dart';
 import '../../data/cubits/select_students_cubit.dart';
 import '../../data/cubits/send_assessment_cubit.dart';
@@ -16,7 +14,6 @@ import '../../data/provider/selected_page.dart';
 import '../widgets_util/big_app_bar.dart';
 import '../widgets_util/navigation_drawer.dart';
 import '../widgets_util/text_input.dart';
-import './this_way_up.dart';
 
 class CreateVCScreen extends StatefulWidget {
   @override
@@ -79,7 +76,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
     ).catchError(() {
       _vcEndTime = null;
     }).then((value) {
-      if (value.hour - _vcStartTime.hour > 3 || value.hour - _vcStartTime.hour < 0 ) {
+      double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
+      if (toDouble(value) - toDouble(_vcStartTime) < 0) {
         Get.defaultDialog(
             title: 'Please check any errors with the time',
             onConfirm: () => Get.back(),
@@ -150,16 +148,31 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                 final form = _formKey.currentState;
                                 if (form.validate()) {
                                   form.save();
-                                  if (_vcStart != null && _vcStartTime != null && _vcEnd != null && _vcEndTime != null) {
-
-                                    context.bloc<LiveClassCubit>().sendLiveClass(
-                                        _title,
-                                        _description,
-                                        _vcStart.add(Duration(hours: _vcStartTime.hour, minutes: _vcStartTime.minute)).toString(),
-                                        students,
-                                        _vcEnd.add(Duration(hours: _vcEndTime.hour, minutes: _vcEndTime.minute)).toString());
+                                  if (_vcStart != null &&
+                                      _vcStartTime != null &&
+                                      _vcEnd != null &&
+                                      _vcEndTime != null) {
+                                    context
+                                        .bloc<LiveClassCubit>()
+                                        .sendLiveClass(
+                                            _title,
+                                            _description,
+                                            _vcStart
+                                                .add(Duration(
+                                                    hours: _vcStartTime.hour,
+                                                    minutes:
+                                                        _vcStartTime.minute))
+                                                .toString(),
+                                            students,
+                                            _vcEnd
+                                                .add(Duration(
+                                                    hours: _vcEndTime.hour,
+                                                    minutes: _vcEndTime.minute))
+                                                .toString());
                                   } else {
-                                    Toast.show('Please Double Check the Entries ', context);
+                                    Toast.show(
+                                        'Please Double Check the Entries ',
+                                        context);
                                   }
                                 }
                               },
@@ -172,7 +185,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                                   ),
                                   SizedBox(width: 8.0),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
                                     child: Text(
                                       'Create',
                                       style: Theme.of(context).textTheme.button,

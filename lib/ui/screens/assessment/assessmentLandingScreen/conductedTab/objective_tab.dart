@@ -7,6 +7,7 @@ import '../../../../../data/blocs/coursesBloc/courses_bloc.dart';
 import '../../../../widgets_util/assessment_tile.dart';
 
 class ConductedTabObjectiveTab extends StatelessWidget {
+  int subhjectId;
   @override
   Widget build(BuildContext context) {
     DateTime initialDate;
@@ -136,6 +137,7 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                         child: DropdownButton(
                           underline: SizedBox.shrink(),
                           hint: Text('Filter Assessments by Subjects'),
+                          value: subhjectId,
                           items: state.subjects,
                           onChanged: (value) => value == 1234567890
                               ? context.bloc<ConductedBloc>().add(

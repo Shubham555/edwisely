@@ -7,6 +7,8 @@ import '../../../../data/blocs/subjectiveBloc/subjective_bloc.dart';
 import '../../../widgets_util/assessment_tile.dart';
 
 class SubjectiveTab extends StatelessWidget {
+  Map<int, String> dropDownValue;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
@@ -26,40 +28,47 @@ class SubjectiveTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlocBuilder(
-              cubit: context.bloc<CoursesBloc>(),
-              builder: (BuildContext context, state) {
-                if (state is CoursesListFetched) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 4.0, horizontal: 8.0),
-                    margin: const EdgeInsets.symmetric(vertical: 12.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.0),
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
+            StatefulBuilder(
+              builder: (ctx, setState) => BlocBuilder(
+                cubit: context.bloc<CoursesBloc>(),
+                builder: (BuildContext context, state) {
+                  if (state is CoursesListFetched) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4.0, horizontal: 8.0),
+                      margin: const EdgeInsets.symmetric(vertical: 12.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4.0),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.0,
+                        ),
                       ),
-                    ),
-                    child: DropdownButton(
-                      underline: Container(),
-                      hint: Text('Filter by Subjects'),
-                      items: state.subjects,
-                      onChanged: (value) => value == 1234567890
-                          ? context.bloc<SubjectiveBloc>().add(
-                                GetSubjectiveTests(),
-                              )
-                          : context.bloc<SubjectiveBloc>().add(
-                                GetSubjectiveTestsBYSubjectId(
-                                  value,
-                                ),
-                              ),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              },
+                      child: DropdownButton(
+                        value: dropDownValue,
+                        underline: Container(),
+                        hint: Text('Filter by Subjects'),
+                        items: state.subjects,
+                        onChanged: (value) {
+                          value.keys.first == 1234567890
+                              ? context.bloc<SubjectiveBloc>().add(
+                            GetSubjectiveTests(),
+                          )
+                              : context.bloc<SubjectiveBloc>().add(
+                            GetSubjectiveTestsBYSubjectId(
+                              value.keys.first,
+                            ),
+                          );
+                          dropDownValue = value;
+                          setState(() {});
+                        },
+                      ),
+                    );
+                  } else {
+                    return Text('Loading...');
+                  }
+                },
+              ),
             ),
             Expanded(
               child: BlocBuilder(

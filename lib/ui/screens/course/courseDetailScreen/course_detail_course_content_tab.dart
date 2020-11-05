@@ -744,7 +744,10 @@ class _CourseDetailCourseContentTabState
                                                             child: Text(
                                                               state.data[index]
                                                                       .title ??
-                                                                  state.data[index].file_url,
+                                                                  state
+                                                                      .data[
+                                                                          index]
+                                                                      .file_url,
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -822,28 +825,39 @@ class _CourseDetailCourseContentTabState
                                                             state.data[index]
                                                                         .faculty_content ==
                                                                     1
-                                                                ? 'Edit'
+                                                                ? PopupMenuItem(
+                                                                    child: Text(
+                                                                        'Edit'),
+                                                                    value:
+                                                                        'Edit',
+                                                                  )
                                                                 : null,
                                                             state.data[index]
                                                                         .bookmarked ==
                                                                     1
-                                                                ? "UnBookmark"
-                                                                : 'Bookmark',
+                                                                ? PopupMenuItem(
+                                                                    child: Text(
+                                                                        'UnBookmark'),
+                                                                    value:
+                                                                        'UnBookmark',
+                                                                  )
+                                                                : PopupMenuItem(
+                                                                    child: Text(
+                                                                        'Bookmark'),
+                                                                    value:
+                                                                        'Bookmark',
+                                                                  ),
                                                             state.data[index]
                                                                         .faculty_content ==
                                                                     1
-                                                                ? 'Delete'
+                                                                ? PopupMenuItem(
+                                                                    child: Text(
+                                                                        'Delete'),
+                                                                    value:
+                                                                        'Delete',
+                                                                  )
                                                                 : null,
-                                                          ] // 'Change Type to ${state.data[index].display_type == 'public' ? 'Private' : 'Public'}']
-                                                              .map(
-                                                                (e) =>
-                                                                    PopupMenuItem(
-                                                                  child:
-                                                                      Text(e),
-                                                                  value: e,
-                                                                ),
-                                                              )
-                                                              .toList();
+                                                          ];
                                                         },
                                                       ));
                                                 },
@@ -1017,15 +1031,58 @@ class _CourseDetailCourseContentTabState
                         SizedBox(
                           width: 10,
                         ),
-                        IconButton(
-                          icon: Icon(file == null ? Icons.add : Icons.save),
-                          onPressed: () async {
-                            file = await FilePickerCross.importFromStorage(
-                              type: FileTypeCross.any,
+                        StatefulBuilder(
+                          builder: (BuildContext context,
+                              void Function(void Function()) setState) {
+                            return InkWell(
+                              onTap: () async {
+                                file = await FilePickerCross.importFromStorage(
+                                  type: FileTypeCross.any,
+                                );
+                                setState(() {});
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.08,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 0.5,
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: file != null
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                            child: Text(
+                                              file.fileName,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            width: 60,
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.close),
+                                            onPressed: () {
+                                              setState(() => file = null);
+                                            },
+                                          )
+                                        ],
+                                      )
+                                    : Image.asset(
+                                        'assets/icons/upload.png',
+                                        width: 18.0,
+                                        height: 24.0,
+                                      ),
+                              ),
                             );
-                            setState(() {});
                           },
-                        ),
+                        )
                       ],
                     ),
                     SizedBox(height: 32.0),
@@ -1042,6 +1099,7 @@ class _CourseDetailCourseContentTabState
                       builder: (BuildContext context, state) {
                         if (state is TopicFetched) {
                           return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Tag Topics'),
                               ChipsChoice<String>.single(
