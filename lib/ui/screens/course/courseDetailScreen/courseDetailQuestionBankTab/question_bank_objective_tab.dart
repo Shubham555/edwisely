@@ -524,6 +524,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                 );
               }
               if (state is QuestionBankObjectiveFetchFailed) {
+                return Center(child: Text(state.error));
                 return Center(
                   child: Column(
                     children: [

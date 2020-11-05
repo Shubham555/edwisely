@@ -99,9 +99,37 @@ class AssessmentTile extends StatelessWidget {
                                         color: Colors.black,
                                       ),
                                 ),
-                                SizedBox(width: 8.0),
+                                SizedBox(width: 3.0),
                                 Text(
                                   DateTime.parse(startTime).day.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  DateTime.parse(startTime).hour.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                Text(
+                                  ':',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                Text(
+                                  DateTime.parse(startTime).minute.toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -120,9 +148,37 @@ class AssessmentTile extends StatelessWidget {
                                         color: Colors.black,
                                       ),
                                 ),
-                                SizedBox(width: 8.0),
+                                SizedBox(width: 3.0),
                                 Text(
                                   DateTime.parse(doe).day.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                SizedBox(width: 8.0),
+                                Text(
+                                  DateTime.parse(doe).hour.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                Text(
+                                  ':',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                                Text(
+                                  DateTime.parse(doe).minute.toString(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
