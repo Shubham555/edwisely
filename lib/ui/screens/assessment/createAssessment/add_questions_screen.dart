@@ -72,19 +72,7 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                             vertical: 8.0,
                             horizontal: 16.0,
                           ),
-                          onPressed: () => questions.isEmpty
-                              ? null
-                              : Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SendAssessmentScreen(
-                                      widget._assessmentId,
-                                      widget._title,
-                                      widget._description,
-                                    ),
-                                  ),
-                                ),
+                          onPressed: () => Navigator.pop(context),
                           child: Row(
                             children: [
                               Image.asset(

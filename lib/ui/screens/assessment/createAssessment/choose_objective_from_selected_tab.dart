@@ -879,13 +879,12 @@ class _ChooseObjectiveFromSelectedTabState
           width: MediaQuery.of(context).size.width * 0.5,
           height: MediaQuery.of(context).size.height * 0.72,
           color: Colors.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          child: ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: 250,
                   child: TeXView(
                     child: TeXViewDocument(
                       data.name.replaceAll('\$', '\$\$'),
@@ -893,6 +892,10 @@ class _ChooseObjectiveFromSelectedTabState
                   ),
                 ),
               ),
+              Container(
+                  width: 250,
+                  height: 250,
+                  child: Image.network(data.question_img)),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: data.questions_options.length,

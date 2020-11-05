@@ -1056,32 +1056,42 @@ class _CourseDetailCourseContentTabState
                                   ),
                                 ),
                                 alignment: Alignment.center,
-                                child: file != null
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text(
-                                              file.fileName,
-                                              overflow: TextOverflow.ellipsis,
+                                child: isAdding
+                                    ? file != null
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  file.fileName,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                IconButton(
+                                                  icon: Icon(Icons.close),
+                                                  onPressed: () {
+                                                    setState(() => file = null);
+                                                  },
+                                                )
+                                              ],
                                             ),
-                                            IconButton(
-                                              icon: Icon(Icons.close),
-                                              onPressed: () {
-                                                setState(() => file = null);
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset(
-                                          'assets/icons/upload.png',
-                                          width: 18.0,
-                                          height: 24.0,
+                                          )
+                                        : Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Image.asset(
+                                              'assets/icons/upload.png',
+                                              width: 18.0,
+                                              height: 24.0,
+                                            ),
+                                          )
+                                    : GestureDetector(
+                                        onTap: () => html.window
+                                            .open(data.file_url, 'File'),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('View'),
                                         ),
                                       ),
                               ),

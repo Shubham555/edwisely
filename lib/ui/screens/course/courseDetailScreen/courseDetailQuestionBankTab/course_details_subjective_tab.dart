@@ -507,7 +507,26 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                 );
               }
               if (state is QuestionBankSubjectiveFetchFailed) {
-                return Center(child: Text(state.error));
+                return Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'No Questions',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
+                      ),
+                      RaisedButton(
+                        child: Text('Reload'),
+                        onPressed: () {
+                          context.bloc<QuestionBankSubjectiveBloc>().add(
+                                GetUnitSubjectiveQuestions(
+                                    widget.subjectId, state.unitId),
+                              );
+                        },
+                      )
+                    ],
+                  ),
+                );
               } else {
                 return Center(
                   child: CircularProgressIndicator(),

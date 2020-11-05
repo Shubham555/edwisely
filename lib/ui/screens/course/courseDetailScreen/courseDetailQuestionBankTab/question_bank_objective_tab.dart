@@ -5,6 +5,7 @@ import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_ta
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
@@ -41,7 +42,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
             cubit: context.bloc<QuestionBankObjectiveBloc>(),
             builder: (BuildContext context, state) {
               if (state is UnitObjectiveQuestionsFetched) {
-                print(state.questionBankObjectiveEntity.data.toString());
                 return Row(
                   children: [
                     Expanded(
@@ -524,7 +524,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                 );
               }
               if (state is QuestionBankObjectiveFetchFailed) {
-                return Center(child: Text(state.error));
                 return Center(
                   child: Column(
                     children: [
