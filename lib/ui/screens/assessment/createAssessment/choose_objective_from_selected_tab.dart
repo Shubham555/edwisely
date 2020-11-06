@@ -102,7 +102,7 @@ class _ChooseObjectiveFromSelectedTabState
                       ],
                     ),
                   ),
-                  titleText: 'Add Questions to ${widget._title} Assessment',
+                  titleText: '${widget._title}',
                   description: "${widget._description}",
                   subject: "Subject: ${widget._subjectId}",
                 ).build(context),

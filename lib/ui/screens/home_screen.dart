@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             NavigationDrawer(
               isCollapsed: screenSize.width <= 1366 ? true : false,
               isHome: false,
+              isCollapsable: false,
             ),
             //rest of the screen
             Expanded(

@@ -11,10 +11,12 @@ import '../../util/theme.dart';
 class NavigationDrawer extends StatefulWidget {
   final isCollapsed;
   final bool isHome;
+  final bool isCollapsable;
 
   NavigationDrawer({
     this.isCollapsed = true,
     this.isHome = false,
+    this.isCollapsable = true,
     Key key,
   });
 
@@ -229,6 +231,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           Container(height: screenSize.height * 0.12),
           // Spacer(),
+          if(widget.isCollapsable)
           widget.isHome
               ? SizedBox.shrink()
               : Padding(
