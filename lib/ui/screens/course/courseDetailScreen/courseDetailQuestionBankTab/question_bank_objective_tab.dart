@@ -5,6 +5,7 @@ import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_ta
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:get/get.dart';
 import 'package:toast/toast.dart';
 
@@ -402,17 +403,17 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                             title: Row(
                                               children: [
                                                 Text('Q. ${index + 1}  '),
-                                                // Flexible(
-                                                //   child: TeXView(
-                                                //     child: TeXViewDocument(
-                                                //       state
-                                                //           .questionBankObjectiveEntity
-                                                //           .data[index]
-                                                //           .name
-                                                //         ..replaceAll("\$", ''),
-                                                //     ),
-                                                //   ),
-                                                // ),
+                                                Flexible(
+                                                  child: TeXView(
+                                                    child: TeXViewDocument(
+                                                      state
+                                                          .questionBankObjectiveEntity
+                                                          .data[index]
+                                                          .name
+                                                        ..replaceAll("\$", ''),
+                                                    ),
+                                                  ),
+                                                ),
                                                 // Text(state.questionBankObjectiveEntity.data[index].name)
                                               ],
                                             ),
