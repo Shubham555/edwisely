@@ -474,19 +474,19 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 30),
                                             ),
-                                            RaisedButton(
-                                              child: Text('Reload'),
-                                              onPressed: () {
-                                                context
-                                                    .bloc<
-                                                        QuestionBankSubjectiveBloc>()
-                                                    .add(
-                                                      GetUnitSubjectiveQuestions(
-                                                          widget.subjectId,
-                                                          state.unitId),
-                                                    );
-                                              },
-                                            )
+                                            // RaisedButton(
+                                            //   child: Text('Reload'),
+                                            //   onPressed: () {
+                                            //     context
+                                            //         .bloc<
+                                            //             QuestionBankSubjectiveBloc>()
+                                            //         .add(
+                                            //           GetUnitSubjectiveQuestions(
+                                            //               widget.subjectId,
+                                            //               state.unitId),
+                                            //         );
+                                            //   },
+                                            // )
                                           ],
                                         ),
                                       );
@@ -515,15 +515,15 @@ class _QuestionBankSubjectiveTabState extends State<QuestionBankSubjectiveTab> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30),
                       ),
-                      RaisedButton(
-                        child: Text('Reload'),
-                        onPressed: () {
-                          context.bloc<QuestionBankSubjectiveBloc>().add(
-                                GetUnitSubjectiveQuestions(
-                                    widget.subjectId, state.unitId),
-                              );
-                        },
-                      )
+                      // RaisedButton(
+                      //   child: Text('Reload'),
+                      //   onPressed: () {
+                      //     context.bloc<QuestionBankSubjectiveBloc>().add(
+                      //           GetUnitSubjectiveQuestions(
+                      //               widget.subjectId, state.unitId),
+                      //         );
+                      //   },
+                      // )
                     ],
                   ),
                 );

@@ -66,9 +66,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         width: 10,
                                       ),
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.07,
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 4.0, horizontal: 12.0),
                                         decoration: BoxDecoration(

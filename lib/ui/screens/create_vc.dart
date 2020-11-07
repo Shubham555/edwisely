@@ -78,7 +78,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
     }).then((value) {
       double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
       if (toDouble(value) - toDouble(_vcStartTime) < 0 ||
-          toDouble(_vcStartTime) < toDouble(TimeOfDay.now())) {
+          toDouble(_vcStartTime) < toDouble(TimeOfDay.now()) ||
+          value.hour - _vcStartTime.hour > 3) {
         Get.defaultDialog(
             title: 'Please check any errors with the time',
             onConfirm: () => Get.back(),
@@ -109,6 +110,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                 listener: (BuildContext context, state) {
                   if (state is LiveClassSent) {
                     Get.defaultDialog(
+                        onCancel: () => Get.back(),
                         title: "Live Class Created",
                         middleText:
                             "Live Class is Created Click ok to move to homescreen",

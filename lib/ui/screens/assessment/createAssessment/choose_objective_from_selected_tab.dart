@@ -880,6 +880,7 @@ class _ChooseObjectiveFromSelectedTabState
           height: MediaQuery.of(context).size.height * 0.72,
           color: Colors.white,
           child: ListView(
+            shrinkWrap: true,
             children: [
               Padding(
                 padding: const EdgeInsets.all(18.0),
@@ -911,13 +912,16 @@ class _ChooseObjectiveFromSelectedTabState
                 },
               ),
               Spacer(),
-              RaisedButton.icon(
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(
-                  Icons.close,
-                  color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: RaisedButton.icon(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                  label: Text('Close', style: TextStyle(color: Colors.white)),
                 ),
-                label: Text('Close', style: TextStyle(color: Colors.white)),
               )
             ],
           ),

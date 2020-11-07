@@ -843,7 +843,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   //notification thumbnail
                   activity['thumb_url'] == null
                       ? SizedBox.shrink()
-                      : Image.network(activity['thumb_url']),
+                      : GestureDetector(onTap: () => html.window.open(activity['file_url'], 'URL'),
+                      child: Image.network(activity['thumb_url'])),
                 ],
               ),
             ),

@@ -305,9 +305,6 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                           setState(() {});
                                                         },
                                                         child: Container(
-                                                          width:
-                                                              screenSize.width *
-                                                                  0.08,
                                                           height: screenSize
                                                                   .height *
                                                               0.05,

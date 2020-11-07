@@ -118,7 +118,9 @@ class _CourseDetailCourseContentTabState
                               .toList(),
                           onChanged: (value) {
                             enabledUnitId = value;
-
+                            questionDropDownValue = 1;
+                            typeDropDownValue = 'All';
+                            levelDropDownValue = -1;
                             setState(() {});
                             context.bloc<CourseContentCubit>().getCourseContent(
                                   value,
@@ -903,7 +905,7 @@ class _CourseDetailCourseContentTabState
           data: FormData.fromMap(
             {
               'type': 'learning_content',
-              'id': data.topic_id,
+              'id': data.material_id,
             },
           ),
           options: Options(headers: {
@@ -911,16 +913,18 @@ class _CourseDetailCourseContentTabState
           }));
 
       if (response.data['message'] == 'Successfully deleted the bookmark') {
+        Toast.show('UnBookmarked', context);
         isBookmarked = false;
       } else {
         Toast.show('Some Error Occurred', context);
       }
+      setState(() {});
     } else {
       final response = await EdwiselyApi.dio.post('addBookmark',
           data: FormData.fromMap(
             {
               'type': 'learning_content',
-              'id': data.topic_id,
+              'id': data.material_id,
             },
           ),
           options: Options(headers: {
@@ -929,13 +933,13 @@ class _CourseDetailCourseContentTabState
 
       if (response.data['message'] == 'Successfully added the bookmark') {
         Toast.show('Bookmark Added', context);
-      }
-      if (response.data['message'] ==
+      } else if (response.data['message'] ==
           'learning content is already bookmarked') {
         Toast.show('Already Bookmarked', context);
       } else {
         Toast.show('Some Error Occurred', context);
       }
+      setState(() {});
     }
   }
 
@@ -951,10 +955,10 @@ class _CourseDetailCourseContentTabState
       questionDropDownValue = 1;
       typeDropDownValue = 'All';
       levelDropDownValue = -1;
-      setState(() {});
     } else {
       Toast.show('Cannot delete the item . PLease try again', context);
     }
+    setState(() {});
   }
 
   _showDialog(BuildContext context, CourseContentAddType adding,
@@ -1086,14 +1090,22 @@ class _CourseDetailCourseContentTabState
                                               height: 24.0,
                                             ),
                                           )
-                                    : GestureDetector(
-                                        onTap: () => html.window
-                                            .open(data.file_url, 'File'),
-                                        child: Padding(
+                                    : Row(
+                                      children: [
+                                        GestureDetector(
+                                            onTap: () => html.window
+                                                .open(data.file_url, 'File'),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text('View'),
+                                            ),
+                                          ),
+                                        Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text('View'),
-                                        ),
-                                      ),
+                                          child: Icon(Icons.edit),
+                                        )
+                                      ],
+                                    ),
                               ),
                             );
                           },
@@ -1165,6 +1177,7 @@ class _CourseDetailCourseContentTabState
                           onPressed: () {
                             if (typeDropDownValue.isEmpty ||
                                 titleController.text.isEmpty ||
+                                file == null||
                                 topic.isEmpty) {
                               Toast.show('Please Check contents once', context);
                             } else {
