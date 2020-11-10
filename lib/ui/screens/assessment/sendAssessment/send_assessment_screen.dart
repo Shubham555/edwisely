@@ -42,6 +42,8 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+    students = null;
+    context.bloc<StudentsCountCubit>().drain();
   }
 
   @override
@@ -97,6 +99,17 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                           horizontal: 16.0,
                         ),
                         onPressed: () {
+                          // print(_testStart);
+                          // print(_testExpiry);
+                          // print(
+                          // );print(
+                          //   _testExpiry.add(
+                          //     Duration(
+                          //       hours: _testExpiryTime.hour,
+                          //       minutes: _testExpiryTime.minute,
+                          //     ),
+                          //   ),
+                          // );
                           if (students.isNotEmpty &&
                               _testExpiry != null &&
                               _testStart != null &&
@@ -104,11 +117,25 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                             context.bloc<SendAssessmentCubit>().sendAssessment(
                                   widget.title,
                                   widget.description,
-                                  _testExpiry.toString(),
+                                  _testExpiry
+                                      .add(
+                                        Duration(
+                                          hours: _testExpiryTime.hour,
+                                          minutes: _testExpiryTime.minute,
+                                        ),
+                                      )
+                                      .toString(),
                                   _testDuration.toString(),
                                   students,
                                   widget.assessmentId,
-                                  _testStart.toString(),
+                                  _testStart
+                                      .add(
+                                        Duration(
+                                          hours: _testStartTime.hour,
+                                          minutes: _testStartTime.minute,
+                                        ),
+                                      )
+                                      .toString(),
                                 );
                           } else {
                             Get.defaultDialog(

@@ -529,7 +529,7 @@ class _HomeScreenState extends State<HomeScreen> {
             activity['title'],
             Color(0xFFC04DD8),
             activity['followers'],
-            activity['start_time'],
+            activity['created_at'],
           ),
           //center
           Expanded(
@@ -822,7 +822,7 @@ class _HomeScreenState extends State<HomeScreen> {
             activity['title'],
             Color(0xFF508AE0),
             activity['followers'],
-            activity['start_time'],
+            activity['created_at'],
           ),
           //center
           Expanded(

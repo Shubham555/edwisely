@@ -6,7 +6,6 @@ import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
-import 'package:get/get.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
@@ -43,6 +42,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
             cubit: context.bloc<QuestionBankObjectiveBloc>(),
             builder: (BuildContext context, state) {
               if (state is UnitObjectiveQuestionsFetched) {
+
                 return Row(
                   children: [
                     Expanded(
@@ -66,6 +66,9 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                         width: 10,
                                       ),
                                       Container(
+                                        width:
+                                        MediaQuery.of(context).size.width *
+                                            0.07,
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 4.0, horizontal: 12.0),
                                         decoration: BoxDecoration(
@@ -400,17 +403,17 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                             title: Row(
                                               children: [
                                                 Text('Q. ${index + 1}  '),
-                                                Flexible(
-                                                  child: TeXView(
-                                                    child: TeXViewDocument(
-                                                      state
-                                                          .questionBankObjectiveEntity
-                                                          .data[index]
-                                                          .name
-                                                        ..replaceAll("\$", ''),
-                                                    ),
-                                                  ),
-                                                ),
+                                                // Flexible(
+                                                //   child: TeXView(
+                                                //     child: TeXViewDocument(
+                                                //       state
+                                                //           .questionBankObjectiveEntity
+                                                //           .data[index]
+                                                //           .name
+                                                //         ..replaceAll("\$", ''),
+                                                //     ),
+                                                //   ),
+                                                // ),
                                                 // Text(state.questionBankObjectiveEntity.data[index].name)
                                               ],
                                             ),
@@ -555,7 +558,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
             },
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(),);
         }
       },
     );
