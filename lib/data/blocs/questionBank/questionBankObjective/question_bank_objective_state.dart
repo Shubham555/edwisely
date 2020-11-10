@@ -12,7 +12,11 @@ class QuestionBankObjectiveFetchFailed extends QuestionBankObjectiveState {
   QuestionBankObjectiveFetchFailed(this.error, this.unitId);
 }
 
-class QuestionBankObjectiveEmpty extends QuestionBankObjectiveState {}
+class QuestionBankObjectiveEmpty extends QuestionBankObjectiveState {
+  final int unitId;
+
+  QuestionBankObjectiveEmpty(this.unitId);
+}
 
 class UnitObjectiveQuestionsFetched extends QuestionBankObjectiveState {
   final QuestionBankObjectiveEntity questionBankObjectiveEntity;

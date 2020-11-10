@@ -414,7 +414,6 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                                     ),
                                                   ),
                                                 ),
-                                                Text(state.questionBankObjectiveEntity.data[index].name)
                                               ],
                                             ),
                                             subtitle: Text(
@@ -548,7 +547,29 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
               }
               if (state is QuestionBankObjectiveEmpty) {
                 return Center(
-                  child: Text('No Questions'),
+                  child: Column(
+                    children: [
+                      Text(
+                        'No Questions',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
+                      ),
+                      RaisedButton(
+                        child: Text('Reload'),
+                        onPressed: () {
+                          setState(() {
+                            levelDropDownValue = -1;
+                            topicsDropDown = 1234567890;
+                            questionsDropDownValue = 1;
+                          });
+                          context.bloc<QuestionBankObjectiveBloc>().add(
+                            GetUnitObjectiveQuestions(
+                                widget.subjectId, state.unitId),
+                          );
+                        },
+                      )
+                    ],
+                  ),
                 );
               } else {
                 return Center(

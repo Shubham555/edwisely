@@ -78,7 +78,9 @@ class QuestionBankObjectiveBloc
           }));
       if (response.statusCode == 200) {
         if (response.data['message'] == 'No questions') {
-          yield QuestionBankObjectiveEmpty();
+          yield QuestionBankObjectiveEmpty(
+            event.unitId,
+          );
         } else if (response.data['message'] !=
             'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(
