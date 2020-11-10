@@ -6,7 +6,6 @@ import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_scre
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -418,45 +417,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     RaisedButton(
                       onPressed: () {
-                        if (DateTime.parse(activity['start_time']).isAfter(
-                          DateTime.now().add(
-                            Duration(
-                              minutes: 10,
-                            ),
-                          ),
-                        )) {
-                          return null;
-                        }
                         if (DateTime.parse(activity['start_time']).isBefore(
-                          DateTime.now().add(
-                            Duration(
-                              minutes: 10,
-                            ),
-                          ),
-                        )) {
+                              DateTime.now().add(
+                                Duration(
+                                  minutes: 10,
+                                ),
+                              ),
+                            ) &&
+                            DateTime.parse(activity['start_time']).isAfter(
+                              DateTime.now(),
+                            )) {
                           return html.window.open(activity['url'], 'Meeting');
                         } else {
                           return null;
-                        }
-
-                        if (DateTime.parse(activity['end_time']).isAfter(
-                          DateTime.now().add(
-                            Duration(
-                              minutes: 10,
-                            ),
-                          ),
-                        )) {
-                        } else if (DateTime.parse(activity['end_time'])
-                            .isBefore(
-                          DateTime.now(),
-                        )) {
-                          html.window.open(activity['url'], 'Meeting');
-                        } else {
-                          Get.defaultDialog(
-                            title: 'Cannot Start Meeting',
-                            middleText:
-                                'You can login to the meeting only 10 mins before it starts',
-                          );
                         }
                       },
                       child:
@@ -843,8 +816,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   //notification thumbnail
                   activity['thumb_url'] == null
                       ? SizedBox.shrink()
-                      : GestureDetector(onTap: () => html.window.open(activity['file_url'], 'URL'),
-                      child: Image.network(activity['thumb_url'])),
+                      : GestureDetector(
+                          onTap: () =>
+                              html.window.open(activity['file_url'], 'URL'),
+                          child: Image.network(activity['thumb_url'])),
                 ],
               ),
             ),

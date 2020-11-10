@@ -305,9 +305,9 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                           setState(() {});
                                                         },
                                                         child: Container(
-                                                          height: screenSize
-                                                                  .height *
-                                                              0.05,
+                                                          // height: screenSize
+                                                          //         .height *
+                                                          //     0.05,
                                                           decoration:
                                                               BoxDecoration(
                                                             color: Colors.white,
@@ -324,38 +324,44 @@ class _SendNotificationScreenState extends State<SendNotificationScreen> {
                                                           alignment:
                                                               Alignment.center,
                                                           child: file != null
-                                                              ? Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceAround,
-                                                                  children: [
-                                                                    Container(
-                                                                      child:
-                                                                          Text(
-                                                                        file.fileName,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
+                                                              ? Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceAround,
+                                                                    children: [
+                                                                      Container(
+                                                                        child:
+                                                                            Text(
+                                                                          file.fileName,
+                                                                          // overflow:
+                                                                          //     TextOverflow.ellipsis,
+                                                                        ),
+                                                                        width: 70,
                                                                       ),
-                                                                      width: 20,
-                                                                    ),
-                                                                    IconButton(
-                                                                      icon: Icon(
-                                                                          Icons
-                                                                              .close),
-                                                                      onPressed:
-                                                                          () {
-                                                                        setState(() =>
-                                                                            file =
-                                                                                null);
-                                                                      },
-                                                                    )
-                                                                  ],
-                                                                )
-                                                              : Image.asset(
-                                                                  'assets/icons/upload.png',
-                                                                  width: 18.0,
-                                                                  height: 24.0,
-                                                                ),
+                                                                      IconButton(
+                                                                        icon: Icon(
+                                                                            Icons
+                                                                                .close),
+                                                                        onPressed:
+                                                                            () {
+                                                                          setState(() =>
+                                                                              file =
+                                                                                  null);
+                                                                        },
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                              )
+                                                              : Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Image.asset(
+                                                                    'assets/icons/upload.png',
+                                                                    width: 18.0,
+                                                                    height: 24.0,
+                                                                  ),
+                                                              ),
                                                         ),
                                                       );
                                                     },

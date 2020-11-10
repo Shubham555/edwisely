@@ -1,8 +1,8 @@
 import 'package:edwisely/ui/screens/assessment/createAssessment/add_questions_screen.dart';
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import '../../util/date_utild.dart';
 import '../../util/theme.dart';
 import '../screens/assessment/sendAssessment/send_assessment_screen.dart';
 
@@ -90,28 +90,11 @@ class AssessmentTile extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  DateUtils().getMonthFromDateTime(
-                                      DateTime.parse(startTime).month),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                ),
-                                SizedBox(width: 3.0),
-                                Text(
-                                  DateTime.parse(startTime).day.toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                ),
-                                SizedBox(width: 8.0),
-                                Text(
-                                  DateTime.parse(startTime).hour.toString(),
+                                  DateFormat('EEE , d/MM/yyyy HH:mm').format(
+                                    DateTime.parse(
+                                      startTime,
+                                    ),
+                                  ),
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -120,7 +103,7 @@ class AssessmentTile extends StatelessWidget {
                                       ),
                                 ),
                                 Text(
-                                  ':',
+                                  ' - ',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -128,8 +111,13 @@ class AssessmentTile extends StatelessWidget {
                                         color: Colors.black,
                                       ),
                                 ),
+
                                 Text(
-                                  DateTime.parse(startTime).minute.toString(),
+                                    DateFormat('EEE , d/MM/yyyy HH:mm').format(
+                                      DateTime.parse(
+                                        doe,
+                                      ),
+                                    ) ,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -137,55 +125,104 @@ class AssessmentTile extends StatelessWidget {
                                         color: Colors.black,
                                       ),
                                 ),
-                                Text('  -  '),
-                                Text(
-                                  DateUtils().getMonthFromDateTime(
-                                      DateTime.parse(doe).month),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                ),
-                                SizedBox(width: 3.0),
-                                Text(
-                                  DateTime.parse(doe).day.toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                ),
-                                SizedBox(width: 8.0),
-                                Text(
-                                  DateTime.parse(doe).hour.toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                ),
-                                Text(
-                                  ':',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                ),
-                                Text(
-                                  DateTime.parse(doe).minute.toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                        color: Colors.black,
-                                      ),
-                                ),
+
+                                // Text(
+                                //   DateUtils().getMonthFromDateTime(
+                                //       DateTime.parse(startTime).month),
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // SizedBox(width: 3.0),
+                                // Text(
+                                //   DateTime.parse(startTime).day.toString(),
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // SizedBox(width: 8.0),
+                                // Text(
+                                //   DateTime.parse(startTime).hour.toString(),
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // Text(
+                                //   ':',
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // Text(
+                                //   DateTime.parse(startTime).minute.toString(),
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // Text('  -  '),
+                                // Text(
+                                //   DateUtils().getMonthFromDateTime(
+                                //       DateTime.parse(doe).month),
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // SizedBox(width: 3.0),
+                                // Text(
+                                //   DateTime.parse(doe).day.toString(),
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // SizedBox(width: 8.0),
+                                // Text(
+                                //   DateTime.parse(doe).hour.toString(),
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // Text(
+                                //   ':',
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
+                                // Text(
+                                //   DateTime.parse(doe).minute.toString(),
+                                //   style: Theme.of(context)
+                                //       .textTheme
+                                //       .bodyText1
+                                //       .copyWith(
+                                //         color: Colors.black,
+                                //       ),
+                                // ),
                               ],
                             )
                           : SizedBox.shrink(),
