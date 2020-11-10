@@ -403,18 +403,18 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                                             title: Row(
                                               children: [
                                                 Text('Q. ${index + 1}  '),
-                                                // Flexible(
-                                                //   child: TeXView(
-                                                //     child: TeXViewDocument(
-                                                //       state
-                                                //           .questionBankObjectiveEntity
-                                                //           .data[index]
-                                                //           .name
-                                                //         ..replaceAll("\$", ''),
-                                                //     ),
-                                                //   ),
-                                                // ),
-                                                // Text(state.questionBankObjectiveEntity.data[index].name)
+                                                Flexible(
+                                                  child: TeXView(
+                                                    child: TeXViewDocument(
+                                                      state
+                                                          .questionBankObjectiveEntity
+                                                          .data[index]
+                                                          .name
+                                                        ..replaceAll("\$", ''),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(state.questionBankObjectiveEntity.data[index].name)
                                               ],
                                             ),
                                             subtitle: Text(
