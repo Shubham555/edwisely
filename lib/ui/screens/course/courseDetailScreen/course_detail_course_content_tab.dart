@@ -1038,77 +1038,82 @@ class _CourseDetailCourseContentTabState
                         SizedBox(
                           width: 10,
                         ),
-                        StatefulBuilder(
-                          builder: (BuildContext context,
-                              void Function(void Function()) setState) {
-                            return InkWell(
-                              onTap: () async {
-                                file = await FilePickerCross.importFromStorage(
-                                  type: FileTypeCross.any,
-                                );
-                                setState(() {});
-                              },
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 0.5,
-                                  ),
-                                ),
-                                alignment: Alignment.center,
-                                child: isAdding
-                                    ? file != null
-                                        ? Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Text(
-                                                  file.fileName,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(Icons.close),
-                                                  onPressed: () {
-                                                    setState(() => file = null);
-                                                  },
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        : Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                              'assets/icons/upload.png',
-                                              width: 18.0,
-                                              height: 24.0,
-                                            ),
-                                          )
-                                    : Row(
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () => html.window
-                                                .open(data.file_url, 'File'),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Text('View'),
-                                            ),
-                                          ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.edit),
-                                        )
-                                      ],
-                                    ),
-                              ),
+                        InkWell(
+                          onTap: () async {
+                            file = await FilePickerCross.importFromStorage(
+                              type: FileTypeCross.any,
                             );
+                            if (file.fileExtension.toLowerCase() == 'docx') {
+                              typeDropDownValue = 'DOCS';
+                            } else if (file.fileExtension.toLowerCase() ==
+                                    'ppt' ||
+                                file.fileExtension.toLowerCase() == 'pptx') {
+                              typeDropDownValue = 'PPT';
+                            } else if (file.fileExtension.toLowerCase() ==
+                                'mp4') {
+                              typeDropDownValue = 'MP4';
+                            } else {
+                              typeDropDownValue = 'URL';
+                            }
+                            setState(() {});
                           },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 0.5,
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: isAdding
+                                ? file != null
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
+                                              file.fileName,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            IconButton(
+                                              icon: Icon(Icons.close),
+                                              onPressed: () {
+                                                setState(() => file = null);
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.asset(
+                                          'assets/icons/upload.png',
+                                          width: 18.0,
+                                          height: 24.0,
+                                        ),
+                                      )
+                                : Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => html.window
+                                            .open(data.file_url, 'File'),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('View'),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(Icons.edit),
+                                      )
+                                    ],
+                                  ),
+                          ),
                         )
                       ],
                     ),
@@ -1177,7 +1182,7 @@ class _CourseDetailCourseContentTabState
                           onPressed: () {
                             if (typeDropDownValue.isEmpty ||
                                 titleController.text.isEmpty ||
-                                file == null||
+                                file == null ||
                                 topic.isEmpty) {
                               Toast.show('Please Check contents once', context);
                             } else {
@@ -1186,7 +1191,15 @@ class _CourseDetailCourseContentTabState
                                     .addFacultyContent(
                                         enabledUnitId,
                                         topic,
-                                        1,
+                                        typeDropDownValue == 'DOCS'
+                                            ? 1
+                                            : typeDropDownValue == 'PPT'
+                                                ? 3
+                                                : typeDropDownValue == 'MP4'
+                                                    ? 4
+                                                    : typeDropDownValue == 'URL'
+                                                        ? 7
+                                                        : null,
                                         titleController.text,
                                         file,
                                         isPublic ? 'public' : 'private',

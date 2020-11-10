@@ -737,8 +737,7 @@ class _QuestionBankObjectiveTabState extends State<QuestionBankObjectiveTab> {
                             children: [
                               Text(
                                 'No Questions',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 30),
+                                style: TextStyle(fontSize: 18),
                               ),
                               RaisedButton(
                                 child: Text('Reload'),

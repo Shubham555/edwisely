@@ -58,7 +58,7 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
     ).catchError(() {
       _vcStartTime = null;
     }).then((value) {
-      if (toDouble(value) < toDouble(TimeOfDay.now())) {
+      if (toDouble(value) < toDouble(TimeOfDay.now()) && !_vcStart.isAfter(DateTime.now())) {
         Get.defaultDialog(
             title: 'Please check any errors with the time',
             onConfirm: () => Get.back(),
