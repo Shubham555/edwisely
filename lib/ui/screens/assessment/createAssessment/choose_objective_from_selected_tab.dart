@@ -382,16 +382,16 @@ class _ChooseObjectiveFromSelectedTabState
                                             child: Column(
                                               children: [
                                                 Text(state.error),
-                                                RaisedButton(
-                                                  onPressed: () {
-                                                    context.bloc<
-                                                        GetUnitsCubit>()
-                                                      ..getUnits(
-                                                          widget._subjectId);
-                                                    bloomsFilter = 0;
-                                                  },
-                                                  child: Text('Reload'),
-                                                )
+                                               state.error == 'No Questions for this Unit' ? Container() :  RaisedButton(
+                                                 onPressed: () {
+                                                   context.bloc<
+                                                       GetUnitsCubit>()
+                                                     ..getUnits(
+                                                         widget._subjectId);
+                                                   bloomsFilter = 0;
+                                                 },
+                                                 child: Text('Reload'),
+                                               )
                                               ],
                                             ),
                                           );

@@ -22,8 +22,6 @@ class QuestionBankObjectiveBloc
   Stream<QuestionBankObjectiveState> mapEventToState(
     QuestionBankObjectiveEvent event,
   ) async* {
-    var currentState = state;
-
     if (event is GetUnitObjectiveQuestions) {
       yield QuestionBankObjectiveInitial();
       final response = await EdwiselyApi.dio.get(
@@ -31,31 +29,8 @@ class QuestionBankObjectiveBloc
           options: Options(headers: {
             'Authorization': 'Bearer $loginToken',
           }));
-      final topicsResponse = await EdwiselyApi.dio.get(
-          'questionnaireWeb/getSubjectTopics?subject_id=${event.subjectId}&university_degree_department_id=$universityDegreeDepartmenId',
-          options: Options(headers: {
-            'Authorization': 'Bearer $loginToken',
-          }));
-      if (response.statusCode == 200 && topicsResponse.statusCode == 200) {
-        List<DropdownMenuItem> dropDownItems = [];
-        dropDownItems.add(
-          DropdownMenuItem(
-            child: Text('All'),
-            value: 1234567890,
-          ),
-        );
-        if (topicsResponse.data['message'] != 'No topics to fetch') {
-          TopicEntity topicEntity =
-              TopicEntity.fromJsonMap(topicsResponse.data);
-          dropDownItems.addAll(
-            topicEntity.data.map(
-              (e) => DropdownMenuItem(
-                child: Text(e.name),
-                value: e.id,
-              ),
-            ),
-          );
-        }
+
+      if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully fetched the data') {
           yield QuestionBankObjectiveFetchFailed(
               response.data['message'], event.unitId);
@@ -65,7 +40,9 @@ class QuestionBankObjectiveBloc
               response.data,
             ),
             event.unitId,
-            dropDownItems,
+            await _getTopics(
+              event.subjectId,
+            ),
           );
       }
     }
@@ -91,9 +68,9 @@ class QuestionBankObjectiveBloc
               response.data,
             ),
             event.unitId,
-            currentState is UnitObjectiveQuestionsFetched
-                ? currentState.dropDownList
-                : null,
+            await _getTopics(
+              event.subjectId,
+            ),
           );
       }
     }
@@ -114,9 +91,9 @@ class QuestionBankObjectiveBloc
               response.data,
             ),
             event.unitId,
-            currentState is UnitObjectiveQuestionsFetched
-                ? currentState.dropDownList
-                : null,
+            await _getTopics(
+              event.subjectId,
+            ),
           );
       }
     }
@@ -138,9 +115,9 @@ class QuestionBankObjectiveBloc
               response.data,
             ),
             event.unitId,
-            currentState is UnitObjectiveQuestionsFetched
-                ? currentState.dropDownList
-                : null,
+            await _getTopics(
+              event.subjectId,
+            ),
           );
       }
     }
@@ -161,11 +138,38 @@ class QuestionBankObjectiveBloc
               response.data,
             ),
             event.unitId,
-            currentState is UnitObjectiveQuestionsFetched
-                ? currentState.dropDownList
-                : null,
+            await _getTopics(
+              event.subjectId,
+            ),
           );
       }
     }
+  }
+
+  _getTopics(int subjectId) async {
+    final topicsResponse = await EdwiselyApi.dio.get(
+        'questionnaireWeb/getSubjectTopics?subject_id=$subjectId&university_degree_department_id=$universityDegreeDepartmenId',
+        options: Options(headers: {
+          'Authorization': 'Bearer $loginToken',
+        }));
+    List<DropdownMenuItem> dropDownItems = [];
+    dropDownItems.add(
+      DropdownMenuItem(
+        child: Text('All'),
+        value: 1234567890,
+      ),
+    );
+    if (topicsResponse.data['message'] != 'No topics to fetch') {
+      TopicEntity topicEntity = TopicEntity.fromJsonMap(topicsResponse.data);
+      dropDownItems.addAll(
+        topicEntity.data.map(
+          (e) => DropdownMenuItem(
+            child: Text(e.name),
+            value: e.id,
+          ),
+        ),
+      );
+    }
+    return dropDownItems;
   }
 }

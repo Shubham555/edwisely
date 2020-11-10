@@ -13,25 +13,33 @@ class GetUnitObjectiveQuestions extends QuestionBankObjectiveEvent {
 class GetUnitObjectiveQuestionsByLevel extends QuestionBankObjectiveEvent {
   final int level;
   final int unitId;
+  final int subjectId;
 
-  GetUnitObjectiveQuestionsByLevel(this.level, this.unitId);
+
+  GetUnitObjectiveQuestionsByLevel(this.level, this.unitId, this.subjectId);
 }
 
 class GetUnitObjectiveQuestionsByTopic extends QuestionBankObjectiveEvent {
   final int topic;
   final int unitId;
+  final int subjectId;
 
-  GetUnitObjectiveQuestionsByTopic(this.topic, this.unitId);
+
+  GetUnitObjectiveQuestionsByTopic(this.topic, this.unitId, this.subjectId);
 }
 
 class GetObjectiveQuestionsByBookmark extends QuestionBankObjectiveEvent {
   final int unitId;
+  final int subjectId;
 
-  GetObjectiveQuestionsByBookmark(this.unitId);
+
+  GetObjectiveQuestionsByBookmark(this.unitId, this.subjectId);
 }
 
 class GetYourObjectiveQuestions extends QuestionBankObjectiveEvent {
   final int unitId;
+  final int subjectId;
 
-  GetYourObjectiveQuestions(this.unitId);
+
+  GetYourObjectiveQuestions(this.unitId, this.subjectId);
 }
