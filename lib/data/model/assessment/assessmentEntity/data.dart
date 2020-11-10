@@ -26,7 +26,7 @@ class Data {
         college_account_id = map["college_account_id"],
         questions_count = map["questions_count"],
         students_count = map["students_count"],
-        sent = map["sent"];
+        sent = map["test_completed"];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
