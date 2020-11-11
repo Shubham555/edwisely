@@ -58,7 +58,8 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
     ).catchError(() {
       _vcStartTime = null;
     }).then((value) {
-      if (toDouble(value) < toDouble(TimeOfDay.now()) && !_vcStart.isAfter(DateTime.now())) {
+      if (toDouble(value) < toDouble(TimeOfDay.now()) &&
+          !_vcStart.isAfter(DateTime.now())) {
         Get.defaultDialog(
             title: 'Please check any errors with the time',
             onConfirm: () => Get.back(),
@@ -119,7 +120,9 @@ class _CreateVCScreenState extends State<CreateVCScreen> {
                 listener: (BuildContext context, state) {
                   if (state is LiveClassSent) {
                     Get.defaultDialog(
-                        onCancel: () => Get.back(),
+                        cancel: Text(''),
+                        onCancel: () =>
+                            Navigator.pushReplacementNamed(context, '/'),
                         title: "Live Class Created",
                         middleText:
                             "Live Class is Created Click ok to move to homescreen",
