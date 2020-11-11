@@ -1043,14 +1043,18 @@ class _CourseDetailCourseContentTabState
                             file = await FilePickerCross.importFromStorage(
                               type: FileTypeCross.any,
                             );
-                            if (file.fileExtension.toLowerCase() == 'docx') {
+                            setState(() {});
+                            print('file ext == ${file.fileName}');
+                            if (file.fileName.toLowerCase().contains('docx')) {
                               typeDropDownValue = 'DOCS';
-                            } else if (file.fileExtension.toLowerCase() ==
-                                    'ppt' ||
-                                file.fileExtension.toLowerCase() == 'pptx') {
+                            } else if (file.fileName
+                                    .toLowerCase()
+                                    .contains('ppt') ||
+                                file.fileName.toLowerCase().contains('pptx')) {
                               typeDropDownValue = 'PPT';
-                            } else if (file.fileExtension.toLowerCase() ==
-                                'mp4') {
+                            } else if (file.fileName
+                                .toLowerCase()
+                                .contains('mp4')) {
                               typeDropDownValue = 'MP4';
                             } else {
                               typeDropDownValue = 'URL';
