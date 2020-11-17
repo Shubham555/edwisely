@@ -5,6 +5,7 @@ import 'package:edwisely/ui/screens/assessment/createAssessment/type_question_ta
 import 'package:edwisely/util/enums/question_type_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../../data/api/api.dart';
