@@ -21,7 +21,6 @@ import '../../../../data/model/questionBank/topicEntity/data.dart';
 import '../../../../main.dart';
 import '../../../widgets_util/text_input.dart';
 
-//doing this page
 class CourseDetailCourseContentTab extends StatefulWidget {
   final int semesterId;
   final int subjectId;
@@ -320,29 +319,6 @@ class _CourseDetailCourseContentTabState
                                                   ],
                                                 ),
                                               ),
-                                              // GridTile(
-                                              //   child: state.courseDeckEntity.data[index].image == ''
-                                              //       ? Center(
-                                              //           child: Icon(
-                                              //             Icons.book,
-                                              //             size: 60,
-                                              //           ),
-                                              //         )
-                                              //       : Image.network(
-                                              //           state.courseDeckEntity.data[index].image,
-                                              //           width: 150,
-                                              //           height: 200,
-                                              //         ),
-                                              //   footer: Container(
-                                              //     width: 150,
-                                              //     child: Text(
-                                              //       state.courseDeckEntity.data[index].name,
-                                              //       style: TextStyle(
-                                              //         fontWeight: FontWeight.bold,
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // ),
                                             ),
                                             scrollDirection: Axis.horizontal,
                                             shrinkWrap: true,
@@ -1045,7 +1021,8 @@ class _CourseDetailCourseContentTabState
                             );
                             setState(() {});
                             print('file ext == ${file.fileName}');
-                            if (file.fileName.toLowerCase().contains('docx')) {
+                            if (file.fileName.toLowerCase().contains('docx') ||
+                                file.fileName.toLowerCase().contains('doc')) {
                               typeDropDownValue = 'DOCS';
                             } else if (file.fileName
                                     .toLowerCase()

@@ -176,5 +176,3 @@ class EdWisely extends StatelessWidget {
     );
   }
 }
-
-// TODO: 03/11/20 check assessment for all questions

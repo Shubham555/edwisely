@@ -18,7 +18,7 @@ class NotifiacationHomeScreenEntity {
 
   NotifiacationHomeScreenEntity.fromJsonMap(Map<String, dynamic> map)
       : id = map["id"],
-        title = map["title"],
+        title = map["name"],
         description = map["description"],
         url = map["url"],
         start_time = map["start_time"],

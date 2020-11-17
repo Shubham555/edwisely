@@ -9,13 +9,10 @@ import '../../../data/api/api.dart';
 import '../../../data/cubits/login_cubit.dart';
 import '../../../main.dart';
 import '../../widgets_util/text_input.dart';
-import '../course/courses_landing_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  bool _obscure = true; // Variable to determine password visibility
-  // TODO: Keep text persistent while toggling password visibility
-  // use fixme for these things
-  // done
+  bool _obscure = true;
+
   _LoginScreenState createState() => _LoginScreenState();
 }
 
