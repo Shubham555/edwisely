@@ -152,6 +152,102 @@ class _ChooseObjectiveFromSelectedTabState
                                     ),
                                   ),
                                   child: ListTile(
+                                    onTap: () => showDialog(
+                                      context: context,
+                                      builder: (context) => Dialog(
+                                        backgroundColor: Colors.transparent,
+                                        child: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.72,
+                                          color: Colors.white,
+                                          child: ListView(
+                                            shrinkWrap: true,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(18.0),
+                                                child: SizedBox(
+                                                  height: 250,
+                                                  child: TeXView(
+                                                    child: TeXViewDocument(
+                                                      state
+                                                          .assessmentQuestionsEntity
+                                                          .data[index]
+                                                          .name
+                                                          .replaceAll(
+                                                              '\$', '\$\$'),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                  width: 250,
+                                                  height: 250,
+                                                  child: Image.network(state
+                                                      .assessmentQuestionsEntity
+                                                      .data[index]
+                                                      .question_img)),
+                                              ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: state
+                                                    .assessmentQuestionsEntity
+                                                    .data[index]
+                                                    .questions_options
+                                                    .length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int indexi) {
+                                                  return Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            12.0),
+                                                    color: state
+                                                                .assessmentQuestionsEntity
+                                                                .data[index]
+                                                                .questions_options[
+                                                                    indexi]
+                                                                .is_answer ==
+                                                            0
+                                                        ? null
+                                                        : Colors.greenAccent
+                                                            .withOpacity(.5),
+                                                    child: ListTile(
+                                                        title: Text(state
+                                                            .assessmentQuestionsEntity
+                                                            .data[index]
+                                                            .questions_options[
+                                                                indexi]
+                                                            .name)),
+                                                  );
+                                                },
+                                              ),
+                                              Spacer(),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(12.0),
+                                                child: RaisedButton.icon(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  icon: Icon(
+                                                    Icons.close,
+                                                    color: Colors.white,
+                                                  ),
+                                                  label: Text('Close',
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     title: Row(
                                       children: [
                                         Text(
@@ -382,16 +478,19 @@ class _ChooseObjectiveFromSelectedTabState
                                             child: Column(
                                               children: [
                                                 Text(state.error),
-                                               state.error == 'No Questions for this Unit' ? Container() :  RaisedButton(
-                                                 onPressed: () {
-                                                   context.bloc<
-                                                       GetUnitsCubit>()
-                                                     ..getUnits(
-                                                         widget._subjectId);
-                                                   bloomsFilter = 0;
-                                                 },
-                                                 child: Text('Reload'),
-                                               )
+                                                state.error ==
+                                                        'No Questions for this Unit'
+                                                    ? Container()
+                                                    : RaisedButton(
+                                                        onPressed: () {
+                                                          context.bloc<
+                                                              GetUnitsCubit>()
+                                                            ..getUnits(widget
+                                                                ._subjectId);
+                                                          bloomsFilter = 0;
+                                                        },
+                                                        child: Text('Reload'),
+                                                      )
                                               ],
                                             ),
                                           );
