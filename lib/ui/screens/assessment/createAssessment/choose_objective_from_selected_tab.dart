@@ -48,7 +48,26 @@ class _ChooseObjectiveFromSelectedTabState
 
   @override
   void initState() {
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 5, vsync: this);
+    tabController.addListener(() {
+      switch (tabController.index) {
+        case 0:
+          context.bloc<TopicQuestionsCubit>().getBloomsQuestions(0, data);
+          break;
+        case 1:
+          context.bloc<TopicQuestionsCubit>().getBloomsQuestions(1, data);
+          break;
+        case 2:
+          context.bloc<TopicQuestionsCubit>().getBloomsQuestions(2, data);
+          break;
+        case 3:
+          context.bloc<TopicQuestionsCubit>().getBloomsQuestions(3, data);
+          break;
+        case 4:
+          context.bloc<TopicQuestionsCubit>().getBloomsQuestions(4, data);
+          break;
+      }
+    });
     super.initState();
   }
 
@@ -294,6 +313,205 @@ class _ChooseObjectiveFromSelectedTabState
                                 cubit: context.bloc<GetUnitsCubit>(),
                                 builder: (BuildContext context, state) {
                                   if (state is GetUnitsFetched) {
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 22.0,
+                                        horizontal: 18.0,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                        BorderRadius.circular(12.0),
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 0.5,
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          TabBar(
+                                            labelPadding: EdgeInsets.symmetric(horizontal: 30),
+                                            indicatorColor: Colors.white,
+                                            labelColor: Colors.black,
+                                            physics: NeverScrollableScrollPhysics(),
+                                            unselectedLabelColor: Colors.grey,
+                                            unselectedLabelStyle:
+                                            TextStyle(fontWeight: FontWeight.normal),
+                                            labelStyle:
+                                            TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                            isScrollable: true,
+                                            controller: tabController,
+                                            tabs: [
+                                              Tab(
+                                                text: 'All',
+                                              ),
+                                              Tab(
+                                                text: 'Remember',
+                                              ),
+                                              Tab(
+                                                text: 'Understand',
+                                              ),
+                                              Tab(
+                                                text: 'Apply',
+                                              ),
+                                              Tab(
+                                                text: 'Analyse',
+                                              ),
+                                            ],
+                                          ),
+                                          Expanded(
+                                            child: TabBarView(
+                                              controller: tabController,
+                                              children: List.generate(
+                                                5,
+                                                    (index) => BlocBuilder(
+                                                  cubit: context.bloc<
+                                                      TopicQuestionsCubit>(),
+                                                  builder: (BuildContext
+                                                  context,
+                                                      state) {
+                                                    if (state
+                                                    is TopicQuestionsFetched) {
+                                                      if (data == null) {
+                                                        data =
+                                                            List.unmodifiable(state.data);
+                                                      }
+                                                      return StatefulBuilder(
+                                                        builder: (BuildContext
+                                                        context,
+                                                            void Function(
+                                                                void
+                                                                Function())
+                                                            setState) {
+                                                          return ListView
+                                                              .builder(
+                                                            shrinkWrap:
+                                                            true,
+                                                            itemCount: state
+                                                                .data
+                                                                .length,
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                            context,
+                                                                int index) {
+                                                              var answer;
+                                                              state
+                                                                  .data[
+                                                              index]
+                                                                  .questions_options
+                                                                  .forEach(
+                                                                      (options) {
+                                                                    if (options
+                                                                        .is_answer ==
+                                                                        1)
+                                                                      answer =
+                                                                          options.name;
+                                                                  });
+                                                              return Container(
+                                                                padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                  vertical:
+                                                                  8.0,
+                                                                  horizontal:
+                                                                  18.0,
+                                                                ),
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                  color: index % 2 ==
+                                                                      0
+                                                                      ? Colors.white
+                                                                      : Theme.of(context).primaryColor.withOpacity(0.1),
+                                                                  border:
+                                                                  Border(
+                                                                    bottom:
+                                                                    BorderSide(
+                                                                      color:
+                                                                      Colors.black,
+                                                                      width:
+                                                                      0.2,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                child:
+                                                                CheckboxListTile(
+                                                                  activeColor:
+                                                                  Theme.of(context).primaryColor,
+                                                                  subtitle:
+                                                                  Row(
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment.center,
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      //correct Answer
+                                                                      Text(
+                                                                        'Answer : $answer',
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                      ),
+                                                                      FlatButton(
+                                                                        onPressed: () => _showDetailDialog(state.data[index], context),
+                                                                        child: Text('View More'),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  title:
+                                                                  Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        'Q ${index + 1}',
+                                                                        style: Theme.of(context).textTheme.headline5,
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width: 22.0,
+                                                                      ),
+                                                                      Expanded(
+                                                                        child: Text(
+                                                                          state.data[index].name,
+                                                                          softWrap: true,
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                          maxLines: 2,
+                                                                          style: Theme.of(context).textTheme.headline6,
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  value: questions.contains(state
+                                                                      .data[index]
+                                                                      .id),
+                                                                  onChanged:
+                                                                      (flag) {
+                                                                    setState(
+                                                                          () {
+                                                                        flag ? questions.add(state.data[index].id) : questions.remove(state.data[index].id);
+                                                                      },
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        },
+                                                      );
+                                                    }
+                                                    if (state
+                                                    is TopicQuestionsFailed) {
+                                                      return Center(
+                                                          child: Text(state
+                                                              .error));
+                                                    } else {
+                                                      return Center(
+                                                          child:
+                                                          CircularProgressIndicator());
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
                                     return BlocBuilder(
                                       builder: (BuildContext context, state) {
                                         if (state is TopicQuestionsFetched) {
@@ -301,177 +519,7 @@ class _ChooseObjectiveFromSelectedTabState
                                             data =
                                                 List.unmodifiable(state.data);
                                           }
-                                          return Container(
-                                            margin: const EdgeInsets.symmetric(
-                                              vertical: 22.0,
-                                              horizontal: 18.0,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                              border: Border.all(
-                                                color: Colors.black,
-                                                width: 0.5,
-                                              ),
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                StatefulBuilder(builder:
-                                                    (context, setState) {
-                                                  return _buildBloomLevelSelector(
-                                                      state.data, setState);
-                                                }),
-                                                Expanded(
-                                                  child: StatefulBuilder(
-                                                    builder: (BuildContext
-                                                            context,
-                                                        void Function(
-                                                                void Function())
-                                                            setState) {
-                                                      return ListView.builder(
-                                                        shrinkWrap: true,
-                                                        itemCount:
-                                                            state.data.length,
-                                                        itemBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                int index) {
-                                                          var answer;
-                                                          state.data[index]
-                                                              .questions_options
-                                                              .forEach(
-                                                                  (options) {
-                                                            if (options
-                                                                    .is_answer ==
-                                                                1)
-                                                              answer =
-                                                                  options.name;
-                                                          });
-                                                          return Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                              vertical: 8.0,
-                                                              horizontal: 18.0,
-                                                            ),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: index %
-                                                                          2 ==
-                                                                      0
-                                                                  ? Colors.white
-                                                                  : Theme.of(
-                                                                          context)
-                                                                      .primaryColor
-                                                                      .withOpacity(
-                                                                          0.1),
-                                                              border: Border(
-                                                                bottom:
-                                                                    BorderSide(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  width: 0.2,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            child:
-                                                                CheckboxListTile(
-                                                              activeColor: Theme
-                                                                      .of(context)
-                                                                  .primaryColor,
-                                                              subtitle: Row(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .center,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  //correct Answer
-                                                                  Text(
-                                                                    'Answer : $answer',
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                  ),
-                                                                  FlatButton(
-                                                                    onPressed: () => _showDetailDialog(
-                                                                        state.data[
-                                                                            index],
-                                                                        context),
-                                                                    child: Text(
-                                                                        'View More'),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              title: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    'Q ${index + 1}',
-                                                                    style: Theme.of(
-                                                                            context)
-                                                                        .textTheme
-                                                                        .headline5,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 22.0,
-                                                                  ),
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      state
-                                                                          .data[
-                                                                              index]
-                                                                          .name,
-                                                                      softWrap:
-                                                                          true,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      maxLines:
-                                                                          2,
-                                                                      style: Theme.of(
-                                                                              context)
-                                                                          .textTheme
-                                                                          .headline6,
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                              value: questions
-                                                                  .contains(state
-                                                                      .data[
-                                                                          index]
-                                                                      .id),
-                                                              onChanged:
-                                                                  (flag) {
-                                                                setState(
-                                                                  () {
-                                                                    flag
-                                                                        ? questions.add(state
-                                                                            .data[
-                                                                                index]
-                                                                            .id)
-                                                                        : questions.remove(state
-                                                                            .data[index]
-                                                                            .id);
-                                                                  },
-                                                                );
-                                                              },
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
+
                                         }
                                         if (state is TopicQuestionsFailed) {
                                           return Center(
