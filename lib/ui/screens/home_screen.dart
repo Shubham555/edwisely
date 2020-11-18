@@ -768,9 +768,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _notificationActivity(dynamic activity) {
     TextEditingController controller = TextEditingController();
     return Container(
-      height: activity['thumb_url'] == null
-          ? screenSize.height * 0.2
-          : screenSize.height * 0.3,
+      height: screenSize.height * 0.3,
       margin: const EdgeInsets.symmetric(
         vertical: 12.0,
         horizontal: 22.0,
@@ -809,9 +807,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //description
-                  SizedBox(
-                    width: screenSize.width * 0.2,
-                    child: Text(activity['description']),
+                  Text(
+                    activity['description'],
                   ),
                   //notification thumbnail
                   activity['thumb_url'] == null
@@ -867,9 +864,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 64.0,
                   child: FlatButton(
                     onPressed: () {
-                      context
-                          .bloc<CommentCubit>()
-                          .postSurveyComment(activity['id'], controller.text);
+                      context.bloc<CommentCubit>().postNotificationComment(
+                          activity['id'], controller.text);
                     },
                     child: Icon(
                       Icons.send,
@@ -883,7 +879,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           BlocBuilder(
             cubit: context.bloc<CommentCubit>()
-              ..getSurveyComments(activity['id']),
+              ..getNotificationComments(activity['id']),
             // ignore: missing_return
             builder: (BuildContext context, state) {
               if (state is MaterialCommentsFetched) {
