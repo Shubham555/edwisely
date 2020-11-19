@@ -125,7 +125,7 @@ class _SendAssessmentScreenState extends State<SendAssessmentScreen> {
                                         ),
                                       )
                                       .toString(),
-                                  _testDuration.toString(),
+                                  _testDuration.inSeconds.toString(),
                                   students,
                                   widget.assessmentId,
                                   _testStart

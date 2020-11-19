@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:get/get.dart';
 import 'package:toast/toast.dart';
 import 'package:universal_html/html.dart' as html;
 
@@ -1020,7 +1021,6 @@ class _CourseDetailCourseContentTabState
                               type: FileTypeCross.any,
                             );
                             setState(() {});
-                            print('file ext == ${file.fileName}');
                             if (file.fileName.toLowerCase().contains('docx') ||
                                 file.fileName.toLowerCase().contains('doc')) {
                               typeDropDownValue = 'DOCS';
@@ -1168,23 +1168,61 @@ class _CourseDetailCourseContentTabState
                               Toast.show('Please Check contents once', context);
                             } else {
                               if (isAdding) {
-                                BlocProvider.of<AddFacultyContentCubit>(context)
-                                    .addFacultyContent(
-                                        enabledUnitId,
-                                        topic,
-                                        typeDropDownValue == 'DOCS'
-                                            ? 1
-                                            : typeDropDownValue == 'PPT'
-                                                ? 3
-                                                : typeDropDownValue == 'MP4'
-                                                    ? 4
-                                                    : typeDropDownValue == 'URL'
-                                                        ? 7
-                                                        : null,
-                                        titleController.text,
-                                        file,
-                                        isPublic ? 'public' : 'private',
-                                        'externalUrl');
+                                if ((file.fileName
+                                            .toLowerCase()
+                                            .contains('docx') &&
+                                        typeDropDownValue != 'DOCS') ||
+                                    (file.fileName
+                                            .toLowerCase()
+                                            .contains('doc') &&
+                                        typeDropDownValue != 'DOCS') ||
+                                    (file.fileName
+                                            .toLowerCase()
+                                            .contains('ppt') &&
+                                        typeDropDownValue != 'PPT') ||
+                                    (file.fileName
+                                            .toLowerCase()
+                                            .contains('pptx') &&
+                                        typeDropDownValue != 'PPT') ||
+                                    (file.fileName
+                                            .toLowerCase()
+                                            .contains('mp4') &&
+                                        typeDropDownValue != 'MP4') ||
+                                    titleController.text.isEmpty ||
+                                    topic.isEmpty ||
+                                    file == null) {
+                               Toast.show('Please check the uploaded file does not match type', context);
+                                } else {
+                                  BlocProvider.of<AddFacultyContentCubit>(
+                                          context)
+                                      .addFacultyContent(
+                                          enabledUnitId,
+                                          topic,
+                                          typeDropDownValue == 'DOCS'
+                                              ? 1
+                                              : typeDropDownValue == 'PPT'
+                                                  ? 3
+                                                  : typeDropDownValue == 'MP4'
+                                                      ? 4
+                                                      : typeDropDownValue ==
+                                                              'URL'
+                                                          ? 7
+                                                          : null,
+                                          titleController.text,
+                                          file,
+                                          isPublic ? 'public' : 'private',
+                                          'externalUrl');
+                                  Navigator.pop(context);
+                                  context
+                                      .bloc<CourseContentCubit>()
+                                      .getFacultyAddedCourseContent(
+                                    enabledUnitId,
+                                    widget.semesterId,
+                                  );
+                                  levelDropDownValue = -1;
+                                  typeDropDownValue = 'All';
+                                  questionDropDownValue = 3;
+                                }
                               } else {
                                 BlocProvider.of<AddFacultyContentCubit>(context)
                                     .updateFacultyContent(
@@ -1193,18 +1231,19 @@ class _CourseDetailCourseContentTabState
                                         data.material_id,
                                         titleController.text,
                                         attachments: file);
-                              }
-                            }
-                            Navigator.pop(context);
-                            context
-                                .bloc<CourseContentCubit>()
-                                .getFacultyAddedCourseContent(
+                                Navigator.pop(context);
+                                context
+                                    .bloc<CourseContentCubit>()
+                                    .getFacultyAddedCourseContent(
                                   enabledUnitId,
                                   widget.semesterId,
                                 );
-                            levelDropDownValue = -1;
-                            typeDropDownValue = 'All';
-                            questionDropDownValue = 3;
+                                levelDropDownValue = -1;
+                                typeDropDownValue = 'All';
+                                questionDropDownValue = 3;
+                              }
+                            }
+
                           },
                           icon: Icon(
                             Icons.save,

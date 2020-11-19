@@ -21,6 +21,7 @@ class ObjectiveBloc extends Bloc<ObjectiveEvent, ObjectiveState> {
     ObjectiveEvent event,
   ) async* {
     if (event is GetObjectiveTests) {
+      yield ObjectiveInitial();
       final assessmentResponse =
           await EdwiselyApi.dio.get('questionnaireWeb/getObjectiveTests',
               options: Options(headers: {

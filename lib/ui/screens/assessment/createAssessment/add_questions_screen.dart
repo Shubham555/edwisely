@@ -1,5 +1,7 @@
+import 'package:edwisely/data/blocs/objectiveBloc/objective_bloc.dart';
 import 'package:edwisely/ui/screens/assessment/createAssessment/upload_excel_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/cubits/objective_questions_cubit.dart';
@@ -8,7 +10,6 @@ import '../../../../util/enums/question_type_enum.dart';
 import '../../../widgets_util/big_app_bar.dart';
 import '../../../widgets_util/navigation_drawer.dart';
 import '../../this_way_up.dart';
-import '../sendAssessment/send_assessment_screen.dart';
 import 'choose_objective_from_selected_tab.dart';
 import 'choose_subjective_from_selected_tab.dart';
 import 'type_question_tab.dart';
@@ -72,7 +73,12 @@ class _AddQuestionsScreenState extends State<AddQuestionsScreen>
                             vertical: 8.0,
                             horizontal: 16.0,
                           ),
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            context.bloc<ObjectiveBloc>().add(
+                                  GetObjectiveTests(),
+                                 );
+                            Navigator.pop(context);
+                          },
                           child: Row(
                             children: [
                               Image.asset(

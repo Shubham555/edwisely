@@ -188,6 +188,7 @@ class _CourseDetailQuestionBankTabState
                       value: context.bloc<QuestionBankBloc>(),
                       child: QuestionBankSubjectiveTab(
                         widget.subjectId,
+                          widget.subjectsubjectId
                       ),
                     ),
                   ],

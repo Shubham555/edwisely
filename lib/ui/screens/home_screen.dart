@@ -1,14 +1,19 @@
+import 'package:dio/dio.dart';
+import 'package:edwisely/data/api/api.dart';
 import 'package:edwisely/data/cubits/home_screen_default_cubit.dart';
 import 'package:edwisely/data/cubits/material_comment_cubit.dart';
 import 'package:edwisely/data/model/NotifiacationHomeScreenEntity.dart';
+import 'package:edwisely/data/model/PeersDataEntity.dart';
 import 'package:edwisely/data/provider/selected_page.dart';
 import 'package:edwisely/ui/screens/course/courseDetailScreen/course_detail_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_html/html.dart' as html;
 
+import '../../main.dart';
 import '../widgets_util/navigation_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,14 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Size screenSize;
   TextTheme textTheme;
   HomeScreenDefaultCubit homeScreenDefaultCubit;
-  final List<String> _peerActivity = [
-    'Dr. Geetha has created a test for CSE 2 Section A.',
-    'Prof. Namratha has sent a notification to CSE 2 Section A, 2 Section B.',
-    'Dr. Geetha has created a test for CSE 2 Section A.',
-    'Prof. Namratha has sent a notification to CSE 2 Section A, 2 Section B.',
-    'Dr. Geetha has created a test for CSE 2 Section A.',
-    'Prof. Namratha has sent a notification to CSE 2 Section A, 2 Section B.',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -127,10 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: screenSize.height * 0.01,
                           ),
                           //heading text
-                          Text(
-                            'Peer Activity',
-                            style: textTheme.headline2,
-                          ),
                           _peerActivityList(),
                         ],
                       ),
@@ -146,30 +139,63 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _peerActivityList() {
-    return Container(
-      height: screenSize.height * 0.375,
-      margin: const EdgeInsets.only(
-        right: 22.0,
-        top: 12.0,
-      ),
-      padding: const EdgeInsets.symmetric(
-        vertical: 12.0,
-        horizontal: 18.0,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 6.0,
-          ),
-        ],
-      ),
-      child: ListView.builder(
-        itemCount: _peerActivity.length,
-        itemBuilder: (ctx, index) => _peerActivityCard(_peerActivity[index]),
-      ),
+    return FutureBuilder(
+      future: EdwiselyApi.dio.get(
+          'college/getPeersData?from_date=${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}&delta_days=50',
+          options: Options(headers: {
+            'Authorization': 'Bearer $loginToken',
+          })),
+      builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.data['college_notifications'].toString() == '[]') {
+            return Container();
+          } else {
+            PeersDataEntity peersDataEntity =
+                PeersDataEntity.fromJsonMap(snapshot.data.data);
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Peer Activity',
+                  style: textTheme.headline2,
+                ),
+                Container(
+                  height: screenSize.height * 0.375,
+                  margin: const EdgeInsets.only(
+                    right: 22.0,
+                    top: 12.0,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12.0,
+                    horizontal: 18.0,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 6.0,
+                      ),
+                    ],
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: peersDataEntity.college_notifications.length,
+                    itemBuilder: (BuildContext context, int index) => ListTile(
+                      title: Text(
+                        peersDataEntity.college_notifications[index].title,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 

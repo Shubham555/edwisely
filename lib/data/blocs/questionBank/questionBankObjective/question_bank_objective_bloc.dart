@@ -104,21 +104,22 @@ class QuestionBankObjectiveBloc
               options: Options(headers: {
                 'Authorization': 'Bearer $loginToken',
               }));
-      print(response.data);
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Successfully deleted the bookmark') {
           yield QuestionBankObjectiveFetchFailed(
               response.data['message'], event.unitId);
         } else
-          yield UnitObjectiveQuestionsFetched(
-            QuestionBankObjectiveEntity.fromJsonMap(
-              response.data,
-            ),
-            event.unitId,
-            await _getTopics(
-              event.subjectId,
-            ),
+          QuestionBankObjectiveEntity questionBankObjectiveEntity =   QuestionBankObjectiveEntity.fromJsonMap(
+            response.data,
           );
+        print('ff');
+        // yield UnitObjectiveQuestionsFetched(
+        //     null,
+        //     event.unitId,
+        //     await _getTopics(
+        //       event.subjectId,
+        //     ),
+        //   );
       }
     }
     if (event is GetYourObjectiveQuestions) {

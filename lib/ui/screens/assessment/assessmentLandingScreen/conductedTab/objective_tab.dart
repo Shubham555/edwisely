@@ -216,7 +216,7 @@ class ConductedTabObjectiveTab extends StatelessWidget {
                       //for subject name
                       1,
                       true,
-                      state.questionsEntity.data[index].sent,
+                      state.questionsEntity.data[index].test_completed,
                       //check these two variables what is coming
                       state.questionsEntity.data[index].students_count,
                     );
